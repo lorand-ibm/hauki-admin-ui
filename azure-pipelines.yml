@@ -17,5 +17,5 @@ steps:
 
 - script: |
     yarn install
-    yarn run build
-  displayName: 'Yarn install and build'
+    CI=true yarn test
+  displayName: 'Yarn install and run tests'
