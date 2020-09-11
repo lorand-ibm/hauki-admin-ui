@@ -1,19 +1,17 @@
-import HaukiNavigation from "../navigation/HaukiNavigation";
-import HaukiFooter from "../footer/HaukiFooter";
-import React from "react";
+import React from 'react';
+import HaukiNavigation from '../navigation/HaukiNavigation';
+import HaukiFooter from '../footer/HaukiFooter';
 
 interface Props {
-  children: React.ReactNode,
+  children: React.ReactNode;
 }
 
-function NavigationAndFooterWrapper(props: Props): React.ReactElement<any> {
+export default function NavigationAndFooterWrapper(props: Props): JSX.Element {
   return (
-    <React.Fragment>
+    <>
       <HaukiNavigation />
-        {props.children}
+      {props.children}
       <HaukiFooter />
-    </React.Fragment>
-  )
+    </>
+  );
 }
-
-export default NavigationAndFooterWrapper

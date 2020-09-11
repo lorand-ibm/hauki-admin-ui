@@ -1,10 +1,8 @@
-import React, {useState} from "react";
-import {Navigation} from "hds-react";
-import "./HaukiNavigation.css";
+import React, { useState } from 'react';
+import { Navigation } from 'hds-react';
+import './HaukiNavigation.css';
 
-
-function HaukiNavigation(): React.ReactElement<any> {
-
+export default function HaukiNavigation(): JSX.Element {
   const [authenticated, setAuthenticated] = useState(false);
 
   interface LanguageOption {
@@ -19,38 +17,42 @@ function HaukiNavigation(): React.ReactElement<any> {
   ];
 
   const [language, setLanguage] = useState(languageOptions[0]);
-  const formatSelectedValue = ({ value }: LanguageOption): string => value.toUpperCase();
+  const formatSelectedValue = ({ value }: LanguageOption): string =>
+    value.toUpperCase();
 
   return (
     <Navigation
-      className={"navigation-header"}
+      className="navigation-header"
       title="Aukiolot"
-      menuCloseAriaLabel={"open menu"}
-      menuOpenAriaLabel={"close menu"}
-      skipTo={"#main"}
-      skipToContentLabel={"Skip to main content"}
-    >
-      {authenticated &&
-      <Navigation.Row>
+      menuCloseAriaLabel="open menu"
+      menuOpenAriaLabel="close menu"
+      skipTo="#main"
+      skipToContentLabel="Skip to main content">
+      {authenticated && (
+        <Navigation.Row>
           <Navigation.Item label="Toimipistehaku" />
           <Navigation.Item label="Paikat" />
           <Navigation.Item label="Anna palautetta" />
           <Navigation.Item label="Tietoa palvelusta" />
-      </Navigation.Row>
-      }
+        </Navigation.Row>
+      )}
 
       <Navigation.Actions>
         <Navigation.User
           authenticated={authenticated}
           label="Kirjaudu"
-          onSignIn={() => setAuthenticated(true)}
-          userName="John Doe"
-        >
-          <Navigation.Item label="Your profile" href="https://hel.fi" target="_blank" variant="primary" />
+          onSignIn={(): void => setAuthenticated(true)}
+          userName="John Doe">
+          <Navigation.Item
+            label="Your profile"
+            href="https://hel.fi"
+            target="_blank"
+            variant="primary"
+          />
           <Navigation.Item
             as="button"
             type="button"
-            onClick={() => setAuthenticated(false)}
+            onClick={(): void => setAuthenticated(false)}
             variant="secondary"
             label="Sign out"
           />
@@ -65,7 +67,5 @@ function HaukiNavigation(): React.ReactElement<any> {
         />
       </Navigation.Actions>
     </Navigation>
-  )
+  );
 }
-
-export default HaukiNavigation

@@ -6,7 +6,7 @@ export default function App(): JSX.Element {
   return (
     <div className="App">
       <NavigationAndFooterWrapper>
-        <div id="main">Demo sisältöä</div>
+        <div id="main">Demosisältöä</div>
       </NavigationAndFooterWrapper>
     </div>
   );
