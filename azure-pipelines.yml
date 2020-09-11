@@ -17,5 +17,6 @@ steps:
 
 - script: |
     yarn install
+    yarn lint
     CI=true yarn test
   displayName: 'Yarn install and run tests'
