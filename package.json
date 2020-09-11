@@ -16,6 +16,7 @@
     "enzyme-adapter-react-16": "^1.15.4",
     "eslint-config-airbnb-typescript-prettier": "^3.1.0",
     "prettier": "^2.1.1",
+    "hds-react": "^0.13.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
