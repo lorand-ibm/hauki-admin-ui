@@ -3,5 +3,5 @@
 }
 
 .hauki-koros pattern {
-  fill: #6feed3;
+  fill: var(--primary-color);
 }
