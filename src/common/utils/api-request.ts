@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 const apiBaseUrl: string =
   process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
@@ -26,10 +26,12 @@ interface ApiGetParameters extends RequestParameters {
   format: 'json';
 }
 
-function apiGet<T>({ path, parameters = {} }: FetchGetParameters): Promise<T> {
+async function apiGet<T>({
+  path,
+  parameters = {},
+}: FetchGetParameters): Promise<T> {
   const apiParameters: ApiGetParameters = { ...parameters, format: 'json' };
-
-  return axios.request<T, T>({
+  const response = await axios.request<T, AxiosResponse<T>>({
     url: `${apiBaseUrl}/v1${path}`,
     headers: {
       'Content-Type': 'application/json',
@@ -37,6 +39,8 @@ function apiGet<T>({ path, parameters = {} }: FetchGetParameters): Promise<T> {
     method: 'get',
     params: apiParameters,
   });
+
+  return response.data;
 }
 
 export interface Target {
