@@ -24,10 +24,10 @@ export default function HaukiNavigation(): JSX.Element {
     <Navigation
       className="navigation-header"
       title="Aukiolot"
-      menuCloseAriaLabel="open menu"
-      menuOpenAriaLabel="close menu"
+      menuCloseAriaLabel="Avaa menu"
+      menuOpenAriaLabel="Sulje menu"
       skipTo="#main"
-      skipToContentLabel="Skip to main content">
+      skipToContentLabel="Siirry pääsisältöön">
       {authenticated && (
         <Navigation.Row>
           <Navigation.Item label="Toimipistehaku" />
@@ -44,7 +44,7 @@ export default function HaukiNavigation(): JSX.Element {
           onSignIn={(): void => setAuthenticated(true)}
           userName="John Doe">
           <Navigation.Item
-            label="Your profile"
+            label="Profiili"
             href="https://hel.fi"
             target="_blank"
             variant="primary"
@@ -54,12 +54,12 @@ export default function HaukiNavigation(): JSX.Element {
             type="button"
             onClick={(): void => setAuthenticated(false)}
             variant="secondary"
-            label="Sign out"
+            label="Kirjaudu ulos"
           />
         </Navigation.User>
 
         <Navigation.LanguageSelector
-          ariaLabel="Selected language"
+          ariaLabel="Valittu kieli"
           options={languageOptions}
           formatSelectedValue={formatSelectedValue}
           onLanguageChange={setLanguage}
