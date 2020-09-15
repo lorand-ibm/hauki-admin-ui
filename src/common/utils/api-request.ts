@@ -17,21 +17,18 @@ interface RequestParameters {
     | null;
 }
 
-interface FetchGetParameters {
+interface GetParameters {
   path: string;
   parameters?: RequestParameters;
 }
 
-interface ApiGetParameters extends RequestParameters {
+interface ApiParameters extends RequestParameters {
   format: 'json';
 }
 
-async function apiGet<T>({
-  path,
-  parameters = {},
-}: FetchGetParameters): Promise<T> {
-  const apiParameters: ApiGetParameters = { ...parameters, format: 'json' };
-  const response = await axios.request<T, AxiosResponse<T>>({
+async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
+  const apiParameters: ApiParameters = { ...parameters, format: 'json' };
+  const response: AxiosResponse<T> = await axios.request<T, AxiosResponse<T>>({
     url: `${apiBaseUrl}/v1${path}`,
     headers: {
       'Content-Type': 'application/json',
