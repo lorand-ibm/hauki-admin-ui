@@ -6,13 +6,13 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('apiRequest - getTarget', () => {
   it('fetches target by id', async (done) => {
-    const targetMock: Target = {
+    const mockTarget: Target = {
       id: '8100',
       name: 'Toimipiste A',
       description: '',
     };
 
-    mockedAxios.request.mockResolvedValue({ data: targetMock });
+    mockedAxios.request.mockResolvedValue({ data: mockTarget });
 
     const response = await api.getTarget('8100');
 
@@ -25,7 +25,7 @@ describe('apiRequest - getTarget', () => {
       url: 'http://localhost:8000/v1/target/tprek:8100',
     });
 
-    expect(response).toBe(targetMock);
+    expect(response).toBe(mockTarget);
 
     done();
   });
