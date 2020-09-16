@@ -53,7 +53,7 @@ export interface Target {
   description: string;
 }
 
-const getTarget = (id: string): Promise<Target> =>
-  apiGet<Target>({ path: `${TARGET_BASE_PATH}/tprek:${id}` });
-
-export default { getTarget };
+export default {
+  getTarget: (id: string): Promise<Target> =>
+    apiGet<Target>({ path: `${TARGET_BASE_PATH}/tprek:${id}` }),
+};
