@@ -22,12 +22,19 @@ interface GetParameters {
   parameters?: RequestParameters;
 }
 
+enum ApiResponseFormat {
+  json = 'json',
+}
+
 interface ApiParameters extends RequestParameters {
-  format: 'json';
+  format: ApiResponseFormat;
 }
 
 async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
-  const apiParameters: ApiParameters = { ...parameters, format: 'json' };
+  const apiParameters: ApiParameters = {
+    ...parameters,
+    format: ApiResponseFormat.json,
+  };
   const response: AxiosResponse<T> = await axios.request<T, AxiosResponse<T>>({
     url: `${apiBaseUrl}/v1${path}`,
     headers: {
