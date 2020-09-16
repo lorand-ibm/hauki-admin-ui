@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import apiRequest, { Target } from '../../common/utils/api-request';
+import api, { Target } from '../../common/utils/api/api';
 
 export default function TargetPage({ id }: { id: string }): JSX.Element {
   const [target, setTarget] = useState<Target | null>(null);
