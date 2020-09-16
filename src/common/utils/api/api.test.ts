@@ -1,5 +1,5 @@
 import axios from 'axios';
-import apiRequest, { Target } from './api-request';
+import api, { Target } from './api';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -14,7 +14,7 @@ describe('apiRequest - getTarget', () => {
 
     mockedAxios.request.mockResolvedValue({ data: targetMock });
 
-    const response = await apiRequest.getTarget('8100');
+    const response = await api.getTarget('8100');
 
     expect(mockedAxios.request).toHaveBeenCalledTimes(1);
 
