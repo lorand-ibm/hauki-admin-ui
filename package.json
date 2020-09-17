@@ -28,8 +28,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-cypress": "start-server-and-test start http://localhost:3000 cypress-run-chrome",
+    "test-cypress-headless": "start-server-and-test start http://localhost:3000 cypress-run-chrome-headless",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext js,ts,tsx src"
+    "lint": "eslint --ext js,ts,tsx src",
+    "cypress-open": "cypress open",
+    "cypress-run-chrome": "cypress run --browser chrome",
+    "cypress-run-chrome-headless": "cypress run --headless --browser chrome"
   },
   "browserslist": {
     "production": [
@@ -57,5 +62,9 @@
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!hds-react)/"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^5.1.0",
+    "start-server-and-test": "^1.11.3"
   }
 }

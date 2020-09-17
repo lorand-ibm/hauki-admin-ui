@@ -12,4 +12,7 @@ module.exports = {
     'jsx-a11y/alt-text': 0,
     'react/jsx-props-no-spreading': 0,
   },
+  "globals": {
+    "cy": true
+  }
 };
