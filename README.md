@@ -12,6 +12,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
+It is possible to configure API's URL by setting env variable API_URL, for example, `API_URL=http://localhost:9000 yarn start`. The default is http://localhost:8080
+
 ### `yarn test`
 
 Launches the test runner in the interactive watch mode.<br />
@@ -46,3 +48,15 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Docker
+
+### How to build a docker image
+```bash
+docker build . -t hauki-admin-ui
+```
+
+### How to run the docker image
+```bash
+docker run -p 3000:80 -e API_URL=<api-url-here> hauki-admin-ui
+```
