@@ -34,7 +34,7 @@ COPY --chown=appuser:appuser . .
 RUN yarn build
 
 # =============================
-FROM nginx:1.17 as production
+FROM nginx:1.19 as production
 # =============================
 
 # Copy static build
