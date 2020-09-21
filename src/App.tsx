@@ -5,6 +5,7 @@ import {
   Switch,
   RouteComponentProps,
 } from 'react-router-dom';
+import 'hds-core';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
 import './App.css';
 import TargetPage from './target/page/TargetPage';
