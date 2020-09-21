@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  app:
+    container_name: hauki-admin-ui
+    build:
+      context: .
+    ports:
+      - '3000:80'
