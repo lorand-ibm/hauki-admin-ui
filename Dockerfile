@@ -30,9 +30,6 @@ RUN apt-cleanup.sh build-essential
 # Copy all files
 COPY --chown=appuser:appuser . .
 
-# Set environmental variables
-ARG REACT_APP_API_URL
-
 # Build application
 RUN yarn build
 
@@ -40,9 +37,24 @@ RUN yarn build
 FROM nginx:1.17 as production
 # =============================
 
-# Nginx runs with user "nginx" by default
+# Copy static build
 COPY --from=staticbuilder --chown=nginx:nginx /app/build /usr/share/nginx/html
 
+# Copy nginx config
 COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Env-script and .env file
+WORKDIR /usr/share/nginx/html
+COPY ./scripts/env.sh .
+COPY .env .
+
+# Add bash
+RUN apt-get update
+RUN apt-get install bash
+
+# Make script executable
+RUN chmod +x env.sh
+
+CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
 
 EXPOSE 80
