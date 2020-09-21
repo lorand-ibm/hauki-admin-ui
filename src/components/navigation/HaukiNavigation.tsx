@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Navigation } from 'hds-react';
-import './HaukiNavigation.css';
 
 export default function HaukiNavigation(): JSX.Element {
   const [authenticated, setAuthenticated] = useState(false);

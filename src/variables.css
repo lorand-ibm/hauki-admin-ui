@@ -1,3 +1,7 @@
 :root {
   --primary-color: #6feed3;;
 }
+
+:root .navigation-header {
+  --header-background-color: var(--primary-color) !important;
+}
