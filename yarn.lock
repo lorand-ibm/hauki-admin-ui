@@ -6053,7 +6053,7 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hds-core@0.13.1:
+hds-core@0.13.1, hds-core@^0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.13.1.tgz#c693a3c259f891fe780a42c37fd5738f21ae6814"
   integrity sha512-Qt+C8vQCmJQCpOCWN2l4s4lcVtBUy8kr6eS7VeGaLRpHyG1gjbFrIIvYZmfrvvx829yjGKOTtfvIpW9c3eZCKg==
