@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-const apiBaseUrl: string =
-  process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const apiBaseUrl: string = window.ENV.API_URL || 'http://localhost:8000';
 
 const TARGET_BASE_PATH = '/target';
 

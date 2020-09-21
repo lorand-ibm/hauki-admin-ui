@@ -3,6 +3,7 @@ module.exports = {
     'airbnb-typescript-prettier'
   ],
   env: {
+    browser: true,
     jest: true
   },
   rules: {
