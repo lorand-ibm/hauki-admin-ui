@@ -18,7 +18,7 @@ export default function App(): JSX.Element {
           <div id="main">
             <Switch>
               <Route exact path="/">
-                Etusivu
+                <p>Etusivu</p>
               </Route>
               <Route
                 id="target-route"

@@ -21,6 +21,7 @@
     "hds-react": "^0.13.2",
     "prettier": "^2.1.1",
     "react": "^16.13.1",
+    "react-axe": "^3.5.3",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
@@ -28,7 +29,7 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "API_URL=${API_URL:=http://localhost:8080} ./scripts/env.sh && cp env-config.js ./public/ && react-scripts start",
+    "start": "API_URL=${API_URL:=http://localhost:8080} USE_AXE=${USE_AXE:=true}./scripts/env.sh && cp env-config.js ./public/ && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-cypress": "start-server-and-test start http://localhost:3000 cypress-run-chrome",
