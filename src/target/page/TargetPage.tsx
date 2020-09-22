@@ -10,5 +10,5 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
     api.getTarget(id).then(setTarget);
   }, [id]);
 
-  return <div className="target">{target && target.name}</div>;
+  return <h1 className="target">{target && target.name}</h1>;
 }

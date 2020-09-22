@@ -15,10 +15,10 @@ export default function App(): JSX.Element {
     <div className="App">
       <Router>
         <NavigationAndFooterWrapper>
-          <div id="main">
+          <main role="main" id="main">
             <Switch>
               <Route exact path="/">
-                <p>Etusivu</p>
+                <h1>Etusivu</h1>
               </Route>
               <Route
                 id="target-route"
@@ -31,7 +31,7 @@ export default function App(): JSX.Element {
                 )}
               />
             </Switch>
-          </div>
+          </main>
         </NavigationAndFooterWrapper>
       </Router>
     </div>
