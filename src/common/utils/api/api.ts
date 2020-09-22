@@ -54,5 +54,5 @@ export interface Target {
 
 export default {
   getTarget: (id: string): Promise<Target> =>
-    apiGet<Target>({ path: `${TARGET_BASE_PATH}/tprek:${id}` }),
+    apiGet<Target>({ path: `${TARGET_BASE_PATH}/${id}` }),
 };
