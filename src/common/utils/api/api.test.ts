@@ -14,7 +14,7 @@ describe('apiRequest - getTarget', () => {
 
     mockedAxios.request.mockResolvedValue({ data: mockTarget });
 
-    const response = await api.getTarget('8100');
+    const response = await api.getTarget('tprek:8100');
 
     expect(mockedAxios.request).toHaveBeenCalledTimes(1);
 
