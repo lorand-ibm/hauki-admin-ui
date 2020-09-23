@@ -15,5 +15,10 @@ module.exports = {
   },
   "globals": {
     "cy": true
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src", "cypress"],
+    }
+  ]
 };
