@@ -9,6 +9,5 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
     api.getTarget(id).then(setTarget);
   }, [id]);
-
-  return <h1 className="target">{target && target.name}</h1>;
+  return <h1>{target && target.name}</h1>;
 }
