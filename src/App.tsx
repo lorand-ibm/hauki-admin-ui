@@ -16,7 +16,7 @@ export default function App(): JSX.Element {
     <div className="App">
       <Router>
         <NavigationAndFooterWrapper>
-          <Main>
+          <Main id="main">
             <Switch>
               <Route exact path="/">
                 <h1>Etusivu</h1>
