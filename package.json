@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/cypress-axe": "^0.8.0",
     "@types/enzyme": "^3.10.6",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^24.0.0",
@@ -14,6 +15,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "axios": "^0.20.0",
+    "cypress-axe": "^0.8.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "eslint-config-airbnb-typescript-prettier": "^3.1.0",
@@ -21,6 +23,7 @@
     "hds-react": "^0.13.2",
     "prettier": "^2.1.1",
     "react": "^16.13.1",
+    "react-axe": "^3.5.3",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
@@ -28,13 +31,13 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "API_URL=${API_URL:=http://localhost:8080} ./scripts/env.sh && cp env-config.js ./public/ && react-scripts start",
+    "start": "API_URL=${API_URL:=http://localhost:8080} USE_AXE=${USE_AXE:=true} ./scripts/env.sh && cp env-config.js ./public/ && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-cypress": "start-server-and-test start http://localhost:3000 cypress-run-chrome",
     "test-cypress-headless": "start-server-and-test start http://localhost:3000 cypress-run-chrome-headless",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext js,ts,tsx src",
+    "lint": "eslint --ext js,ts,tsx src cypress",
     "cypress-open": "cypress open",
     "cypress-run-chrome": "cypress run --browser chrome",
     "cypress-run-chrome-headless": "cypress run --headless --browser chrome"
@@ -68,6 +71,7 @@
   },
   "devDependencies": {
     "cypress": "^5.1.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
     "start-server-and-test": "^1.11.3"
   }
 }

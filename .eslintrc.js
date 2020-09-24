@@ -1,6 +1,7 @@
 module.exports = {
   extends: [
-    'airbnb-typescript-prettier'
+    'airbnb-typescript-prettier',
+    'plugin:jsx-a11y/recommended'
   ],
   env: {
     browser: true,
@@ -13,7 +14,15 @@ module.exports = {
     'jsx-a11y/alt-text': 0,
     'react/jsx-props-no-spreading': 0,
   },
-  "globals": {
-    "cy": true
-  }
+  globals: {
+    cy: true
+  },
+  overrides: [
+    {
+      files: ['src', 'cypress'],
+    }
+  ],
+  plugins: [
+    'jsx-a11y'
+  ]
 };

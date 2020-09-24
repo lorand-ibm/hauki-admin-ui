@@ -6,7 +6,5 @@
     "isolatedModules": false,
     "types": ["cypress"]
   },
-  "include": [
-    "**/*.ts"
-  ]
+  "include": ["**/*.ts"]
 }
