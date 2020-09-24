@@ -20,6 +20,7 @@
     "enzyme-adapter-react-16": "^1.15.4",
     "eslint-config-airbnb-typescript-prettier": "^3.1.0",
     "hds-core": "^0.13.2",
+    "hds-design-tokens": "^0.13.2",
     "hds-react": "^0.13.2",
     "prettier": "^2.1.1",
     "react": "^16.13.1",
@@ -72,6 +73,7 @@
   "devDependencies": {
     "cypress": "^5.1.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
+    "node-sass": "^4.14.1",
     "start-server-and-test": "^1.11.3"
   }
 }

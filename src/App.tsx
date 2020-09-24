@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import 'hds-core';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
-import './App.css';
+import './App.scss';
 import TargetPage from './target/page/TargetPage';
 
 export default function App(): JSX.Element {
