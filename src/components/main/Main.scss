@@ -1,0 +1,23 @@
+@import '~hds-design-tokens/lib/all.scss';
+
+// The main's content aligns with the HDS navigation's content:
+// https://github.com/City-of-Helsinki/helsinki-design-system/blob/master/packages/react/src/components/navigation/Navigation.module.css
+
+.main-container {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: $spacing-s;
+  width: 100%;
+}
+
+@media screen and (min-width: $breakpoint-m) {
+  .main-container {
+    padding: $spacing-m;
+  }
+}
+
+@media screen and (min-width: $breakpoint-l) {
+  .main-container {
+    max-width: $container-width-xl;
+  }
+}

@@ -6,8 +6,9 @@ import {
   RouteComponentProps,
 } from 'react-router-dom';
 import 'hds-core';
+import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
-import './App.css';
+import './App.scss';
 import TargetPage from './target/page/TargetPage';
 
 export default function App(): JSX.Element {
@@ -15,7 +16,7 @@ export default function App(): JSX.Element {
     <div className="App">
       <Router>
         <NavigationAndFooterWrapper>
-          <main role="main" id="main">
+          <Main id="main">
             <Switch>
               <Route exact path="/">
                 <h1>Etusivu</h1>
@@ -31,7 +32,7 @@ export default function App(): JSX.Element {
                 )}
               />
             </Switch>
-          </main>
+          </Main>
         </NavigationAndFooterWrapper>
       </Router>
     </div>
