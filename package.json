@@ -39,9 +39,9 @@
     "test-cypress": "start-server-and-test start http://localhost:3000 cypress-run-chrome",
     "test-cypress-headless": "start-server-and-test start http://localhost:3000 cypress-run-chrome-headless",
     "eject": "react-scripts eject",
-    "ts-check:source": "tsc --noEmit --project tsconfig.json",
+    "ts-check": "tsc --noEmit --project tsconfig.json",
     "ts-check:cypress": "tsc --noEmit --project ./cypress/tsconfig.json",
-    "lint": "yarn ts-check:cypress && yarn ts-check:source && eslint --ext js,ts,tsx src cypress",
+    "lint": "yarn ts-check:cypress && yarn ts-check && eslint --ext js,ts,tsx src cypress",
     "cypress-open": "cypress open",
     "cypress-run-chrome": "cypress run --browser chrome",
     "cypress-run-chrome-headless": "cypress run --headless --browser chrome"
