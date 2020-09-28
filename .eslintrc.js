@@ -3,6 +3,11 @@ module.exports = {
     'airbnb-typescript-prettier',
     'plugin:jsx-a11y/recommended'
   ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: ['tsconfig.eslint.json'],
+    sourceType: 'module',
+  },
   env: {
     browser: true,
     jest: true
@@ -17,11 +22,6 @@ module.exports = {
   globals: {
     cy: true
   },
-  overrides: [
-    {
-      files: ['src', 'cypress'],
-    }
-  ],
   plugins: [
     'jsx-a11y'
   ]
