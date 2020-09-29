@@ -2,12 +2,8 @@
 
 set -e -o pipefail
 
-# Recreate config file
-rm -rf ./env-config.js
-touch ./env-config.js
-
 # Add assignment
-echo "window.ENV = {" >> ./env-config.js
+echo "window.ENV = {" > ./env-config.js
 
 # Each line represents key=value pairs
 while read -r line || [[ -n "$line" ]];

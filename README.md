@@ -58,5 +58,5 @@ docker build . -t hauki-admin-ui
 
 ### How to run the docker image
 ```bash
-docker run -p 3000:80 -e API_URL=<api-url-here> USE_AXE=<true|false> hauki-admin-ui
+docker run -p 3000:8000 -e API_URL=<api-url-here> USE_AXE=<true|false> hauki-admin-ui
 ```
