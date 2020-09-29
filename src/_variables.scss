@@ -1,7 +1,8 @@
 :root {
-  --primary-color: #6feed3;;
+  --primary-color: var(--color-coat-of-arms-blue);
 }
 
 :root .navigation-header {
-  --header-background-color: var(--primary-color) !important;
+  --header-background-color: var(--color-coat-of-arms-blue);
+  --header-color: var(--color-white)
 }
