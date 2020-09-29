@@ -4,6 +4,8 @@
 trigger:
 - master
 
+pr: none
+
 variables:
   gitCommitHash: '$(Build.SourceVersion)'
   imageName: 'hauki-admin-ui'
