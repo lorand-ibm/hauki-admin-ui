@@ -1,11 +1,20 @@
 module.exports = {
-  extends: [
-    'airbnb-typescript-prettier',
-    'plugin:jsx-a11y/recommended'
+  extends: ['airbnb-typescript-prettier', 'plugin:jsx-a11y/recommended'],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: ['tsconfig.eslint.json'],
+    sourceType: 'module',
+  },
+  overrides: [
+    {
+      files: ['*.js'],
+      parser: 'babel-eslint',
+      rules: {},
+    },
   ],
   env: {
     browser: true,
-    jest: true
+    jest: true,
   },
   rules: {
     'react/prop-types': 0,
@@ -15,14 +24,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
   },
   globals: {
-    cy: true
+    cy: true,
   },
-  overrides: [
-    {
-      files: ['src', 'cypress'],
-    }
-  ],
-  plugins: [
-    'jsx-a11y'
-  ]
+  plugins: ['jsx-a11y'],
 };

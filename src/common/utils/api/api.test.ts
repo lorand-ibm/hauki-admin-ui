@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import axios from 'axios';
 import api, { Target } from './api';
 
