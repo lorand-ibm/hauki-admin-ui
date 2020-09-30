@@ -41,7 +41,7 @@ FROM nginx:1.19 as production
 COPY --from=staticbuilder --chown=nginx:nginx /app/build /usr/share/nginx/html
 
 # Copy nginx config
-COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Env-script and .env file
 WORKDIR /usr/share/nginx/html
@@ -55,6 +55,8 @@ RUN apt-get install bash
 # Make script executable
 RUN chmod +x env.sh
 
+USER nginx
+
 CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
 
-EXPOSE 80
+EXPOSE 8000

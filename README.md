@@ -58,5 +58,13 @@ docker build . -t hauki-admin-ui
 
 ### How to run the docker image
 ```bash
-docker run -p 3000:80 -e API_URL=<api-url-here> USE_AXE=<true|false> hauki-admin-ui
+docker run -p 3000:8000 -e API_URL=<api-url-here> USE_AXE=<true|false> hauki-admin-ui
 ```
+
+## RELEASE
+
+### Release to Test environment
+
+Release to test environment https://hauki-admin-ui.dev.hel.ninja is handled automatically from master branch. Updates to master branch triggers
+azure pipeline that will run tests, build and push image to dockerhub, and finally release it to test environment hosted by red hat openshift.
+Currently azure-pipeline is configured directly from version control, but red hat openshift configuration resides in openshift cluster.
