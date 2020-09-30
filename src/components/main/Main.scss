@@ -3,6 +3,12 @@
 // The main's content aligns with the HDS navigation's content:
 // https://github.com/City-of-Helsinki/helsinki-design-system/blob/master/packages/react/src/components/navigation/Navigation.module.css
 
+.main,
+.main-container {
+  background-color: var(--custom-content-background-color);
+  height: 100%;
+}
+
 .main-container {
   box-sizing: border-box;
   margin: 0 auto;
