@@ -1,6 +1,6 @@
 import React from 'react';
 import { Koros } from 'hds-react';
-import './HaukiFooter.css';
+import './HaukiFooter.scss';
 
 export default function HaukiFooter(): JSX.Element {
   // TODO: HAUKI-97 apply HDS Footer component once it is ready
