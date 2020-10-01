@@ -2,17 +2,16 @@
 @import 'font';
 @import 'variables';
 
-
 html {
   height: 100%;
-  margin:0;
+  margin: 0;
 }
 
 body {
   color: var(--hauki-content-text-color);
   height: 100%;
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   font-family: var(--font-default);
   margin: 0;
   -moz-osx-font-smoothing: grayscale;
@@ -22,11 +21,10 @@ body {
 #root {
   margin: 0;
   height: 100%;
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
