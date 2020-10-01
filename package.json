@@ -38,6 +38,7 @@
     "test": "react-scripts test",
     "test-cypress": "start-server-and-test start http://localhost:3000 cypress-run-chrome",
     "test-cypress-headless": "start-server-and-test start http://localhost:3000 cypress-run-chrome-headless",
+    "test-cypress-test-env": "CYPRESS_BASE_URL=https://hauki-admin-ui.dev.hel.ninja yarn cypress-run-chrome-headless",
     "eject": "react-scripts eject",
     "ts-check": "tsc --noEmit --project tsconfig.json",
     "ts-check:cypress": "tsc --noEmit --project ./cypress/tsconfig.json",
