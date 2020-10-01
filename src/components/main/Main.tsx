@@ -7,7 +7,7 @@ type MainProps = {
 };
 
 export default ({ id, children }: MainProps): JSX.Element => (
-  <main id={id} className="main-container">
-    {children}
+  <main id={id} className="main">
+    <div className="main-container">{children}</div>
   </main>
 );

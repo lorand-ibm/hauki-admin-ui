@@ -1,4 +1,7 @@
-@import "variables.css";
+@import '~hds-core/lib/base.css';
+@import 'font';
+@import 'variables';
+
 
 html {
   height: 100%;
@@ -6,14 +9,14 @@ html {
 }
 
 body {
-  margin: 0;
+  color: var(--hauki-content-text-color);
   height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   display:flex;
   flex-direction:column;
+  font-family: var(--font-default);
+  margin: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
