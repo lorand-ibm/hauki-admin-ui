@@ -41,7 +41,8 @@
     "eject": "react-scripts eject",
     "ts-check": "tsc --noEmit --project tsconfig.json",
     "ts-check:cypress": "tsc --noEmit --project ./cypress/tsconfig.json",
-    "lint": "yarn ts-check:cypress && yarn ts-check && eslint --ext js,ts,tsx src cypress",
+    "lint:css": "stylelint 'src/**/*.scss'",
+    "lint": "yarn lint:css && yarn ts-check:cypress && yarn ts-check && eslint --ext js,ts,tsx src cypress",
     "cypress-open": "cypress open",
     "cypress-run-chrome": "cypress run --browser chrome",
     "cypress-run-chrome-headless": "cypress run --headless --browser chrome"
@@ -77,6 +78,9 @@
     "cypress": "^5.1.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "node-sass": "^4.14.1",
-    "start-server-and-test": "^1.11.3"
+    "start-server-and-test": "^1.11.3",
+    "stylelint": "^13.7.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-value-no-unknown-custom-properties": "^3.0.0"
   }
 }
