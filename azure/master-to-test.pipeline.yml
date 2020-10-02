@@ -55,3 +55,15 @@ steps:
     openshiftService: Azure OpenShift-hauki-admin-ui
     cmd: 'tag docker.io/helsinki/hauki-admin-ui:$(gitCommitHash) hauki-admin-ui:latest'
 
+- task: Bash@3
+  displayName: Wait for deploy to finish
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+
+      sleep 50
+
+- script: |
+    CI=true yarn test-cypress-test-env
+  displayName: 'Yarn run cypress (e2e) tests against test environment'
