@@ -25,6 +25,11 @@ body {
   flex-direction: column;
 }
 
+address {
+  display: inline-block;
+  font-style: normal;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
