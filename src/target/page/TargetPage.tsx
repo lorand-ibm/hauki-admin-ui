@@ -68,7 +68,7 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
         <p>
           {hasText(target?.description)
             ? target?.description
-            : 'Toimipisteellä ei ole kuvausta'}
+            : 'Toimipisteellä ei ole kuvausta.'}
         </p>
       </TargetDetailsSection>
     </>
