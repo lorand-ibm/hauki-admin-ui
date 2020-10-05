@@ -50,7 +50,7 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
   }, [id]);
 
   if (isLoading) {
-    return <p>Toimipistetietoja ladataan...</p>;
+    return <p>Toimipisteen tietoja ladataan...</p>;
   }
 
   if (hasError) {
