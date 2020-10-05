@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import { Button, IconAngleDown, IconAngleUp } from 'hds-react';
+import { IconAngleDown, IconAngleUp } from 'hds-react';
 import './Collapse.scss';
 
 interface BaseCollapseProps {
