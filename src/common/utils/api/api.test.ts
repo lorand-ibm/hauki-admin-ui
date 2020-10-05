@@ -11,6 +11,7 @@ describe('apiRequest - getTarget', () => {
     const mockTarget: Target = {
       id: '8100',
       name: 'Toimipiste A',
+      address: 'Helsinki',
       description: '',
     };
 
