@@ -4,6 +4,7 @@
   --primary-color: var(--color-coat-of-arms-blue);
   --hauki-content-text-color: var(--color-black-90);
   --hauki-content-background-color: #fafafa;
+  --hauki-content-border-color: #c4c4c4;
 }
 
 :root .navigation-header {
