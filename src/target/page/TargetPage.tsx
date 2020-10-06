@@ -45,9 +45,14 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
     api
       .getTarget(id)
-      .then((t: Target) => setTarget(t))
-      .catch((e: Error) => setError(e))
-      .finally(() => setLoading(false));
+      .then((t: Target) => {
+        setTarget(t);
+        setLoading(false);
+      })
+      .catch((e: Error) => {
+        setError(e);
+        setLoading(false);
+      });
   }, [id]);
 
   if (isLoading) {
