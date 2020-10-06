@@ -12,7 +12,8 @@ const TargetInfo = ({ target }: { target?: Target }): JSX.Element => (
     <h1>{target?.name}</h1>
     {hasText(target?.address) && (
       <div>
-        Osoite: <address>{target?.address}</address>
+        <span>Osoite: </span>
+        <address className="target-info-address">{target?.address}</address>
       </div>
     )}
   </>
