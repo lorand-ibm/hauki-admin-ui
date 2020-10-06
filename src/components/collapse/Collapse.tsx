@@ -49,12 +49,12 @@ const CollapseButton = ({
   );
 };
 
-export default ({
+export default function ({
   collapseContentId,
   title,
   children,
   isOpen,
-}: CollapseProps): JSX.Element => {
+}: CollapseProps): JSX.Element {
   const [isOpenState, setOpen] = useState<boolean>(isOpen);
 
   const toggleOpen = (): void => {
@@ -81,4 +81,4 @@ export default ({
       </div>
     </div>
   );
-};
+}
