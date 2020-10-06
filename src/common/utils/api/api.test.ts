@@ -1,7 +1,7 @@
 /// <reference types="jest" />
 
 import axios from 'axios';
-import api, { Target } from './api';
+import api, { LinkTypes, Target } from './api';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -13,6 +13,8 @@ describe('apiRequest - getTarget', () => {
       name: 'Toimipiste A',
       address: 'Helsinki',
       description: '',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      links: [{ link_type: LinkTypes.ADMIN, url: 'http://local.trek:3001' }],
     };
 
     mockedAxios.request.mockResolvedValue({ data: mockTarget });

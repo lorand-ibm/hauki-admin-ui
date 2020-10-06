@@ -46,11 +46,21 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
   return response.data;
 }
 
+export enum LinkTypes {
+  ADMIN = 'ADMIN',
+}
+
+export type Link = {
+  link_type: LinkTypes.ADMIN;
+  url: string;
+};
+
 export interface Target {
   id: string;
   name: string;
   description: string;
   address: string;
+  links: [Link];
 }
 
 export default {
