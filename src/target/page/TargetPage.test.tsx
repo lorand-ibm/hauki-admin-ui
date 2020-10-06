@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import api, { Target } from '../../common/utils/api/api';
+import api, { Target, LinkTypes } from '../../common/utils/api/api';
 import TargetPage from './TargetPage';
 
 const testTarget: Target = {
@@ -9,6 +9,8 @@ const testTarget: Target = {
   name: 'Test target',
   address: 'Main street, Helsinki',
   description: 'Test target description',
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  links: [{ link_type: LinkTypes.ADMIN, url: 'http://local.trek:3001' }],
 };
 
 describe(`<TargetPage />`, () => {
@@ -65,6 +67,26 @@ describe(`<TargetPage />`, () => {
 
     expect(targetPage.find('h1').text()).toEqual(testTarget.name);
     expect(targetPage.find('address').text()).toEqual(testTarget.address);
-    expect(targetPage.find('p').text()).toEqual(testTarget.description);
+    expect(targetPage.find('#target-description p').text()).toEqual(
+      testTarget.description
+    );
+  });
+
+  test('should show target source link', async () => {
+    jest
+      .spyOn(api, 'getTarget')
+      .mockImplementation(() => Promise.resolve(testTarget));
+
+    const targetPage = mount(<TargetPage id={testTarget.id} />);
+
+    await act(async () => {
+      targetPage.update(); // First tick for useEffect
+    });
+
+    targetPage.update(); // Second tick for useState
+
+    expect(
+      targetPage.find(`a[href="${testTarget.links[0].url}"]`).exists()
+    ).toBe(true);
   });
 });
