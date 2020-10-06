@@ -4,7 +4,7 @@ import { act } from 'react-dom/test-utils';
 import api, { Target } from '../../common/utils/api/api';
 import TargetPage from './TargetPage';
 
-const TEST_TARGET: Target = {
+const testTarget: Target = {
   id: 'tprek:1000',
   name: 'Test target',
   address: 'Main street, Helsinki',
@@ -17,10 +17,9 @@ describe(`<TargetPage />`, () => {
   });
 
   test('should show loading indicator', async () => {
-    jest.spyOn(api, 'getTarget').mockImplementation(() =>
-      // eslint-disable-next-line prefer-promise-reject-errors
-      Promise.resolve(TEST_TARGET)
-    );
+    jest
+      .spyOn(api, 'getTarget')
+      .mockImplementation(() => Promise.resolve(testTarget));
 
     const targetPage = mount(<TargetPage id="tprek:8100" />);
 
@@ -34,10 +33,11 @@ describe(`<TargetPage />`, () => {
   });
 
   test('should show error notification', async () => {
-    jest.spyOn(api, 'getTarget').mockImplementation(() =>
-      // eslint-disable-next-line prefer-promise-reject-errors
-      Promise.reject('Failed to load a target')
-    );
+    jest
+      .spyOn(api, 'getTarget')
+      .mockImplementation(() =>
+        Promise.reject(new Error('Failed to load a target'))
+      );
 
     const targetPage = mount(<TargetPage id="tprek:8100" />);
 
@@ -51,12 +51,11 @@ describe(`<TargetPage />`, () => {
   });
 
   test('should show target details', async () => {
-    jest.spyOn(api, 'getTarget').mockImplementation(() =>
-      // eslint-disable-next-line prefer-promise-reject-errors
-      Promise.resolve(TEST_TARGET)
-    );
+    jest
+      .spyOn(api, 'getTarget')
+      .mockImplementation(() => Promise.resolve(testTarget));
 
-    const targetPage = mount(<TargetPage id={TEST_TARGET.id} />);
+    const targetPage = mount(<TargetPage id={testTarget.id} />);
 
     await act(async () => {
       targetPage.update(); // First tick for useEffect
@@ -64,8 +63,8 @@ describe(`<TargetPage />`, () => {
 
     targetPage.update(); // Second tick for useState
 
-    expect(targetPage.find('h1').text()).toEqual(TEST_TARGET.name);
-    expect(targetPage.find('address').text()).toEqual(TEST_TARGET.address);
-    expect(targetPage.find('p').text()).toEqual(TEST_TARGET.description);
+    expect(targetPage.find('h1').text()).toEqual(testTarget.name);
+    expect(targetPage.find('address').text()).toEqual(testTarget.address);
+    expect(targetPage.find('p').text()).toEqual(testTarget.description);
   });
 });
