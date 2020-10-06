@@ -1,0 +1,21 @@
+.collapse {
+  border-bottom: 1px solid var(--hauki-content-border-color);
+}
+
+.collapse-button {
+  background-color: transparent;
+  border: 0 none;
+  box-sizing: border-box;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  display: flex;
+  justify-content: space-between;
+  outline: 0 none;
+  padding: 0;
+  width: 100%;
+}
+
+.collapse-button-icon {
+  color: var(--hauki-content-text-color);
+}

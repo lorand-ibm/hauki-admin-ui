@@ -16,6 +16,16 @@
   width: 100%;
 }
 
+.main-container h2 {
+  color: var(--color-coat-of-arms-blue);
+}
+
+.section {
+  & + & {
+    margin-top: $spacing-5-xl;
+  }
+}
+
 @media screen and (min-width: $breakpoint-m) {
   .main-container {
     padding: $spacing-m;

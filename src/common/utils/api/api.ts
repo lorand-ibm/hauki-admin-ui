@@ -50,6 +50,7 @@ export interface Target {
   id: string;
   name: string;
   description: string;
+  address: string;
 }
 
 export default {
