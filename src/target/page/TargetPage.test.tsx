@@ -77,6 +77,8 @@ describe(`<TargetPage />`, () => {
       .spyOn(api, 'getTarget')
       .mockImplementation(() => Promise.resolve(testTarget));
 
+    const linkSelector = `a[href="${testTarget.links[0].url}"]`;
+
     const targetPage = mount(<TargetPage id={testTarget.id} />);
 
     await act(async () => {
@@ -85,8 +87,9 @@ describe(`<TargetPage />`, () => {
 
     targetPage.update(); // Second tick for useState
 
-    expect(
-      targetPage.find(`a[href="${testTarget.links[0].url}"]`).exists()
-    ).toBe(true);
+    expect(targetPage.find(linkSelector).exists()).toBe(true);
+    expect(targetPage.find(linkSelector).prop('rel')).toBe(
+      'noopener noreferrer'
+    );
   });
 });
