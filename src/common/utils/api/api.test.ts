@@ -13,8 +13,8 @@ describe('apiRequest - getTarget', () => {
       name: 'Toimipiste A',
       address: 'Helsinki',
       description: '',
-      // eslint-disable-next-line @typescript-eslint/camelcase
       links: [
+        // eslint-disable-next-line @typescript-eslint/camelcase
         { link_type: SourceLinkTypes.ADMIN, url: 'http://local.trek:3001' },
       ],
     };
