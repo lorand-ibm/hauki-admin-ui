@@ -1,14 +1,20 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
-import api, { Target, Link, LinkTypes } from '../../common/utils/api/api';
+import api, {
+  Target,
+  SourceLink,
+  SourceLinkTypes,
+} from '../../common/utils/api/api';
 import Collapse from '../../components/collapse/Collapse';
 import './TargetPage.scss';
 
 const hasText = (str: string | null | undefined): boolean =>
   str !== undefined && str !== null && str !== '';
 
-const getTargetSourceLink = (links: Link[] = []): string | undefined => {
-  const adminLink = links.find((link) => link.link_type === LinkTypes.ADMIN);
+const getTargetSourceLink = (links: SourceLink[] = []): string | undefined => {
+  const adminLink = links.find(
+    (link) => link.link_type === SourceLinkTypes.ADMIN
+  );
   return adminLink?.url;
 };
 

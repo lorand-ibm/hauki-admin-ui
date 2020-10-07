@@ -46,12 +46,12 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
   return response.data;
 }
 
-export enum LinkTypes {
+export enum SourceLinkTypes {
   ADMIN = 'ADMIN',
 }
 
-export type Link = {
-  link_type: LinkTypes.ADMIN;
+export type SourceLink = {
+  link_type: SourceLinkTypes.ADMIN;
   url: string;
 };
 
@@ -60,7 +60,7 @@ export interface Target {
   name: string;
   description: string;
   address: string;
-  links: [Link];
+  links: [SourceLink];
 }
 
 export default {

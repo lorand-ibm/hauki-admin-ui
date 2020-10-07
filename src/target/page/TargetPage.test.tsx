@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import api, { Target, LinkTypes } from '../../common/utils/api/api';
+import api, { Target, SourceLinkTypes } from '../../common/utils/api/api';
 import TargetPage from './TargetPage';
 
 const testTarget: Target = {
@@ -10,7 +10,7 @@ const testTarget: Target = {
   address: 'Main street, Helsinki',
   description: 'Test target description',
   // eslint-disable-next-line @typescript-eslint/camelcase
-  links: [{ link_type: LinkTypes.ADMIN, url: 'http://local.trek:3001' }],
+  links: [{ link_type: SourceLinkTypes.ADMIN, url: 'http://local.trek:3001' }],
 };
 
 describe(`<TargetPage />`, () => {
