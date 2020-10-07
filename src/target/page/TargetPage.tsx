@@ -11,7 +11,9 @@ import './TargetPage.scss';
 const hasText = (str: string | null | undefined): boolean =>
   str !== undefined && str !== null && str !== '';
 
-const getTargetSourceLink = (links: SourceLink[] = []): string | undefined => {
+const getTargetServiceAdminUrl = (
+  links: SourceLink[] = []
+): string | undefined => {
   const adminLink = links.find(
     (link) => link.link_type === SourceLinkTypes.ADMIN
   );
@@ -69,10 +71,11 @@ const TargetSourceLink = ({
   id: string;
   target?: Target;
 }): JSX.Element | null => {
-  if (!target) {
+  const url: string | undefined = getTargetServiceAdminUrl(target?.links);
+
+  if (!url) {
     return null;
   }
-  const url = getTargetSourceLink(target.links);
 
   return (
     <TargetSection id={id}>
