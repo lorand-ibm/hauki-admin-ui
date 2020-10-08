@@ -64,14 +64,14 @@ export default function ({
   return (
     <div className="collapse">
       <div className="collapse-header">
-        <h2 className="collapse-title">
+        <h3 className="collapse-title">
           <CollapseButton
             collapseContentId={collapseContentId}
             isOpen={isOpenState}
             toggleOpen={toggleOpen}>
             {title}
           </CollapseButton>
-        </h2>
+        </h3>
       </div>
       <div
         id={collapseContentId}
