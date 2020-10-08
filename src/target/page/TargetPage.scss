@@ -1,5 +1,11 @@
 .target-details-section {
-  margin-top: var(--spacing-layout-l);
+  margin-top: var(--spacing-layout-m);
+}
+
+.target-info-title {
+  font-size: var(--fontsize-heading-l);
+  margin-top: 0;
+  margin-bottom: var(--spacing-xs);
 }
 
 .target-info-address {
