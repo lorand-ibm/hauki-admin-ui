@@ -11,6 +11,7 @@
 
 .main-container {
   box-sizing: border-box;
+  line-height: var(--lineheight-l);
   margin: 0 auto;
   padding: $spacing-s;
   width: 100%;
