@@ -13,7 +13,11 @@ const TargetInfo = ({ target }: { target?: Target }): JSX.Element => (
     {hasText(target?.address) && (
       <div>
         <span>Osoite: </span>
-        <address className="target-info-address">{target?.address}</address>
+        <address className="target-info-address">
+          {hasText(target?.address)
+            ? target?.address
+            : 'Toimipisteellä ei ole nimeä.'}
+        </address>
       </div>
     )}
   </>
