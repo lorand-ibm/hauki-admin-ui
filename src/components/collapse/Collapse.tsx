@@ -64,7 +64,7 @@ export default function ({
   return (
     <div className="collapse">
       <div className="collapse-header">
-        <h2>
+        <h2 className="collapse-title">
           <CollapseButton
             collapseContentId={collapseContentId}
             isOpen={isOpenState}

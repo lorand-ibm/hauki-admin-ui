@@ -9,11 +9,15 @@ const hasText = (str: string | null | undefined): boolean =>
 
 const TargetInfo = ({ target }: { target?: Target }): JSX.Element => (
   <>
-    <h1>{target?.name}</h1>
+    <h1 className="target-info-title">{target?.name}</h1>
     {hasText(target?.address) && (
       <div>
         <span>Osoite: </span>
-        <address className="target-info-address">{target?.address}</address>
+        <address className="target-info-address">
+          {hasText(target?.address)
+            ? target?.address
+            : 'Toimipisteellä ei ole nimeä.'}
+        </address>
       </div>
     )}
   </>
@@ -71,7 +75,7 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
     <>
       <TargetInfo target={target} />
       <TargetDetailsSection id="target-description" title="Perustiedot">
-        <p>
+        <p className="target-description-text">
           {hasText(target?.description)
             ? target?.description
             : 'Toimipisteellä ei ole kuvausta.'}

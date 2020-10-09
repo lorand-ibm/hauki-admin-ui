@@ -3,8 +3,9 @@
 :root {
   --primary-color: var(--color-coat-of-arms-blue);
   --hauki-content-text-color: var(--color-black-90);
-  --hauki-content-background-color: #fafafa;
+  --hauki-content-background-color: #fafafb;
   --hauki-content-border-color: #c4c4c4;
+  --hauki-footer-background-color: var(--color-coat-of-arms-blue-light-20);
 }
 
 :root .navigation-header {
