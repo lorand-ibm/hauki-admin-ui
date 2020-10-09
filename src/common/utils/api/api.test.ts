@@ -14,7 +14,6 @@ describe('apiRequest - getTarget', () => {
       address: 'Helsinki',
       description: '',
       links: [
-        // eslint-disable-next-line @typescript-eslint/camelcase
         { link_type: SourceLinkTypes.ADMIN, url: 'http://local.trek:3001' },
       ],
     };

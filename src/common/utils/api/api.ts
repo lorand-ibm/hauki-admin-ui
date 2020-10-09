@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 
-const TARGET_BASE_PATH = '/target';
+const targetBasePath = '/target';
 
 interface RequestParameters {
   [key: string]:
@@ -65,5 +65,5 @@ export interface Target {
 
 export default {
   getTarget: (id: string): Promise<Target> =>
-    apiGet<Target>({ path: `${TARGET_BASE_PATH}/${id}` }),
+    apiGet<Target>({ path: `${targetBasePath}/${id}` }),
 };
