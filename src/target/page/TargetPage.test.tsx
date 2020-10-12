@@ -65,7 +65,7 @@ describe(`<TargetPage />`, () => {
 
     targetPage.update(); // Second tick for useState
 
-    expect(targetPage.find('h1').text()).toEqual(testTarget.name);
+    expect(targetPage.find('h2').text()).toEqual(testTarget.name);
     expect(targetPage.find('address').text()).toEqual(testTarget.address);
     expect(targetPage.find('#target-description p').text()).toEqual(
       testTarget.description
