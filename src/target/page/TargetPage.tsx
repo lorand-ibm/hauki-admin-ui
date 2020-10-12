@@ -12,15 +12,6 @@ import './TargetPage.scss';
 const hasText = (str: string | null | undefined): boolean =>
   str !== undefined && str !== null && str !== '';
 
-const getTargetServiceAdminUrl = (
-  links: SourceLink[] = []
-): string | undefined => {
-  const adminLink = links.find(
-    (link) => link.link_type === SourceLinkTypes.ADMIN
-  );
-  return adminLink?.url;
-};
-
 const TargetInfo = ({ target }: { target?: Target }): JSX.Element => (
   <>
     <h1 className="target-info-title">{target?.name}</h1>
@@ -72,9 +63,11 @@ const TargetSourceLink = ({
   id: string;
   target?: Target;
 }): JSX.Element | null => {
-  const url: string | undefined = getTargetServiceAdminUrl(target?.links);
+  const adminLink: SourceLink | undefined = target?.links.find(
+    (link) => link.link_type === SourceLinkTypes.ADMIN
+  );
 
-  if (!url) {
+  if (!adminLink) {
     return null;
   }
 
@@ -86,7 +79,7 @@ const TargetSourceLink = ({
         Toimipisterekisterissä.
       </p>
       <ExternalLink
-        href={url}
+        href={adminLink.url}
         text="Tarkastele toimipisteen tietoja Toimipisterekisterissä"
       />
     </TargetSection>
