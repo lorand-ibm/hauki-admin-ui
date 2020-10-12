@@ -29,6 +29,7 @@ describe(`<TargetPage />`, () => {
       targetPage.update(); // First tick to trigger useEffect to load
     });
 
+    expect(targetPage.find('h1').text()).toEqual('Toimipisteen tietojen haku');
     expect(targetPage.find('p').text()).toEqual(
       'Toimipisteen tietoja ladataan...'
     );
@@ -49,6 +50,7 @@ describe(`<TargetPage />`, () => {
 
     targetPage.update(); // Second tick for useState
 
+    expect(targetPage.find('h1').text()).toEqual('Virhe');
     expect(targetPage.text()).toContain('Toimipistettä ei saatu ladattua.');
   });
 
@@ -65,7 +67,7 @@ describe(`<TargetPage />`, () => {
 
     targetPage.update(); // Second tick for useState
 
-    expect(targetPage.find('h2').text()).toEqual(testTarget.name);
+    expect(targetPage.find('h1').text()).toEqual(testTarget.name);
     expect(targetPage.find('address').text()).toEqual(testTarget.address);
     expect(targetPage.find('#target-description p').text()).toEqual(
       testTarget.description

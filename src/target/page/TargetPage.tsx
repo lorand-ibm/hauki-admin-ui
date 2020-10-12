@@ -12,20 +12,9 @@ import './TargetPage.scss';
 const hasText = (str: string | null | undefined): boolean =>
   str !== undefined && str !== null && str !== '';
 
-const TargetPageContent = ({
-  children,
-}: {
-  children: ReactNode;
-}): JSX.Element => (
-  <>
-    <h1 className="hiddenFromScreen">Toimipisteen aukiolotiedot</h1>
-    {children}
-  </>
-);
-
 const TargetInfo = ({ target }: { target?: Target }): JSX.Element => (
   <>
-    <h2 className="target-info-title">{target?.name}</h2>
+    <h1 className="target-info-title">{target?.name}</h1>
     {hasText(target?.address) && (
       <div>
         <span>Osoite: </span>
@@ -119,24 +108,26 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
 
   if (isLoading) {
     return (
-      <TargetPageContent>
+      <>
+        <h1 className="target-info-title">Toimipisteen tietojen haku</h1>
         <p>Toimipisteen tietoja ladataan...</p>
-      </TargetPageContent>
+      </>
     );
   }
 
   if (hasError) {
     return (
-      <TargetPageContent>
+      <>
+        <h1 className="target-info-title">Virhe</h1>
         <Notification label="Toimipistettä ei saatu ladattua." type="error">
           Tarkista toimipiste-id.
         </Notification>
-      </TargetPageContent>
+      </>
     );
   }
 
   return (
-    <TargetPageContent>
+    <>
       <TargetInfo target={target} />
       <TargetDetailsSection id="target-description" title="Perustiedot">
         <p className="target-description-text">
@@ -146,6 +137,6 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
         </p>
       </TargetDetailsSection>
       <TargetSourceLink id="target-source-link" target={target} />
-    </TargetPageContent>
+    </>
   );
 }
