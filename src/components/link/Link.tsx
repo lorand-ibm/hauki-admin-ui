@@ -7,7 +7,6 @@ export function Link({
 }: {
   href: string;
   text: string;
-  external: boolean;
 }): JSX.Element {
   return (
     <a href={href} className="custom-link">
