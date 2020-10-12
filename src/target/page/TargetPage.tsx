@@ -1,7 +1,12 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
-import api, { Target } from '../../common/utils/api/api';
+import api, {
+  Target,
+  SourceLink,
+  SourceLinkTypes,
+} from '../../common/utils/api/api';
 import Collapse from '../../components/collapse/Collapse';
+import { ExternalLink } from '../../components/link/Link';
 import './TargetPage.scss';
 
 const hasText = (str: string | null | undefined): boolean =>
@@ -23,6 +28,18 @@ const TargetInfo = ({ target }: { target?: Target }): JSX.Element => (
   </>
 );
 
+const TargetSection = ({
+  id,
+  children,
+}: {
+  id: string;
+  children: ReactNode;
+}): JSX.Element => (
+  <section id={id} className="target-details-section">
+    {children}
+  </section>
+);
+
 const TargetDetailsSection = ({
   id,
   title,
@@ -32,12 +49,42 @@ const TargetDetailsSection = ({
   title: string;
   children: ReactNode;
 }): JSX.Element => (
-  <section id={id} className="target-details-section">
+  <TargetSection id={id}>
     <Collapse isOpen collapseContentId={`${id}-section`} title={title}>
       {children}
     </Collapse>
-  </section>
+  </TargetSection>
 );
+
+const TargetSourceLink = ({
+  id,
+  target,
+}: {
+  id: string;
+  target?: Target;
+}): JSX.Element | null => {
+  const adminLink: SourceLink | undefined = target?.links.find(
+    (link) => link.link_type === SourceLinkTypes.ADMIN
+  );
+
+  if (!adminLink) {
+    return null;
+  }
+
+  return (
+    <TargetSection id={id}>
+      <p>
+        Toimipisteeseen liittyvät tiedot kieliversioineen ovat lähtöisin
+        Toimipisterekisteristä. Tietojen muuttaminen on mahdollista
+        Toimipisterekisterissä.
+      </p>
+      <ExternalLink
+        href={adminLink.url}
+        text="Tarkastele toimipisteen tietoja Toimipisterekisterissä"
+      />
+    </TargetSection>
+  );
+};
 
 export default function TargetPage({ id }: { id: string }): JSX.Element {
   const [target, setTarget] = useState<Target | undefined>(undefined);
@@ -81,6 +128,7 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
             : 'Toimipisteellä ei ole kuvausta.'}
         </p>
       </TargetDetailsSection>
+      <TargetSourceLink id="target-source-link" target={target} />
     </>
   );
 }
