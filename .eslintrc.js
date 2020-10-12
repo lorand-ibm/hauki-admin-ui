@@ -2,7 +2,8 @@ module.exports = {
   extends: ['airbnb-typescript-prettier', 'plugin:jsx-a11y/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: ['tsconfig.eslint.json'],
+    project: './tsconfig.eslint.json',
+    tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
   overrides: [
@@ -50,7 +51,7 @@ module.exports = {
       {
         selector: 'enumMember',
         format: ['camelCase', 'snake_case', 'UPPER_CASE'],
-      }
+      },
     ],
   },
   globals: {
