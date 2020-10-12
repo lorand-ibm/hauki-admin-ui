@@ -75,7 +75,7 @@ const TargetSourceLink = ({
     <TargetSection id={id}>
       <p>
         Toimipisteeseen liittyvät tiedot kieliversioineen ovat lähtöisin
-        Toimipisterekisteristä. Jos haluat muuttaa tietoja, se on mahdollista
+        Toimipisterekisteristä. Tietojen muuttaminen on mahdollista
         Toimipisterekisterissä.
       </p>
       <ExternalLink
