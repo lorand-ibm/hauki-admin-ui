@@ -6,7 +6,7 @@ import api, {
   SourceLinkTypes,
 } from '../../common/utils/api/api';
 import Collapse from '../../components/collapse/Collapse';
-import Link from '../../components/link/Link';
+import { ExternalLink } from '../../components/link/Link';
 import './TargetPage.scss';
 
 const hasText = (str: string | null | undefined): boolean =>
@@ -85,10 +85,9 @@ const TargetSourceLink = ({
         Toimipisterekisteristä. Jos haluat muuttaa tietoja, se on mahdollista
         Toimipisterekisterissä.
       </p>
-      <Link
+      <ExternalLink
         href={url}
         text="Tarkastele toimipisteen tietoja Toimipisterekisterissä"
-        external
       />
     </TargetSection>
   );
