@@ -15,11 +15,13 @@ interface CollapseProps extends BaseCollapseProps {
 }
 
 interface CollapseButtonProps extends BaseCollapseProps {
+  id: string;
   toggleOpen: ToggleFn;
   children: ReactNode;
 }
 
 const CollapseButton = ({
+  id,
   collapseContentId,
   isOpen,
   toggleOpen,
@@ -33,6 +35,7 @@ const CollapseButton = ({
 
   return (
     <button
+      id={id}
       type="button"
       aria-expanded={isOpen}
       aria-controls={collapseContentId}
@@ -55,6 +58,7 @@ export default function ({
   children,
   isOpen,
 }: CollapseProps): JSX.Element {
+  const buttonId = `${collapseContentId}-button`;
   const [isOpenState, setOpen] = useState<boolean>(isOpen);
 
   const toggleOpen = (): void => {
@@ -63,18 +67,19 @@ export default function ({
 
   return (
     <div className="collapse">
-      <div className="collapse-header">
-        <h2 className="collapse-title">
-          <CollapseButton
-            collapseContentId={collapseContentId}
-            isOpen={isOpenState}
-            toggleOpen={toggleOpen}>
-            {title}
-          </CollapseButton>
-        </h2>
-      </div>
+      <h2 className="collapse-header">
+        <CollapseButton
+          id={buttonId}
+          collapseContentId={collapseContentId}
+          isOpen={isOpenState}
+          toggleOpen={toggleOpen}>
+          {title}
+        </CollapseButton>
+      </h2>
       <div
         id={collapseContentId}
+        role="region"
+        aria-labelledby={buttonId}
         className={`collapse-content ${!isOpenState && 'hiddenFromScreen'}`}
         hidden={!isOpenState}>
         {children}

@@ -1,5 +1,8 @@
 {
   "baseUrl": "http://localhost:3000",
   "ignoreTestFiles": "**/examples/*.spec.js",
-  "trashAssetsBeforeRuns": false
+  "trashAssetsBeforeRuns": false,
+  "env": {
+    "target-id": "tprek:8100"
+  }
 }

@@ -107,14 +107,22 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
   }, [id]);
 
   if (isLoading) {
-    return <p>Toimipisteen tietoja ladataan...</p>;
+    return (
+      <>
+        <h1 className="target-info-title">Toimipisteen tietojen haku</h1>
+        <p>Toimipisteen tietoja ladataan...</p>
+      </>
+    );
   }
 
   if (hasError) {
     return (
-      <Notification label="Toimipistettä ei saatu ladattua." type="error">
-        Tarkista toimipiste-id.
-      </Notification>
+      <>
+        <h1 className="target-info-title">Virhe</h1>
+        <Notification label="Toimipistettä ei saatu ladattua." type="error">
+          Tarkista toimipiste-id.
+        </Notification>
+      </>
     );
   }
 
