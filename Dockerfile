@@ -23,6 +23,7 @@ USER appuser
 # Install dependencies
 COPY --chown=appuser:appuser package.json yarn.lock /app/
 RUN yarn && yarn cache clean --force
+RUN npm rebuild node-sass
 
 USER root
 RUN apt-cleanup.sh build-essential
