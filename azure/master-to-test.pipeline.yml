@@ -18,57 +18,62 @@ pool:
 
 stages:
 - stage: Tests
-  steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '12.x'
-    displayName: 'Install Node.js'
+  jobs:
+  - job: Tests
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '12.x'
+      displayName: 'Install Node.js'
 
-  - script: |
-      yarn install
-    displayName: 'Yarn install'
+    - script: |
+        yarn install
+      displayName: 'Yarn install'
 
-  - script: |
-      yarn lint
-    displayName: 'Yarn lint'
+    - script: |
+        yarn lint
+      displayName: 'Yarn lint'
 
-  - script: |
-      CI=true yarn test
-    displayName: 'Yarn run tests'
+    - script: |
+        CI=true yarn test
+      displayName: 'Yarn run tests'
 
-  - script: |
-      CI=true yarn test-cypress-headless
-    displayName: 'Yarn run cypress (e2e) tests'
+    - script: |
+        CI=true yarn test-cypress-headless
+      displayName: 'Yarn run cypress (e2e) tests'
 
 - stage: Build_test
-  displayName: Build image & run E2E tests
-  steps:
-  - task: Docker@2
-    displayName: Build and push Hauki admin ui image to docker hub
-    inputs:
-      containerRegistry: Docker hub upload-hauki-admin-ui
-      repository: 'helsinki/$(imageName)'
-      command: buildAndPush
-      tags: |
-        latest
-        $(gitCommitHash)
-      Dockerfile: Dockerfile
+  jobs:
+  - job: Build
+    displayName: Build image & run E2E tests
+    steps:
+    - task: Docker@2
+      displayName: Build and push Hauki admin ui image to docker hub
+      inputs:
+        containerRegistry: Docker hub upload-hauki-admin-ui
+        repository: 'helsinki/$(imageName)'
+        command: buildAndPush
+        tags: |
+          latest
+          $(gitCommitHash)
+        Dockerfile: Dockerfile
 
-  - task: oc-cmd@2
-    displayName: Deploy image to openshift, add OC tag to latest image
-    inputs:
-      openshiftService: Azure OpenShift-hauki-admin-ui
-      cmd: 'tag docker.io/helsinki/hauki-admin-ui:$(gitCommitHash) hauki-admin-ui:latest'
+    - task: oc-cmd@2
+      displayName: Deploy image to openshift, add OC tag to latest image
+      inputs:
+        openshiftService: Azure OpenShift-hauki-admin-ui
+        cmd: 'tag docker.io/helsinki/hauki-admin-ui:$(gitCommitHash) hauki-admin-ui:latest'
+  - job: E2E test
+    steps:
+    - task: Bash@3
+      displayName: Wait for deploy to finish
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Write your commands here
 
-  - task: Bash@3
-    displayName: Wait for deploy to finish
-    inputs:
-      targetType: 'inline'
-      script: |
-        # Write your commands here
+          sleep 50
 
-        sleep 50
-
-  - script: |
-      CI=true yarn test-cypress-test-env
-    displayName: 'Yarn run cypress (e2e) tests against test environment'
+    - script: |
+        CI=true yarn test-cypress-test-env
+      displayName: 'Yarn run cypress (e2e) tests against test environment'
