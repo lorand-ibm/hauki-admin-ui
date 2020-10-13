@@ -24,9 +24,6 @@ USER appuser
 COPY --chown=appuser:appuser package.json yarn.lock /app/
 RUN yarn && yarn cache clean --force
 
-USER root
-RUN apt-cleanup.sh build-essential
-
 # Copy all files
 COPY --chown=appuser:appuser . .
 
