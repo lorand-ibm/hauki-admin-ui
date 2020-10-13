@@ -16,7 +16,7 @@ variables:
 pool:
   vmImage: 'ubuntu-latest'
 
-stages:<
+stages:
 - stage: Tests
   steps:
   - task: NodeTool@0
