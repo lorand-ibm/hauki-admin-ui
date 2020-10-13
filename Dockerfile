@@ -23,7 +23,6 @@ USER appuser
 # Install dependencies
 COPY --chown=appuser:appuser package.json yarn.lock /app/
 RUN yarn && yarn cache clean --force
-RUN npm rebuild node-sass
 
 # Copy all files
 COPY --chown=appuser:appuser . .
