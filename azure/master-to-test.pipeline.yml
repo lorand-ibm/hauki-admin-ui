@@ -63,9 +63,6 @@ stages:
       inputs:
         openshiftService: Azure OpenShift-hauki-admin-ui
         cmd: 'tag docker.io/helsinki/hauki-admin-ui:$(gitCommitHash) hauki-admin-ui:latest'
-  - job: E2E_test
-    displayName: Run E2E tests
-    steps:
     - task: Bash@3
       displayName: Wait for deploy to finish
       inputs:
