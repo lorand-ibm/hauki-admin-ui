@@ -5,7 +5,7 @@ import './OpeningPeriodCard.scss';
 export default function OpeningPeriodCard(): JSX.Element {
   return (
     <div className="opening-period-card">
-      <div className="opening-period-card-header-first-row">
+      <div className="opening-period-card-header">
         <h4>Kevätaukioloajat</h4>
         <IconCogwheel className="opening-period-cogwheel-icon" />
       </div>
