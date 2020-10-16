@@ -1,3 +1,5 @@
+@import '~hds-design-tokens/lib/all.scss';
+
 .page-footer {
   background-color: var(--hauki-content-background-color);
   margin-top: auto;
@@ -5,4 +7,9 @@
 
 .hauki-koros pattern {
   fill: var(--hauki-footer-background-color);
+}
+
+.footer-top-padding {
+  background-color: var(--hauki-content-background-color);
+  min-height: $spacing-layout-m;
 }

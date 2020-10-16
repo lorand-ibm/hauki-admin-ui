@@ -1,0 +1,76 @@
+@import 'node_modules/hds-design-tokens/lib/all.scss';
+
+.target-opening-hours-header {
+  height: $spacing-layout-l;
+  background-color: $color-coat-of-arms-blue;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-left: $spacing-m;
+  padding-right: $spacing-m;
+}
+
+.opening-periods-info-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.opening-periods-title {
+  font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
+  font-size: $fontsize-heading-m;
+  color: white;
+  margin-right: $spacing-s;
+}
+
+.opening-periods-info {
+  color: white;
+}
+
+.period-count {
+  font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
+  font-size: $fontsize-body-m;
+  align-self: flex-start;
+  color: white;
+  margin-right: $spacing-xl;
+}
+
+.opening-periods-language-selector {
+  font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
+  color: white;
+  font-size: $fontsize-body-m;
+  margin-right: $spacing-xl;
+}
+
+.add-new-opening-period-button {
+  font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
+  color: white;
+  border-color: white !important;
+
+  &:hover {
+    background-color: $color-coat-of-arms-blue-light-5 !important;
+    color: $color-coat-of-arms-blue !important;
+  }
+
+  &:focus {
+    color: white;
+    border-color: white !important;
+    border-width: 3px;
+  }
+}
+
+.opening-period-cards-container {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  padding-top: $spacing-2-xs;
+  padding-bottom: $spacing-2-xs;
+}
+
+.loading-opening-hours-text {
+  text-align: center;
+  margin-top: $spacing-2-xl;
+  margin-bottom: $spacing-2-xl;
+}
