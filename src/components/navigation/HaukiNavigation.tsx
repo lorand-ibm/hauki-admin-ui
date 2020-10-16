@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Navigation } from 'hds-react';
+import { AuthContextProps, useAuth } from '../../auth/auth-context';
 
 export default function HaukiNavigation(): JSX.Element {
-  const [authenticated, setAuthenticated] = useState(false);
+  const authProps: Partial<AuthContextProps> = useAuth();
+  const isAuthenticated = !!authProps.tokens;
 
   interface LanguageOption {
     label: string;
@@ -27,7 +29,7 @@ export default function HaukiNavigation(): JSX.Element {
       menuOpenAriaLabel="Sulje menu"
       skipTo="#main"
       skipToContentLabel="Siirry pääsisältöön">
-      {authenticated && (
+      {isAuthenticated && (
         <Navigation.Row>
           <Navigation.Item label="Toimipistehaku" />
           <Navigation.Item label="Paikat" />
@@ -38,10 +40,10 @@ export default function HaukiNavigation(): JSX.Element {
 
       <Navigation.Actions>
         <Navigation.User
-          authenticated={authenticated}
+          authenticated={isAuthenticated}
           label="Kirjaudu"
-          onSignIn={(): void => setAuthenticated(true)}
-          userName="John Doe">
+          onSignIn={(): void => console.log('plaa')}
+          userName={authProps.tokens?.username}>
           <Navigation.Item
             label="Profiili"
             href="https://hel.fi"
@@ -51,7 +53,7 @@ export default function HaukiNavigation(): JSX.Element {
           <Navigation.Item
             as="button"
             type="button"
-            onClick={(): void => setAuthenticated(false)}
+            onClick={(): void => console.log('plaa')}
             variant="secondary"
             label="Kirjaudu ulos"
           />
