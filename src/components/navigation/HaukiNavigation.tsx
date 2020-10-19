@@ -43,20 +43,12 @@ export default function HaukiNavigation(): JSX.Element {
         <Navigation.User
           authenticated={isAuthenticated}
           label="Kirjaudu"
-          onSignIn={(): void => console.log('plaa')}
           userName={authTokens?.username}>
           <Navigation.Item
             label="Profiili"
             href="https://hel.fi"
             target="_blank"
             variant="primary"
-          />
-          <Navigation.Item
-            as="button"
-            type="button"
-            onClick={(): void => console.log('plaa')}
-            variant="secondary"
-            label="Kirjaudu ulos"
           />
         </Navigation.User>
 
