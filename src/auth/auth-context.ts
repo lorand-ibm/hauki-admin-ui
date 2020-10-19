@@ -1,9 +1,5 @@
 import { Context, createContext, useContext } from 'react';
 import { ParsedUrlQuery } from 'querystring';
-import {
-  getStorageItem,
-  setStorageItem,
-} from '../common/utils/storage/storage';
 
 const usernameKey = 'username';
 const resourceKey = 'resource';
@@ -30,11 +26,31 @@ const tokenKeys = [
   createdAtKey,
 ];
 
+const tokenStorageKey: 'tokens' = 'tokens';
+
 export const setTokens = (
   authTokens: AuthTokens | undefined
-): AuthTokens | undefined => setStorageItem('tokens', authTokens);
+): AuthTokens | undefined => {
+  try {
+    window.localStorage.setItem(tokenStorageKey, JSON.stringify(authTokens));
+    return authTokens;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    return undefined;
+  }
+};
 
-export const getTokens = (): AuthTokens | undefined => getStorageItem('tokens');
+export const getTokens = (): AuthTokens | undefined => {
+  try {
+    const item = window.localStorage.getItem(tokenStorageKey);
+    return item ? JSON.parse(item) : undefined;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    return undefined;
+  }
+};
 
 export const isValidAuthParams = (item: {
   [key: string]: unknown;
