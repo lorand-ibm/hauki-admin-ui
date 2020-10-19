@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { Context, createContext, useContext } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import {
   getStorageItem,
@@ -50,7 +50,7 @@ export type AuthContextProps = {
   authTokens: AuthTokens;
 };
 
-export const AuthContext = createContext<Partial<AuthContextProps>>({});
+export const AuthContext: Context<{}> = createContext({});
 
 export function useAuth(): Partial<AuthContextProps> {
   return useContext(AuthContext);
