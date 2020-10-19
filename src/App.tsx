@@ -35,7 +35,9 @@ export default function App(): JSX.Element {
     authTokensFromQuery || existingAuthTokens;
 
   useEffect(() => {
-    setTokens(authTokens);
+    if (authTokens) {
+      setTokens(authTokens);
+    }
   }, [authTokens]);
 
   return (
