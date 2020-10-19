@@ -12,7 +12,7 @@ const signatureKey = 'signature';
 const validUntilKey = 'valid_until';
 const createdAtKey = 'created_at';
 
-export interface Tokens {
+export interface AuthTokens {
   [usernameKey]: string;
   [resourceKey]: string;
   [organizationKey]: string;
@@ -30,10 +30,11 @@ const tokenKeys = [
   createdAtKey,
 ];
 
-export const setTokens = (tokens: Tokens | undefined): Tokens | undefined =>
-  setStorageItem('tokens', tokens);
+export const setTokens = (
+  authTokens: AuthTokens | undefined
+): AuthTokens | undefined => setStorageItem('tokens', authTokens);
 
-export const getTokens = (): Tokens | undefined => getStorageItem('tokens');
+export const getTokens = (): AuthTokens | undefined => getStorageItem('tokens');
 
 export const isValidAuthParams = (item: {
   [key: string]: unknown;
@@ -42,11 +43,11 @@ export const isValidAuthParams = (item: {
   return JSON.stringify(tokenKeys.sort()) === JSON.stringify(itemKeys);
 };
 
-export const convertParamsToTokens = (item: ParsedUrlQuery): Tokens =>
-  (item as unknown) as Tokens;
+export const convertParamsToTokens = (urlParams: ParsedUrlQuery): AuthTokens =>
+  (urlParams as unknown) as AuthTokens;
 
 export type AuthContextProps = {
-  tokens: Tokens;
+  authTokens: AuthTokens;
 };
 
 export const AuthContext = createContext<Partial<AuthContextProps>>({});

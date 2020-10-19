@@ -8,7 +8,7 @@ import {
 import 'hds-core';
 import querystring, { ParsedUrlQuery } from 'querystring';
 import {
-  Tokens,
+  AuthTokens,
   setTokens,
   getTokens,
   convertParamsToTokens,
@@ -21,23 +21,26 @@ import './App.scss';
 import TargetPage from './target/page/TargetPage';
 
 export default function App(): JSX.Element {
-  const existingTokens: Tokens | undefined = getTokens();
+  const existingAuthTokens: AuthTokens | undefined = getTokens();
 
-  const parameterTokens: ParsedUrlQuery = querystring.parse(
+  const queryParams: ParsedUrlQuery = querystring.parse(
     window.location.search.replace('?', '')
   );
 
-  const queryTokens = isValidAuthParams(parameterTokens)
-    ? convertParamsToTokens(parameterTokens)
+  const authTokensFromQuery = isValidAuthParams(queryParams)
+    ? convertParamsToTokens(queryParams)
     : undefined;
 
+  const authTokens: AuthTokens | undefined =
+    authTokensFromQuery || existingAuthTokens;
+
   useEffect(() => {
-    setTokens(existingTokens || queryTokens);
-  }, [existingTokens, queryTokens]);
+    setTokens(authTokens);
+  }, [authTokens]);
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{ tokens: queryTokens }}>
+      <AuthContext.Provider value={{ authTokens }}>
         <Router>
           <NavigationAndFooterWrapper>
             <Main id="main">

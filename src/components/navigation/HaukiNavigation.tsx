@@ -4,7 +4,8 @@ import { AuthContextProps, useAuth } from '../../auth/auth-context';
 
 export default function HaukiNavigation(): JSX.Element {
   const authProps: Partial<AuthContextProps> = useAuth();
-  const isAuthenticated = !!authProps.tokens;
+  const { authTokens } = authProps;
+  const isAuthenticated = !!authTokens;
 
   interface LanguageOption {
     label: string;
@@ -43,7 +44,7 @@ export default function HaukiNavigation(): JSX.Element {
           authenticated={isAuthenticated}
           label="Kirjaudu"
           onSignIn={(): void => console.log('plaa')}
-          userName={authProps.tokens?.username}>
+          userName={authTokens?.username}>
           <Navigation.Item
             label="Profiili"
             href="https://hel.fi"
