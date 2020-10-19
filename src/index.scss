@@ -11,7 +11,7 @@ html {
 body {
   color: var(--hauki-content-text-color);
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: overlay;
   display: flex;
   flex-direction: column;
   font-family: var(--font-default);
