@@ -7,6 +7,7 @@ import api, {
 } from '../../common/utils/api/api';
 import Collapse from '../../components/collapse/Collapse';
 import { ExternalLink } from '../../components/link/Link';
+import TargetOpeningHours from '../target-opening-hours/TargetOpeningHours';
 import './TargetPage.scss';
 
 const hasText = (str: string | null | undefined): boolean =>
@@ -14,7 +15,9 @@ const hasText = (str: string | null | undefined): boolean =>
 
 const TargetInfo = ({ target }: { target?: Target }): JSX.Element => (
   <>
-    <h1 className="target-info-title">{target?.name}</h1>
+    <h1 data-test="target-info" className="target-info-title">
+      {target?.name}
+    </h1>
     {hasText(target?.address) && (
       <div>
         <span>Osoite: </span>
@@ -137,6 +140,7 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
         </p>
       </TargetDetailsSection>
       <TargetSourceLink id="target-source-link" target={target} />
+      <TargetOpeningHours id={id} />
     </>
   );
 }

@@ -5,11 +5,13 @@
 html {
   height: 100%;
   margin: 0;
+  background-color: var(--hauki-content-background-color);
 }
 
 body {
   color: var(--hauki-content-text-color);
   height: 100%;
+  overflow-y: overlay;
   display: flex;
   flex-direction: column;
   font-family: var(--font-default);

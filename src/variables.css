@@ -7,6 +7,19 @@
   --hauki-content-link-color: var(--color-coat-of-arms-blue);
   --hauki-content-border-color: #c4c4c4;
   --hauki-footer-background-color: var(--color-coat-of-arms-blue-light-20);
+  --opening-period-card-background-color: #f9f9f9;
+  --opening-period-card-border-color: #e0e0e0;
+  --target-opening-hours-header-background-color: var(--color-coat-of-arms-blue);
+  --opening-periods-title-color: white;
+  --opening-periods-info-color: white;
+  --period-count-color: white;
+  --opening-periods-language-selector-color: white;
+  --add-new-opening-period-button-color: white;
+  --add-new-opening-period-button-border-color: white;
+  --add-new-opening-period-button-hover-background-color: var(--color-coat-of-arms-blue-light-5);
+  --add-new-opening-period-button-hover-color: var(--color-coat-of-arms-blue);
+  --add-new-opening-period-button-focus-color: white;
+  --add-new-opening-period-button-focus-border-color: white;
 }
 
 :root .navigation-header {

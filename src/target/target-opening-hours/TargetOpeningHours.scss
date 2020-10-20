@@ -1,0 +1,78 @@
+@import 'node_modules/hds-design-tokens/lib/all.scss';
+
+.target-opening-hours-header {
+  min-height: 4rem;
+  background-color: var(--target-opening-hours-header-background-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-left: $spacing-m;
+  padding-right: $spacing-m;
+}
+
+.opening-periods-info-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.opening-periods-title {
+  font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
+  font-size: $fontsize-heading-m;
+  color: var(--opening-periods-title-color);
+  margin-right: $spacing-s;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.opening-periods-info {
+  color: var(--opening-periods-info-color);
+}
+
+.period-count {
+  font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
+  font-size: $fontsize-body-m;
+  align-self: flex-start;
+  color: var(--period-count-color);
+  margin-right: $spacing-xl;
+}
+
+.opening-periods-language-selector {
+  font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
+  color: var(--opening-periods-language-selector-color);
+  font-size: $fontsize-body-m;
+  margin-right: $spacing-xl;
+}
+
+.add-new-opening-period-button {
+  font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
+  color: var(--add-new-opening-period-button-color);
+  border-color: var(--add-new-opening-period-button-border-color) !important;
+
+  &:hover {
+    background-color: var(--add-new-opening-period-button-hover-background-color) !important;
+    color: var(--add-new-opening-period-button-hover-color) !important;
+  }
+
+  &:focus {
+    color: var(--add-new-opening-period-button-focus-color);
+    border-color: var(--add-new-opening-period-button-focus-border-color) !important;
+    border-width: 3px;
+  }
+}
+
+.opening-period-cards-container {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  padding-top: $spacing-2-xs;
+  padding-bottom: $spacing-2-xs;
+}
+
+.loading-opening-hours-text {
+  text-align: center;
+  margin-top: $spacing-2-xl;
+  margin-bottom: $spacing-2-xl;
+}

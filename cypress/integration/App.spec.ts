@@ -12,6 +12,15 @@ describe('Open aukiolot app', () => {
 
   it('Has no detectable a11y violations on load', () => {
     cy.injectAxe();
-    cy.checkA11y();
+    cy.get('[data-test=target-info]', { timeout: 5000 }).should('be.visible');
+    cy.checkA11y(
+      {},
+      {
+        rules: {
+          'duplicate-id-aria': { enabled: false }, // TODO: HAUKI-185
+          'duplicate-id': { enabled: false },
+        },
+      }
+    );
   });
 });
