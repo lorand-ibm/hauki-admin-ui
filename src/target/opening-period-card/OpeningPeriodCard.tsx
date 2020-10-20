@@ -6,7 +6,7 @@ export default function OpeningPeriodCard(): JSX.Element {
   return (
     <div className="opening-period-card">
       <div className="opening-period-card-header">
-        <h4>Kevätaukioloajat</h4>
+        <h4>Kovakoodatut Testiaukioloajat</h4>
         <IconCogwheel className="opening-period-cogwheel-icon" />
       </div>
       <h5>3.3.2020 — 20.6.2020</h5>
