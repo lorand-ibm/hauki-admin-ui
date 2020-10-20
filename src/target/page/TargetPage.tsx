@@ -80,11 +80,12 @@ const TargetSourceLink = ({
         Toimipisteeseen liittyvät tiedot kieliversioineen ovat lähtöisin
         Toimipisterekisteristä. Tietojen muuttaminen on mahdollista
         Toimipisterekisterissä.
+        <br />
+        <ExternalLink
+          href={adminLink.url}
+          text="Tarkastele toimipisteen tietoja Toimipisterekisterissä"
+        />
       </p>
-      <ExternalLink
-        href={adminLink.url}
-        text="Tarkastele toimipisteen tietoja Toimipisterekisterissä"
-      />
     </TargetSection>
   );
 };
@@ -140,7 +141,9 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
         </p>
       </TargetDetailsSection>
       <TargetSourceLink id="target-source-link" target={target} />
-      <TargetOpeningHours id={id} />
+      <TargetSection id="target-opening-hours">
+        <TargetOpeningHours id={id} />
+      </TargetSection>
     </>
   );
 }

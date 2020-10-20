@@ -24,49 +24,47 @@ export default function TargetOpeningHours({
     value.toUpperCase();
 
   return (
-    <section className="target-opening-hours-section">
-      <Collapse
-        isOpen
-        collapseContentId={`${id}-opening-hours-section`}
-        title="Toimipisteen aukiolotiedot">
-        <p>
-          Toimipisteen aukiolotietoja muokataan jaksokohtaisesti. Aukiolojaksot
-          voivat olla julkaistuja tai julkaisemattomia. Alla voit selata myös
-          tulevia ja menneitä aukiolojaksoja. Näet alla myös eri kieliversiot
-          valitsemalla kielen valikosta. Huomioithan, että palvelu voi itse
-          valita aukiolojaksojen esitystavan, se ei välttämättä ole alla näkyvän
-          kaltainen.
-        </p>
-        <header className="target-opening-hours-header">
-          <div className="opening-periods-info-container">
-            <h3 className="opening-periods-title">Aukiolojaksot</h3>
-            <IconInfoCircle className="opening-periods-info" />
-          </div>
-          <div className="opening-periods-info-container">
-            <p className="period-count">4 jaksoa</p>
-            <Navigation.LanguageSelector
-              className="opening-periods-language-selector"
-              ariaLabel="Aukioloaikojen valittu kieli"
-              options={languageOptions}
-              formatSelectedValue={formatSelectedValue}
-              onLanguageChange={setLanguage}
-              value={language}
-            />
-            <Button
-              size="small"
-              className="add-new-opening-period-button"
-              variant="secondary">
-              Lisää uusi +
-            </Button>
-          </div>
-        </header>
-        <div className="opening-period-cards-container">
-          <OpeningPeriodCard />
-          <OpeningPeriodCard />
-          <OpeningPeriodCard />
-          <OpeningPeriodCard />
+    <Collapse
+      isOpen
+      collapseContentId={`${id}-opening-hours-section`}
+      title="Toimipisteen aukiolotiedot">
+      <p>
+        Toimipisteen aukiolotietoja muokataan jaksokohtaisesti. Aukiolojaksot
+        voivat olla julkaistuja tai julkaisemattomia. Alla voit selata myös
+        tulevia ja menneitä aukiolojaksoja. Näet alla myös eri kieliversiot
+        valitsemalla kielen valikosta. Huomioithan, että palvelu voi itse valita
+        aukiolojaksojen esitystavan, se ei välttämättä ole alla näkyvän
+        kaltainen.
+      </p>
+      <header className="target-opening-hours-header">
+        <div className="opening-periods-info-container">
+          <h3 className="opening-periods-title">Aukiolojaksot</h3>
+          <IconInfoCircle className="opening-periods-info" />
         </div>
-      </Collapse>
-    </section>
+        <div className="opening-periods-info-container">
+          <p className="period-count">4 jaksoa</p>
+          <Navigation.LanguageSelector
+            className="opening-periods-language-selector"
+            ariaLabel="Aukioloaikojen valittu kieli"
+            options={languageOptions}
+            formatSelectedValue={formatSelectedValue}
+            onLanguageChange={setLanguage}
+            value={language}
+          />
+          <Button
+            size="small"
+            className="add-new-opening-period-button"
+            variant="secondary">
+            Lisää uusi +
+          </Button>
+        </div>
+      </header>
+      <div className="opening-period-cards-container">
+        <OpeningPeriodCard />
+        <OpeningPeriodCard />
+        <OpeningPeriodCard />
+        <OpeningPeriodCard />
+      </div>
+    </Collapse>
   );
 }
