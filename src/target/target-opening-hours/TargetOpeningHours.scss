@@ -1,7 +1,7 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
 .target-opening-hours-header {
-  height: $spacing-layout-l;
+  min-height: $spacing-layout-l;
   background-color: $color-coat-of-arms-blue;
   display: flex;
   flex-direction: row;
@@ -23,6 +23,8 @@
   font-size: $fontsize-heading-m;
   color: white;
   margin-right: $spacing-s;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .opening-periods-info {
