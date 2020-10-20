@@ -15,7 +15,9 @@ const hasText = (str: string | null | undefined): boolean =>
 
 const TargetInfo = ({ target }: { target?: Target }): JSX.Element => (
   <>
-    <h1 className="target-info-title">{target?.name}</h1>
+    <h1 data-test="target-info" className="target-info-title">
+      {target?.name}
+    </h1>
     {hasText(target?.address) && (
       <div>
         <span>Osoite: </span>

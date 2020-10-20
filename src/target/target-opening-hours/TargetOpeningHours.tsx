@@ -46,7 +46,7 @@ export default function TargetOpeningHours({
             <p className="period-count">4 jaksoa</p>
             <Navigation.LanguageSelector
               className="opening-periods-language-selector"
-              ariaLabel="Valittu kieli"
+              ariaLabel="Aukioloaikojen valittu kieli"
               options={languageOptions}
               formatSelectedValue={formatSelectedValue}
               onLanguageChange={setLanguage}
