@@ -24,7 +24,7 @@ export default function TargetOpeningHours({
     value.toUpperCase();
 
   return (
-    <section>
+    <section className="target-opening-hours-section">
       <Collapse
         isOpen
         collapseContentId={`${id}-opening-hours-section`}
