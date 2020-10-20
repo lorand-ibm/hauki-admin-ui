@@ -3,8 +3,8 @@
 .opening-period-card {
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
   box-sizing: border-box;
-  border: 1px solid #e0e0e0;
-  background-color: #f9f9f9;
+  border: 1px solid var(--opening-period-card-border-color);
+  background-color: var(--opening-period-card-background-color);
   margin-right: $spacing-xs;
   min-width: calc((100% / 3.5) - var(--spacing-xs));
   padding: $spacing-m;
