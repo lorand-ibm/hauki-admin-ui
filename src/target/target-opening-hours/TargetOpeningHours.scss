@@ -2,7 +2,7 @@
 
 .target-opening-hours-header {
   min-height: $spacing-layout-l;
-  background-color: $color-coat-of-arms-blue;
+  background-color: var(--target-opening-hours-header-background-color);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -21,44 +21,44 @@
 .opening-periods-title {
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
   font-size: $fontsize-heading-m;
-  color: white;
+  color: var(--opening-periods-title-color);
   margin-right: $spacing-s;
   margin-top: 0;
   margin-bottom: 0;
 }
 
 .opening-periods-info {
-  color: white;
+  color: var(--opening-periods-info-color);
 }
 
 .period-count {
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
   font-size: $fontsize-body-m;
   align-self: flex-start;
-  color: white;
+  color: var(--period-count-color);
   margin-right: $spacing-xl;
 }
 
 .opening-periods-language-selector {
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
-  color: white;
+  color: var(--opening-periods-language-selector-color);
   font-size: $fontsize-body-m;
   margin-right: $spacing-xl;
 }
 
 .add-new-opening-period-button {
   font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
-  color: white;
-  border-color: white !important;
+  color: var(--add-new-opening-period-button-color);
+  border-color: var(--add-new-opening-period-button-border-color) !important;
 
   &:hover {
-    background-color: $color-coat-of-arms-blue-light-5 !important;
-    color: $color-coat-of-arms-blue !important;
+    background-color: var(--add-new-opening-period-button-hover-background-color) !important;
+    color: var(--add-new-opening-period-button-hover-color) !important;
   }
 
   &:focus {
-    color: white;
-    border-color: white !important;
+    color: var(--add-new-opening-period-button-focus-color);
+    border-color: var(--add-new-opening-period-button-focus-border-color) !important;
     border-width: 3px;
   }
 }
