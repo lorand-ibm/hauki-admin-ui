@@ -1,7 +1,7 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
 .target-opening-hours-header {
-  min-height: $spacing-layout-l;
+  min-height: 4rem;
   background-color: var(--target-opening-hours-header-background-color);
   display: flex;
   flex-direction: row;
