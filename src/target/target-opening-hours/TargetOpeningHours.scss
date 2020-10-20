@@ -1,5 +1,9 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
+.target-opening-hours-section {
+  margin-top: var(--spacing-layout-m);
+}
+
 .target-opening-hours-header {
   min-height: 4rem;
   background-color: var(--target-opening-hours-header-background-color);
@@ -46,7 +50,7 @@
   margin-right: $spacing-xl;
 }
 
-.add-new-opening-period-button {
+.add-new-opening-period-button.add-new-opening-period-button {
   font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
   color: var(--add-new-opening-period-button-color);
   border-color: var(--add-new-opening-period-button-border-color) !important;
