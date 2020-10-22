@@ -55,6 +55,7 @@ export default function App(): JSX.Element {
         })
         .catch(() => {
           setLoading(false);
+          setAuthTokensState(undefined);
           removeTokens();
         });
     } else {
@@ -62,35 +63,33 @@ export default function App(): JSX.Element {
     }
   }, []);
 
-  if (isLoading) {
-    return (
-      <div>
-        <h1>Sovellus käynnistyy..</h1>
-      </div>
-    );
-  }
-
   return (
     <div className="App">
       <AuthContext.Provider value={{ authTokens: authTokensState }}>
         <Router>
           <NavigationAndFooterWrapper>
             <Main id="main">
-              <Switch>
-                <Route exact path="/">
-                  <h1>Etusivu</h1>
-                </Route>
-                <Route
-                  id="target-route"
-                  exact
-                  path="/target/:id"
-                  render={({
-                    match,
-                  }: RouteComponentProps<{ id: string }>): ReactElement => (
-                    <TargetPage id={match.params.id} />
-                  )}
-                />
-              </Switch>
+              {isLoading ? (
+                <div>
+                  <h1>Sovellus käynnistyy..</h1>
+                </div>
+              ) : (
+                <Switch>
+                  <Route exact path="/">
+                    <h1>Etusivu</h1>
+                  </Route>
+                  <Route
+                    id="target-route"
+                    exact
+                    path="/target/:id"
+                    render={({
+                      match,
+                    }: RouteComponentProps<{ id: string }>): ReactElement => (
+                      <TargetPage id={match.params.id} />
+                    )}
+                  />
+                </Switch>
+              )}
             </Main>
           </NavigationAndFooterWrapper>
         </Router>
