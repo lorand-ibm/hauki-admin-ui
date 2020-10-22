@@ -26,12 +26,10 @@ type OptionalAuthTokens = AuthTokens | undefined;
 
 export default function App(): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [authTokensState, setAuthTokensState] = useState<
-    AuthTokens | undefined
-  >();
+  const [authTokens, setAuthTokens] = useState<OptionalAuthTokens>();
 
   useEffect(() => {
-    const existingAuthTokens: OptionalAuthTokens = getTokens();
+    const storedAuthTokens: OptionalAuthTokens = getTokens();
     const queryParams: ParsedUrlQuery = querystring.parse(
       window.location.search.replace('?', '')
     );
@@ -42,20 +40,22 @@ export default function App(): JSX.Element {
       ? convertParamsToTokens(queryParams)
       : undefined;
 
-    const authTokens: OptionalAuthTokens =
-      authTokensFromQuery || existingAuthTokens;
+    const authTokensFromQueryOrStore: OptionalAuthTokens =
+      authTokensFromQuery || storedAuthTokens;
 
-    if (authTokens) {
+    if (authTokensFromQueryOrStore) {
       api
-        .testAuthCredentials(authTokens)
+        .testAuthCredentials(authTokensFromQueryOrStore)
         .then(() => {
-          storeTokens(authTokens);
-          setAuthTokensState(authTokens);
+          storeTokens(authTokensFromQueryOrStore);
+          setAuthTokens(authTokensFromQueryOrStore);
           setLoading(false);
         })
-        .catch(() => {
+        .catch((e) => {
+          // eslint-disable-next-line no-console
+          console.error(e);
           setLoading(false);
-          setAuthTokensState(undefined);
+          setAuthTokens(undefined);
           removeTokens();
         });
     } else {
@@ -65,7 +65,7 @@ export default function App(): JSX.Element {
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{ authTokens: authTokensState }}>
+      <AuthContext.Provider value={{ authTokens }}>
         <Router>
           <NavigationAndFooterWrapper>
             <Main id="main">
