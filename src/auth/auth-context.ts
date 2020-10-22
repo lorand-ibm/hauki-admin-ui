@@ -41,6 +41,15 @@ export const setTokens = (
   }
 };
 
+export const removeTokens = (): void => {
+  try {
+    window.localStorage.removeItem(tokenStorageKey);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+  }
+};
+
 export const getTokens = (): AuthTokens | undefined => {
   try {
     const item = window.localStorage.getItem(tokenStorageKey);
