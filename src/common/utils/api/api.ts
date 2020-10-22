@@ -1,8 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
+import { AuthTokens } from '../../../auth/auth-context';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 
 const targetBasePath = '/target';
+const authRequiredTest = '/auth_required_test';
 
 interface RequestParameters {
   [key: string]:
@@ -63,7 +65,18 @@ export interface Target {
   links: [SourceLink];
 }
 
+export interface AuthTestResponse {
+  message: string;
+  username: string;
+}
+
 export default {
   getTarget: (id: string): Promise<Target> =>
     apiGet<Target>({ path: `${targetBasePath}/${id}` }),
+
+  testAuthCredentials: (authTokens: AuthTokens): Promise<AuthTestResponse> =>
+    apiGet<AuthTestResponse>({
+      path: `${authRequiredTest}`,
+      parameters: { ...authTokens },
+    }),
 };
