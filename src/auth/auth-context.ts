@@ -28,7 +28,7 @@ const tokenKeys = [
 
 const tokenStorageKey: 'tokens' = 'tokens';
 
-export const setTokens = (
+export const storeTokens = (
   authTokens: AuthTokens | undefined
 ): AuthTokens | undefined => {
   try {
