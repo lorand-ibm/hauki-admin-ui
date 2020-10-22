@@ -22,6 +22,8 @@ import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapp
 import './App.scss';
 import TargetPage from './target/page/TargetPage';
 
+type OptionalAuthTokens = AuthTokens | undefined;
+
 export default function App(): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [authTokensState, setAuthTokensState] = useState<
@@ -29,16 +31,19 @@ export default function App(): JSX.Element {
   >();
 
   useEffect(() => {
-    const existingAuthTokens: AuthTokens | undefined = getTokens();
+    const existingAuthTokens: OptionalAuthTokens = getTokens();
     const queryParams: ParsedUrlQuery = querystring.parse(
       window.location.search.replace('?', '')
     );
 
-    const authTokensFromQuery = isValidAuthParams(queryParams)
+    const authTokensFromQuery: OptionalAuthTokens = isValidAuthParams(
+      queryParams
+    )
       ? convertParamsToTokens(queryParams)
       : undefined;
 
-    const authTokens = authTokensFromQuery || existingAuthTokens;
+    const authTokens: OptionalAuthTokens =
+      authTokensFromQuery || existingAuthTokens;
 
     if (authTokens) {
       api
