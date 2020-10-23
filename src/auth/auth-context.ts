@@ -64,9 +64,12 @@ export const getTokens = (): AuthTokens | undefined => {
 export const pickAuthParams = (
   parameters: ParsedUrlQuery
 ): AuthTokens | undefined => {
-  const parameterKeys: string[] = Object.keys(parameters).sort();
+  const authParameterKeys: string[] = Object.keys(parameters)
+    .filter((parameter) => tokenKeys.includes(parameter))
+    .sort();
+
   const hasAuthParams =
-    JSON.stringify(tokenKeys.sort()) === JSON.stringify(parameterKeys);
+    JSON.stringify(tokenKeys.sort()) === JSON.stringify(authParameterKeys);
 
   return hasAuthParams
     ? (tokenKeys.reduce(
