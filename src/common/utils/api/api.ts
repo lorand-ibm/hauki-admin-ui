@@ -36,16 +36,27 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
     ...parameters,
     format: ApiResponseFormat.json,
   };
-  const response: AxiosResponse<T> = await axios.request<T, AxiosResponse<T>>({
-    url: `${apiBaseUrl}/v1${path}`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'get',
-    params: apiParameters,
-  });
 
-  return response.data;
+  try {
+    const response: AxiosResponse<T> = await axios.request<T, AxiosResponse<T>>(
+      {
+        url: `${apiBaseUrl}/v1${path}`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'get',
+        params: apiParameters,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    const errorMessage: string | undefined = error.response?.data?.detail;
+    if (errorMessage) {
+      throw new Error(errorMessage);
+    } else {
+      throw new Error(error);
+    }
+  }
 }
 
 export enum SourceLinkTypes {
