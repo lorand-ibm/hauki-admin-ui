@@ -27,6 +27,11 @@ export default function App(): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [authTokens, setAuthTokens] = useState<OptionalAuthTokens>();
 
+  const resetTokens = (): void => {
+    setAuthTokens(undefined);
+    removeTokens();
+  };
+
   useEffect(() => {
     const storedAuthTokens: OptionalAuthTokens = getTokens();
     const queryParams: ParsedUrlQuery = querystring.parse(
@@ -48,11 +53,11 @@ export default function App(): JSX.Element {
         .catch((e) => {
           // eslint-disable-next-line no-console
           console.error(`Authentication failed: ${e.message}`);
+          resetTokens();
           setLoading(false);
-          setAuthTokens(undefined);
-          removeTokens();
         });
     } else {
+      resetTokens();
       setLoading(false);
     }
   }, []);
