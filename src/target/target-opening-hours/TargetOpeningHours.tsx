@@ -39,7 +39,10 @@ export default function TargetOpeningHours({
       <header className="target-opening-hours-header">
         <div className="opening-periods-info-container">
           <h3 className="opening-periods-title">Aukiolojaksot</h3>
-          <IconInfoCircle className="opening-periods-info" />
+          <IconInfoCircle
+            aria-label="Lisätietoja aukiolojaksoista nappi"
+            className="opening-periods-info"
+          />
         </div>
         <div className="opening-periods-info-container">
           <p className="period-count">4 jaksoa</p>

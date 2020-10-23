@@ -1,15 +1,27 @@
 import React from 'react';
-import { Koros } from 'hds-react';
+import { Footer } from 'hds-react';
 import './HaukiFooter.scss';
 
 export default function HaukiFooter(): JSX.Element {
-  // TODO: HAUKI-97 apply HDS Footer component once it is ready
   return (
     <>
       <div className="footer-top-padding" />
-      <footer className="page-footer">
-        <Koros type="basic" className="hauki-koros" />
-      </footer>
+      <Footer
+        className="page-footer"
+        title="Aukiolot"
+        theme={{
+          '--footer-background': 'var(--color-coat-of-arms-blue-light-20)',
+        }}>
+        <Footer.Base
+          copyrightHolder="Copyright"
+          copyrightText="Kaikki oikeudet pidätetään">
+          <Footer.Item
+            href="/content-license.txt"
+            target="_blank"
+            label="Sisältölisenssi CC BY 4.0"
+          />
+        </Footer.Base>
+      </Footer>
     </>
   );
 }

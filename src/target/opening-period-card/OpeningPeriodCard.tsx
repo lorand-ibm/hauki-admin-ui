@@ -7,7 +7,10 @@ export default function OpeningPeriodCard(): JSX.Element {
     <div className="opening-period-card">
       <div className="opening-period-card-header">
         <h4>Kovakoodatut Testiaukioloajat</h4>
-        <IconCogwheel className="opening-period-cogwheel-icon" />
+        <IconCogwheel
+          className="opening-period-cogwheel-icon"
+          aria-label="Jakson toiminnot nappi"
+        />
       </div>
       <h5>3.3.2020 — 20.6.2020</h5>
       <div className="opening-hours-column">
