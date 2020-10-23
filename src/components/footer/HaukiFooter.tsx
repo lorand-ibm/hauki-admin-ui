@@ -12,9 +12,7 @@ export default function HaukiFooter(): JSX.Element {
         theme={{
           '--footer-background': 'var(--color-coat-of-arms-blue-light-20)',
         }}>
-        <Footer.Base
-          copyrightHolder="Copyright"
-          copyrightText="Kaikki oikeudet pidätetään">
+        <Footer.Base>
           <Footer.Item
             href="/content-license.txt"
             target="_blank"
