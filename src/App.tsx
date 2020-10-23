@@ -47,7 +47,7 @@ export default function App(): JSX.Element {
         })
         .catch((e) => {
           // eslint-disable-next-line no-console
-          console.error(e);
+          console.error(`Authentication failed: ${e.message}`);
           setLoading(false);
           setAuthTokens(undefined);
           removeTokens();
