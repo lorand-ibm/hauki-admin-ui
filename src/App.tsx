@@ -12,8 +12,7 @@ import {
   storeTokens,
   getTokens,
   removeTokens,
-  convertParamsToTokens,
-  isValidAuthParams,
+  pickAuthParams,
   AuthContext,
 } from './auth/auth-context';
 import api from './common/utils/api/api';
@@ -33,12 +32,7 @@ export default function App(): JSX.Element {
     const queryParams: ParsedUrlQuery = querystring.parse(
       window.location.search.replace('?', '')
     );
-
-    const authTokensFromQuery: OptionalAuthTokens = isValidAuthParams(
-      queryParams
-    )
-      ? convertParamsToTokens(queryParams)
-      : undefined;
+    const authTokensFromQuery: OptionalAuthTokens = pickAuthParams(queryParams);
 
     const authTokensFromQueryOrStore: OptionalAuthTokens =
       authTokensFromQuery || storedAuthTokens;

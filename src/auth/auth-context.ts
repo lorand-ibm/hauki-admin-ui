@@ -61,11 +61,19 @@ export const getTokens = (): AuthTokens | undefined => {
   }
 };
 
-export const isValidAuthParams = (item: {
-  [key: string]: unknown;
-}): boolean => {
-  const itemKeys: string[] = Object.keys(item).sort();
-  return JSON.stringify(tokenKeys.sort()) === JSON.stringify(itemKeys);
+export const pickAuthParams = (
+  parameters: ParsedUrlQuery
+): AuthTokens | undefined => {
+  const parameterKeys: string[] = Object.keys(parameters).sort();
+  const hasAuthParams =
+    JSON.stringify(tokenKeys.sort()) === JSON.stringify(parameterKeys);
+
+  return hasAuthParams
+    ? (tokenKeys.reduce(
+        (acc, key) => Object.assign(acc, { [key]: parameters[key] }),
+        {}
+      ) as AuthTokens)
+    : undefined;
 };
 
 export const convertParamsToTokens = (urlParams: ParsedUrlQuery): AuthTokens =>
