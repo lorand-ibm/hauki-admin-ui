@@ -12,19 +12,16 @@
   box-sizing: border-box;
   line-height: var(--lineheight-l);
   margin: 0 auto;
-  padding: $spacing-s;
+  padding-top: $spacing-s;
+  padding-bottom: $spacing-s;
+  padding-left: 0;
+  padding-right: 0;
   width: 100%;
 }
 
 .section {
   & + & {
     margin-top: $spacing-5-xl;
-  }
-}
-
-@media screen and (min-width: $breakpoint-m) {
-  .main-container {
-    padding: $spacing-m;
   }
 }
 
