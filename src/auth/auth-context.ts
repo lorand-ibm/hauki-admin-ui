@@ -17,10 +17,8 @@ export interface AuthTokens {
   [createdAtKey]: string;
 }
 
-const tokenKeys = [
+const requiredAuthKeys = [
   usernameKey,
-  resourceKey,
-  organizationKey,
   signatureKey,
   validUntilKey,
   createdAtKey,
@@ -65,14 +63,15 @@ export const pickAuthParams = (
   parameters: ParsedUrlQuery
 ): AuthTokens | undefined => {
   const authParameterKeys: string[] = Object.keys(parameters)
-    .filter((parameter) => tokenKeys.includes(parameter))
+    .filter((parameter) => requiredAuthKeys.includes(parameter))
     .sort();
 
   const hasAuthParams =
-    JSON.stringify(tokenKeys.sort()) === JSON.stringify(authParameterKeys);
+    JSON.stringify(requiredAuthKeys.sort()) ===
+    JSON.stringify(authParameterKeys);
 
   return hasAuthParams
-    ? (tokenKeys.reduce(
+    ? (requiredAuthKeys.reduce(
         (acc, key) => Object.assign(acc, { [key]: parameters[key] }),
         {}
       ) as AuthTokens)
