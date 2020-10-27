@@ -8,10 +8,16 @@
   background-color: var(--hauki-content-background-color);
 }
 
+.main {
+  display: flex;
+  justify-content: center;
+}
+
 .main-container {
   box-sizing: border-box;
   line-height: var(--lineheight-l);
-  margin: 0 auto;
+  margin-top: 0;
+  margin-bottom: 0;
   padding-top: $spacing-s;
   padding-bottom: $spacing-s;
   padding-left: 0;
@@ -22,6 +28,22 @@
 .section {
   & + & {
     margin-top: $spacing-5-xl;
+  }
+}
+
+@media screen and (max-width: $breakpoint-xl) {
+  .main-container {
+    margin-left: $spacing-m;
+    margin-right: $spacing-m;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .main-container {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: $spacing-m;
+    padding-right: $spacing-m;
   }
 }
 
