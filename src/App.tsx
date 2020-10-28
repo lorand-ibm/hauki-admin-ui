@@ -27,37 +27,42 @@ export default function App(): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [authTokens, setAuthTokens] = useState<OptionalAuthTokens>();
 
-  const resetTokens = (): void => {
+  const saveAuthTokes = (tokens: OptionalAuthTokens): void => {
+    storeTokens(tokens);
+    setAuthTokens(tokens);
+    setLoading(false);
+  };
+
+  const onError = (e: Error): void => {
+    // eslint-disable-next-line no-console
+    console.error(`Authentication failed: ${e.message}`);
     setAuthTokens(undefined);
-    removeTokens();
+    setLoading(false);
   };
 
   useEffect(() => {
-    const storedAuthTokens: OptionalAuthTokens = getTokens();
     const queryParams: ParsedUrlQuery = querystring.parse(
       window.location.search.replace('?', '')
     );
     const authTokensFromQuery: OptionalAuthTokens = pickAuthParams(queryParams);
+    const storedAuthTokens: OptionalAuthTokens = getTokens();
 
-    const authTokensFromQueryOrStore: OptionalAuthTokens =
-      authTokensFromQuery || storedAuthTokens;
+    if (storedAuthTokens) {
+      removeTokens();
+    }
 
-    if (authTokensFromQueryOrStore) {
+    if (authTokensFromQuery) {
       api
-        .testAuthCredentials(authTokensFromQueryOrStore)
-        .then(() => {
-          storeTokens(authTokensFromQueryOrStore);
-          setAuthTokens(authTokensFromQueryOrStore);
-          setLoading(false);
-        })
-        .catch((e) => {
-          // eslint-disable-next-line no-console
-          console.error(`Authentication failed: ${e.message}`);
-          resetTokens();
-          setLoading(false);
-        });
+        .testAuthCredentials(authTokensFromQuery)
+        .then(() => saveAuthTokes(authTokensFromQuery))
+        .catch(onError);
+    } else if (storedAuthTokens) {
+      api
+        .testAuthCredentials(storedAuthTokens)
+        .then(() => saveAuthTokes(storedAuthTokens))
+        .catch(onError);
     } else {
-      resetTokens();
+      setAuthTokens(undefined);
       setLoading(false);
     }
   }, []);
