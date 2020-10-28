@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navigation } from 'hds-react';
 import { AuthContextProps, useAuth } from '../../auth/auth-context';
+import './HaukiNavigation.scss';
 
 export default function HaukiNavigation(): JSX.Element {
   const authProps: Partial<AuthContextProps> = useAuth();
