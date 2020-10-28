@@ -21,6 +21,9 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `yarn test-cypress`
 
+**Prequisites:**
+All e2e-tests require an environment variable `CYPRESS_AUTH_QUERY_PARAMETERS`.
+
 Runs cypress (e2e) tests locally.
 
 ### `yarn build`
