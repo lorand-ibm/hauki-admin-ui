@@ -2,6 +2,7 @@
 
 declare namespace Cypress {
   interface Chainable {
-    visitTargetPage(id: string, isAuthenticated?: boolean): void;
+    visitTargetPageAsUnauthenticatedUser(id: string): void;
+    visitTargetPageAsAuthenticatedUser(id: string): void;
   }
 }

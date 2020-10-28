@@ -17,7 +17,7 @@ const parseUserName = (queryParams: string): string | undefined => {
 
 describe('Unauthenticated user', () => {
   beforeEach(() => {
-    cy.visitTargetPage(Cypress.env('target-id'), false);
+    cy.visitTargetPageAsUnauthenticatedUser(Cypress.env('target-id'));
   });
 
   it('Does not have username in the header', () => {
@@ -27,7 +27,7 @@ describe('Unauthenticated user', () => {
 
 describe('Authenticated user', () => {
   beforeEach(() => {
-    cy.visitTargetPage(Cypress.env('target-id'));
+    cy.visitTargetPageAsAuthenticatedUser(Cypress.env('target-id'));
   });
 
   it('Has username in header', () => {

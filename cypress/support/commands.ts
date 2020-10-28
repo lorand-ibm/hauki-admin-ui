@@ -25,11 +25,15 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add(
-  'visitTargetPage',
-  (resourceId: string, isAuthenticated = true) => {
-    const path = `/target/${resourceId}?${
-      isAuthenticated ? Cypress.env('AUTH_QUERY_PARAMETERS') : ''
-    }`;
-    cy.visit(path);
+  'visitTargetPageAsUnauthenticatedUser',
+  (resourceId: string) => {
+    cy.visit(`/target/${resourceId}`);
+  }
+);
+
+Cypress.Commands.add(
+  'visitTargetPageAsAuthenticatedUser',
+  (resourceId: string) => {
+    cy.visit(`/target/${resourceId}?${Cypress.env('AUTH_QUERY_PARAMETERS')}`);
   }
 );
