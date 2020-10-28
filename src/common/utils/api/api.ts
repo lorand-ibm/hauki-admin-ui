@@ -76,7 +76,7 @@ export interface Target {
   links: [SourceLink];
 }
 
-export interface AuthTestResponse {
+interface AuthTestResponse {
   message: string;
   username: string;
 }
