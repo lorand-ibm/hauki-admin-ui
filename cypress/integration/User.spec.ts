@@ -13,7 +13,7 @@ const authObject = {
 
 describe('Unauthenticated user', () => {
   beforeEach(() => {
-    cy.visit(`/target/${Cypress.env('target-id')}`);
+    cy.visitTargetPage(Cypress.env('target-id'), false);
   });
 
   it('Does not have username in the header', () => {
@@ -23,9 +23,7 @@ describe('Unauthenticated user', () => {
 
 describe('Authenticated user', () => {
   beforeEach(() => {
-    cy.visit(
-      `/target/${Cypress.env('target-id')}?${querystring.stringify(authObject)}`
-    );
+    cy.visitTargetPage(Cypress.env('target-id'));
   });
 
   it('Has username in header', () => {

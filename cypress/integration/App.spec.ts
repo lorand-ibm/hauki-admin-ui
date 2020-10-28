@@ -1,9 +1,10 @@
 /// <reference types="cypress" />
 /// <reference types="cypress-axe" />
+/// <reference path="../index.d.ts" />
 
 describe('Open aukiolot app', () => {
   beforeEach(() => {
-    cy.visit(`/target/${Cypress.env('target-id')}`);
+    cy.visitTargetPage(Cypress.env('target-id'));
   });
 
   it('Contains correct page title', () => {
