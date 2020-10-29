@@ -14,6 +14,7 @@ import {
   parseAuthParams,
   AuthContext,
 } from './auth/auth-context';
+import PrivateRoute from './auth/PrivateRoute';
 import api from './common/utils/api/api';
 import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
@@ -85,8 +86,8 @@ export default function App(): JSX.Element {
                   <Route exact path="/">
                     <h1>Etusivu</h1>
                   </Route>
-                  <Route
-                    id="resource-route"
+                  <PrivateRoute
+                    id="target-route"
                     exact
                     path="/resource/:id"
                     render={({
