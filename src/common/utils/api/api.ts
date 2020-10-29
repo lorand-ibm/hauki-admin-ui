@@ -1,8 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
+import { AuthTokens } from '../../../auth/auth-context';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 
 const targetBasePath = '/target';
+const authRequiredTest = '/auth_required_test';
 
 interface RequestParameters {
   [key: string]:
@@ -34,16 +36,27 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
     ...parameters,
     format: ApiResponseFormat.json,
   };
-  const response: AxiosResponse<T> = await axios.request<T, AxiosResponse<T>>({
-    url: `${apiBaseUrl}/v1${path}`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'get',
-    params: apiParameters,
-  });
 
-  return response.data;
+  try {
+    const response: AxiosResponse<T> = await axios.request<T, AxiosResponse<T>>(
+      {
+        url: `${apiBaseUrl}/v1${path}`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'get',
+        params: apiParameters,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    const errorMessage: string | undefined = error.response?.data?.detail;
+    if (errorMessage) {
+      throw new Error(errorMessage);
+    } else {
+      throw new Error(error);
+    }
+  }
 }
 
 export enum SourceLinkTypes {
@@ -63,7 +76,18 @@ export interface Target {
   links: [SourceLink];
 }
 
+interface AuthTestResponse {
+  message: string;
+  username: string;
+}
+
 export default {
   getTarget: (id: string): Promise<Target> =>
     apiGet<Target>({ path: `${targetBasePath}/${id}` }),
+
+  testAuthCredentials: (authTokens: AuthTokens): Promise<AuthTestResponse> =>
+    apiGet<AuthTestResponse>({
+      path: `${authRequiredTest}`,
+      parameters: { ...authTokens },
+    }),
 };

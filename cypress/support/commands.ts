@@ -23,3 +23,17 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add(
+  'visitTargetPageAsUnauthenticatedUser',
+  (resourceId: string) => {
+    cy.visit(`/target/${resourceId}`);
+  }
+);
+
+Cypress.Commands.add(
+  'visitTargetPageAsAuthenticatedUser',
+  (resourceId: string) => {
+    cy.visit(`/target/${resourceId}?${Cypress.env('auth-query-parameters')}`);
+  }
+);

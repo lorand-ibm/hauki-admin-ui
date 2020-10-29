@@ -1,5 +1,6 @@
+/// <reference types="node"/>
+import querystring, { ParsedUrlQuery } from 'querystring';
 import { Context, createContext, useContext } from 'react';
-import { ParsedUrlQuery } from 'querystring';
 
 const usernameKey = 'username';
 const resourceKey = 'resource';
@@ -17,10 +18,8 @@ export interface AuthTokens {
   [createdAtKey]: string;
 }
 
-const tokenKeys = [
+const requiredAuthKeys = [
   usernameKey,
-  resourceKey,
-  organizationKey,
   signatureKey,
   validUntilKey,
   createdAtKey,
@@ -28,7 +27,7 @@ const tokenKeys = [
 
 const tokenStorageKey: 'tokens' = 'tokens';
 
-export const setTokens = (
+export const storeTokens = (
   authTokens: AuthTokens | undefined
 ): AuthTokens | undefined => {
   try {
@@ -41,6 +40,9 @@ export const setTokens = (
   }
 };
 
+export const removeTokens = (): void =>
+  window.localStorage.removeItem(tokenStorageKey);
+
 export const getTokens = (): AuthTokens | undefined => {
   try {
     const item = window.localStorage.getItem(tokenStorageKey);
@@ -52,15 +54,28 @@ export const getTokens = (): AuthTokens | undefined => {
   }
 };
 
-export const isValidAuthParams = (item: {
-  [key: string]: unknown;
-}): boolean => {
-  const itemKeys: string[] = Object.keys(item).sort();
-  return JSON.stringify(tokenKeys.sort()) === JSON.stringify(itemKeys);
-};
+export const parseAuthParams = (queryStr: string): AuthTokens | undefined => {
+  const queryParams: ParsedUrlQuery = querystring.parse(
+    queryStr.replace('?', '')
+  );
+  const authParams = requiredAuthKeys.reduce((acc, key) => {
+    const paramValue: string | string[] | undefined = queryParams[key];
+    const value = typeof paramValue === 'string' ? paramValue : paramValue?.[0];
+    if (value) {
+      return { ...acc, [key]: decodeURIComponent(value) };
+    }
+    return acc;
+  }, {});
 
-export const convertParamsToTokens = (urlParams: ParsedUrlQuery): AuthTokens =>
-  (urlParams as unknown) as AuthTokens;
+  if (
+    requiredAuthKeys.sort().toString() ===
+    Object.keys(authParams).sort().toString()
+  ) {
+    return (authParams as unknown) as AuthTokens;
+  }
+
+  return undefined;
+};
 
 export type AuthContextProps = {
   authTokens: AuthTokens;

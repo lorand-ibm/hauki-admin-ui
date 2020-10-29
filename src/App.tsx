@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -6,39 +6,69 @@ import {
   RouteComponentProps,
 } from 'react-router-dom';
 import 'hds-core';
-import querystring, { ParsedUrlQuery } from 'querystring';
 import {
   AuthTokens,
-  setTokens,
+  storeTokens,
   getTokens,
-  convertParamsToTokens,
-  isValidAuthParams,
+  removeTokens,
+  parseAuthParams,
   AuthContext,
 } from './auth/auth-context';
+import api from './common/utils/api/api';
 import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
 import './App.scss';
 import TargetPage from './target/page/TargetPage';
 
+type OptionalAuthTokens = AuthTokens | undefined;
+
 export default function App(): JSX.Element {
-  const existingAuthTokens: AuthTokens | undefined = getTokens();
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const [authTokens, setAuthTokens] = useState<OptionalAuthTokens>();
 
-  const queryParams: ParsedUrlQuery = querystring.parse(
-    window.location.search.replace('?', '')
-  );
+  const saveAuthTokes = (tokens: OptionalAuthTokens): void => {
+    storeTokens(tokens);
+    setAuthTokens(tokens);
+  };
 
-  const authTokensFromQuery = isValidAuthParams(queryParams)
-    ? convertParamsToTokens(queryParams)
-    : undefined;
-
-  const authTokens: AuthTokens | undefined =
-    authTokensFromQuery || existingAuthTokens;
+  const onError = (e: Error): void => {
+    // eslint-disable-next-line no-console
+    console.error(`Authentication failed: ${e.message}`);
+    setAuthTokens(undefined);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    if (authTokens) {
-      setTokens(authTokens);
+    const authTokensFromQuery: OptionalAuthTokens = parseAuthParams(
+      window.location.search
+    );
+    const storedAuthTokens: OptionalAuthTokens = getTokens();
+
+    if (storedAuthTokens) {
+      removeTokens();
     }
-  }, [authTokens]);
+
+    if (authTokensFromQuery) {
+      api
+        .testAuthCredentials(authTokensFromQuery)
+        .then(() => {
+          saveAuthTokes(authTokensFromQuery);
+          setLoading(false);
+        })
+        .catch(onError);
+    } else if (storedAuthTokens) {
+      api
+        .testAuthCredentials(storedAuthTokens)
+        .then(() => {
+          saveAuthTokes(storedAuthTokens);
+          setLoading(false);
+        })
+        .catch(onError);
+    } else {
+      setAuthTokens(undefined);
+      setLoading(false);
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -46,21 +76,27 @@ export default function App(): JSX.Element {
         <Router>
           <NavigationAndFooterWrapper>
             <Main id="main">
-              <Switch>
-                <Route exact path="/">
-                  <h1>Etusivu</h1>
-                </Route>
-                <Route
-                  id="target-route"
-                  exact
-                  path="/target/:id"
-                  render={({
-                    match,
-                  }: RouteComponentProps<{ id: string }>): ReactElement => (
-                    <TargetPage id={match.params.id} />
-                  )}
-                />
-              </Switch>
+              {isLoading ? (
+                <div>
+                  <h1>Sovellus käynnistyy..</h1>
+                </div>
+              ) : (
+                <Switch>
+                  <Route exact path="/">
+                    <h1>Etusivu</h1>
+                  </Route>
+                  <Route
+                    id="target-route"
+                    exact
+                    path="/target/:id"
+                    render={({
+                      match,
+                    }: RouteComponentProps<{ id: string }>): ReactElement => (
+                      <TargetPage id={match.params.id} />
+                    )}
+                  />
+                </Switch>
+              )}
             </Main>
           </NavigationAndFooterWrapper>
         </Router>
