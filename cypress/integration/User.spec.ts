@@ -16,7 +16,7 @@ describe('Authenticated user', () => {
   });
 
   it('Has username in header', () => {
-    cy.get('header', { timeout: 5000 }).should('be.visible');
+    cy.get('[data-test=target-info]', { timeout: 5000 }).should('be.visible');
     cy.get('header').first().should('not.contain', 'Kirjaudu');
     cy.get('header').first().should('contain', 'admin@hel.fi');
   });
