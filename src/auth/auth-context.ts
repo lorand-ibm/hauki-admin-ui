@@ -1,5 +1,5 @@
+import querystring, { ParsedUrlQuery } from 'querystring';
 import { Context, createContext, useContext } from 'react';
-import { ParsedUrlQuery } from 'querystring';
 
 const usernameKey = 'username';
 const resourceKey = 'resource';
@@ -53,27 +53,28 @@ export const getTokens = (): AuthTokens | undefined => {
   }
 };
 
-export const pickAuthParams = (
-  parameters: ParsedUrlQuery
-): AuthTokens | undefined => {
-  const authParameterKeys: string[] = Object.keys(parameters)
-    .filter((parameter) => requiredAuthKeys.includes(parameter))
-    .sort();
+export const parseAuthParams = (queryStr: string): AuthTokens | undefined => {
+  const queryParams: ParsedUrlQuery = querystring.parse(
+    queryStr.replace('?', '')
+  );
+  const authParams = requiredAuthKeys.reduce((acc, key) => {
+    const paramValue: string | string[] | undefined = queryParams[key];
+    const value = typeof paramValue === 'string' ? paramValue : paramValue?.[0];
+    if (value) {
+      return { ...acc, [key]: decodeURIComponent(value) };
+    }
+    return acc;
+  }, {});
 
-  const hasAuthParams =
-    JSON.stringify(requiredAuthKeys.sort()) ===
-    JSON.stringify(authParameterKeys);
+  if (
+    requiredAuthKeys.sort().toString() ===
+    Object.keys(authParams).sort().toString()
+  ) {
+    return (authParams as unknown) as AuthTokens;
+  }
 
-  return hasAuthParams
-    ? (requiredAuthKeys.reduce(
-        (acc, key) => Object.assign(acc, { [key]: parameters[key] }),
-        {}
-      ) as AuthTokens)
-    : undefined;
+  return undefined;
 };
-
-export const convertParamsToTokens = (urlParams: ParsedUrlQuery): AuthTokens =>
-  (urlParams as unknown) as AuthTokens;
 
 export type AuthContextProps = {
   authTokens: AuthTokens;

@@ -6,13 +6,12 @@ import {
   RouteComponentProps,
 } from 'react-router-dom';
 import 'hds-core';
-import querystring, { ParsedUrlQuery } from 'querystring';
 import {
   AuthTokens,
   storeTokens,
   getTokens,
   removeTokens,
-  pickAuthParams,
+  parseAuthParams,
   AuthContext,
 } from './auth/auth-context';
 import api from './common/utils/api/api';
@@ -41,10 +40,9 @@ export default function App(): JSX.Element {
   };
 
   useEffect(() => {
-    const queryParams: ParsedUrlQuery = querystring.parse(
-      window.location.search.replace('?', '')
+    const authTokensFromQuery: OptionalAuthTokens = parseAuthParams(
+      window.location.search
     );
-    const authTokensFromQuery: OptionalAuthTokens = pickAuthParams(queryParams);
     const storedAuthTokens: OptionalAuthTokens = getTokens();
 
     if (storedAuthTokens) {
