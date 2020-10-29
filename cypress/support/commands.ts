@@ -34,6 +34,6 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'visitTargetPageAsAuthenticatedUser',
   (resourceId: string) => {
-    cy.visit(`/target/${resourceId}?${Cypress.env('AUTH_QUERY_PARAMETERS')}`);
+    cy.visit(`/target/${resourceId}?${Cypress.env('auth-query-parameters')}`);
   }
 );
