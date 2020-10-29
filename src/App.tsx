@@ -29,7 +29,6 @@ export default function App(): JSX.Element {
   const saveAuthTokes = (tokens: OptionalAuthTokens): void => {
     storeTokens(tokens);
     setAuthTokens(tokens);
-    setLoading(false);
   };
 
   const onError = (e: Error): void => {
@@ -52,12 +51,18 @@ export default function App(): JSX.Element {
     if (authTokensFromQuery) {
       api
         .testAuthCredentials(authTokensFromQuery)
-        .then(() => saveAuthTokes(authTokensFromQuery))
+        .then(() => {
+          saveAuthTokes(authTokensFromQuery);
+          setLoading(false);
+        })
         .catch(onError);
     } else if (storedAuthTokens) {
       api
         .testAuthCredentials(storedAuthTokens)
-        .then(() => saveAuthTokes(storedAuthTokens))
+        .then(() => {
+          saveAuthTokes(storedAuthTokens);
+          setLoading(false);
+        })
         .catch(onError);
     } else {
       setAuthTokens(undefined);
