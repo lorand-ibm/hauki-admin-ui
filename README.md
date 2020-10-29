@@ -23,6 +23,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 **Prequisites:**
 All e2e-tests require an environment variable `CYPRESS_AUTH_QUERY_PARAMETERS`.
+Parameters can be generated for local tests by using the Hauki API's query-generating view (only available locally).
 
 Runs cypress (e2e) tests locally.
 
