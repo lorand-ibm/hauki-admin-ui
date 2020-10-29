@@ -79,6 +79,7 @@ export const parseAuthParams = (queryStr: string): AuthTokens | undefined => {
 
 export type AuthContextProps = {
   authTokens: AuthTokens;
+  isAuthenticated: boolean;
 };
 
 export const AuthContext: Context<{}> = createContext({});

@@ -71,7 +71,8 @@ export default function App(): JSX.Element {
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{ authTokens }}>
+      <AuthContext.Provider
+        value={{ authTokens, isAuthenticated: !!authTokens }}>
         <Router>
           <NavigationAndFooterWrapper>
             <Main id="main">
