@@ -1,3 +1,4 @@
+/// <reference types="node"/>
 import querystring, { ParsedUrlQuery } from 'querystring';
 import { Context, createContext, useContext } from 'react';
 
