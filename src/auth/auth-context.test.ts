@@ -17,7 +17,7 @@ describe('Auth Context', () => {
       });
     });
 
-    it('returns undefined when required parameter is missing', () => {
+    it('returns undefined when a required parameter is missing', () => {
       expect(
         parseAuthParams(
           '?username=admin@hel.fi&valid_until=2020-10-02&created_at=2020-10-01'
