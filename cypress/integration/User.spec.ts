@@ -1,19 +1,6 @@
 /// <reference types="cypress" />
-/// <reference types="node"/>
 /// <reference path="../index.d.ts" />
-import * as querystring from 'querystring';
-
-// TODO: later on username will come from env variables.
-const parseUserName = (queryParams: string): string | undefined => {
-  const userNameParameters: string | string[] = querystring.parse(queryParams)
-    ?.username;
-  const userNameStr: string =
-    typeof userNameParameters === 'string'
-      ? userNameParameters
-      : userNameParameters[0];
-
-  return userNameStr ? decodeURIComponent(userNameStr) : undefined;
-};
+import { parseAuthParams } from '../../src/auth/auth-context';
 
 describe('Unauthenticated user', () => {
   beforeEach(() => {
@@ -31,9 +18,13 @@ describe('Authenticated user', () => {
   });
 
   it('Has username in header', () => {
+    cy.get('header', { timeout: 5000 }).should('be.visible');
     cy.get('header').first().should('not.contain', 'Kirjaudu');
     cy.get('header')
       .first()
-      .should('contain', parseUserName(Cypress.env('AUTH_QUERY_PARAMETERS')));
+      .should(
+        'contain',
+        parseAuthParams(Cypress.env('AUTH_QUERY_PARAMETERS'))?.username
+      );
   });
 });
