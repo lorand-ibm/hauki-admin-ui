@@ -4,7 +4,7 @@
 
 describe('Open aukiolot app', () => {
   beforeEach(() => {
-    cy.visitTargetPageAsUnauthenticatedUser(Cypress.env('target-id'));
+    cy.visitTargetPageAsAuthenticatedUser(Cypress.env('target-id'));
   });
 
   it('Contains correct page title', () => {
