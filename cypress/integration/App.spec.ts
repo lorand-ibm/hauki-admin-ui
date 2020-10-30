@@ -4,7 +4,7 @@
 
 describe('Open aukiolot app', () => {
   beforeEach(() => {
-    cy.visitTargetPageAsAuthenticatedUser(Cypress.env('target-id'));
+    cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resource-id'));
   });
 
   it('Contains correct page title', () => {
@@ -13,7 +13,7 @@ describe('Open aukiolot app', () => {
 
   it('Has no detectable a11y violations on load', () => {
     cy.injectAxe();
-    cy.get('[data-test=target-info]', { timeout: 5000 }).should('be.visible');
+    cy.get('[data-test=resource-info]', { timeout: 5000 }).should('be.visible');
     cy.checkA11y(
       {},
       {

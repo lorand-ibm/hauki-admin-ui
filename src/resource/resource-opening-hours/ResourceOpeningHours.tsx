@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { IconInfoCircle, Navigation, Button } from 'hds-react';
 import OpeningPeriodCard from '../opening-period-card/OpeningPeriodCard';
 import Collapse from '../../components/collapse/Collapse';
-import './TargetOpeningHours.scss';
+import './ResourceOpeningHours.scss';
 
-export default function TargetOpeningHours({
+export default function ResourceOpeningHours({
   id,
 }: {
   id: string;
@@ -36,7 +36,7 @@ export default function TargetOpeningHours({
         aukiolojaksojen esitystavan, se ei välttämättä ole alla näkyvän
         kaltainen.
       </p>
-      <header className="target-opening-hours-header">
+      <header className="resource-opening-hours-header">
         <div className="opening-periods-info-container">
           <h3 className="opening-periods-title">Aukiolojaksot</h3>
           <IconInfoCircle
