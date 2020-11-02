@@ -3,7 +3,7 @@ import { AuthTokens } from '../../../auth/auth-context';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 
-const targetBasePath = '/target';
+const resourceBasePath = '/resource';
 const authRequiredTest = '/auth_required_test';
 
 interface RequestParameters {
@@ -59,21 +59,27 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
   }
 }
 
-export enum SourceLinkTypes {
-  ADMIN = 'ADMIN',
-}
-
-export type SourceLink = {
-  link_type: SourceLinkTypes.ADMIN;
-  url: string;
-};
-
-export interface Target {
+export interface Resource {
   id: string;
-  name: string;
-  description: string;
-  address: string;
-  links: [SourceLink];
+  name: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
+  description: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
+  address: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
+  extra_data: {
+    citizen_url: string;
+    admin_url: string;
+  };
 }
 
 interface AuthTestResponse {
@@ -82,8 +88,8 @@ interface AuthTestResponse {
 }
 
 export default {
-  getTarget: (id: string): Promise<Target> =>
-    apiGet<Target>({ path: `${targetBasePath}/${id}` }),
+  getResource: (id: string): Promise<Resource> =>
+    apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
 
   testAuthCredentials: (authTokens: AuthTokens): Promise<AuthTestResponse> =>
     apiGet<AuthTestResponse>({

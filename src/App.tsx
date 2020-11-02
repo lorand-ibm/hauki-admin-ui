@@ -18,7 +18,7 @@ import api from './common/utils/api/api';
 import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
 import './App.scss';
-import TargetPage from './target/page/TargetPage';
+import ResourcePage from './resource/page/ResourcePage';
 
 type OptionalAuthTokens = AuthTokens | undefined;
 
@@ -86,13 +86,13 @@ export default function App(): JSX.Element {
                     <h1>Etusivu</h1>
                   </Route>
                   <Route
-                    id="target-route"
+                    id="resource-route"
                     exact
-                    path="/target/:id"
+                    path="/resource/:id"
                     render={({
                       match,
                     }: RouteComponentProps<{ id: string }>): ReactElement => (
-                      <TargetPage id={match.params.id} />
+                      <ResourcePage id={match.params.id} />
                     )}
                   />
                 </Switch>

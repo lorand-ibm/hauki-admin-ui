@@ -1,49 +1,45 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
-import api, {
-  Target,
-  SourceLink,
-  SourceLinkTypes,
-} from '../../common/utils/api/api';
+import api, { Resource } from '../../common/utils/api/api';
 import Collapse from '../../components/collapse/Collapse';
 import { ExternalLink } from '../../components/link/Link';
-import TargetOpeningHours from '../target-opening-hours/TargetOpeningHours';
-import './TargetPage.scss';
+import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
+import './ResourcePage.scss';
 
 const hasText = (str: string | null | undefined): boolean =>
   str !== undefined && str !== null && str !== '';
 
-const TargetInfo = ({ target }: { target?: Target }): JSX.Element => (
+const ResourceInfo = ({ resource }: { resource?: Resource }): JSX.Element => (
   <>
-    <h1 data-test="target-info" className="target-info-title">
-      {target?.name}
+    <h1 data-test="resource-info" className="resource-info-title">
+      {resource?.name?.fi}
     </h1>
-    {hasText(target?.address) && (
+    {hasText(resource?.address?.fi) && (
       <div>
         <span>Osoite: </span>
-        <address className="target-info-address">
-          {hasText(target?.address)
-            ? target?.address
-            : 'Toimipisteellä ei ole nimeä.'}
+        <address className="resource-info-address">
+          {hasText(resource?.address?.fi)
+            ? resource?.address?.fi
+            : 'Toimipisteellä ei ole osoitetta.'}
         </address>
       </div>
     )}
   </>
 );
 
-const TargetSection = ({
+const ResourceSection = ({
   id,
   children,
 }: {
   id: string;
   children: ReactNode;
 }): JSX.Element => (
-  <section id={id} className="target-details-section">
+  <section id={id} className="resource-details-section">
     {children}
   </section>
 );
 
-const TargetDetailsSection = ({
+const ResourceDetailsSection = ({
   id,
   title,
   children,
@@ -52,46 +48,44 @@ const TargetDetailsSection = ({
   title: string;
   children: ReactNode;
 }): JSX.Element => (
-  <TargetSection id={id}>
+  <ResourceSection id={id}>
     <Collapse isOpen collapseContentId={`${id}-section`} title={title}>
       {children}
     </Collapse>
-  </TargetSection>
+  </ResourceSection>
 );
 
-const TargetSourceLink = ({
+const ResourceSourceLink = ({
   id,
-  target,
+  resource,
 }: {
   id: string;
-  target?: Target;
+  resource?: Resource;
 }): JSX.Element | null => {
-  const adminLink: SourceLink | undefined = target?.links.find(
-    (link) => link.link_type === SourceLinkTypes.ADMIN
-  );
+  const adminLink = resource?.extra_data?.admin_url;
 
   if (!adminLink) {
     return null;
   }
 
   return (
-    <TargetSection id={id}>
+    <ResourceSection id={id}>
       <p>
         Toimipisteeseen liittyvät tiedot kieliversioineen ovat lähtöisin
         Toimipisterekisteristä. Tietojen muuttaminen on mahdollista
         Toimipisterekisterissä.
         <br />
         <ExternalLink
-          href={adminLink.url}
+          href={adminLink}
           text="Tarkastele toimipisteen tietoja Toimipisterekisterissä"
         />
       </p>
-    </TargetSection>
+    </ResourceSection>
   );
 };
 
-export default function TargetPage({ id }: { id: string }): JSX.Element {
-  const [target, setTarget] = useState<Target | undefined>(undefined);
+export default function ResourcePage({ id }: { id: string }): JSX.Element {
+  const [resource, setResource] = useState<Resource | undefined>(undefined);
   const [hasError, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
 
@@ -99,9 +93,9 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
     // UseEffect's callbacks are synchronous to prevent a race condition.
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
     api
-      .getTarget(id)
-      .then((t: Target) => {
-        setTarget(t);
+      .getResource(id)
+      .then((r: Resource) => {
+        setResource(r);
         setLoading(false);
       })
       .catch((e: Error) => {
@@ -113,7 +107,7 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
   if (isLoading) {
     return (
       <>
-        <h1 className="target-info-title">Toimipisteen tietojen haku</h1>
+        <h1 className="resource-info-title">Toimipisteen tietojen haku</h1>
         <p>Toimipisteen tietoja ladataan...</p>
       </>
     );
@@ -122,7 +116,7 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
   if (hasError) {
     return (
       <>
-        <h1 className="target-info-title">Virhe</h1>
+        <h1 className="resource-info-title">Virhe</h1>
         <Notification label="Toimipistettä ei saatu ladattua." type="error">
           Tarkista toimipiste-id.
         </Notification>
@@ -132,18 +126,18 @@ export default function TargetPage({ id }: { id: string }): JSX.Element {
 
   return (
     <>
-      <TargetInfo target={target} />
-      <TargetDetailsSection id="target-description" title="Perustiedot">
-        <p className="target-description-text">
-          {hasText(target?.description)
-            ? target?.description
+      <ResourceInfo resource={resource} />
+      <ResourceDetailsSection id="resource-description" title="Perustiedot">
+        <p className="resource-description-text">
+          {hasText(resource?.description?.fi)
+            ? resource?.description?.fi
             : 'Toimipisteellä ei ole kuvausta.'}
         </p>
-      </TargetDetailsSection>
-      <TargetSourceLink id="target-source-link" target={target} />
-      <TargetSection id="target-opening-hours">
-        <TargetOpeningHours id={id} />
-      </TargetSection>
+      </ResourceDetailsSection>
+      <ResourceSourceLink id="resource-source-link" resource={resource} />
+      <ResourceSection id="resource-opening-hours">
+        <ResourceOpeningHours id={id} />
+      </ResourceSection>
     </>
   );
 }

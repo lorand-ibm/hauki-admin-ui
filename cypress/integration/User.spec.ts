@@ -2,7 +2,7 @@
 /// <reference path="../index.d.ts" />
 describe('Unauthenticated user', () => {
   beforeEach(() => {
-    cy.visitTargetPageAsUnauthenticatedUser(Cypress.env('target-id'));
+    cy.visitResourcePageAsUnauthenticatedUser(Cypress.env('resource-id'));
   });
 
   it('Does not have username in the header', () => {
@@ -12,11 +12,11 @@ describe('Unauthenticated user', () => {
 
 describe('Authenticated user', () => {
   beforeEach(() => {
-    cy.visitTargetPageAsAuthenticatedUser(Cypress.env('target-id'));
+    cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resource-id'));
   });
 
   it('Has username in header', () => {
-    cy.get('[data-test=target-info]', { timeout: 5000 }).should('be.visible');
+    cy.get('[data-test=resource-info]', { timeout: 5000 }).should('be.visible');
     cy.get('header').first().should('not.contain', 'Kirjaudu');
     cy.get('header').first().should('contain', 'admin@hel.fi');
   });
