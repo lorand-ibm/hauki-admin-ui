@@ -10,5 +10,5 @@ const queryParams = childProcess.execFileSync('node', [
 ]);
 
 const fullUrl = `${url}?${queryParams}`;
-process.env.BROWSER = ''; // We need to unset the browser to be able to call openBrowser with updated data.
+process.env.BROWSER = ''; // We need to unset the BROWSER so the openBrowser won't call this script again. This was set in package.json. Now it will use the updated url to open the browser.
 openBrowser(fullUrl);
