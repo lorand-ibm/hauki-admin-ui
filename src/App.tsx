@@ -87,7 +87,7 @@ export default function App(): JSX.Element {
                     <h1>Etusivu</h1>
                   </Route>
                   <PrivateRoute
-                    id="target-route"
+                    id="resource-route"
                     exact
                     path="/resource/:id"
                     render={({
