@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/// <reference types="node" />
 // ***********************************************************
 // This example plugins/index.ts can be used to load plugins
 //
@@ -16,9 +17,19 @@
  * @type {Cypress.PluginConfig}
  */
 
-// params: on, config
+import childProcess from 'child_process';
 
-export default function (): void {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
-}
+const pluginFunction: Cypress.PluginConfig = function plugin(on, config) {
+  const { env } = config;
+
+  const authQueryParameters = childProcess.execFileSync('node', [
+    './scripts/generate-auth-params.js',
+  ]);
+
+  return {
+    ...config,
+    env: { ...env, 'auth-query-parameters': authQueryParameters.toString() },
+  };
+};
+
+export default pluginFunction;

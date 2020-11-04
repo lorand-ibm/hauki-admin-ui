@@ -4,6 +4,6 @@
   "trashAssetsBeforeRuns": false,
   "env": {
     "resource-id": "tprek:8215",
-    "auth-query-parameters": "username=admin%40hel.fi&created_at=2020-10-28T11%3A01%3A24.378712Z&valid_until=2020-11-27T11%3A01%3A24.378712Z&signature=35dddd402028d5bbf79c6bf746392d84a9afa8c31b001adca8f8d5dbd0555a20"
+    "auth-query-parameters": ""
   }
 }
