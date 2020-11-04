@@ -6,7 +6,7 @@ describe('Unauthenticated user', () => {
   });
 
   it('Is redirected to front page', () => {
-    cy.location('pathname').should('not.include', Cypress.env('resource-id'));
+    cy.location('pathname').should('equal', '/');
     cy.get('header').first().should('contain', 'Kirjaudu');
   });
 });
