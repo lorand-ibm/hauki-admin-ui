@@ -5,7 +5,8 @@ describe('Unauthenticated user', () => {
     cy.visitResourcePageAsUnauthenticatedUser(Cypress.env('resource-id'));
   });
 
-  it('Does not have username in the header', () => {
+  it('Is redirected to front page', () => {
+    cy.location('pathname').should('not.include', Cypress.env('resource-id'));
     cy.get('header').first().should('contain', 'Kirjaudu');
   });
 });
