@@ -27,11 +27,6 @@ export default function App(): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [authTokens, setAuthTokens] = useState<OptionalAuthTokens>();
 
-  const saveAuthTokes = (tokens: OptionalAuthTokens): void => {
-    storeTokens(tokens);
-    setAuthTokens(tokens);
-  };
-
   const onAuthFail = (message: string): void => {
     // eslint-disable-next-line no-console
     console.error(`Authentication failed: ${message}`);
@@ -43,28 +38,21 @@ export default function App(): JSX.Element {
     const authTokensFromQuery: OptionalAuthTokens = parseAuthParams(
       window.location.search
     );
+
+    if (authTokensFromQuery) {
+      storeTokens(authTokensFromQuery);
+    }
+
     const storedAuthTokens: OptionalAuthTokens = getTokens();
 
     if (storedAuthTokens) {
-      removeTokens();
-    }
-
-    if (authTokensFromQuery) {
       api
-        .testAuthCredentials(authTokensFromQuery)
-        .then(() => {
-          saveAuthTokes(authTokensFromQuery);
-          setLoading(false);
-        })
-        .catch((e: Error) => onAuthFail(e.message));
-    } else if (storedAuthTokens) {
-      api
-        .testAuthCredentials(storedAuthTokens)
-        .then(() => {
-          saveAuthTokes(storedAuthTokens);
-          setLoading(false);
-        })
-        .catch((e: Error) => onAuthFail(e.message));
+        .testAuth()
+        .then(() => setLoading(false))
+        .catch((erroMessage) => {
+          onAuthFail(erroMessage);
+          removeTokens();
+        });
     } else {
       onAuthFail('Missing auth tokens');
     }
