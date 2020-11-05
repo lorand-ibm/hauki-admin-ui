@@ -14,6 +14,7 @@ import {
   parseAuthParams,
   AuthContext,
 } from './auth/auth-context';
+import PrivateRoute from './auth/PrivateRoute';
 import api from './common/utils/api/api';
 import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
@@ -31,9 +32,9 @@ export default function App(): JSX.Element {
     setAuthTokens(tokens);
   };
 
-  const onError = (e: Error): void => {
+  const onAuthFail = (message: string): void => {
     // eslint-disable-next-line no-console
-    console.error(`Authentication failed: ${e.message}`);
+    console.error(`Authentication failed: ${message}`);
     setAuthTokens(undefined);
     setLoading(false);
   };
@@ -55,7 +56,7 @@ export default function App(): JSX.Element {
           saveAuthTokes(authTokensFromQuery);
           setLoading(false);
         })
-        .catch(onError);
+        .catch((e: Error) => onAuthFail(e.message));
     } else if (storedAuthTokens) {
       api
         .testAuthCredentials(storedAuthTokens)
@@ -63,16 +64,16 @@ export default function App(): JSX.Element {
           saveAuthTokes(storedAuthTokens);
           setLoading(false);
         })
-        .catch(onError);
+        .catch((e: Error) => onAuthFail(e.message));
     } else {
-      setAuthTokens(undefined);
-      setLoading(false);
+      onAuthFail('Missing auth tokens');
     }
   }, []);
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{ authTokens }}>
+      <AuthContext.Provider
+        value={{ authTokens, isAuthenticated: !!authTokens }}>
         <Router>
           <NavigationAndFooterWrapper>
             <Main id="main">
@@ -85,7 +86,7 @@ export default function App(): JSX.Element {
                   <Route exact path="/">
                     <h1>Etusivu</h1>
                   </Route>
-                  <Route
+                  <PrivateRoute
                     id="resource-route"
                     exact
                     path="/resource/:id"
