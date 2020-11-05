@@ -29,8 +29,6 @@ const queryParameters = [
   `resource=${encodeURIComponent(resource)}`,
   `organization=${encodeURIComponent(organization)}`,
   `signature=${signature}`,
-]
-  .filter((s) => !!s)
-  .join('&');
+].join('&');
 
 process.stdout.write(queryParameters);
