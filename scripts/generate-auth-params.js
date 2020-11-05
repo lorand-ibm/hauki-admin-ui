@@ -8,7 +8,7 @@ const key =
 const username = process.env.HAUKI_USER || 'admin@hel.fi';
 const resource = process.env.HAUKI_RESOURCE || 'tprek:8215';
 const organization =
-  process.env.HAUKI_ORGANISATION || 'dc7d39db-b35a-4612-a921-1b7b24b0baa3';
+  process.env.HAUKI_ORGANIZATION || 'dc7d39db-b35a-4612-a921-1b7b24b0baa3';
 const now = new Date();
 const createdAt = now.toJSON();
 const validUntil =
