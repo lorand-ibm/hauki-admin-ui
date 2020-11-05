@@ -101,15 +101,8 @@ export default {
   getResource: (id: string): Promise<Resource> =>
     apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
 
-  testAuthCredentials: (authTokens: AuthTokens): Promise<AuthTestResponse> => {
-    const { signature, ...restOfTokens } = authTokens;
-
-    return apiGet<AuthTestResponse>({
-      path: `${authRequiredTest}`,
-      headers: {
-        Authorization: `haukisigned signature=${signature}`,
-      },
-      parameters: { ...restOfTokens },
-    });
-  },
+  testAuth: (): Promise<AuthTestResponse> =>
+    apiGet<AuthTestResponse>({
+      path: authRequiredTest,
+    }),
 };
