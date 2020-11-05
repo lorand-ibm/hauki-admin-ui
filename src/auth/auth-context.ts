@@ -18,11 +18,13 @@ export interface AuthTokens {
   [createdAtKey]: string;
 }
 
-const requiredAuthKeys = [
+const authKeys = [
   usernameKey,
   signatureKey,
   validUntilKey,
   createdAtKey,
+  resourceKey,
+  organizationKey,
 ];
 
 const tokenStorageKey: 'tokens' = 'tokens';
@@ -58,7 +60,7 @@ export const parseAuthParams = (queryStr: string): AuthTokens | undefined => {
   const queryParams: ParsedUrlQuery = querystring.parse(
     queryStr.replace('?', '')
   );
-  const authParams = requiredAuthKeys.reduce((acc, key) => {
+  const authParams = authKeys.reduce((acc, key) => {
     const paramValue: string | string[] | undefined = queryParams[key];
     const value = typeof paramValue === 'string' ? paramValue : paramValue?.[0];
     if (value) {
@@ -68,8 +70,7 @@ export const parseAuthParams = (queryStr: string): AuthTokens | undefined => {
   }, {});
 
   if (
-    requiredAuthKeys.sort().toString() ===
-    Object.keys(authParams).sort().toString()
+    authKeys.sort().toString() === Object.keys(authParams).sort().toString()
   ) {
     return (authParams as unknown) as AuthTokens;
   }
