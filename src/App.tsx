@@ -48,7 +48,10 @@ export default function App(): JSX.Element {
     if (storedAuthTokens) {
       api
         .testAuth()
-        .then(() => setLoading(false))
+        .then(() => {
+          setAuthTokens(storedAuthTokens);
+          setLoading(false);
+        })
         .catch((erroMessage) => {
           onAuthFail(erroMessage);
           removeTokens();
