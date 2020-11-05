@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { AuthTokens } from '../../../auth/auth-context';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AuthTokens, getTokens } from '../../../auth/auth-context';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 
@@ -32,27 +32,15 @@ interface ApiParameters extends RequestParameters {
   format: ApiResponseFormat;
 }
 
-async function apiGet<T>({
-  path,
-  headers = {},
-  parameters = {},
-}: GetParameters): Promise<T> {
-  const apiParameters: ApiParameters = {
-    ...parameters,
-    format: ApiResponseFormat.json,
-  };
+async function request<T>(requestConfig: AxiosRequestConfig): Promise<T> {
+  const authTokens: AuthTokens | undefined = getTokens();
+  const config: AxiosRequestConfig = authTokens
+    ? { ...requestConfig, params: { ...requestConfig.params, ...authTokens } }
+    : requestConfig;
 
   try {
     const response: AxiosResponse<T> = await axios.request<T, AxiosResponse<T>>(
-      {
-        url: `${apiBaseUrl}/v1${path}`,
-        headers: {
-          ...headers,
-          'Content-Type': 'application/json',
-        },
-        method: 'get',
-        params: apiParameters,
-      }
+      config
     );
     return response.data;
   } catch (error) {
@@ -63,6 +51,22 @@ async function apiGet<T>({
       throw new Error(error);
     }
   }
+}
+
+async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
+  const apiParameters: ApiParameters = {
+    ...parameters,
+    format: ApiResponseFormat.json,
+  };
+
+  return request<T>({
+    url: `${apiBaseUrl}/v1${path}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'get',
+    params: apiParameters,
+  });
 }
 
 export interface Resource {
