@@ -32,10 +32,25 @@ interface ApiParameters extends RequestParameters {
   format: ApiResponseFormat;
 }
 
+const addTokensToRequestConfig = (
+  authTokens: AuthTokens,
+  config: AxiosRequestConfig
+): AxiosRequestConfig => {
+  const { signature, ...restOfTokens } = authTokens;
+  return {
+    ...config,
+    headers: {
+      ...config.headers,
+      Authorization: `haukisigned signature=${signature}`,
+    },
+    params: { ...config.params, ...restOfTokens },
+  };
+};
+
 async function request<T>(requestConfig: AxiosRequestConfig): Promise<T> {
   const authTokens: AuthTokens | undefined = getTokens();
   const config: AxiosRequestConfig = authTokens
-    ? { ...requestConfig, params: { ...requestConfig.params, ...authTokens } }
+    ? addTokensToRequestConfig(authTokens, requestConfig)
     : requestConfig;
 
   try {
