@@ -15,12 +15,13 @@ describe('apiRequest', () => {
 
   describe('request', () => {
     it('adds auth-tokens into every request', async (done) => {
-      const mockTokens = {
+      const signature = '123456';
+      const queryTokens = {
         username: 'admin@hel.fi',
         created_at: '2020-11-05T09%3A38%3A36.198Z',
         valid_until: '2020-11-12T09%3A38%3A36.198Z',
-        signature: '123456',
-      } as AuthTokens;
+      };
+      const mockTokens = { ...queryTokens, signature } as AuthTokens;
 
       jest.spyOn(auth, 'getTokens').mockImplementationOnce(() => mockTokens);
 
@@ -31,9 +32,12 @@ describe('apiRequest', () => {
       expect(mockedAxios.request).toHaveBeenCalledTimes(1);
 
       expect(mockedAxios.request).toHaveBeenCalledWith({
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `haukisigned signature=${signature}`,
+        },
         method: 'get',
-        params: { format: 'json', ...mockTokens },
+        params: { format: 'json', ...queryTokens },
         url: 'http://localhost:8000/v1/auth_required_test',
       });
 
