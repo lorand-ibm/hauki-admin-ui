@@ -20,6 +20,7 @@ interface RequestParameters {
 
 interface GetParameters {
   path: string;
+  headers?: { [key: string]: string };
   parameters?: RequestParameters;
 }
 
@@ -31,7 +32,11 @@ interface ApiParameters extends RequestParameters {
   format: ApiResponseFormat;
 }
 
-async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
+async function apiGet<T>({
+  path,
+  headers = {},
+  parameters = {},
+}: GetParameters): Promise<T> {
   const apiParameters: ApiParameters = {
     ...parameters,
     format: ApiResponseFormat.json,
@@ -42,6 +47,7 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
       {
         url: `${apiBaseUrl}/v1${path}`,
         headers: {
+          ...headers,
           'Content-Type': 'application/json',
         },
         method: 'get',
@@ -91,9 +97,15 @@ export default {
   getResource: (id: string): Promise<Resource> =>
     apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
 
-  testAuthCredentials: (authTokens: AuthTokens): Promise<AuthTestResponse> =>
-    apiGet<AuthTestResponse>({
+  testAuthCredentials: (authTokens: AuthTokens): Promise<AuthTestResponse> => {
+    const { signature, ...restOfTokens } = authTokens;
+
+    return apiGet<AuthTestResponse>({
       path: `${authRequiredTest}`,
-      parameters: { ...authTokens },
-    }),
+      headers: {
+        Authorization: `haukisigned signature=${signature}`,
+      },
+      parameters: { ...restOfTokens },
+    });
+  },
 };
