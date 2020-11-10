@@ -1,9 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { DatePeriod } from '../../lib/types';
 import { AuthTokens, getTokens } from '../../../auth/auth-context';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 
 const resourceBasePath = '/resource';
+const datePeriodBasePath = '/date_period';
 const authRequiredTest = '/auth_required_test';
 
 interface RequestParameters {
@@ -112,9 +114,21 @@ interface AuthTestResponse {
   username: string;
 }
 
+interface ListResponse<T> {
+  results: T[];
+}
+
 export default {
   getResource: (id: string): Promise<Resource> =>
     apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
+
+  getDatePeriod: (resourceId: string): Promise<DatePeriod[]> =>
+    apiGet<ListResponse<DatePeriod>>({
+      path: `${datePeriodBasePath}`,
+      parameters: { resource: resourceId },
+    }).then((response) => {
+      return response.results;
+    }),
 
   testAuth: (): Promise<AuthTestResponse> =>
     apiGet<AuthTestResponse>({
