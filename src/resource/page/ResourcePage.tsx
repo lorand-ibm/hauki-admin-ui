@@ -153,7 +153,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       </ResourceDetailsSection>
       <ResourceSourceLink id="resource-source-link" resource={resource} />
       <ResourceSection id="resource-opening-hours">
-        <ResourceOpeningHours id={id} />
+        <ResourceOpeningHours id={id} datePeriods={datePeriods} />
       </ResourceSection>
     </>
   );

@@ -1,0 +1,45 @@
+@import 'node_modules/hds-design-tokens/lib/all.scss';
+
+.opening-period-card {
+  font-family: HelsinkiGrotesk-Regular, Arial, sans-serif;
+  box-sizing: border-box;
+  background-color: var(--opening-period-card-background-color);
+  padding: $spacing-s;
+
+  h4 {
+    margin: 0;
+  }
+
+  & + & {
+    margin-top: $spacing-s;
+  }
+}
+
+.opening-period-card-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.opening-period-card-dates,
+.opening-period-card-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.opening-period-card-dates {
+  flex-basis: 18ch;
+  flex-grow: 1;
+  line-height: $lineheight-l;
+}
+
+.opening-period-card-title {
+  display: flex;
+  flex-grow: 600;
+  justify-content: normal;
+  margin-left: $spacing-m;
+
+  * + * {
+    margin-left: $spacing-m;
+  }
+}
