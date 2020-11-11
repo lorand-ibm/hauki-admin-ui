@@ -106,7 +106,9 @@ export default function ResourceOpeningHours({
           count={defaultPeriods.length}
           theme={PeriodHeaderTheme.DEFAULT}
         />
-        <div className="opening-periods-list">
+        <div
+          className="opening-periods-list"
+          data-test="resource-opening-periods-list">
           {defaultPeriods.length > 0 ? (
             datePeriods.map((datePeriod: DatePeriod) => (
               <OpeningPeriod datePeriod={datePeriod} />
@@ -116,7 +118,9 @@ export default function ResourceOpeningHours({
           )}
         </div>
       </div>
-      <div className="opening-periods-section">
+      <div
+        className="opening-periods-section"
+        data-test="resource-exception-opening-periods-list">
         <OpeningPeriodsHeader
           title="Poikkeusaukiolojaksot"
           count={exceptionPeriods.length}
