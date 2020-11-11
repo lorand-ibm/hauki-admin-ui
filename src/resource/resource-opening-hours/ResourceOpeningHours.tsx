@@ -18,7 +18,7 @@ const OpeningPeriodsHeader = ({
   title: string;
   count: number;
   theme: PeriodHeaderTheme;
-}) => {
+}): JSX.Element => {
   const className =
     theme === PeriodHeaderTheme.LIGHT
       ? 'opening-periods-header opening-periods-header-light'

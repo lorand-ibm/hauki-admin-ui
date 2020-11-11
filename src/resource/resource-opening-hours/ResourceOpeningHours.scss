@@ -3,12 +3,13 @@
 .opening-periods-header {
   --background-color: var(--opening-periods-header-background-color);
   --font-color: var(--opening-periods-header-color);
-  --periods-header-button-border: var(--opening-periods-header-button-border-color);
+  --periods-header-button-border-color: var(--opening-periods-header-button-border-color);
   --periods-header-button-color: var(--opening-periods-header-button-color);
   --periods-header-button-focus-color: var(--opening-periods-header-button-focus-color);
   --periods-header-button-focus-border-color: var(--opening-periods-header-button-focus-border-color);
   --periods-header-button-hover-background-color: var(--opening-periods-header-button-hover-background-color);
   --periods-header-button-hover-color: var(--opening-periods-header-button-hover-color);
+
   min-height: 4rem;
   background-color: var(--background-color);
   color: var(--font-color);
@@ -19,12 +20,29 @@
   margin-top: auto;
   padding-left: $spacing-m;
   padding-right: $spacing-m;
+
+  .opening-period-header-button {
+    font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
+    color: var(--periods-header-button-color);
+    border-color: var(--periods-header-button-border-color) !important;
+
+    &:hover {
+      background-color: var(--periods-header-button-hover-background-color) !important;
+      color: var(--periods-header-button-hover-color) !important;
+    }
+
+    &:focus {
+      color: var(--periods-header-button-focus-color);
+      border-color: var(--periods-header-button-focus-border-color) !important;
+      border-width: 3px;
+    }
+  }
 }
 
 .opening-periods-header-light {
   --background-color: var(--opening-periods-header-light-background-color);
   --font-color: var(--opening-periods-header-light-color);
-  --periods-header-button-border: var(--opening-periods-header-light-button-border-color);
+  --periods-header-button-border-color: var(--opening-periods-header-light-button-border-color);
   --periods-header-button-color: var(--opening-periods-header-light-button-color);
   --periods-header-button-hover-background-color: var(--opening-periods-header-light-button-hover-background-color);
   --periods-header-button-focus-color: var(--opening-periods-header-light-button-focus-color);
@@ -46,7 +64,7 @@
 }
 
 .opening-periods-header-info {
-  color: var(--opening-periods-info-color);
+  color: inherit;
 }
 
 .period-count {
@@ -62,25 +80,6 @@
   color: inherit;
   font-size: $fontsize-body-m;
   margin-right: $spacing-xl;
-}
-
-.opening-periods-header {
-  .opening-period-header-button {
-    font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
-    color: var(--periods-header-button-color);
-    border-color: var(--periods-header-button-border-color) !important;
-
-    &:hover {
-      background-color: var(--periods-header-button-hover-background-color) !important;
-      color: var(--periods-header-button-hover-color) !important;
-    }
-
-    &:focus {
-      color: var(--periods-header-button-focus-color);
-      border-color: var(--periods-header-button-focus-border-color) !important;
-      border-width: 3px;
-    }
-  }
 }
 
 .opening-periods-list {
