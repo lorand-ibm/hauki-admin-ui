@@ -9,17 +9,14 @@
   --hauki-footer-background-color: var(--color-coat-of-arms-blue-light-20);
   --opening-period-card-background-color: #fff;
   --opening-period-card-border-color: #e0e0e0;
-  --resource-opening-hours-header-background-color: var(--color-coat-of-arms-blue);
-  --opening-periods-title-color: white;
-  --opening-periods-info-color: white;
-  --period-count-color: white;
-  --opening-periods-language-selector-color: white;
-  --add-new-opening-period-button-color: white;
-  --add-new-opening-period-button-border-color: white;
-  --add-new-opening-period-button-hover-background-color: var(--color-coat-of-arms-blue-light-5);
-  --add-new-opening-period-button-hover-color: var(--color-coat-of-arms-blue);
-  --add-new-opening-period-button-focus-color: white;
-  --add-new-opening-period-button-focus-border-color: white;
+  --opening-periods-header-background-color: var(--color-coat-of-arms-blue);
+  --opening-periods-header-color: white;
+  --opening-periods-header-button-color: white;
+  --opening-periods-header-button-border-color: white;
+  --opening-periods-header-button-focus-color: white;
+  --opening-periods-header-button-focus-border-color: white;
+  --opening-periods-header-button-hover-background-color: var(--color-coat-of-arms-blue-light-5);
+  --opening-periods-header-button-hover-color: var(--color-coat-of-arms-blue);
 }
 
 :root .navigation-header {

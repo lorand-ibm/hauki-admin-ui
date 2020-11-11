@@ -5,13 +5,18 @@ import Collapse from '../../components/collapse/Collapse';
 import './ResourceOpeningHours.scss';
 import { DatePeriod } from '../../common/lib/types';
 
-export default function ResourceOpeningHours({
-  id,
-  datePeriods,
+enum PeriodHeaderTheme {
+  DEFAULT = 'DEFAULT',
+}
+
+const OpeningPeriodsHeader = ({
+  title,
+  count,
 }: {
-  id: string;
-  datePeriods: DatePeriod[];
-}): JSX.Element {
+  title: string;
+  count: number;
+  theme: PeriodHeaderTheme;
+}) => {
   interface LanguageOption {
     label: string;
     value: string;
@@ -27,6 +32,43 @@ export default function ResourceOpeningHours({
     value.toUpperCase();
 
   return (
+    <header className="opening-periods-header">
+      <div className="opening-periods-header-container">
+        <h3 className="opening-periods-header-title">{title}</h3>
+        <IconInfoCircle
+          aria-label="Lisätietoja aukiolojaksoista nappi"
+          className="opening-periods-header-info"
+        />
+      </div>
+      <div className="opening-periods-header-container">
+        <p className="period-count">{count} jaksoa</p>
+        <Navigation.LanguageSelector
+          className="opening-periods-header-language-selector"
+          ariaLabel="Aukioloaikojen valittu kieli"
+          options={languageOptions}
+          formatSelectedValue={formatSelectedValue}
+          onLanguageChange={setLanguage}
+          value={language}
+        />
+        <Button
+          size="small"
+          className="opening-period-header-button"
+          variant="secondary">
+          Lisää uusi +
+        </Button>
+      </div>
+    </header>
+  );
+};
+
+export default function ResourceOpeningHours({
+  id,
+  datePeriods,
+}: {
+  id: string;
+  datePeriods: DatePeriod[];
+}): JSX.Element {
+  return (
     <Collapse
       isOpen
       collapseContentId={`${id}-opening-hours-section`}
@@ -39,36 +81,21 @@ export default function ResourceOpeningHours({
         aukiolojaksojen esitystavan, se ei välttämättä ole alla näkyvän
         kaltainen.
       </p>
-      <header className="resource-opening-hours-header">
-        <div className="opening-periods-info-container">
-          <h3 className="opening-periods-title">Aukiolojaksot</h3>
-          <IconInfoCircle
-            aria-label="Lisätietoja aukiolojaksoista nappi"
-            className="opening-periods-info"
-          />
+      <div className="opening-periods-section">
+        <OpeningPeriodsHeader
+          title="Aukiolojaksot"
+          count={datePeriods.length}
+          theme={PeriodHeaderTheme.DEFAULT}
+        />
+        <div className="opening-periods-list">
+          {datePeriods.length > 0 ? (
+            datePeriods.map((datePeriod: DatePeriod) => (
+              <OpeningPeriod datePeriod={datePeriod} />
+            ))
+          ) : (
+            <p>Ei aukiolojaksoja.</p>
+          )}
         </div>
-        <div className="opening-periods-info-container">
-          <p className="period-count">4 jaksoa</p>
-          <Navigation.LanguageSelector
-            className="opening-periods-language-selector"
-            ariaLabel="Aukioloaikojen valittu kieli"
-            options={languageOptions}
-            formatSelectedValue={formatSelectedValue}
-            onLanguageChange={setLanguage}
-            value={language}
-          />
-          <Button
-            size="small"
-            className="add-new-opening-period-button"
-            variant="secondary">
-            Lisää uusi +
-          </Button>
-        </div>
-      </header>
-      <div className="opening-period-list">
-        {datePeriods.map((datePeriod: DatePeriod) => (
-          <OpeningPeriod datePeriod={datePeriod} />
-        ))}
       </div>
     </Collapse>
   );
