@@ -11,11 +11,17 @@
   --opening-period-card-border-color: #e0e0e0;
   --opening-periods-header-background-color: var(--color-coat-of-arms-blue);
   --opening-periods-header-color: white;
+  --opening-periods-header-light-background-color: var(--color-coat-of-arms-blue-light-5);
+  --opening-periods-header-light-color: var(--hauki-content-text-color);
   --opening-periods-header-button-color: white;
+  --opening-periods-header-light-button-color: var(--color-coat-of-arms-blue);
   --opening-periods-header-button-border-color: white;
+  --opening-periods-header-light-button-border-color: var(--color-coat-of-arms-blue);
   --opening-periods-header-button-focus-color: white;
+  --opening-periods-header-light-button-focus-color: var(--color-coat-of-arms-blue);
   --opening-periods-header-button-focus-border-color: white;
   --opening-periods-header-button-hover-background-color: var(--color-coat-of-arms-blue-light-5);
+  --opening-periods-header-light-button-hover-background-color: white;
   --opening-periods-header-button-hover-color: var(--color-coat-of-arms-blue);
 }
 

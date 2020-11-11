@@ -7,16 +7,23 @@ import { DatePeriod } from '../../common/lib/types';
 
 enum PeriodHeaderTheme {
   DEFAULT = 'DEFAULT',
+  LIGHT = 'LIGHT',
 }
 
 const OpeningPeriodsHeader = ({
   title,
   count,
+  theme,
 }: {
   title: string;
   count: number;
   theme: PeriodHeaderTheme;
 }) => {
+  const className =
+    theme === PeriodHeaderTheme.LIGHT
+      ? 'opening-periods-header opening-periods-header-light'
+      : 'opening-periods-header';
+
   interface LanguageOption {
     label: string;
     value: string;
@@ -32,7 +39,7 @@ const OpeningPeriodsHeader = ({
     value.toUpperCase();
 
   return (
-    <header className="opening-periods-header">
+    <header className={className}>
       <div className="opening-periods-header-container">
         <h3 className="opening-periods-header-title">{title}</h3>
         <IconInfoCircle

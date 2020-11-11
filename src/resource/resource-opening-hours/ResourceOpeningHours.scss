@@ -21,6 +21,15 @@
   padding-right: $spacing-m;
 }
 
+.opening-periods-header-light {
+  --background-color: var(--opening-periods-header-light-background-color);
+  --font-color: var(--opening-periods-header-light-color);
+  --periods-header-button-border: var(--opening-periods-header-light-button-border-color);
+  --periods-header-button-color: var(--opening-periods-header-light-button-color);
+  --periods-header-button-hover-background-color: var(--opening-periods-header-light-button-hover-background-color);
+  --periods-header-button-focus-color: var(--opening-periods-header-light-button-focus-color);
+}
+
 .opening-periods-header-container {
   align-items: center;
   display: flex;
