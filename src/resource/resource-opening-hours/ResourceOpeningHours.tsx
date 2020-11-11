@@ -100,42 +100,50 @@ export default function ResourceOpeningHours({
         aukiolojaksojen esitystavan, se ei välttämättä ole alla näkyvän
         kaltainen.
       </p>
-      <div className="opening-periods-section">
+      <section className="opening-periods-section">
         <OpeningPeriodsHeader
           title="Aukiolojaksot"
           count={defaultPeriods.length}
           theme={PeriodHeaderTheme.DEFAULT}
         />
-        <div
+        <ul
           className="opening-periods-list"
           data-test="resource-opening-periods-list">
           {defaultPeriods.length > 0 ? (
             datePeriods.map((datePeriod: DatePeriod) => (
-              <OpeningPeriod datePeriod={datePeriod} />
+              <li>
+                <OpeningPeriod datePeriod={datePeriod} />
+              </li>
             ))
           ) : (
-            <p>Ei aukiolojaksoja.</p>
+            <li>
+              <p>Ei aukiolojaksoja.</p>
+            </li>
           )}
-        </div>
-      </div>
-      <div
-        className="opening-periods-section"
-        data-test="resource-exception-opening-periods-list">
+        </ul>
+      </section>
+      <section className="opening-periods-section">
         <OpeningPeriodsHeader
           title="Poikkeusaukiolojaksot"
           count={exceptionPeriods.length}
           theme={PeriodHeaderTheme.LIGHT}
         />
-        <div className="opening-periods-list">
+        <ul
+          className="opening-periods-list"
+          data-test="resource-exception-opening-periods-list">
           {exceptionPeriods.length > 0 ? (
             exceptionPeriods.map((datePeriod: DatePeriod) => (
-              <OpeningPeriod datePeriod={datePeriod} />
+              <li>
+                <OpeningPeriod datePeriod={datePeriod} />
+              </li>
             ))
           ) : (
-            <p>Ei poikkeusaukiolojaksoja.</p>
+            <li>
+              <p>Ei poikkeusaukiolojaksoja.</p>
+            </li>
           )}
-        </div>
-      </div>
+        </ul>
+      </section>
     </Collapse>
   );
 }

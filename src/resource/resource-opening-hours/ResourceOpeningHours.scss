@@ -84,8 +84,13 @@
 }
 
 .opening-periods-list {
-  padding-top: $spacing-s;
-  padding-bottom: $spacing-l;
+  list-style: none;
+  margin: 0;
+  padding: $spacing-s 0 $spacing-l;
+
+  > li + li {
+    margin-top: $spacing-xs;
+  }
 }
 
 .loading-opening-hours-text {
