@@ -75,6 +75,18 @@ export default function ResourceOpeningHours({
   id: string;
   datePeriods: DatePeriod[];
 }): JSX.Element {
+  const [
+    defaultPeriods = [],
+    exceptionPeriods = [],
+  ]: DatePeriod[][] = datePeriods.reduce(
+    ([defaults = [], exceptions = []]: DatePeriod[][], current: DatePeriod) => {
+      return current.override
+        ? [defaults, [...exceptions, current]]
+        : [[...defaults, current], exceptions];
+    },
+    []
+  );
+
   return (
     <Collapse
       isOpen
@@ -91,16 +103,32 @@ export default function ResourceOpeningHours({
       <div className="opening-periods-section">
         <OpeningPeriodsHeader
           title="Aukiolojaksot"
-          count={datePeriods.length}
+          count={defaultPeriods.length}
           theme={PeriodHeaderTheme.DEFAULT}
         />
         <div className="opening-periods-list">
-          {datePeriods.length > 0 ? (
+          {defaultPeriods.length > 0 ? (
             datePeriods.map((datePeriod: DatePeriod) => (
               <OpeningPeriod datePeriod={datePeriod} />
             ))
           ) : (
             <p>Ei aukiolojaksoja.</p>
+          )}
+        </div>
+      </div>
+      <div className="opening-periods-section">
+        <OpeningPeriodsHeader
+          title="Poikkeusaukiolojaksot"
+          count={exceptionPeriods.length}
+          theme={PeriodHeaderTheme.LIGHT}
+        />
+        <div className="opening-periods-list">
+          {exceptionPeriods.length > 0 ? (
+            exceptionPeriods.map((datePeriod: DatePeriod) => (
+              <OpeningPeriod datePeriod={datePeriod} />
+            ))
+          ) : (
+            <p>Ei poikkeusaukiolojaksoja.</p>
           )}
         </div>
       </div>
