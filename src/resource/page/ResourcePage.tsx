@@ -110,17 +110,13 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
     // UseEffect's callbacks are synchronous to prevent a race condition.
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
     if (resource) {
-      setLoading(true);
-
       api
         .getDatePeriod(resource.id)
         .then((ds: DatePeriod[]) => {
           setDatePeriods(ds);
-          setLoading(false);
         })
         .catch((e: Error) => {
           setError(e);
-          setLoading(false);
         });
     }
   }, [resource]);
