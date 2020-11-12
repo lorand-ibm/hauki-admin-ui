@@ -19,7 +19,7 @@ const OpeningPeriodsHeader = ({
   count: number;
   theme: PeriodHeaderTheme;
 }): JSX.Element => {
-  const className =
+  const openingPeriodsHeaderClassName =
     theme === PeriodHeaderTheme.LIGHT
       ? 'opening-periods-header-light'
       : 'opening-periods-header';
@@ -39,7 +39,7 @@ const OpeningPeriodsHeader = ({
     value.toUpperCase();
 
   return (
-    <header className={className}>
+    <header className={openingPeriodsHeaderClassName}>
       <div className="opening-periods-header-container">
         <h3 className="opening-periods-header-title">{title}</h3>
         <IconInfoCircle
