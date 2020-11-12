@@ -9,9 +9,9 @@ export default function OpeningPeriod({
   datePeriod: DatePeriod;
 }): JSX.Element {
   return (
-    <div className="opening-period-card">
-      <div className="opening-period-card-row">
-        <div className="opening-period-card-dates">
+    <div className="opening-period">
+      <div className="opening-period-row">
+        <div className="opening-period-dates">
           <div>
             {formatDateRange({
               startDate: datePeriod.start_date,
@@ -19,7 +19,7 @@ export default function OpeningPeriod({
             })}
           </div>
         </div>
-        <div className="opening-period-card-title">
+        <div className="opening-period-title">
           <h4>{datePeriod.name?.fi}</h4>
         </div>
       </div>
