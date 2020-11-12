@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
 import { IconInfoCircle, Navigation, Button } from 'hds-react';
-import OpeningPeriodCard from '../opening-period-card/OpeningPeriodCard';
+import OpeningPeriod from './opening-period/OpeningPeriod';
 import Collapse from '../../components/collapse/Collapse';
 import './ResourceOpeningHours.scss';
+import { DatePeriod } from '../../common/lib/types';
 
-export default function ResourceOpeningHours({
-  id,
+enum PeriodHeaderTheme {
+  DEFAULT = 'DEFAULT',
+  LIGHT = 'LIGHT',
+}
+
+const OpeningPeriodsHeader = ({
+  title,
+  count,
+  theme,
 }: {
-  id: string;
-}): JSX.Element {
+  title: string;
+  count: number;
+  theme: PeriodHeaderTheme;
+}): JSX.Element => {
+  const openingPeriodsHeaderClassName =
+    theme === PeriodHeaderTheme.LIGHT
+      ? 'opening-periods-header-light'
+      : 'opening-periods-header';
+
   interface LanguageOption {
     label: string;
     value: string;
@@ -24,6 +39,59 @@ export default function ResourceOpeningHours({
     value.toUpperCase();
 
   return (
+    <header className={openingPeriodsHeaderClassName}>
+      <div className="opening-periods-header-container">
+        <h3 className="opening-periods-header-title">{title}</h3>
+        <IconInfoCircle
+          aria-label="Lisätietoja aukiolojaksoista nappi"
+          className="opening-periods-header-info"
+        />
+      </div>
+      <div className="opening-periods-header-container">
+        <p className="period-count">{count} jaksoa</p>
+        <Navigation.LanguageSelector
+          className="opening-periods-header-language-selector"
+          ariaLabel="Aukioloaikojen valittu kieli"
+          options={languageOptions}
+          formatSelectedValue={formatSelectedValue}
+          onLanguageChange={setLanguage}
+          value={language}
+        />
+        <Button
+          size="small"
+          className="opening-period-header-button"
+          variant="secondary">
+          Lisää uusi +
+        </Button>
+      </div>
+    </header>
+  );
+};
+
+const OpeningPeriodsNotFound = ({ text }: { text: string }): JSX.Element => (
+  <p className="opening-periods-not-found">{text}</p>
+);
+
+export default function ResourceOpeningHours({
+  id,
+  datePeriods,
+}: {
+  id: string;
+  datePeriods: DatePeriod[];
+}): JSX.Element {
+  const [
+    defaultPeriods = [],
+    exceptionPeriods = [],
+  ]: DatePeriod[][] = datePeriods.reduce(
+    ([defaults = [], exceptions = []]: DatePeriod[][], current: DatePeriod) => {
+      return current.override
+        ? [defaults, [...exceptions, current]]
+        : [[...defaults, current], exceptions];
+    },
+    []
+  );
+
+  return (
     <Collapse
       isOpen
       collapseContentId={`${id}-opening-hours-section`}
@@ -36,38 +104,50 @@ export default function ResourceOpeningHours({
         aukiolojaksojen esitystavan, se ei välttämättä ole alla näkyvän
         kaltainen.
       </p>
-      <header className="resource-opening-hours-header">
-        <div className="opening-periods-info-container">
-          <h3 className="opening-periods-title">Aukiolojaksot</h3>
-          <IconInfoCircle
-            aria-label="Lisätietoja aukiolojaksoista nappi"
-            className="opening-periods-info"
-          />
-        </div>
-        <div className="opening-periods-info-container">
-          <p className="period-count">4 jaksoa</p>
-          <Navigation.LanguageSelector
-            className="opening-periods-language-selector"
-            ariaLabel="Aukioloaikojen valittu kieli"
-            options={languageOptions}
-            formatSelectedValue={formatSelectedValue}
-            onLanguageChange={setLanguage}
-            value={language}
-          />
-          <Button
-            size="small"
-            className="add-new-opening-period-button"
-            variant="secondary">
-            Lisää uusi +
-          </Button>
-        </div>
-      </header>
-      <div className="opening-period-cards-container">
-        <OpeningPeriodCard />
-        <OpeningPeriodCard />
-        <OpeningPeriodCard />
-        <OpeningPeriodCard />
-      </div>
+      <section className="opening-periods-section">
+        <OpeningPeriodsHeader
+          title="Aukiolojaksot"
+          count={defaultPeriods.length}
+          theme={PeriodHeaderTheme.DEFAULT}
+        />
+        <ul
+          className="opening-periods-list"
+          data-test="resource-opening-periods-list">
+          {defaultPeriods.length > 0 ? (
+            datePeriods.map((datePeriod: DatePeriod) => (
+              <li>
+                <OpeningPeriod datePeriod={datePeriod} />
+              </li>
+            ))
+          ) : (
+            <li>
+              <OpeningPeriodsNotFound text="Ei aukiolojaksoja." />
+            </li>
+          )}
+        </ul>
+      </section>
+      <section className="opening-periods-section">
+        <OpeningPeriodsHeader
+          title="Poikkeusaukiolojaksot"
+          count={exceptionPeriods.length}
+          theme={PeriodHeaderTheme.LIGHT}
+        />
+        <ul
+          className="opening-periods-list"
+          data-test="resource-exception-opening-periods-list">
+          {exceptionPeriods.length > 0 ? (
+            exceptionPeriods.map((datePeriod: DatePeriod) => (
+              <li>
+                <OpeningPeriod datePeriod={datePeriod} />
+              </li>
+            ))
+          ) : (
+            <li>
+              <OpeningPeriodsNotFound text="Ei poikkeusaukiolojaksoja." />
+            </li>
+          )}
+        </ul>
+      </section>
     </Collapse>
   );
 }

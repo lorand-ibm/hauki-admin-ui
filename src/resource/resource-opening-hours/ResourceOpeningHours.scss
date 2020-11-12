@@ -1,8 +1,9 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
-.resource-opening-hours-header {
+.opening-periods-header {
   min-height: 4rem;
-  background-color: var(--resource-opening-hours-header-background-color);
+  background-color: var(--opening-periods-header-background-color);
+  color: var(--opening-periods-header-color);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -12,63 +13,92 @@
   padding-right: $spacing-m;
 }
 
-.opening-periods-info-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.opening-period-header-button {
+  font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
+  color: var(--opening-periods-header-button-color);
+  border-color: var(--opening-periods-header-button-border-color) !important;
+
+  &:hover {
+    background-color: var(--opening-periods-header-button-hover-background-color) !important;
+    color: var(--opening-periods-header-button-hover-color) !important;
+  }
+
+  &:focus {
+    color: var(--opening-periods-header-button-focus-color);
+    border-color: var(--opening-periods-header-button-focus-border-color) !important;
+    border-width: 3px;
+  }
 }
 
-.opening-periods-title {
+.opening-periods-header-light {
+  @extend .opening-periods-header;
+
+  background-color: var(--opening-periods-header-light-background-color);
+  color: var(--opening-periods-header-light-color);
+
+  .opening-period-header-button {
+    font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
+    color: var(--opening-periods-header-light-button-color);
+    border-color: var(--opening-periods-header-light-button-border-color) !important;
+
+    &:hover {
+      background-color: var(--opening-periods-header-light-button-hover-background-color) !important;
+      color: var(--opening-periods-header-light-button-hover-color) !important;
+    }
+
+    &:focus {
+      color: var(--opening-periods-header-light-button-focus-color);
+    }
+  }
+}
+
+.opening-periods-header-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.opening-periods-header-title {
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
   font-size: $fontsize-heading-m;
-  color: var(--opening-periods-title-color);
+  color: inherit;
   margin-right: $spacing-s;
   margin-top: 0;
   margin-bottom: 0;
 }
 
-.opening-periods-info {
-  color: var(--opening-periods-info-color);
+.opening-periods-header-info {
+  color: inherit;
 }
 
 .period-count {
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
   font-size: $fontsize-body-m;
   align-self: flex-start;
-  color: var(--period-count-color);
+  color: inherit;
   margin-right: $spacing-xl;
 }
 
-.opening-periods-language-selector {
+.opening-periods-header-language-selector {
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
-  color: var(--opening-periods-language-selector-color);
+  color: inherit;
   font-size: $fontsize-body-m;
   margin-right: $spacing-xl;
 }
 
-.add-new-opening-period-button.add-new-opening-period-button {
-  font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
-  color: var(--add-new-opening-period-button-color);
-  border-color: var(--add-new-opening-period-button-border-color) !important;
+.opening-periods-list {
+  list-style: none;
+  margin: 0;
+  padding: $spacing-s 0 $spacing-l;
 
-  &:hover {
-    background-color: var(--add-new-opening-period-button-hover-background-color) !important;
-    color: var(--add-new-opening-period-button-hover-color) !important;
-  }
-
-  &:focus {
-    color: var(--add-new-opening-period-button-focus-color);
-    border-color: var(--add-new-opening-period-button-focus-border-color) !important;
-    border-width: 3px;
+  > li + li {
+    margin-top: $spacing-xs;
   }
 }
 
-.opening-period-cards-container {
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-  padding-top: $spacing-2-xs;
-  padding-bottom: $spacing-2-xs;
+.opening-periods-not-found {
+  padding-left: $spacing-m;
+  padding-right: $spacing-m;
 }
 
 .loading-opening-hours-text {

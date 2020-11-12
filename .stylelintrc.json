@@ -4,6 +4,9 @@
     "stylelint-value-no-unknown-custom-properties"
   ],
   "rules": {
+    "at-rule-no-unknown": [true, {
+      "ignoreAtRules": ["extend", "include", "mixin"]
+    }],
     "csstools/value-no-unknown-custom-properties": [
       true,
       {
