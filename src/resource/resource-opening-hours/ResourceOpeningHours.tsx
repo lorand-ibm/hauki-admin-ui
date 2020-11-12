@@ -21,7 +21,7 @@ const OpeningPeriodsHeader = ({
 }): JSX.Element => {
   const className =
     theme === PeriodHeaderTheme.LIGHT
-      ? 'opening-periods-header opening-periods-header-light'
+      ? 'opening-periods-header-light'
       : 'opening-periods-header';
 
   interface LanguageOption {
