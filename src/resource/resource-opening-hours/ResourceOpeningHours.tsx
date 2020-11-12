@@ -68,6 +68,10 @@ const OpeningPeriodsHeader = ({
   );
 };
 
+const OpeningPeriodsNotFound = ({ text }: { text: string }): JSX.Element => (
+  <p className="opening-periods-not-found">{text}</p>
+);
+
 export default function ResourceOpeningHours({
   id,
   datePeriods,
@@ -117,7 +121,7 @@ export default function ResourceOpeningHours({
             ))
           ) : (
             <li>
-              <p>Ei aukiolojaksoja.</p>
+              <OpeningPeriodsNotFound text="Ei aukiolojaksoja." />
             </li>
           )}
         </ul>
@@ -139,7 +143,7 @@ export default function ResourceOpeningHours({
             ))
           ) : (
             <li>
-              <p>Ei poikkeusaukiolojaksoja.</p>
+              <OpeningPeriodsNotFound text="Ei poikkeusaukiolojaksoja." />
             </li>
           )}
         </ul>
