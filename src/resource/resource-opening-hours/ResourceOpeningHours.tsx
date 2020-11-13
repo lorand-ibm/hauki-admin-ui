@@ -131,7 +131,7 @@ export default function ResourceOpeningHours({
         notFoundLabel="Ei aukiolojaksoja."
       />
       <OpeningPeriodsList
-        id="resource-exception-periods-list"
+        id="resource-exception-opening-periods-list"
         title="Poikkeusaukiolojaksot"
         datePeriods={exceptionPeriods}
         theme={PeriodsListTheme.LIGHT}
