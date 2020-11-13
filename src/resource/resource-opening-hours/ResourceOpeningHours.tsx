@@ -73,7 +73,7 @@ const OpeningPeriodsList = ({
         data-test="resource-opening-periods-list">
         {datePeriods.length > 0 ? (
           datePeriods.map((datePeriod: DatePeriod) => (
-            <li>
+            <li key={datePeriod.id}>
               <OpeningPeriod datePeriod={datePeriod} />
             </li>
           ))
