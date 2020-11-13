@@ -11,11 +11,13 @@ enum PeriodsListTheme {
 }
 
 const OpeningPeriodsList = ({
+  id,
   title,
   datePeriods,
   theme,
   notFoundLabel,
 }: {
+  id: string;
   title: string;
   datePeriods: DatePeriod[];
   theme: PeriodsListTheme;
@@ -68,9 +70,7 @@ const OpeningPeriodsList = ({
           </Button>
         </div>
       </header>
-      <ul
-        className="opening-periods-list"
-        data-test="resource-opening-periods-list">
+      <ul className="opening-periods-list" data-test={id}>
         {datePeriods.length > 0 ? (
           datePeriods.map((datePeriod: DatePeriod) => (
             <li key={datePeriod.id}>
@@ -124,12 +124,14 @@ export default function ResourceOpeningHours({
         kaltainen.
       </p>
       <OpeningPeriodsList
+        id="resource-opening-periods-list"
         title="Aukiolojaksot"
         datePeriods={defaultPeriods}
         theme={PeriodsListTheme.DEFAULT}
         notFoundLabel="Ei aukiolojaksoja."
       />
       <OpeningPeriodsList
+        id="resource-exception-periods-list"
         title="Poikkeusaukiolojaksot"
         datePeriods={exceptionPeriods}
         theme={PeriodsListTheme.LIGHT}
