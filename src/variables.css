@@ -1,27 +1,29 @@
 /* This file needs to be a css file because stylelint-value-no-unknown-custom-properties plugin cannot read .scss files in .stylelintrc.json */
 
 :root {
-  --primary-color: var(--color-coat-of-arms-blue);
+  --primary-color: var(--color-coat-of-arms);
+  --hauki-light-blue: #f2f8fc;
   --hauki-content-text-color: var(--color-black-90);
   --hauki-content-background-color: #fafafb;
-  --hauki-content-link-color: var(--color-coat-of-arms-blue);
+  --hauki-content-link-color: var(--color-coat-of-arms);
   --hauki-content-border-color: #c4c4c4;
-  --hauki-footer-background-color: var(--color-coat-of-arms-blue-light-20);
+  --hauki-footer-background-color: #cce2f3;
   --opening-period-background-color: #fff;
-  --opening-periods-header-background-color: var(--color-coat-of-arms-blue);
+  --opening-periods-header-background-color: var(--color-coat-of-arms);
   --add-new-opening-period-button-color: white;
   --opening-periods-header-color: white;
   --opening-periods-header-button-color: white;
   --opening-periods-header-button-border-color: white;
   --opening-periods-header-button-focus-color: white;
   --opening-periods-header-button-focus-border-color: white;
-  --opening-periods-header-button-hover-background-color: var(--color-coat-of-arms-blue-light-5);
-  --opening-periods-header-button-hover-color: var(--color-coat-of-arms-blue);
-  --opening-periods-header-light-background-color: var(--color-coat-of-arms-blue-light-5);
+  --opening-periods-header-button-hover-background-color: var(--hauki-light-blue);
+  --opening-periods-header-button-hover-color: var(--color-coat-of-arms);
+  --opening-periods-header-light-background-color: var(--hauki-light-blue);
   --opening-periods-header-light-color: var(--hauki-content-text-color);
-  --opening-periods-header-light-button-color: var(--color-coat-of-arms-blue);
-  --opening-periods-header-light-button-border-color: var(--color-coat-of-arms-blue);
-  --opening-periods-header-light-button-focus-color: var(--color-coat-of-arms-blue);
-  --opening-periods-header-light-button-hover-background-color:  var(--color-coat-of-arms-blue);
+  --opening-periods-header-light-button-color: var(--color-coat-of-arms);
+  --opening-periods-header-light-button-border-color: var(--color-coat-of-arms);
+  --opening-periods-header-light-button-focus-color: var(--color-coat-of-arms);
+  --opening-periods-header-light-button-hover-background-color:  var(--color-coat-of-arms);
   --opening-periods-header-light-button-hover-color: white;
+  --collapse-header-color: var(--color-coat-of-arms);
 }
