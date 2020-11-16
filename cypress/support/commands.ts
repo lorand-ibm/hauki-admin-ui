@@ -37,3 +37,15 @@ Cypress.Commands.add(
     cy.visit(`/resource/${resourceId}?${Cypress.env('auth-query-parameters')}`);
   }
 );
+
+Cypress.on('uncaught:exception', (err: Error): boolean | Error => {
+  if (
+    /ResizeObserver loop completed with undelivered notifications/.test(
+      err.message
+    )
+  ) {
+    return false;
+  }
+
+  return err;
+});
