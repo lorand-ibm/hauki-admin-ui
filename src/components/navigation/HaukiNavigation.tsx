@@ -24,10 +24,13 @@ export default function HaukiNavigation(): JSX.Element {
 
   return (
     <Navigation
+      theme={{
+        '--header-background-color': 'var(--color-coat-of-arms)',
+        '--header-color': 'var(--color-white)',
+      }}
       className="navigation-header"
       title="Aukiolot"
-      menuCloseAriaLabel="Avaa menu"
-      menuOpenAriaLabel="Sulje menu"
+      menuToggleAriaLabel="Menu"
       skipTo="#main"
       skipToContentLabel="Siirry pääsisältöön">
       {isAuthenticated && (

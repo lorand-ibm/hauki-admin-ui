@@ -25,8 +25,3 @@
   --opening-periods-header-light-button-hover-background-color:  var(--color-coat-of-arms-blue);
   --opening-periods-header-light-button-hover-color: white;
 }
-
-:root .navigation-header {
-  --header-background-color: var(--color-coat-of-arms-blue);
-  --header-color: var(--color-white);
-}
