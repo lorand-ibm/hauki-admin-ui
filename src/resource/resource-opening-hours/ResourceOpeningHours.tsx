@@ -60,14 +60,20 @@ const OpeningPeriodsList = ({
         </div>
         <div className="opening-periods-header-container">
           <p className="period-count">{datePeriods.length} jaksoa</p>
-          <Navigation.LanguageSelector
-            className="opening-periods-header-language-selector"
-            ariaLabel="Aukioloaikojen valittu kieli"
-            options={languageOptions}
-            formatSelectedValue={formatSelectedValue}
-            onLanguageChange={setLanguage}
-            value={language}
-          />
+          <Navigation.LanguageSelector label={formatSelectedValue(language)}>
+            {languageOptions.map((languageOption) => (
+              <Navigation.Item
+                key={languageOption.value}
+                label={languageOption.label}
+                onClick={(
+                  e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+                ): void => {
+                  e.preventDefault();
+                  setLanguage(languageOption);
+                }}
+              />
+            ))}
+          </Navigation.LanguageSelector>
           <Button
             data-test={addNewOpeningPeriodButtonDataTest}
             size="small"
