@@ -3,6 +3,8 @@
 :root {
   --primary-color: var(--color-coat-of-arms);
   --hauki-light-blue: #f2f8fc;
+  --hauki-header-background-color: var(--color-coat-of-arms);
+  --hauki-header-color: white;
   --hauki-content-text-color: var(--color-black-90);
   --hauki-content-background-color: #fafafb;
   --hauki-content-link-color: var(--color-coat-of-arms);

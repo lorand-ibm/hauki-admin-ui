@@ -25,8 +25,8 @@ export default function HaukiNavigation(): JSX.Element {
   return (
     <Navigation
       theme={{
-        '--header-background-color': 'var(--color-coat-of-arms)',
-        '--header-color': 'var(--color-white)',
+        '--header-background-color': 'var(--hauki-header-background-color)',
+        '--header-color': 'var(--hauki-header-color)',
       }}
       className="navigation-header"
       title="Aukiolot"
