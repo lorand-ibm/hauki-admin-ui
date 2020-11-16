@@ -56,6 +56,10 @@
   align-items: center;
   display: flex;
   flex-direction: row;
+
+  > * + * {
+    margin-left: $spacing-xl;
+  }
 }
 
 .opening-periods-header-title {
@@ -75,7 +79,6 @@
   font-size: $fontsize-body-m;
   align-self: flex-start;
   color: inherit;
-  margin-right: $spacing-xl;
 }
 
 .opening-periods-header-language-selector {
