@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
+import { DatePeriod, Resource, ResourceState } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
 import ResourcePage from './ResourcePage';
-import { Resource } from '../../common/lib/types';
 
 const testResource: Resource = {
   id: 1186,
@@ -28,6 +28,21 @@ const testResource: Resource = {
   },
 };
 
+const testDatePeriod: DatePeriod = {
+  id: '1',
+  created: '20-16-2020',
+  modified: '20-16-2020',
+  is_removed: false,
+  name: { fi: '', sv: '', en: '' },
+  description: { fi: '', sv: '', en: '' },
+  start_date: '',
+  end_date: '20-11-2020',
+  resource_state: ResourceState.OPEN,
+  override: false,
+  resource: 1,
+  time_span_groups: [],
+};
+
 describe(`<ResourcePage />`, () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -37,6 +52,10 @@ describe(`<ResourcePage />`, () => {
     jest
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.resolve(testResource));
+
+    jest
+      .spyOn(api, 'getDatePeriod')
+      .mockImplementation(() => Promise.resolve([testDatePeriod]));
 
     const resourcePage = mount(<ResourcePage id="tprek:8100" />);
 
@@ -97,6 +116,10 @@ describe(`<ResourcePage />`, () => {
     jest
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.resolve(testResource));
+
+    jest
+      .spyOn(api, 'getDatePeriod')
+      .mockImplementation(() => Promise.resolve([testDatePeriod]));
 
     const linkSelector = `a[href="${testResource.extra_data.admin_url}"]`;
 
