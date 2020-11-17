@@ -5,7 +5,7 @@ import api, { Resource } from '../../common/utils/api/api';
 import ResourcePage from './ResourcePage';
 
 const testResource: Resource = {
-  id: 'tprek:1000',
+  id: 1186,
   name: {
     fi: 'Test resource name in finnish',
     sv: 'Test resource name in swedish',
@@ -75,7 +75,7 @@ describe(`<ResourcePage />`, () => {
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.resolve(testResource));
 
-    const resourcePage = mount(<ResourcePage id={testResource.id} />);
+    const resourcePage = mount(<ResourcePage id="tprek:8100" />);
 
     await act(async () => {
       resourcePage.update(); // First tick for useEffect
@@ -99,7 +99,7 @@ describe(`<ResourcePage />`, () => {
 
     const linkSelector = `a[href="${testResource.extra_data.admin_url}"]`;
 
-    const resourcePage = mount(<ResourcePage id={testResource.id} />);
+    const resourcePage = mount(<ResourcePage id="tprek:8100" />);
 
     await act(async () => {
       resourcePage.update(); // First tick for useEffect

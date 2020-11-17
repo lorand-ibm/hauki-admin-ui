@@ -11,9 +11,31 @@ describe('Open aukiolot app', () => {
     cy.contains('Aukiolot');
   });
 
-  it('Has no detectable a11y violations on load', () => {
+  it('Has no detectable a11y violations on resource page load', () => {
     cy.injectAxe();
     cy.get('[data-test=resource-info]', { timeout: 5000 }).should('be.visible');
+    cy.checkA11y(
+      {},
+      {
+        rules: {
+          'duplicate-id-aria': { enabled: false }, // TODO: HAUKI-185
+          'duplicate-id': { enabled: false },
+        },
+      }
+    );
+  });
+
+  it('Has no detectable a11y violations on add new opening period page', () => {
+    cy.injectAxe();
+    cy.get('[data-test=resource-info]', { timeout: 5000 }).should('be.visible');
+
+    // Go to add new opening period page by pressing the header button
+    cy.get('[data-cy=add-new-opening-period-button]').click();
+
+    cy.get('[data-cy=add-new-opening-period-form]', {
+      timeout: 5000,
+    }).should('be.visible');
+
     cy.checkA11y(
       {},
       {

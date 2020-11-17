@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IconInfoCircle, Navigation, Button } from 'hds-react';
+import { useHistory } from 'react-router-dom';
 import OpeningPeriod from './opening-period/OpeningPeriod';
 import Collapse from '../../components/collapse/Collapse';
 import './ResourceOpeningHours.scss';
@@ -12,12 +13,16 @@ enum PeriodsListTheme {
 
 const OpeningPeriodsList = ({
   id,
+  addNewOpeningPeriodButtonDataCy,
+  resourceId,
   title,
   datePeriods,
   theme,
   notFoundLabel,
 }: {
   id: string;
+  addNewOpeningPeriodButtonDataCy?: string;
+  resourceId: string;
   title: string;
   datePeriods: DatePeriod[];
   theme: PeriodsListTheme;
@@ -38,6 +43,7 @@ const OpeningPeriodsList = ({
     { label: 'Svenska', value: 'sv' },
     { label: 'English', value: 'en' },
   ];
+  const history = useHistory();
   const [language, setLanguage] = useState(languageOptions[0]);
   const formatSelectedValue = ({ value }: LanguageOption): string =>
     value.toUpperCase();
@@ -63,8 +69,12 @@ const OpeningPeriodsList = ({
             value={language}
           />
           <Button
+            data-cy={addNewOpeningPeriodButtonDataCy}
             size="small"
             className="opening-period-header-button"
+            onClick={(): void =>
+              history.push(`/resource/${resourceId}/period/new`)
+            }
             variant="secondary">
             Lisää uusi +
           </Button>
@@ -125,6 +135,8 @@ export default function ResourceOpeningHours({
       </p>
       <OpeningPeriodsList
         id="resource-opening-periods-list"
+        addNewOpeningPeriodButtonDataCy="add-new-opening-period-button"
+        resourceId={id}
         title="Aukiolojaksot"
         datePeriods={defaultPeriods}
         theme={PeriodsListTheme.DEFAULT}
@@ -132,6 +144,7 @@ export default function ResourceOpeningHours({
       />
       <OpeningPeriodsList
         id="resource-exception-opening-periods-list"
+        resourceId={id}
         title="Poikkeusaukiolojaksot"
         datePeriods={exceptionPeriods}
         theme={PeriodsListTheme.LIGHT}

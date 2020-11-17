@@ -1,10 +1,10 @@
 type Language = 'fi' | 'sv' | 'en';
 
-type LanguageStrings = {
+export type LanguageStrings = {
   [x in Language]: string | null;
 };
 
-enum ResourceState {
+export enum ResourceState {
   OPEN = 'open',
   SELF_SERVICE = 'self_service',
   CLOSED = 'closed',
@@ -37,7 +37,7 @@ type TimeSpan = {
   group: 1;
 };
 
-type TimeSpanGroup = {
+export type TimeSpanGroup = {
   id: number;
   time_spans: TimeSpan[];
   rules: [];
@@ -45,10 +45,10 @@ type TimeSpanGroup = {
 };
 
 export type DatePeriod = {
-  id: string;
-  created: string;
-  modified: string;
-  is_removed: boolean;
+  id?: string;
+  created?: string;
+  modified?: string;
+  is_removed?: boolean;
   name: LanguageStrings;
   description: LanguageStrings;
   start_date: string;
