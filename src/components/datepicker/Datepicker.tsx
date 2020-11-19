@@ -44,7 +44,7 @@ function getTimeObjects(interval = 15): TimeObject[] {
 
 export type DatepickerProps = {
   className?: string;
-  dataCy?: string;
+  dataTest?: string;
   disabled?: boolean;
   helperText?: string;
   id: string;
@@ -62,7 +62,7 @@ export type DatepickerProps = {
 
 const Datepicker: React.FC<DatepickerProps> = ({
   className,
-  dataCy,
+  dataTest,
   value,
   id,
   helperText,
@@ -334,7 +334,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
       <div
         role="button"
         tabIndex={0}
-        data-cy={dataCy}
+        data-test={dataTest}
         ref={container}
         onKeyDown={preventArrowKeyScroll}
         onClick={(): void => {
@@ -381,7 +381,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
           {isCalendarOpen && (
             <div
               className="datepickerContainer"
-              data-cy="datepickerContainer"
+              data-test="datepickerContainer"
               ref={datepickerContainer}
               role="dialog"
               aria-modal="true"
@@ -406,7 +406,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
                       })}
                     </div>
                     <MonthNavButton
-                      dataCy="show-next-month-button"
+                      dataTest="show-next-month-button"
                       onClick={goToNextMonths}
                       aria-label="Seuraava kuukausi">
                       <IconAngleRight />

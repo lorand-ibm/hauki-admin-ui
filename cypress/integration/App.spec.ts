@@ -30,9 +30,9 @@ describe('Open aukiolot app', () => {
     cy.get('[data-test=resource-info]', { timeout: 5000 }).should('be.visible');
 
     // Go to add new opening period page by pressing the header button
-    cy.get('[data-cy=add-new-opening-period-button]').click();
+    cy.get('[data-test=add-new-opening-period-button]').click();
 
-    cy.get('[data-cy=add-new-opening-period-form]', {
+    cy.get('[data-test=add-new-opening-period-form]', {
       timeout: 5000,
     }).should('be.visible');
 

@@ -13,7 +13,7 @@ enum PeriodsListTheme {
 
 const OpeningPeriodsList = ({
   id,
-  addNewOpeningPeriodButtonDataCy,
+  addNewOpeningPeriodButtonDataTest,
   resourceId,
   title,
   datePeriods,
@@ -21,7 +21,7 @@ const OpeningPeriodsList = ({
   notFoundLabel,
 }: {
   id: string;
-  addNewOpeningPeriodButtonDataCy?: string;
+  addNewOpeningPeriodButtonDataTest?: string;
   resourceId: string;
   title: string;
   datePeriods: DatePeriod[];
@@ -69,7 +69,7 @@ const OpeningPeriodsList = ({
             value={language}
           />
           <Button
-            data-cy={addNewOpeningPeriodButtonDataCy}
+            data-test={addNewOpeningPeriodButtonDataTest}
             size="small"
             className="opening-period-header-button"
             onClick={(): void =>
@@ -135,7 +135,7 @@ export default function ResourceOpeningHours({
       </p>
       <OpeningPeriodsList
         id="resource-opening-periods-list"
-        addNewOpeningPeriodButtonDataCy="add-new-opening-period-button"
+        addNewOpeningPeriodButtonDataTest="add-new-opening-period-button"
         resourceId={id}
         title="Aukiolojaksot"
         datePeriods={defaultPeriods}

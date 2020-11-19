@@ -144,7 +144,7 @@ export default function CreateNewOpeningPeriodPage({
       </div>
       <form
         id="add-new-opening-period-form"
-        data-cy="add-new-opening-period-form"
+        data-test="add-new-opening-period-form"
         className="add-new-opening-period-form"
         onSubmit={handleSubmit(onSubmit)}>
         <div className="form-content-container">
@@ -154,7 +154,7 @@ export default function CreateNewOpeningPeriodPage({
             className="add-new-opening-period-title"
             type="text"
             name="openingPeriodTitle"
-            data-cy="openingPeriodTitle"
+            data-test="openingPeriodTitle"
             id="openingPeriodTitle"
             aria-invalid={errors.openingPeriodTitle ? 'true' : 'false'}
             ref={register({ required: true, maxLength: 100 })}
@@ -178,7 +178,7 @@ export default function CreateNewOpeningPeriodPage({
           <section className="opening-period-time-period">
             <Datepicker
               id="openingPeriodBeginDate"
-              dataCy="openingPeriodBeginDate"
+              dataTest="openingPeriodBeginDate"
               labelText="Alkaa"
               onChange={(value): void => setPeriodBeginDate(value || null)}
               onBlur={(): void => {
@@ -191,7 +191,7 @@ export default function CreateNewOpeningPeriodPage({
             <p className="dash-between-begin-and-end-date">—</p>
             <Datepicker
               id="openingPeriodEndDate"
-              dataCy="openingPeriodEndDate"
+              dataTest="openingPeriodEndDate"
               labelText="Päättyy"
               onChange={(value): void => setPeriodEndDate(value || null)}
               onBlur={(): void => {
@@ -205,7 +205,7 @@ export default function CreateNewOpeningPeriodPage({
         </div>
         <div className="add-new-opening-period-final-action-row-container">
           <Button
-            data-cy="publish-new-opening-period-button"
+            data-test="publish-new-opening-period-button"
             className="add-new-opening-period-final-action-button publish-new-opening-period-button"
             type="submit"
             form="add-new-opening-period-form">

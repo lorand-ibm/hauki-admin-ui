@@ -5,16 +5,16 @@ import './Datepicker.scss';
 type ButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
-> & { dataCy?: string };
+> & { dataTest?: string };
 
 const MonthNavButton: React.FC<ButtonProps> = ({
   children,
-  dataCy,
+  dataTest,
   onClick,
   ...props
 }) => (
   <button
-    data-cy={dataCy}
+    data-test={dataTest}
     className="monthNavButton"
     type="button"
     onClick={onClick}
