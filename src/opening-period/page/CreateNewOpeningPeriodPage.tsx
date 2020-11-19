@@ -95,11 +95,7 @@ export default function CreateNewOpeningPeriodPage({
   }, [resourceId]);
 
   if (isLoading) {
-    return (
-      <>
-        <p>Sivua ladataan...</p>
-      </>
-    );
+    return <p>Sivua ladataan...</p>;
   }
 
   if (hasLoadingResourceError) {
