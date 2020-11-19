@@ -95,6 +95,10 @@ describe(`<ResourcePage />`, () => {
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.resolve(testResource));
 
+    jest
+      .spyOn(api, 'getDatePeriod')
+      .mockImplementation(() => Promise.resolve([testDatePeriod]));
+
     const resourcePage = mount(<ResourcePage id="tprek:8100" />);
 
     await act(async () => {
