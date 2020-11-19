@@ -4,11 +4,11 @@ import { Button, Notification } from 'hds-react';
 import { useHistory } from 'react-router-dom';
 import formatDate from 'date-fns/format';
 import parse from 'date-fns/parse';
-import api, { Resource } from '../../common/utils/api/api';
+import api from '../../common/utils/api/api';
 import { ResourceInfo } from '../../resource/page/ResourcePage';
 import Datepicker from '../../components/datepicker/Datepicker';
 import './CreateNewOpeningPeriodPage.scss';
-import { ResourceState } from '../../common/lib/types';
+import { Resource, ResourceState } from '../../common/lib/types';
 
 type Inputs = {
   openingPeriodTitle: string;

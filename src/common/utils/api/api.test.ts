@@ -1,10 +1,10 @@
 /// <reference types="jest" />
 
 import axios from 'axios';
-import api, { Resource } from './api';
+import api from './api';
 import * as auth from '../../../auth/auth-context';
 import { AuthTokens } from '../../../auth/auth-context';
-import { ResourceState } from '../../lib/types';
+import { Resource, ResourceState } from '../../lib/types';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;

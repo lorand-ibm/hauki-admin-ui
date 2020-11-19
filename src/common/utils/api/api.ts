@@ -2,8 +2,9 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
   DatePeriod,
   LanguageStrings,
-  TimeSpanGroup,
+  Resource,
   ResourceState,
+  TimeSpanGroup,
 } from '../../lib/types';
 import { AuthTokens, getTokens } from '../../../auth/auth-context';
 
@@ -112,29 +113,6 @@ async function apiPost<T>({ path, data = {} }: PostParameters): Promise<T> {
       return status < 300;
     },
   });
-}
-
-export interface Resource {
-  id: number;
-  name: {
-    fi: string;
-    sv: string;
-    en: string;
-  };
-  description: {
-    fi: string;
-    sv: string;
-    en: string;
-  };
-  address: {
-    fi: string;
-    sv: string;
-    en: string;
-  };
-  extra_data: {
-    citizen_url: string;
-    admin_url: string;
-  };
 }
 
 interface AuthTestResponse {

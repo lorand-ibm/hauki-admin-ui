@@ -58,3 +58,26 @@ export type DatePeriod = {
   resource: number;
   time_span_groups: TimeSpanGroup[];
 };
+
+export interface Resource {
+  id: number;
+  name: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
+  description: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
+  address: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
+  extra_data: {
+    citizen_url: string;
+    admin_url: string;
+  };
+}

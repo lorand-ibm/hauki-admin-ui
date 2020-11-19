@@ -1,8 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import api, { Resource } from '../../common/utils/api/api';
+import api from '../../common/utils/api/api';
 import ResourcePage from './ResourcePage';
+import { Resource } from '../../common/lib/types';
 
 const testResource: Resource = {
   id: 1186,
