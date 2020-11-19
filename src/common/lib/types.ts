@@ -45,10 +45,10 @@ export type TimeSpanGroup = {
 };
 
 export type DatePeriod = {
-  id: number;
-  created: string;
-  modified: string;
-  is_removed: boolean;
+  id?: string;
+  created?: string;
+  modified?: string;
+  is_removed?: boolean;
   name: LanguageStrings;
   description: LanguageStrings;
   start_date: string;
