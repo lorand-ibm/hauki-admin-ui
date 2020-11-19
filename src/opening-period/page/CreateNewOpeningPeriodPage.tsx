@@ -136,7 +136,7 @@ export default function CreateNewOpeningPeriodPage({
           Aukiolojakson lisääminen epäonnistui. Yritä myöhemmin uudestaan.
         </Notification>
       )}
-      <div className="add-new-opening-period-page-header-row">
+      <div className="opening-period-page-header-row">
         <ResourceInfo resource={resource} />
         <h2 className="add-new-opening-period-page-title">
           Toimipisteen aukiolojakson lisäys
