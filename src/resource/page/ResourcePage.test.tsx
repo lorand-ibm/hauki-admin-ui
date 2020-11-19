@@ -29,14 +29,14 @@ const testResource: Resource = {
 };
 
 const testDatePeriod: DatePeriod = {
-  id: '1',
-  created: '20-16-2020',
-  modified: '20-16-2020',
+  id: 1,
+  created: '2020-11-20',
+  modified: '2020-11-20',
   is_removed: false,
   name: { fi: '', sv: '', en: '' },
   description: { fi: '', sv: '', en: '' },
   start_date: '',
-  end_date: '20-11-2020',
+  end_date: '2020-11-21',
   resource_state: ResourceState.OPEN,
   override: false,
   resource: 1,
