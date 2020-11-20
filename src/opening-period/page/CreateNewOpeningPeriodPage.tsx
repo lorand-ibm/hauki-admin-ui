@@ -181,9 +181,6 @@ export default function CreateNewOpeningPeriodPage({
               dataTest="openingPeriodBeginDate"
               labelText="Alkaa"
               onChange={(value): void => setPeriodBeginDate(value || null)}
-              onBlur={(): void => {
-                // no extra effects so far, do nothing
-              }}
               value={periodBeginDate}
               registerFn={register}
               required
@@ -194,9 +191,6 @@ export default function CreateNewOpeningPeriodPage({
               dataTest="openingPeriodEndDate"
               labelText="Päättyy"
               onChange={(value): void => setPeriodEndDate(value || null)}
-              onBlur={(): void => {
-                // no extra effects so far, do nothing
-              }}
               value={periodEndDate}
               registerFn={register}
               required
