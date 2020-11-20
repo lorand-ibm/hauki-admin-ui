@@ -9,7 +9,7 @@
 .add-new-opening-period-page-title {
   margin-top: $spacing-2-xs;
   font-size: $fontsize-heading-m;
-  color: var(--color-coat-of-arms-blue);
+  color: var(--color-coat-of-arms);
 }
 
 .add-new-opening-period-form {
@@ -79,36 +79,36 @@
 .add-new-opening-period-final-action-button.add-new-opening-period-final-action-button {
   font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
   margin-right: $spacing-m;
-  border-color: var(--color-coat-of-arms-blue);
+  border-color: var(--color-coat-of-arms);
 }
 
 .publish-new-opening-period-button.publish-new-opening-period-button {
   color: var(--add-new-opening-period-button-color);
-  background-color: var(--color-coat-of-arms-blue);
+  background-color: var(--color-coat-of-arms);
 
   &:hover {
-    background-color: var(--color-coat-of-arms-blue-dark-50);
-    border-color: var(--color-coat-of-arms-blue-dark-50);
+    background-color: var(--color-coat-of-arms-dark);
+    border-color: var(--color-coat-of-arms-dark);
   }
 
   &:focus {
-    background-color: var(--color-coat-of-arms-blue);
-    border-color: var(--color-coat-of-arms-blue) !important;
-    outline-color: var(--color-coat-of-arms-blue);
+    background-color: var(--color-coat-of-arms);
+    border-color: var(--color-coat-of-arms) !important;
+    outline-color: var(--color-coat-of-arms);
   }
 }
 
 .cancel-creation-of-new-opening-period-button.cancel-creation-of-new-opening-period-button {
-  color: var(--color-coat-of-arms-blue);
+  color: var(--color-coat-of-arms);
 
   &:hover {
-    background-color: $color-coat-of-arms-blue-light-5;
-    border-color: var(--color-coat-of-arms-blue);
+    background-color: var(--color-coat-of-arms-light);
+    border-color: var(--color-coat-of-arms);
   }
 
   &:focus {
-    border-color: var(--color-coat-of-arms-blue) !important;
-    outline-color: var(--color-coat-of-arms-blue);
-    color: var(--color-coat-of-arms-blue) !important;
+    border-color: var(--color-coat-of-arms) !important;
+    outline-color: var(--color-coat-of-arms);
+    color: var(--color-coat-of-arms) !important;
   }
 }
