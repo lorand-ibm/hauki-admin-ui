@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
-import api, { Resource } from '../../common/utils/api/api';
-import { DatePeriod } from '../../common/lib/types';
+import api from '../../common/utils/api/api';
+import { DatePeriod, Resource } from '../../common/lib/types';
 import Collapse from '../../components/collapse/Collapse';
 import { ExternalLink } from '../../components/link/Link';
 import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
@@ -10,8 +10,12 @@ import './ResourcePage.scss';
 const hasText = (str: string | null | undefined): boolean =>
   str !== undefined && str !== null && str !== '';
 
-const ResourceInfo = ({ resource }: { resource?: Resource }): JSX.Element => (
-  <>
+export const ResourceInfo = ({
+  resource,
+}: {
+  resource?: Resource;
+}): JSX.Element => (
+  <div className="resource-info-container">
     <h1 data-test="resource-info" className="resource-info-title">
       {resource?.name?.fi}
     </h1>
@@ -25,7 +29,7 @@ const ResourceInfo = ({ resource }: { resource?: Resource }): JSX.Element => (
         </address>
       </div>
     )}
-  </>
+  </div>
 );
 
 const ResourceSection = ({

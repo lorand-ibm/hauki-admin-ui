@@ -54,6 +54,16 @@ module.exports = {
         format: ['camelCase', 'snake_case', 'UPPER_CASE'],
       },
     ],
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "labelComponents": [],
+        "labelAttributes": [],
+        "controlComponents": [],
+        "assert": "htmlFor",
+        "depth": 25
+      }
+    ],
   },
   globals: {
     cy: true,

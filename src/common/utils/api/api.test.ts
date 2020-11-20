@@ -1,9 +1,10 @@
 /// <reference types="jest" />
 
 import axios from 'axios';
-import api, { Resource } from './api';
+import api from './api';
 import * as auth from '../../../auth/auth-context';
 import { AuthTokens } from '../../../auth/auth-context';
+import { Resource, ResourceState } from '../../lib/types';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -48,7 +49,7 @@ describe('apiRequest', () => {
   describe('getResource', () => {
     it('fetches resource by id', async (done) => {
       const mockResource: Resource = {
-        id: 'tprek:1000',
+        id: 1186,
         name: {
           fi: 'Test resource name in finnish',
           sv: 'Test resource name in swedish',
@@ -84,6 +85,44 @@ describe('apiRequest', () => {
       });
 
       expect(response).toBe(mockResource);
+
+      done();
+    });
+  });
+
+  describe('postDatePeriod', () => {
+    it('creates a new opening period', async (done) => {
+      const periodTobeCreated = {
+        resource: 1186,
+        name: {
+          fi: 'testiotsikko suomeksi',
+          sv: 'testiotsikko ruotsiksi',
+          en: 'testiotsikko englanniksi',
+        },
+        description: {
+          fi: 'testikuvaus suomeksi',
+          sv: 'testikuvaus ruotsiksi',
+          en: 'testikuvaus englanniksi',
+        },
+        start_date: '2020-10-27',
+        end_date: '2020-10-28',
+        resource_state: ResourceState.OPEN,
+        override: false,
+        time_span_groups: [],
+      };
+
+      mockedAxios.request.mockResolvedValue({ ...periodTobeCreated, id: 100 });
+
+      await api.postDatePeriod(periodTobeCreated);
+      expect(mockedAxios.request).toHaveBeenCalledTimes(1);
+
+      expect(mockedAxios.request).toHaveBeenCalledWith({
+        headers: { 'Content-Type': 'application/json' },
+        method: 'post',
+        url: 'http://localhost:8000/v1/date_period/',
+        data: periodTobeCreated,
+        validateStatus: expect.any(Function),
+      });
 
       done();
     });

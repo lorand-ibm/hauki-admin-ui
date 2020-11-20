@@ -20,6 +20,7 @@ import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
 import './App.scss';
 import ResourcePage from './resource/page/ResourcePage';
+import CreateNewOpeningPeriodPage from './opening-period/page/CreateNewOpeningPeriodPage';
 
 type OptionalAuthTokens = AuthTokens | undefined;
 
@@ -85,6 +86,20 @@ export default function App(): JSX.Element {
                       match,
                     }: RouteComponentProps<{ id: string }>): ReactElement => (
                       <ResourcePage id={match.params.id} />
+                    )}
+                  />
+                  <PrivateRoute
+                    id="create-new-opening-period-route"
+                    exact
+                    path="/resource/:id/period/new"
+                    render={({
+                      match,
+                    }: RouteComponentProps<{
+                      id: string;
+                    }>): ReactElement => (
+                      <CreateNewOpeningPeriodPage
+                        resourceId={match.params.id}
+                      />
                     )}
                   />
                 </Switch>

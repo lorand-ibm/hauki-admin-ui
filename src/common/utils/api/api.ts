@@ -1,5 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { DatePeriod } from '../../lib/types';
+import {
+  DatePeriod,
+  LanguageStrings,
+  Resource,
+  ResourceState,
+  TimeSpanGroup,
+} from '../../lib/types';
 import { AuthTokens, getTokens } from '../../../auth/auth-context';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
@@ -17,6 +23,9 @@ interface RequestParameters {
     | ReadonlyArray<number>
     | ReadonlyArray<boolean>
     | undefined
+    | LanguageStrings
+    | TimeSpanGroup[]
+    | ResourceState
     | null;
 }
 
@@ -24,6 +33,12 @@ interface GetParameters {
   path: string;
   headers?: { [key: string]: string };
   parameters?: RequestParameters;
+}
+
+interface PostParameters {
+  path: string;
+  headers?: { [key: string]: string };
+  data?: RequestParameters;
 }
 
 enum ApiResponseFormat {
@@ -86,27 +101,18 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
   });
 }
 
-export interface Resource {
-  id: string;
-  name: {
-    fi: string;
-    sv: string;
-    en: string;
-  };
-  description: {
-    fi: string;
-    sv: string;
-    en: string;
-  };
-  address: {
-    fi: string;
-    sv: string;
-    en: string;
-  };
-  extra_data: {
-    citizen_url: string;
-    admin_url: string;
-  };
+async function apiPost<T>({ path, data = {} }: PostParameters): Promise<T> {
+  return request<T>({
+    url: `${apiBaseUrl}/v1${path}/`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'post',
+    data,
+    validateStatus(status) {
+      return status < 300;
+    },
+  });
 }
 
 interface AuthTestResponse {
@@ -122,12 +128,18 @@ export default {
   getResource: (id: string): Promise<Resource> =>
     apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
 
-  getDatePeriod: (resourceId: string): Promise<DatePeriod[]> =>
+  getDatePeriod: (resourceId: number): Promise<DatePeriod[]> =>
     apiGet<ListResponse<DatePeriod>>({
       path: `${datePeriodBasePath}`,
       parameters: { resource: resourceId },
     }).then((response) => {
       return response.results;
+    }),
+
+  postDatePeriod: (datePeriod: DatePeriod): Promise<DatePeriod> =>
+    apiPost<DatePeriod>({
+      path: `${datePeriodBasePath}`,
+      data: datePeriod,
     }),
 
   testAuth: (): Promise<AuthTestResponse> =>
