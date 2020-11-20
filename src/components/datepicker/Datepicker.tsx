@@ -18,6 +18,10 @@ import DatepickerContext from './datepickerContext';
 import Month from './Month';
 import MonthNavButton from './MonthNavButton';
 import TimesList from './TimesList';
+import {
+  dateFormFormat,
+  datetimeFormFormat,
+} from '../../common/utils/date-time/format';
 
 function generateUniqueId(prefix = 'datepicker-id'): string {
   return `${prefix}-${uniqueId()}`;
@@ -25,8 +29,6 @@ function generateUniqueId(prefix = 'datepicker-id'): string {
 
 const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
 const datetimeRegex = /^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$/;
-const dateFormat = 'dd.MM.yyyy';
-const datetimeFormat = `${dateFormat} HH:mm`;
 
 type TimeObject = { hours: number; minutes: number };
 
@@ -98,10 +100,10 @@ const Datepicker: React.FC<DatepickerProps> = ({
       setDateValue('');
     } else if (value && isValidDate(value)) {
       if (timeSelector) {
-        const formattedDate = formatDate(value, datetimeFormat);
+        const formattedDate = formatDate(value, datetimeFormFormat);
         setDateValue(formattedDate);
       } else {
-        const formattedDate = formatDate(value, dateFormat);
+        const formattedDate = formatDate(value, dateFormFormat);
         setDateValue(formattedDate);
       }
     }
@@ -223,7 +225,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   };
 
   const handleChange = (changedValue: string): void => {
-    const parsedDate = parseDate(changedValue, dateFormat, new Date());
+    const parsedDate = parseDate(changedValue, dateFormFormat, new Date());
     if (isValidDate(parsedDate)) {
       onChange(parsedDate);
     }
@@ -245,7 +247,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const eventValue = event.target.value;
-    const dateFormat2 = timeSelector ? datetimeFormat : dateFormat;
+    const dateFormat2 = timeSelector ? datetimeFormFormat : dateFormFormat;
     const parsedDate = parseDate(event.target.value, dateFormat2, new Date());
     setDateValue(eventValue);
 

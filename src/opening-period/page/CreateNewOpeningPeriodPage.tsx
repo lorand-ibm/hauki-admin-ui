@@ -9,6 +9,10 @@ import { ResourceInfo } from '../../resource/page/ResourcePage';
 import Datepicker from '../../components/datepicker/Datepicker';
 import './CreateNewOpeningPeriodPage.scss';
 import { Resource, ResourceState } from '../../common/lib/types';
+import {
+  dateApiFormat,
+  dateFormFormat,
+} from '../../common/utils/date-time/format';
 
 type Inputs = {
   openingPeriodTitle: string;
@@ -61,12 +65,12 @@ export default function CreateNewOpeningPeriodPage({
           en: null,
         },
         start_date: formatDate(
-          parse(data.openingPeriodBeginDate, 'dd.MM.yyyy', new Date()),
-          'yyyy-MM-dd'
+          parse(data.openingPeriodBeginDate, dateFormFormat, new Date()),
+          dateApiFormat
         ),
         end_date: formatDate(
-          parse(data.openingPeriodEndDate, 'dd.MM.yyyy', new Date()),
-          'yyyy-MM-dd'
+          parse(data.openingPeriodEndDate, dateFormFormat, new Date()),
+          dateApiFormat
         ),
         resource_state: ResourceState.OPEN,
         override: false,

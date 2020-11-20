@@ -15,3 +15,7 @@ export const formatDateRange = ({
   }
   return `${formattedStartDate} - ${formatDate(endDate)}`;
 };
+
+export const dateApiFormat = 'yyyy-MM-dd';
+export const dateFormFormat = 'dd.MM.yyyy';
+export const datetimeFormFormat = `${dateFormFormat} HH:mm`;
