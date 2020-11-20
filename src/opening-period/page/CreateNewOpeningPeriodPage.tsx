@@ -99,7 +99,12 @@ export default function CreateNewOpeningPeriodPage({
   }, [resourceId]);
 
   if (isLoading) {
-    return <p>Sivua ladataan...</p>;
+    return (
+      <>
+        <h1 className="resource-info-title">Aukiolojakson lisäys</h1>
+        <p>Sivua ladataan...</p>
+      </>
+    );
   }
 
   if (hasLoadingResourceError) {
