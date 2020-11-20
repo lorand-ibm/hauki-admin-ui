@@ -24,10 +24,13 @@ export default function HaukiNavigation(): JSX.Element {
 
   return (
     <Navigation
+      theme={{
+        '--header-background-color': 'var(--hauki-header-background-color)',
+        '--header-color': 'var(--hauki-header-color)',
+      }}
       className="navigation-header"
       title="Aukiolot"
-      menuCloseAriaLabel="Avaa menu"
-      menuOpenAriaLabel="Sulje menu"
+      menuToggleAriaLabel="Menu"
       skipTo="#main"
       skipToContentLabel="Siirry pääsisältöön">
       {isAuthenticated && (
@@ -51,14 +54,20 @@ export default function HaukiNavigation(): JSX.Element {
             variant="primary"
           />
         </Navigation.User>
-
-        <Navigation.LanguageSelector
-          ariaLabel="Valittu kieli"
-          options={languageOptions}
-          formatSelectedValue={formatSelectedValue}
-          onLanguageChange={setLanguage}
-          value={language}
-        />
+        <Navigation.LanguageSelector label={formatSelectedValue(language)}>
+          {languageOptions.map((languageOption) => (
+            <Navigation.Item
+              key={languageOption.value}
+              label={languageOption.label}
+              onClick={(
+                e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+              ): void => {
+                e.preventDefault();
+                setLanguage(languageOption);
+              }}
+            />
+          ))}
+        </Navigation.LanguageSelector>
       </Navigation.Actions>
     </Navigation>
   );

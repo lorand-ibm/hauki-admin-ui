@@ -37,3 +37,16 @@ Cypress.Commands.add(
     cy.visit(`/resource/${resourceId}?${Cypress.env('auth-query-parameters')}`);
   }
 );
+
+// HDS Navigation.LanguageSelector causes uncaught exceptions in Cypress tests. It has something to do with how the ResizeObserver library. This is a temporary fix to circumvent the issue.
+Cypress.on('uncaught:exception', (err: Error): boolean | Error => {
+  if (
+    /ResizeObserver loop completed with undelivered notifications/.test(
+      err.message
+    )
+  ) {
+    return false;
+  }
+
+  return err;
+});

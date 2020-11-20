@@ -45,7 +45,7 @@ export type TimeSpanGroup = {
 };
 
 export type DatePeriod = {
-  id?: string;
+  id?: number;
   created?: string;
   modified?: string;
   is_removed?: boolean;

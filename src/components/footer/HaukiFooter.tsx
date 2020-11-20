@@ -10,7 +10,7 @@ export default function HaukiFooter(): JSX.Element {
         className="page-footer"
         title="Aukiolot"
         theme={{
-          '--footer-background': 'var(--color-coat-of-arms-blue-light-20)',
+          '--footer-background': 'var(--hauki-footer-background-color)',
         }}>
         <Footer.Base>
           <Footer.Item
