@@ -13,7 +13,7 @@
         "importFrom": [
           "src/variables.css",
           "node_modules/hds-core/lib/base.css",
-          "node_modules/hds-core/components/loading-spinner/loading-spinner.css"
+          "node_modules/hds-core/lib/components/loading-spinner/loading-spinner.css"
         ]
       }
     ]
