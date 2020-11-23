@@ -127,7 +127,7 @@ export default {
   getDatePeriods: (resourceId: number): Promise<DatePeriod[]> =>
     apiGet<DatePeriod[]>({
       path: `${datePeriodBasePath}`,
-      parameters: { resource: resourceId },
+      parameters: { resource: resourceId, end_date_gte: '-1d' },
     }),
 
   postDatePeriod: (datePeriod: DatePeriod): Promise<DatePeriod> =>
