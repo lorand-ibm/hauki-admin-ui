@@ -66,9 +66,6 @@ describe(`<ResourcePage />`, () => {
     expect(resourcePage.find('h1').text()).toEqual(
       'Toimipisteen tietojen haku'
     );
-    expect(resourcePage.find('p').text()).toEqual(
-      'Toimipisteen tietoja ladataan...'
-    );
   });
 
   test('should show error notification', async () => {
