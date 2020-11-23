@@ -115,7 +115,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
     if (resource) {
       api
-        .getDatePeriod(resource.id)
+        .getDatePeriods(resource.id)
         .then((ds: DatePeriod[]) => {
           setDatePeriods(ds);
         })
