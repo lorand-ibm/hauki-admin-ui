@@ -8,7 +8,7 @@ export default function LoadingIndicator({
 }: {
   text: string;
   readyText: string;
-}) {
+}): JSX.Element {
   return (
     <div className="loading-indicator">
       <LoadingSpinner
