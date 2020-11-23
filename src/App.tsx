@@ -74,8 +74,8 @@ export default function App(): JSX.Element {
                 <>
                   <h1 className="sr-only">Sovellus käynnistyy</h1>
                   <LoadingIndicator
-                    text="Sovellus tietoja alustetaan."
-                    readyText="Sovellus tietoja alustettu."
+                    text="Sovelluksen tietoja alustetaan."
+                    readyText="Sovelluksen tiedot alustettu."
                   />
                 </>
               ) : (
