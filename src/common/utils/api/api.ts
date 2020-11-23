@@ -120,20 +120,14 @@ interface AuthTestResponse {
   username: string;
 }
 
-interface ListResponse<T> {
-  results: T[];
-}
-
 export default {
   getResource: (id: string): Promise<Resource> =>
     apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
 
   getDatePeriod: (resourceId: number): Promise<DatePeriod[]> =>
-    apiGet<ListResponse<DatePeriod>>({
+    apiGet<DatePeriod[]>({
       path: `${datePeriodBasePath}`,
       parameters: { resource: resourceId },
-    }).then((response) => {
-      return response.results;
     }),
 
   postDatePeriod: (datePeriod: DatePeriod): Promise<DatePeriod> =>
