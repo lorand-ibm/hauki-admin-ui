@@ -70,7 +70,9 @@ export default function App(): JSX.Element {
           <NavigationAndFooterWrapper>
             <Main id="main">
               {isLoading ? (
-                <h1 className="sr-only">Sovellus käynnistyy</h1>
+                <div>
+                  <h1>Sovellus käynnistyy..</h1>
+                </div>
               ) : (
                 <Switch>
                   <Route exact path="/">
