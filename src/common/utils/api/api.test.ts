@@ -16,6 +16,7 @@ describe('apiRequest', () => {
 
   describe('request', () => {
     it('adds auth-tokens into every request', async (done) => {
+      const resourceId = 'tprek:8100';
       const signature = '123456';
       const queryTokens = {
         username: 'admin@hel.fi',
@@ -28,7 +29,7 @@ describe('apiRequest', () => {
 
       mockedAxios.request.mockResolvedValue({ data: 'ok' });
 
-      await api.testAuth();
+      await api.getPermission(resourceId);
 
       expect(mockedAxios.request).toHaveBeenCalledTimes(1);
 
@@ -39,7 +40,7 @@ describe('apiRequest', () => {
         },
         method: 'get',
         params: { format: 'json', ...queryTokens },
-        url: 'http://localhost:8000/v1/auth_required_test',
+        url: 'http://localhost:8000/v1/resource/tprek:8100/permission_check',
       });
 
       done();
