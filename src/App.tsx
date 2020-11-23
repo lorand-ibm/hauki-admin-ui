@@ -16,6 +16,7 @@ import {
 } from './auth/auth-context';
 import PrivateRoute from './auth/PrivateRoute';
 import api from './common/utils/api/api';
+import LoadingIndicator from './components/loadingIndicator/LoadingIndicator';
 import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
 import './App.scss';
@@ -70,9 +71,13 @@ export default function App(): JSX.Element {
           <NavigationAndFooterWrapper>
             <Main id="main">
               {isLoading ? (
-                <div>
-                  <h1>Sovellus käynnistyy..</h1>
-                </div>
+                <>
+                  <h1 className="sr-only">Sovellus käynnistyy</h1>
+                  <LoadingIndicator
+                    text="Sovellus tietoja alustetaan."
+                    readyText="Sovellus tietoja alustettu."
+                  />
+                </>
               ) : (
                 <Switch>
                   <Route exact path="/">
