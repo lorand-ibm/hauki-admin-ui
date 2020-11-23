@@ -54,7 +54,7 @@ describe(`<ResourcePage />`, () => {
       .mockImplementation(() => Promise.resolve(testResource));
 
     jest
-      .spyOn(api, 'getDatePeriod')
+      .spyOn(api, 'getDatePeriods')
       .mockImplementation(() => Promise.resolve([testDatePeriod]));
 
     const resourcePage = mount(<ResourcePage id="tprek:8100" />);
@@ -96,7 +96,7 @@ describe(`<ResourcePage />`, () => {
       .mockImplementation(() => Promise.resolve(testResource));
 
     jest
-      .spyOn(api, 'getDatePeriod')
+      .spyOn(api, 'getDatePeriods')
       .mockImplementation(() => Promise.resolve([testDatePeriod]));
 
     const resourcePage = mount(<ResourcePage id="tprek:8100" />);
@@ -122,7 +122,7 @@ describe(`<ResourcePage />`, () => {
       .mockImplementation(() => Promise.resolve(testResource));
 
     jest
-      .spyOn(api, 'getDatePeriod')
+      .spyOn(api, 'getDatePeriods')
       .mockImplementation(() => Promise.resolve([testDatePeriod]));
 
     const linkSelector = `a[href="${testResource.extra_data.admin_url}"]`;

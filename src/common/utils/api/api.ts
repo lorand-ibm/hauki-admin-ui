@@ -124,7 +124,7 @@ export default {
   getResource: (id: string): Promise<Resource> =>
     apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
 
-  getDatePeriod: (resourceId: number): Promise<DatePeriod[]> =>
+  getDatePeriods: (resourceId: number): Promise<DatePeriod[]> =>
     apiGet<DatePeriod[]>({
       path: `${datePeriodBasePath}`,
       parameters: { resource: resourceId },
