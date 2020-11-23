@@ -134,10 +134,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
     return (
       <>
         <h1 className="resource-info-title">Toimipisteen tietojen haku</h1>
-        <LoadingIndicator
-          text="Toimipisteen tietoja haetaan."
-          readyText="Toimipisteen tiedot haettu"
-        />
+        <LoadingIndicator text="Toimipisteen tietoja haetaan." />
       </>
     );
   }
