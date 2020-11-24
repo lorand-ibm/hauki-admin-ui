@@ -31,9 +31,9 @@ export default function (routeProps: PrivateRouteProps): JSX.Element {
       setLoading(false);
     } else {
       api
-        .getPermission(resourceId)
-        .then((permission) => {
-          setIsAuthorized(permission.has_permission);
+        .testPostPermission(resourceId)
+        .then((hasPermission) => {
+          setIsAuthorized(hasPermission);
           setLoading(false);
         })
         .catch(() => {

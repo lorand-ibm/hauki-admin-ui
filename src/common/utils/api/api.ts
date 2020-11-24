@@ -145,8 +145,10 @@ export default {
       path: authRequiredTest,
     }),
 
-  getPermission: (resourceId: string): Promise<PermissionResponse> =>
-    apiGet<PermissionResponse>({
+  testPostPermission: async (resourceId: string): Promise<boolean> => {
+    const permission = await apiPost<PermissionResponse>({
       path: `${resourceBasePath}/${resourceId}/permission_check`,
-    }),
+    });
+    return permission.has_permission;
+  },
 };

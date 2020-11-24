@@ -29,19 +29,22 @@ describe('apiRequest', () => {
 
       mockedAxios.request.mockResolvedValue({ data: 'ok' });
 
-      await api.getPermission(resourceId);
+      await api.testPostPermission(resourceId);
 
       expect(mockedAxios.request).toHaveBeenCalledTimes(1);
 
-      expect(mockedAxios.request).toHaveBeenCalledWith({
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `haukisigned signature=${signature}`,
-        },
-        method: 'get',
-        params: { format: 'json', ...queryTokens },
-        url: 'http://localhost:8000/v1/resource/tprek:8100/permission_check',
-      });
+      expect(mockedAxios.request).toHaveBeenCalledWith(
+        expect.objectContaining({
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `haukisigned signature=${signature}`,
+          },
+          method: 'post',
+          params: queryTokens,
+          url: 'http://localhost:8000/v1/resource/tprek:8100/permission_check/',
+          data: {},
+        })
+      );
 
       done();
     });
