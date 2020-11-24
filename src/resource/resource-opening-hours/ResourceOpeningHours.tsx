@@ -54,6 +54,7 @@ const OpeningPeriodsList = ({
         <div className="opening-periods-header-container">
           <h3 className="opening-periods-header-title">{title}</h3>
           <IconInfoCircle
+            aria-hidden
             aria-label="Lisätietoja aukiolojaksoista nappi"
             className="opening-periods-header-info"
           />
