@@ -8,6 +8,7 @@ const organizationKey = 'organization';
 const signatureKey = 'signature';
 const validUntilKey = 'valid_until';
 const createdAtKey = 'created_at';
+const sourceKey = 'source';
 
 export interface AuthTokens {
   [usernameKey]: string;
@@ -16,6 +17,7 @@ export interface AuthTokens {
   [signatureKey]: string;
   [validUntilKey]: string;
   [createdAtKey]: string;
+  [sourceKey]: string;
 }
 
 const authKeys = [
@@ -25,6 +27,7 @@ const authKeys = [
   createdAtKey,
   resourceKey,
   organizationKey,
+  sourceKey,
 ];
 
 const tokenStorageKey: 'tokens' = 'tokens';
