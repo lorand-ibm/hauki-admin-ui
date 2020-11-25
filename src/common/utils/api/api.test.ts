@@ -29,7 +29,7 @@ describe('apiRequest', () => {
 
       mockedAxios.request.mockResolvedValue({ data: 'ok' });
 
-      await api.testPostPermission(resourceId);
+      await api.testResourcePostPermission(resourceId);
 
       expect(mockedAxios.request).toHaveBeenCalledTimes(1);
 

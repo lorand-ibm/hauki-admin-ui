@@ -25,7 +25,7 @@ const PermissionResolver = ({
       setLoading(false);
     } else {
       api
-        .testPostPermission(id)
+        .testResourcePostPermission(id)
         .then((hasPermission: boolean) => {
           setIsAuthorized(hasPermission);
           setLoading(false);

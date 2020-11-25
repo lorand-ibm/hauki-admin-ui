@@ -58,7 +58,7 @@ const mockContext = (
 
 const mockPermissionsApi = (hasPermission: boolean): void => {
   jest
-    .spyOn(api, 'testPostPermission')
+    .spyOn(api, 'testResourcePostPermission')
     .mockImplementation(() => Promise.resolve(hasPermission));
 };
 
