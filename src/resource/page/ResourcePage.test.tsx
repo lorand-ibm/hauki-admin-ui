@@ -48,7 +48,7 @@ describe(`<ResourcePage />`, () => {
     jest.clearAllMocks();
   });
 
-  test('should show loading indicator', async () => {
+  it('should show loading indicator', async () => {
     jest
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.resolve(testResource));
@@ -71,7 +71,7 @@ describe(`<ResourcePage />`, () => {
     );
   });
 
-  test('should show error notification', async () => {
+  it('should show error notification', async () => {
     jest
       .spyOn(api, 'getResource')
       .mockImplementation(() =>
@@ -90,7 +90,7 @@ describe(`<ResourcePage />`, () => {
     expect(resourcePage.text()).toContain('Toimipistettä ei saatu ladattua.');
   });
 
-  test('should show resource details', async () => {
+  it('should show resource details', async () => {
     jest
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.resolve(testResource));
@@ -116,7 +116,7 @@ describe(`<ResourcePage />`, () => {
     );
   });
 
-  test('should show resource source link', async () => {
+  it('should show resource source link', async () => {
     jest
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.resolve(testResource));

@@ -67,7 +67,7 @@ describe(`<PrivateResourceRoute />`, () => {
     jest.clearAllMocks();
   });
 
-  test('should show loading indicator', async () => {
+  it('should show loading indicator', async () => {
     mockContext();
     mockPermissionsApi(true);
 
@@ -80,7 +80,7 @@ describe(`<PrivateResourceRoute />`, () => {
     expect(renderedComponent.find('h1').text()).toEqual('Sivua alustetaan..');
   });
 
-  test('should show content', async () => {
+  it('should show content', async () => {
     mockContext();
     mockPermissionsApi(true);
 
@@ -97,7 +97,7 @@ describe(`<PrivateResourceRoute />`, () => {
     expect(renderedComponent.find('h1').text()).toEqual(testTokens.resource);
   });
 
-  test('should redirect to /unauthorized', async () => {
+  it('should redirect to /unauthorized', async () => {
     mockContext();
     mockPermissionsApi(false);
 
@@ -114,7 +114,7 @@ describe(`<PrivateResourceRoute />`, () => {
     expect(renderedComponent.find('h1').text()).toEqual('Test unauthorized');
   });
 
-  test('should redirect to /', async () => {
+  it('should redirect to /', async () => {
     mockContext({ tokens: undefined });
     mockPermissionsApi(false);
 
