@@ -4,6 +4,7 @@ import api from '../../common/utils/api/api';
 import { DatePeriod, Resource } from '../../common/lib/types';
 import Collapse from '../../components/collapse/Collapse';
 import { ExternalLink } from '../../components/link/Link';
+import LoadingIndicator from '../../components/loadingIndicator/LoadingIndicator';
 import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
 import './ResourcePage.scss';
 
@@ -114,13 +115,17 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
     // UseEffect's callbacks are synchronous to prevent a race condition.
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
     if (resource) {
+      setLoading(true);
+
       api
         .getDatePeriods(resource.id)
         .then((ds: DatePeriod[]) => {
           setDatePeriods(ds);
+          setLoading(false);
         })
         .catch((e: Error) => {
           setError(e);
+          setLoading(false);
         });
     }
   }, [resource]);
@@ -129,7 +134,10 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
     return (
       <>
         <h1 className="resource-info-title">Toimipisteen tietojen haku</h1>
-        <p>Toimipisteen tietoja ladataan...</p>
+        <LoadingIndicator
+          text="Toimipisteen tietoja haetaan."
+          readyText="Toimipisteen tiedot haettu"
+        />
       </>
     );
   }

@@ -378,7 +378,11 @@ const Datepicker: React.FC<DatepickerProps> = ({
             onClick={toggleCalendar}
             aria-label="Kalenteri"
             className="iconCalendar">
-            <IconCalendarPlus size="s" className="datepicker-calendar-icon" />
+            <IconCalendarPlus
+              aria-hidden="true"
+              size="s"
+              className="datepicker-calendar-icon"
+            />
           </button>
           {isCalendarOpen && (
             <div
@@ -387,7 +391,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
               ref={datepickerContainer}
               role="dialog"
               aria-modal="true"
-              labelled-by={dialogLabelId}>
+              aria-labelledby={dialogLabelId}>
               <p className="sr-only" aria-live="polite">
                 {labelText}
               </p>

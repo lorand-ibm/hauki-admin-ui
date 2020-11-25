@@ -14,6 +14,8 @@ describe('Open aukiolot app', () => {
   it('Has no detectable a11y violations on resource page load', () => {
     cy.injectAxe();
     cy.get('[data-test=resource-info]', { timeout: 5000 }).should('be.visible');
+
+    cy.wait(1000); // Wait for HDS spinner cleanup.
     cy.checkA11y(
       {},
       {
@@ -36,6 +38,7 @@ describe('Open aukiolot app', () => {
       timeout: 5000,
     }).should('be.visible');
 
+    cy.wait(1000); // Wait for HDS spinner cleanup.
     cy.checkA11y(
       {},
       {
