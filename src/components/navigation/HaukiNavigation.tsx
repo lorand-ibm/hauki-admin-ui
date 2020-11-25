@@ -5,7 +5,8 @@ import './HaukiNavigation.scss';
 
 export default function HaukiNavigation(): JSX.Element {
   const authProps: Partial<AuthContextProps> = useAuth();
-  const { authTokens, isAuthenticated } = authProps;
+  const { authTokens } = authProps;
+  const isAuthenticated = !!authTokens;
 
   interface LanguageOption {
     label: string;

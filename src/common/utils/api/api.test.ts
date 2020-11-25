@@ -16,6 +16,7 @@ describe('apiRequest', () => {
 
   describe('request', () => {
     it('adds auth-tokens into every request', async (done) => {
+      const resourceId = 'tprek:8100';
       const signature = '123456';
       const queryTokens = {
         username: 'admin@hel.fi',
@@ -28,19 +29,22 @@ describe('apiRequest', () => {
 
       mockedAxios.request.mockResolvedValue({ data: 'ok' });
 
-      await api.testAuth();
+      await api.testResourcePostPermission(resourceId);
 
       expect(mockedAxios.request).toHaveBeenCalledTimes(1);
 
-      expect(mockedAxios.request).toHaveBeenCalledWith({
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `haukisigned signature=${signature}`,
-        },
-        method: 'get',
-        params: { format: 'json', ...queryTokens },
-        url: 'http://localhost:8000/v1/auth_required_test',
-      });
+      expect(mockedAxios.request).toHaveBeenCalledWith(
+        expect.objectContaining({
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `haukisigned signature=${signature}`,
+          },
+          method: 'post',
+          params: queryTokens,
+          url: 'http://localhost:8000/v1/resource/tprek:8100/permission_check/',
+          data: {},
+        })
+      );
 
       done();
     });

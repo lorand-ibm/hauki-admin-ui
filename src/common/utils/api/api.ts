@@ -120,6 +120,10 @@ interface AuthTestResponse {
   username: string;
 }
 
+export interface PermissionResponse {
+  has_permission: boolean;
+}
+
 export default {
   getResource: (id: string): Promise<Resource> =>
     apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
@@ -140,4 +144,11 @@ export default {
     apiGet<AuthTestResponse>({
       path: authRequiredTest,
     }),
+
+  testResourcePostPermission: async (resourceId: string): Promise<boolean> => {
+    const permission = await apiPost<PermissionResponse>({
+      path: `${resourceBasePath}/${resourceId}/permission_check`,
+    });
+    return permission.has_permission;
+  },
 };

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -7,103 +7,80 @@ import {
 } from 'react-router-dom';
 import 'hds-core';
 import {
-  AuthTokens,
-  storeTokens,
-  getTokens,
-  removeTokens,
-  parseAuthParams,
   AuthContext,
+  AuthTokens,
+  getTokens,
+  parseAuthParams,
+  removeTokens,
+  storeTokens,
 } from './auth/auth-context';
-import PrivateRoute from './auth/PrivateRoute';
-import api from './common/utils/api/api';
 import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
 import './App.scss';
+import PrivateResourceRoute from './resource/PrivateResourceRoute';
 import ResourcePage from './resource/page/ResourcePage';
 import CreateNewOpeningPeriodPage from './opening-period/page/CreateNewOpeningPeriodPage';
 
 type OptionalAuthTokens = AuthTokens | undefined;
 
+const getPersistentTokens = (): OptionalAuthTokens => {
+  const authTokensFromQuery: OptionalAuthTokens = parseAuthParams(
+    window.location.search
+  );
+
+  if (authTokensFromQuery) {
+    storeTokens(authTokensFromQuery);
+  }
+
+  return getTokens();
+};
+
 export default function App(): JSX.Element {
-  const [isLoading, setLoading] = useState<boolean>(true);
-  const [authTokens, setAuthTokens] = useState<OptionalAuthTokens>();
+  const [authTokens, setAuthTokens] = useState<AuthTokens | undefined>(
+    getPersistentTokens()
+  );
 
-  const onAuthFail = (message: string): void => {
-    // eslint-disable-next-line no-console
-    console.error(`Authentication failed: ${message}`);
+  const clearAuth = (): void => {
     setAuthTokens(undefined);
-    setLoading(false);
+    removeTokens();
   };
-
-  useEffect(() => {
-    const authTokensFromQuery: OptionalAuthTokens = parseAuthParams(
-      window.location.search
-    );
-
-    if (authTokensFromQuery) {
-      storeTokens(authTokensFromQuery);
-    }
-
-    const storedAuthTokens: OptionalAuthTokens = getTokens();
-
-    if (storedAuthTokens) {
-      api
-        .testAuth()
-        .then(() => {
-          setAuthTokens(storedAuthTokens);
-          setLoading(false);
-        })
-        .catch((erroMessage) => {
-          onAuthFail(erroMessage);
-          removeTokens();
-        });
-    } else {
-      onAuthFail('Missing auth tokens');
-    }
-  }, []);
 
   return (
     <div className="App">
-      <AuthContext.Provider
-        value={{ authTokens, isAuthenticated: !!authTokens }}>
+      <AuthContext.Provider value={{ authTokens, clearAuth }}>
         <Router>
           <NavigationAndFooterWrapper>
             <Main id="main">
-              {isLoading ? (
-                <div>
-                  <h1>Sovellus käynnistyy..</h1>
-                </div>
-              ) : (
-                <Switch>
-                  <Route exact path="/">
-                    <h1>Etusivu</h1>
-                  </Route>
-                  <PrivateRoute
-                    id="resource-route"
-                    exact
-                    path="/resource/:id"
-                    render={({
-                      match,
-                    }: RouteComponentProps<{ id: string }>): ReactElement => (
-                      <ResourcePage id={match.params.id} />
-                    )}
-                  />
-                  <PrivateRoute
-                    id="create-new-opening-period-route"
-                    exact
-                    path="/resource/:id/period/new"
-                    render={({
-                      match,
-                    }: RouteComponentProps<{
-                      id: string;
-                    }>): ReactElement => (
-                      <CreateNewOpeningPeriodPage
-                        resourceId={match.params.id}
-                      />
-                    )}
-                  />
-                </Switch>
-              )}
+              <Switch>
+                <Route exact path="/">
+                  <h1>Etusivu</h1>
+                </Route>
+                <Route exact path="/unauthorized">
+                  <h1>Puutteelliset tunnukset</h1>
+                </Route>
+                <PrivateResourceRoute
+                  id="resource-route"
+                  exact
+                  path="/resource/:id"
+                  render={({
+                    match,
+                  }: RouteComponentProps<{ id: string }>): ReactElement => (
+                    <ResourcePage id={match.params.id} />
+                  )}
+                />
+                <PrivateResourceRoute
+                  id="create-new-opening-period-route"
+                  exact
+                  path="/resource/:id/period/new"
+                  render={({
+                    match,
+                  }: RouteComponentProps<{
+                    id: string;
+                  }>): ReactElement => (
+                    <CreateNewOpeningPeriodPage resourceId={match.params.id} />
+                  )}
+                />
+              </Switch>
             </Main>
           </NavigationAndFooterWrapper>
         </Router>
