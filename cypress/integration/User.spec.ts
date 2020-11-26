@@ -16,9 +16,12 @@ describe('Authenticated user', () => {
     cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resource-id'));
   });
 
-  it('Has username in header', () => {
-    cy.get('[data-test=resource-info]', { timeout: 5000 }).should('be.visible');
-    cy.get('header').first().should('not.contain', 'Kirjaudu');
-    cy.get('header').first().should('contain', 'admin@hel.fi');
+  it('should logout', () => {
+    cy.get('header')
+      .find('button')
+      .contains('admin@hel.fi')
+      .click({ force: true });
+    cy.get('header').first().find('a').contains('Kirjaudu ulos').click();
+    cy.location().its('href').should('eq', '/');
   });
 });
