@@ -29,8 +29,8 @@ export default function HaukiNavigation(): JSX.Element {
 
   const signOut = async (): Promise<void> => {
     try {
-      const success = await api.invalidateAuth();
-      if (success) {
+      const isAuthInvalidated = await api.invalidateAuth();
+      if (isAuthInvalidated) {
         setSignError(undefined);
         if (clearAuth) {
           clearAuth();
