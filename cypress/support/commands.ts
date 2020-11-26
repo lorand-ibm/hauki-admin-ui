@@ -25,16 +25,25 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add(
-  'visitResourcePageAsUnauthenticatedUser',
+  'visitResourcePageAsAuthenticatedUser',
   (resourceId: string) => {
-    cy.visit(`/resource/${resourceId}`);
+    cy.exec('node ./scripts/generate-auth-params.js').then((params) => {
+      cy.task('log', `Starting visit as authenticated user`);
+      cy.visit(`/resource/${resourceId}?${params.stdout}`, {
+        log: true,
+        onLoad: () => cy.task('log', 'Visiting the page as authenticated user'),
+      });
+    });
   }
 );
 
 Cypress.Commands.add(
-  'visitResourcePageAsAuthenticatedUser',
+  'visitResourcePageAsUnauthenticatedUser',
   (resourceId: string) => {
-    cy.visit(`/resource/${resourceId}?${Cypress.env('auth-query-parameters')}`);
+    cy.task('log', 'Starting visit as unauthenticated user');
+    cy.visit(`/resource/${resourceId}`, {
+      log: true,
+    });
   }
 );
 
