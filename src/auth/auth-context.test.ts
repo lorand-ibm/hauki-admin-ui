@@ -7,7 +7,7 @@ describe('Auth Context', () => {
     it('parses auth parameters from query string', () => {
       expect(
         parseAuthParams(
-          '?username=admin@hel.fi&signature=1234567&valid_until=2020-11-05T16%3A20%3A00&created_at=2020-11-05T16%3A10%3A00&organization=12345&resource=tprek%3A8215'
+          '?source=tprek&username=admin@hel.fi&signature=1234567&valid_until=2020-11-05T16%3A20%3A00&created_at=2020-11-05T16%3A10%3A00&organization=12345&resource=tprek%3A8215'
         )
       ).toEqual({
         username: 'admin@hel.fi',
@@ -16,6 +16,7 @@ describe('Auth Context', () => {
         created_at: '2020-11-05T16:10:00',
         organization: '12345',
         resource: 'tprek:8215',
+        source: 'tprek',
       });
     });
 
