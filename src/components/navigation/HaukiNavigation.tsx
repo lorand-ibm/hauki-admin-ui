@@ -8,8 +8,8 @@ import './HaukiNavigation.scss';
 export default function HaukiNavigation(): JSX.Element {
   const [signOutError, setSignError] = useState<string | undefined>();
   const authProps: Partial<AuthContextProps> = useAuth();
-  const history = useHistory();
   const { authTokens, clearAuth } = authProps;
+  const history = useHistory();
   const isAuthenticated = !!authTokens;
 
   interface LanguageOption {
@@ -37,7 +37,7 @@ export default function HaukiNavigation(): JSX.Element {
         }
         history.push('/');
       } else {
-        setSignError(`Uloskirjautuminen hylättiin.`);
+        setSignError('Uloskirjautuminen hylättiin.');
       }
     } catch (e) {
       // eslint-disable-next-line no-console
