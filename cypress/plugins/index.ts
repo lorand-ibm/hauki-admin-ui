@@ -17,19 +17,12 @@
  * @type {Cypress.PluginConfig}
  */
 
-import childProcess from 'child_process';
-
-const pluginFunction: Cypress.PluginConfig = function plugin(on, config) {
-  const { env } = config;
-
-  const authQueryParameters = childProcess.execFileSync('node', [
-    './scripts/generate-auth-params.js',
-  ]);
-
-  return {
-    ...config,
-    env: { ...env, 'auth-query-parameters': authQueryParameters.toString() },
-  };
+// module.exports = function (on, config)
+module.exports = function plugins(on: Cypress.PluginEvents): void {
+  on('task', {
+    log(message: string) {
+      console.log(message);
+      return null;
+    },
+  });
 };
-
-export default pluginFunction;
