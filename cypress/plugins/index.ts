@@ -21,6 +21,7 @@
 module.exports = function plugins(on: Cypress.PluginEvents): void {
   on('task', {
     log(message: string) {
+      // eslint-disable-next-line no-console
       console.log(message);
       return null;
     },
