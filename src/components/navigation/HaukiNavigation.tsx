@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Navigation, Notification } from 'hds-react';
+import { Navigation } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { AuthContextProps, useAuth } from '../../auth/auth-context';
 import './HaukiNavigation.scss';
