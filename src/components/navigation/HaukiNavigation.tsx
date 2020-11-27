@@ -4,6 +4,7 @@ import { Navigation, Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { AuthContextProps, useAuth } from '../../auth/auth-context';
 import './HaukiNavigation.scss';
+import { ErrorToast } from '../notification/Toast';
 
 export default function HaukiNavigation(): JSX.Element {
   const [signOutError, setSignOutError] = useState<string | undefined>();
@@ -96,14 +97,7 @@ export default function HaukiNavigation(): JSX.Element {
         </Navigation.LanguageSelector>
       </Navigation.Actions>
       {signOutError && (
-        <Notification
-          position="top-right"
-          autoClose
-          size="small"
-          label="Uloskirjautuminen epäonnistui"
-          type="error">
-          {signOutError}
-        </Notification>
+        <ErrorToast label="Uloskirjautuminen epäonnistui" text={signOutError} />
       )}
     </Navigation>
   );
