@@ -18,7 +18,7 @@ describe('Authenticated user', () => {
   it('should logout permanently', () => {
     cy.location()
       .its('href')
-      .then((url) => {
+      .then((resourcePageUrl) => {
         cy.get('header')
           .find('button')
           .contains('admin@hel.fi')
@@ -26,7 +26,9 @@ describe('Authenticated user', () => {
         cy.get('header').first().find('a').contains('Kirjaudu ulos').click();
         cy.get('header').first().should('not.contain', 'Kirjaudu ulos');
         cy.location('pathname').should('equal', '/');
-        cy.visit(url);
+
+        // Try to visit the resource page again
+        cy.visit(resourcePageUrl);
         cy.get('header').first().should('not.contain', 'Kirjaudu ulos');
         cy.location('pathname').should('equal', '/');
       });
