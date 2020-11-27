@@ -1,7 +1,7 @@
 import React from 'react';
 import { Notification, NotificationType } from 'hds-react';
 
-type NotifcationProps = {
+type ToastProps = {
   label: string;
   text: string;
   onClose?: () => void;
@@ -12,7 +12,7 @@ const Toast = ({
   text,
   onClose,
   type,
-}: NotifcationProps & { type: NotificationType }): JSX.Element => (
+}: ToastProps & { type: NotificationType }): JSX.Element => (
   <Notification
     position="top-right"
     autoClose
@@ -28,7 +28,7 @@ export const SuccessToast = ({
   label,
   text,
   onClose,
-}: NotifcationProps): JSX.Element => (
+}: ToastProps): JSX.Element => (
   <Toast label={label} text={text} onClose={onClose} type="success" />
 );
 
@@ -36,6 +36,6 @@ export const ErrorToast = ({
   label,
   text,
   onClose,
-}: NotifcationProps): JSX.Element => (
+}: ToastProps): JSX.Element => (
   <Toast label={label} text={text} onClose={onClose} type="error" />
 );
