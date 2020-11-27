@@ -31,8 +31,7 @@ Cypress.Commands.add(
       cy.task('log', `Starting visit as authenticated user`);
       cy.visit(`/resource/${resourceId}?${params.stdout}`, {
         log: true,
-        onLoad: () => cy.task('log', 'Visiting the page as authenticated user'),
-      });
+      }).task('log', 'Visiting the page as authenticated user');
     });
   }
 );
@@ -43,7 +42,7 @@ Cypress.Commands.add(
     cy.task('log', 'Starting visit as unauthenticated user');
     cy.visit(`/resource/${resourceId}`, {
       log: true,
-    });
+    }).task('log', 'Visiting page as unauthenticated user');
   }
 );
 
