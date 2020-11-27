@@ -5,6 +5,7 @@ type ToastProps = {
   label: string;
   text: string;
   onClose?: () => void;
+  dataTestId?: string;
 };
 
 const Toast = ({
@@ -12,6 +13,7 @@ const Toast = ({
   text,
   onClose,
   type,
+  dataTestId,
 }: ToastProps & { type: NotificationType }): JSX.Element => (
   <Notification
     position="top-right"
@@ -19,7 +21,8 @@ const Toast = ({
     size="small"
     label={label}
     type={type}
-    onClose={onClose}>
+    onClose={onClose}
+    {...(dataTestId ? { dataTestId } : {})}>
     {text}
   </Notification>
 );
@@ -28,14 +31,28 @@ export const SuccessToast = ({
   label,
   text,
   onClose,
+  dataTestId,
 }: ToastProps): JSX.Element => (
-  <Toast label={label} text={text} onClose={onClose} type="success" />
+  <Toast
+    label={label}
+    text={text}
+    onClose={onClose}
+    type="success"
+    dataTestId={dataTestId}
+  />
 );
 
 export const ErrorToast = ({
   label,
   text,
   onClose,
+  dataTestId,
 }: ToastProps): JSX.Element => (
-  <Toast label={label} text={text} onClose={onClose} type="error" />
+  <Toast
+    label={label}
+    text={text}
+    onClose={onClose}
+    type="error"
+    dataTestId={dataTestId}
+  />
 );

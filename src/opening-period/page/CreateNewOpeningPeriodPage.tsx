@@ -125,6 +125,7 @@ export default function CreateNewOpeningPeriodPage({
     <>
       {submitStatus === 'succeeded' && (
         <SuccessToast
+          dataTestId="opening-period-added-successfully-notification"
           label="Aukiolojakso tallennettu onnistuneesti"
           text="Aukiolojakso tallennettu onnistuneesti"
           onClose={(): void => setSubmitStatus('init')}
