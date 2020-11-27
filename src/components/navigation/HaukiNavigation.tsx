@@ -6,7 +6,7 @@ import { AuthContextProps, useAuth } from '../../auth/auth-context';
 import './HaukiNavigation.scss';
 
 export default function HaukiNavigation(): JSX.Element {
-  const [signOutError, setSignError] = useState<string | undefined>();
+  const [signOutError, setSignOutError] = useState<string | undefined>();
   const authProps: Partial<AuthContextProps> = useAuth();
   const { authTokens, clearAuth } = authProps;
   const history = useHistory();
@@ -31,18 +31,18 @@ export default function HaukiNavigation(): JSX.Element {
     try {
       const isAuthInvalidated = await api.invalidateAuth();
       if (isAuthInvalidated) {
-        setSignError(undefined);
+        setSignOutError(undefined);
         if (clearAuth) {
           clearAuth();
         }
         history.push('/');
       } else {
-        setSignError('Uloskirjautuminen hylättiin.');
+        setSignOutError('Uloskirjautuminen hylättiin.');
       }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('Sign out failed:', e.message);
-      setSignError(
+      setSignOutError(
         `Uloskirjautuminen epäonnistui. Yritä myöhemmin uudestaan. Virhe: ${e}`
       );
     }
