@@ -126,7 +126,7 @@ interface AuthTestResponse {
   username: string;
 }
 
-export interface SuccessResponse {
+export interface InvalidateAuthResponse {
   success: boolean;
 }
 
@@ -136,7 +136,7 @@ export interface PermissionResponse {
 
 export default {
   invalidateAuth: async (): Promise<boolean> => {
-    const successResponse = await apiPost<SuccessResponse>({
+    const successResponse = await apiPost<InvalidateAuthResponse>({
       path: invalidateAuthPath,
       useRootPath: true,
     });
