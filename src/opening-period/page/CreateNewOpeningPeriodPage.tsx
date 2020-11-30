@@ -7,6 +7,7 @@ import parse from 'date-fns/parse';
 import api from '../../common/utils/api/api';
 import { ResourceInfo } from '../../resource/page/ResourcePage';
 import Datepicker from '../../components/datepicker/Datepicker';
+import { ErrorToast, SuccessToast } from '../../components/notification/Toast';
 import './CreateNewOpeningPeriodPage.scss';
 import { Resource, ResourceState } from '../../common/lib/types';
 import {
@@ -123,27 +124,19 @@ export default function CreateNewOpeningPeriodPage({
   return (
     <>
       {submitStatus === 'succeeded' && (
-        <Notification
+        <SuccessToast
           dataTestId="opening-period-added-successfully-notification"
-          position="top-right"
-          autoClose
-          size="small"
           label="Aukiolojakso tallennettu onnistuneesti"
+          text="Aukiolojakso tallennettu onnistuneesti"
           onClose={(): void => setSubmitStatus('init')}
-          type="success">
-          Aukiolojakso tallennettu onnistuneesti
-        </Notification>
+        />
       )}
       {submitStatus === 'error' && (
-        <Notification
-          position="top-right"
-          autoClose
-          size="small"
+        <ErrorToast
           label="Aukiolojakson lisääminen epäonnistui"
+          text="Aukiolojakson lisääminen epäonnistui. Yritä myöhemmin uudestaan."
           onClose={(): void => setSubmitStatus('init')}
-          type="error">
-          Aukiolojakson lisääminen epäonnistui. Yritä myöhemmin uudestaan.
-        </Notification>
+        />
       )}
       <div className="opening-period-page-header-row">
         <ResourceInfo resource={resource} />

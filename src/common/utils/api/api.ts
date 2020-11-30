@@ -13,6 +13,7 @@ const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 const resourceBasePath = '/resource';
 const datePeriodBasePath = '/date_period';
 const authRequiredTest = '/auth_required_test';
+const invalidateAuthPath = '/invalidate_signature';
 
 interface RequestParameters {
   [key: string]:
@@ -39,6 +40,7 @@ interface PostParameters {
   path: string;
   headers?: { [key: string]: string };
   data?: RequestParameters;
+  useRootPath?: boolean;
 }
 
 enum ApiResponseFormat {
@@ -101,9 +103,13 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
   });
 }
 
-async function apiPost<T>({ path, data = {} }: PostParameters): Promise<T> {
+async function apiPost<T>({
+  path,
+  data = {},
+  useRootPath = false,
+}: PostParameters): Promise<T> {
   return request<T>({
-    url: `${apiBaseUrl}/v1${path}/`,
+    url: `${apiBaseUrl}${useRootPath ? '' : '/v1'}${path}/`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -120,11 +126,24 @@ interface AuthTestResponse {
   username: string;
 }
 
+export interface InvalidateAuthResponse {
+  success: boolean;
+}
+
 export interface PermissionResponse {
   has_permission: boolean;
 }
 
 export default {
+  invalidateAuth: async (): Promise<boolean> => {
+    const successResponse = await apiPost<InvalidateAuthResponse>({
+      path: invalidateAuthPath,
+      useRootPath: true,
+    });
+
+    return successResponse.success;
+  },
+
   getResource: (id: string): Promise<Resource> =>
     apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
 

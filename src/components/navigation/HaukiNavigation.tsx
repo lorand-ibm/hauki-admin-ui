@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Navigation } from 'hds-react';
+import api from '../../common/utils/api/api';
 import { AuthContextProps, useAuth } from '../../auth/auth-context';
 import './HaukiNavigation.scss';
+import { ErrorToast } from '../notification/Toast';
 
 export default function HaukiNavigation(): JSX.Element {
+  const [signOutError, setSignOutError] = useState<string | undefined>();
   const authProps: Partial<AuthContextProps> = useAuth();
-  const { authTokens } = authProps;
+  const { authTokens, clearAuth } = authProps;
+  const history = useHistory();
   const isAuthenticated = !!authTokens;
 
   interface LanguageOption {
@@ -22,6 +27,27 @@ export default function HaukiNavigation(): JSX.Element {
   const [language, setLanguage] = useState(languageOptions[0]);
   const formatSelectedValue = ({ value }: LanguageOption): string =>
     value.toUpperCase();
+
+  const signOut = async (): Promise<void> => {
+    try {
+      const isAuthInvalidated = await api.invalidateAuth();
+      if (isAuthInvalidated) {
+        setSignOutError(undefined);
+        if (clearAuth) {
+          clearAuth();
+        }
+        history.push('/');
+      } else {
+        setSignOutError('Uloskirjautuminen hylättiin.');
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Sign out failed:', e.message);
+      setSignOutError(
+        `Uloskirjautuminen epäonnistui. Yritä myöhemmin uudestaan. Virhe: ${e}`
+      );
+    }
+  };
 
   return (
     <Navigation
@@ -49,10 +75,10 @@ export default function HaukiNavigation(): JSX.Element {
           label="Kirjaudu"
           userName={authTokens?.username}>
           <Navigation.Item
-            label="Profiili"
-            href="https://hel.fi"
+            label="Kirjaudu ulos"
             target="_blank"
             variant="primary"
+            onClick={(): Promise<void> => signOut()}
           />
         </Navigation.User>
         <Navigation.LanguageSelector label={formatSelectedValue(language)}>
@@ -70,6 +96,9 @@ export default function HaukiNavigation(): JSX.Element {
           ))}
         </Navigation.LanguageSelector>
       </Navigation.Actions>
+      {signOutError && (
+        <ErrorToast label="Uloskirjautuminen epäonnistui" text={signOutError} />
+      )}
     </Navigation>
   );
 }

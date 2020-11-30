@@ -27,14 +27,22 @@
 Cypress.Commands.add(
   'visitResourcePageAsUnauthenticatedUser',
   (resourceId: string) => {
-    cy.visit(`/resource/${resourceId}`);
+    cy.task('log', 'Starting visit as unauthenticated user');
+    cy.visit(`/resource/${resourceId}`, {
+      log: true,
+    }).task('log', 'Visiting page as unauthenticated user');
   }
 );
 
 Cypress.Commands.add(
   'visitResourcePageAsAuthenticatedUser',
   (resourceId: string) => {
-    cy.visit(`/resource/${resourceId}?${Cypress.env('auth-query-parameters')}`);
+    cy.exec('node ./scripts/generate-auth-params.js').then((params) => {
+      cy.task('log', `Starting visit as authenticated user`);
+      cy.visit(`/resource/${resourceId}?${params.stdout}`, {
+        log: true,
+      }).task('log', 'Visiting the page as authenticated user');
+    });
   }
 );
 
