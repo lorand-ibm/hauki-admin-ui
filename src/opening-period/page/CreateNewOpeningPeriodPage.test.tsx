@@ -43,54 +43,52 @@ const testDatePeriod: DatePeriod = {
   time_span_groups: [],
 };
 
-describe(`<CreateNewOpeningPeriodPage />`, () => {
-  async function fillCompulsoryFormFields(container: Element): Promise<void> {
-    // Enter title:
-    const titleInput = await screen.findByRole('textbox', {
-      name: 'Aukiolojakson otsikko *',
-    });
-    fireEvent.input(titleInput, {
-      target: {
-        value: 'Test title',
-      },
-    });
+async function fillCompulsoryFormFields(container: Element): Promise<void> {
+  // Enter title:
+  const titleInput = await screen.findByRole('textbox', {
+    name: 'Aukiolojakson otsikko *',
+  });
+  fireEvent.input(titleInput, {
+    target: {
+      value: 'Test title',
+    },
+  });
 
-    // Enter begin date
-    const beginDateButton = container
-      .querySelector('[data-test="openingPeriodBeginDate"]')
-      ?.querySelector('button.iconCalendar');
-    if (!beginDateButton) {
-      throw new Error('BeginDate button not found');
-    }
-    fireEvent.click(beginDateButton);
-    const todayButton = container.querySelector('button.dayToday');
-    if (!todayButton) {
-      throw new Error('Today button not found');
-    }
-    fireEvent.click(todayButton);
-
-    // Enter end date
-    const endDate = container.querySelector(
-      '[data-test="openingPeriodEndDate"]'
-    );
-    const endDateButton = endDate?.querySelector('button.iconCalendar');
-    if (!endDateButton) {
-      throw new Error('EndDate button not found');
-    }
-    fireEvent.click(endDateButton);
-    const nextMonthButton = container.querySelector(
-      '[data-test="show-next-month-button"]'
-    );
-    if (!nextMonthButton) {
-      throw new Error('nextMonthButton not found');
-    }
-    fireEvent.click(nextMonthButton);
-    // Last one requires a separate act wrapping
-    await act(async () => {
-      fireEvent.click(screen.getByText('01'));
-    });
+  // Enter begin date
+  const beginDateButton = container
+    .querySelector('[data-test="openingPeriodBeginDate"]')
+    ?.querySelector('button.iconCalendar');
+  if (!beginDateButton) {
+    throw new Error('BeginDate button not found');
   }
+  fireEvent.click(beginDateButton);
+  const todayButton = container.querySelector('button.dayToday');
+  if (!todayButton) {
+    throw new Error('Today button not found');
+  }
+  fireEvent.click(todayButton);
 
+  // Enter end date
+  const endDate = container.querySelector('[data-test="openingPeriodEndDate"]');
+  const endDateButton = endDate?.querySelector('button.iconCalendar');
+  if (!endDateButton) {
+    throw new Error('EndDate button not found');
+  }
+  fireEvent.click(endDateButton);
+  const nextMonthButton = container.querySelector(
+    '[data-test="show-next-month-button"]'
+  );
+  if (!nextMonthButton) {
+    throw new Error('nextMonthButton not found');
+  }
+  fireEvent.click(nextMonthButton);
+  // Last one requires a separate act wrapping
+  await act(async () => {
+    fireEvent.click(screen.getByText('01'));
+  });
+}
+
+describe(`<CreateNewOpeningPeriodPage />`, () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
