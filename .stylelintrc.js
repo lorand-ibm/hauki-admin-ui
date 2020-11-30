@@ -1,4 +1,4 @@
-const absoluteUrl = (file) => `${__dirname}${file}`;
+const absoluteFilePath = (file) => `${__dirname}${file}`;
 
 module.exports = {
   extends: "stylelint-config-standard",
@@ -13,8 +13,8 @@ module.exports = {
       true,
       {
         "importFrom": [
-          absoluteUrl('/src/variables.css'),
-          absoluteUrl('/node_modules/hds-core/lib/base.css')
+          absoluteFilePath('/src/variables.css'),
+          absoluteFilePath('/node_modules/hds-core/lib/base.css')
         ]
       }
     ]
