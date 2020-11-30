@@ -3,13 +3,13 @@ import querystring, { ParsedUrlQuery } from 'querystring';
 import { Context, createContext, useContext } from 'react';
 
 export enum TokenKey {
-  usernameKey = 'username',
-  resourceKey = 'resource',
-  organizationKey = 'organization',
+  usernameKey = 'hsa_username',
+  resourceKey = 'hsa_resource',
+  organizationKey = 'hsa_organization',
   signatureKey = 'signature',
-  validUntilKey = 'valid_until',
-  createdAtKey = 'created_at',
-  sourceKey = 'source',
+  validUntilKey = 'hsa_valid_until',
+  createdAtKey = 'hsa_created_at',
+  sourceKey = 'hsa_source',
 }
 
 export interface AuthTokens {

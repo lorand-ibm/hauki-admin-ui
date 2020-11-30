@@ -19,10 +19,10 @@ describe('apiRequest', () => {
       const resourceId = 'tprek:8100';
       const signature = '123456';
       const queryTokens = {
-        username: 'admin@hel.fi',
-        created_at: '2020-11-05T09%3A38%3A36.198Z',
-        valid_until: '2020-11-12T09%3A38%3A36.198Z',
-        source: 'tprek',
+        hsa_username: 'admin@hel.fi',
+        hsa_created_at: '2020-11-05T09%3A38%3A36.198Z',
+        hsa_valid_until: '2020-11-12T09%3A38%3A36.198Z',
+        hsa_source: 'tprek',
       };
       const mockTokens = { ...queryTokens, signature } as AuthTokens;
 
@@ -38,14 +38,14 @@ describe('apiRequest', () => {
         expect.objectContaining({
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `haukisigned username=${encodeURIComponent(
-              queryTokens.username
-            )}&created_at=${encodeURIComponent(
-              queryTokens.created_at
-            )}&valid_until=${encodeURIComponent(
-              queryTokens.valid_until
+            Authorization: `haukisigned hsa_username=${encodeURIComponent(
+              queryTokens.hsa_username
+            )}&hsa_created_at=${encodeURIComponent(
+              queryTokens.hsa_created_at
+            )}&hsa_valid_until=${encodeURIComponent(
+              queryTokens.hsa_valid_until
             )}&source=${encodeURIComponent(
-              queryTokens.source
+              queryTokens.hsa_source
             )}&signature=123456`,
           },
           method: 'post',
