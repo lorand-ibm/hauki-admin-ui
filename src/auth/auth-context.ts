@@ -2,32 +2,34 @@
 import querystring, { ParsedUrlQuery } from 'querystring';
 import { Context, createContext, useContext } from 'react';
 
-const usernameKey = 'username';
-const resourceKey = 'resource';
-const organizationKey = 'organization';
-const signatureKey = 'signature';
-const validUntilKey = 'valid_until';
-const createdAtKey = 'created_at';
-const sourceKey = 'source';
+export enum TokenKey {
+  usernameKey = 'username',
+  resourceKey = 'resource',
+  organizationKey = 'organization',
+  signatureKey = 'signature',
+  validUntilKey = 'valid_until',
+  createdAtKey = 'created_at',
+  sourceKey = 'source',
+}
 
 export interface AuthTokens {
-  [usernameKey]: string;
-  [resourceKey]: string;
-  [organizationKey]: string;
-  [signatureKey]: string;
-  [validUntilKey]: string;
-  [createdAtKey]: string;
-  [sourceKey]: string;
+  [TokenKey.usernameKey]: string;
+  [TokenKey.resourceKey]: string;
+  [TokenKey.organizationKey]: string;
+  [TokenKey.signatureKey]: string;
+  [TokenKey.validUntilKey]: string;
+  [TokenKey.createdAtKey]: string;
+  [TokenKey.sourceKey]: string;
 }
 
 const authKeys = [
-  usernameKey,
-  signatureKey,
-  validUntilKey,
-  createdAtKey,
-  resourceKey,
-  organizationKey,
-  sourceKey,
+  TokenKey.usernameKey,
+  TokenKey.signatureKey,
+  TokenKey.validUntilKey,
+  TokenKey.createdAtKey,
+  TokenKey.resourceKey,
+  TokenKey.organizationKey,
+  TokenKey.sourceKey,
 ];
 
 const tokenStorageKey: 'tokens' = 'tokens';

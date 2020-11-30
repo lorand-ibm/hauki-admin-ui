@@ -6,7 +6,7 @@ import {
   ResourceState,
   TimeSpanGroup,
 } from '../../lib/types';
-import { AuthTokens, getTokens } from '../../../auth/auth-context';
+import { AuthTokens, TokenKey, getTokens } from '../../../auth/auth-context';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 
@@ -55,14 +55,18 @@ const addTokensToRequestConfig = (
   authTokens: AuthTokens,
   config: AxiosRequestConfig
 ): AxiosRequestConfig => {
-  const { signature, ...restOfTokens } = authTokens;
+  const tokensAsHeaderString: string = Object.keys(authTokens)
+    .map((key: string): string => {
+      return [key, encodeURIComponent(authTokens[key as TokenKey])].join('=');
+    })
+    .join('&');
+
   return {
     ...config,
     headers: {
       ...config.headers,
-      Authorization: `haukisigned signature=${signature}`,
+      Authorization: `haukisigned ${tokensAsHeaderString}`,
     },
-    params: { ...config.params, ...restOfTokens },
   };
 };
 
