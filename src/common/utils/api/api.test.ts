@@ -22,6 +22,7 @@ describe('apiRequest', () => {
         username: 'admin@hel.fi',
         created_at: '2020-11-05T09%3A38%3A36.198Z',
         valid_until: '2020-11-12T09%3A38%3A36.198Z',
+        source: 'tprek',
       };
       const mockTokens = { ...queryTokens, signature } as AuthTokens;
 
@@ -37,10 +38,17 @@ describe('apiRequest', () => {
         expect.objectContaining({
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `haukisigned signature=${signature}`,
+            Authorization: `haukisigned username=${encodeURIComponent(
+              queryTokens.username
+            )}&created_at=${encodeURIComponent(
+              queryTokens.created_at
+            )}&valid_until=${encodeURIComponent(
+              queryTokens.valid_until
+            )}&source=${encodeURIComponent(
+              queryTokens.source
+            )}&signature=123456`,
           },
           method: 'post',
-          params: queryTokens,
           url: 'http://localhost:8000/v1/resource/tprek:8100/permission_check/',
           data: {},
         })
