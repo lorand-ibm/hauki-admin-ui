@@ -17,14 +17,14 @@ describe('apiRequest', () => {
   describe('request', () => {
     it('adds auth-tokens into every request', async (done) => {
       const resourceId = 'tprek:8100';
-      const signature = '123456';
       const queryTokens = {
         hsa_username: 'admin@hel.fi',
         hsa_created_at: '2020-11-05T09%3A38%3A36.198Z',
         hsa_valid_until: '2020-11-12T09%3A38%3A36.198Z',
         hsa_source: 'tprek',
+        hsa_signature: '123456',
       };
-      const mockTokens = { ...queryTokens, signature } as AuthTokens;
+      const mockTokens = queryTokens as AuthTokens;
 
       jest.spyOn(auth, 'getTokens').mockImplementationOnce(() => mockTokens);
 
@@ -44,9 +44,9 @@ describe('apiRequest', () => {
               queryTokens.hsa_created_at
             )}&hsa_valid_until=${encodeURIComponent(
               queryTokens.hsa_valid_until
-            )}&source=${encodeURIComponent(
+            )}&hsa_source=${encodeURIComponent(
               queryTokens.hsa_source
-            )}&signature=123456`,
+            )}&hsa_signature=123456`,
           },
           method: 'post',
           url: 'http://localhost:8000/v1/resource/tprek:8100/permission_check/',

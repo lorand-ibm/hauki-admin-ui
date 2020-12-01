@@ -6,7 +6,7 @@ export enum TokenKey {
   usernameKey = 'hsa_username',
   resourceKey = 'hsa_resource',
   organizationKey = 'hsa_organization',
-  signatureKey = 'signature',
+  signatureKey = 'hsa_signature',
   validUntilKey = 'hsa_valid_until',
   createdAtKey = 'hsa_created_at',
   sourceKey = 'hsa_source',
