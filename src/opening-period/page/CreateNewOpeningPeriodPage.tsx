@@ -80,7 +80,6 @@ export default function CreateNewOpeningPeriodPage({
       setSubmitStatus('succeeded');
     } catch (err) {
       setSubmitStatus('error');
-      throw err;
     }
   };
 
@@ -113,6 +112,7 @@ export default function CreateNewOpeningPeriodPage({
       <>
         <h1 className="resource-info-title">Virhe</h1>
         <Notification
+          dataTestId="error-retrieving-resource-info"
           label="Toimipisteen tietoja ei saatu ladattua."
           type="error">
           Tarkista toimipiste-id.
@@ -133,6 +133,7 @@ export default function CreateNewOpeningPeriodPage({
       )}
       {submitStatus === 'error' && (
         <ErrorToast
+          dataTestId="opening-period-creation-failed"
           label="Aukiolojakson lisääminen epäonnistui"
           text="Aukiolojakson lisääminen epäonnistui. Yritä myöhemmin uudestaan."
           onClose={(): void => setSubmitStatus('init')}
