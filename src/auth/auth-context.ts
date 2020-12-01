@@ -2,7 +2,7 @@
 import querystring, { ParsedUrlQuery } from 'querystring';
 import { Context, createContext, useContext } from 'react';
 
-export enum TokenKey {
+export enum TokenKeys {
   usernameKey = 'hsa_username',
   resourceKey = 'hsa_resource',
   organizationKey = 'hsa_organization',
@@ -13,23 +13,23 @@ export enum TokenKey {
 }
 
 export interface AuthTokens {
-  [TokenKey.usernameKey]: string;
-  [TokenKey.resourceKey]: string;
-  [TokenKey.organizationKey]: string;
-  [TokenKey.signatureKey]: string;
-  [TokenKey.validUntilKey]: string;
-  [TokenKey.createdAtKey]: string;
-  [TokenKey.sourceKey]: string;
+  [TokenKeys.usernameKey]: string;
+  [TokenKeys.resourceKey]: string;
+  [TokenKeys.organizationKey]: string;
+  [TokenKeys.signatureKey]: string;
+  [TokenKeys.validUntilKey]: string;
+  [TokenKeys.createdAtKey]: string;
+  [TokenKeys.sourceKey]: string;
 }
 
 const authKeys = [
-  TokenKey.usernameKey,
-  TokenKey.signatureKey,
-  TokenKey.validUntilKey,
-  TokenKey.createdAtKey,
-  TokenKey.resourceKey,
-  TokenKey.organizationKey,
-  TokenKey.sourceKey,
+  TokenKeys.usernameKey,
+  TokenKeys.signatureKey,
+  TokenKeys.validUntilKey,
+  TokenKeys.createdAtKey,
+  TokenKeys.resourceKey,
+  TokenKeys.organizationKey,
+  TokenKeys.sourceKey,
 ];
 
 const tokenStorageKey: 'tokens' = 'tokens';

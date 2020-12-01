@@ -6,7 +6,7 @@ import {
   ResourceState,
   TimeSpanGroup,
 } from '../../lib/types';
-import { AuthTokens, TokenKey, getTokens } from '../../../auth/auth-context';
+import { AuthTokens, TokenKeys, getTokens } from '../../../auth/auth-context';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 
@@ -57,7 +57,7 @@ const addTokensToRequestConfig = (
 ): AxiosRequestConfig => {
   const tokensAsHeaderString: string = Object.keys(authTokens)
     .map((key: string): string => {
-      return [key, encodeURIComponent(authTokens[key as TokenKey])].join('=');
+      return [key, encodeURIComponent(authTokens[key as TokenKeys])].join('=');
     })
     .join('&');
 

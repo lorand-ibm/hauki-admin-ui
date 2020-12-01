@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Navigation } from 'hds-react';
 import api from '../../common/utils/api/api';
-import { AuthContextProps, TokenKey, useAuth } from '../../auth/auth-context';
+import { AuthContextProps, TokenKeys, useAuth } from '../../auth/auth-context';
 import './HaukiNavigation.scss';
 import { ErrorToast } from '../notification/Toast';
 
@@ -73,7 +73,7 @@ export default function HaukiNavigation(): JSX.Element {
         <Navigation.User
           authenticated={isAuthenticated}
           label="Kirjaudu"
-          userName={authTokens && authTokens[TokenKey.usernameKey]}>
+          userName={authTokens && authTokens[TokenKeys.usernameKey]}>
           <Navigation.Item
             label="Kirjaudu ulos"
             target="_blank"
