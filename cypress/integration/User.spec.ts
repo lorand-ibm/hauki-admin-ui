@@ -25,7 +25,7 @@ describe('Authenticated user', () => {
           .click({ force: true });
         cy.get('header').first().find('a').contains('Kirjaudu ulos').click();
         cy.get('header').first().should('not.contain', 'Kirjaudu ulos');
-        cy.location('pathname').should('equal', '/unauthenticated');
+        cy.location('pathname').should('equal', '/');
 
         // Try to visit the resource page again
         cy.visit(resourcePageUrl);
