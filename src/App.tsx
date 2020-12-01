@@ -58,6 +58,9 @@ export default function App(): JSX.Element {
                 <Route exact path="/unauthorized">
                   <h1>Puutteelliset tunnukset</h1>
                 </Route>
+                <Route exact path="/unauthenticated">
+                  <h1>Puuttuvat tunnukset</h1>
+                </Route>
                 <PrivateResourceRoute
                   id="resource-route"
                   exact

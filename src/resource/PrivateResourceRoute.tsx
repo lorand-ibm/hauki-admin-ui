@@ -4,6 +4,7 @@ import {
   Redirect,
   RouteProps,
   RouteComponentProps,
+  useLocation,
 } from 'react-router-dom';
 import { AuthContextProps, useAuth } from '../auth/auth-context';
 import api from '../common/utils/api/api';
@@ -16,6 +17,7 @@ const PermissionResolver = ({
   children?: ReactNode;
 }): JSX.Element => {
   const { authTokens, clearAuth }: Partial<AuthContextProps> = useAuth();
+  const { search } = useLocation();
   const isAuthenticated = !!authTokens;
   const [isLoading, setLoading] = useState<boolean>(true);
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
@@ -48,11 +50,11 @@ const PermissionResolver = ({
   }
 
   if (!isAuthenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to={{ pathname: '/unauthenticated', search }} />;
   }
 
   if (!isAuthorized) {
-    return <Redirect to="/unauthorized" />;
+    return <Redirect to={{ pathname: '/unauthorized', search }} />;
   }
 
   return <>{children}</>;
