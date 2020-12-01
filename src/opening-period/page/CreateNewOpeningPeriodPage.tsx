@@ -150,7 +150,7 @@ export default function CreateNewOpeningPeriodPage({
         data-test="add-new-opening-period-form"
         className="add-new-opening-period-form"
         onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-content-container">
+        <section className="form-section">
           <h3 className="opening-period-section-title">Jakson kuvaus</h3>
           <label htmlFor="openingPeriodTitle">Aukiolojakson otsikko *</label>
           <input
@@ -177,6 +177,8 @@ export default function CreateNewOpeningPeriodPage({
             name="openingPeriodOptionalDescription"
             ref={register({ maxLength: 255 })}
           />
+        </section>
+        <section className="form-section">
           <h3 className="opening-period-section-title">Ajanjakso</h3>
           <section className="opening-period-time-period">
             <Datepicker
@@ -199,7 +201,7 @@ export default function CreateNewOpeningPeriodPage({
               required
             />
           </section>
-        </div>
+        </section>
         <div className="add-new-opening-period-final-action-row-container">
           <Button
             data-test="publish-new-opening-period-button"

@@ -23,6 +23,7 @@
   }
 
   h3 {
+    margin-top: 0;
     margin-bottom: 0;
   }
 
@@ -67,11 +68,6 @@
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
 }
 
-.form-content-container {
-  padding-left: $spacing-layout-xs;
-  padding-right: $spacing-layout-xs;
-}
-
 .add-new-opening-period-final-action-row-container {
   margin-top: 116px;
 }
@@ -111,4 +107,10 @@
     outline-color: var(--color-coat-of-arms);
     color: var(--color-coat-of-arms) !important;
   }
+}
+
+.form-section {
+  padding: $spacing-layout-xs;
+  background-color: white;
+  margin-bottom: $spacing-layout-xs;
 }
