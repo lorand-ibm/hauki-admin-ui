@@ -1,4 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import * as querystring from 'querystring';
+import { ParsedUrlQueryInput } from 'querystring';
 import {
   DatePeriod,
   LanguageStrings,
@@ -6,7 +8,7 @@ import {
   ResourceState,
   TimeSpanGroup,
 } from '../../lib/types';
-import { AuthTokens, TokenKeys, getTokens } from '../../../auth/auth-context';
+import { AuthTokens, getTokens } from '../../../auth/auth-context';
 
 const apiBaseUrl: string = window.ENV?.API_URL || 'http://localhost:8000';
 
@@ -55,17 +57,13 @@ const addTokensToRequestConfig = (
   authTokens: AuthTokens,
   config: AxiosRequestConfig
 ): AxiosRequestConfig => {
-  const tokensAsHeaderString: string = Object.keys(authTokens)
-    .map((key: string): string => {
-      return [key, encodeURIComponent(authTokens[key as TokenKeys])].join('=');
-    })
-    .join('&');
-
   return {
     ...config,
     headers: {
       ...config.headers,
-      Authorization: `haukisigned ${tokensAsHeaderString}`,
+      Authorization: `haukisigned ${querystring.stringify(
+        (authTokens as unknown) as ParsedUrlQueryInput
+      )}`,
     },
   };
 };
