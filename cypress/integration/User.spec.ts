@@ -5,8 +5,8 @@ describe('Unauthenticated user', () => {
     cy.visitResourcePageAsUnauthenticatedUser(Cypress.env('resource-id'));
   });
 
-  it('Is redirected to front page', () => {
-    cy.location('pathname').should('equal', '/');
+  it('Is redirected to unauthenticated page', () => {
+    cy.location('pathname').should('equal', '/unauthenticated');
   });
 });
 
@@ -25,12 +25,12 @@ describe('Authenticated user', () => {
           .click({ force: true });
         cy.get('header').first().find('a').contains('Kirjaudu ulos').click();
         cy.get('header').first().should('not.contain', 'Kirjaudu ulos');
-        cy.location('pathname').should('equal', '/');
+        cy.location('pathname').should('equal', '/unauthenticated');
 
         // Try to visit the resource page again
         cy.visit(resourcePageUrl);
         cy.get('header').first().should('not.contain', 'Kirjaudu ulos');
-        cy.location('pathname').should('equal', '/');
+        cy.location('pathname').should('equal', '/unauthenticated');
       });
   });
 });
