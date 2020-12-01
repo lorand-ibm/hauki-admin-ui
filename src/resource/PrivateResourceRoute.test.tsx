@@ -9,21 +9,28 @@ import {
 import api from '../common/utils/api/api';
 import * as AuthContext from '../auth/auth-context';
 import PrivateResourceRoute from './PrivateResourceRoute';
+import { AuthTokens } from '../auth/auth-context';
 
-const testTokens = {
-  username: 'admin@hel.fi',
-  created_at: '2020-11-05',
-  valid_until: '2020-11-12',
-  resource: 'tprek:8100',
-  organization: 'abcdefg',
+const testTokens: AuthTokens = {
+  hsa_username: 'admin@hel.fi',
+  hsa_created_at: '2020-11-05',
+  hsa_valid_until: '2020-11-12',
+  hsa_resource: 'tprek:8100',
+  hsa_organization: 'abcdefg',
+  hsa_signature: '1234567',
+  hsa_source: 'tprek',
 };
 
 const renderRoutesWithPrivateRoute = (): ReactWrapper => {
-  window.history.pushState({}, 'Test page', `/resource/${testTokens.resource}`);
+  window.history.pushState(
+    {},
+    'Test page',
+    `/resource/${testTokens.hsa_resource}`
+  );
   return mount(
     <Router>
-      <Route exact path="/">
-        <h1>Test home</h1>
+      <Route exact path="/unauthenticated">
+        <h1>Test unauthenticated</h1>
       </Route>
       <Route exact path="/unauthorized">
         <h1>Test unauthorized</h1>
@@ -94,7 +101,9 @@ describe(`<PrivateResourceRoute />`, () => {
       renderedComponent.update();
     });
 
-    expect(renderedComponent.find('h1').text()).toEqual(testTokens.resource);
+    expect(renderedComponent.find('h1').text()).toEqual(
+      testTokens.hsa_resource
+    );
   });
 
   it('should redirect to /unauthorized', async () => {
@@ -114,7 +123,7 @@ describe(`<PrivateResourceRoute />`, () => {
     expect(renderedComponent.find('h1').text()).toEqual('Test unauthorized');
   });
 
-  it('should redirect to /', async () => {
+  it('should redirect to /unauthenticated', async () => {
     mockContext({ tokens: undefined });
     mockPermissionsApi(false);
 
@@ -128,6 +137,6 @@ describe(`<PrivateResourceRoute />`, () => {
       renderedComponent.update();
     });
 
-    expect(renderedComponent.find('h1').text()).toEqual('Test home');
+    expect(renderedComponent.find('h1').text()).toEqual('Test unauthenticated');
   });
 });

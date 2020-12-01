@@ -17,13 +17,14 @@ describe('apiRequest', () => {
   describe('request', () => {
     it('adds auth-tokens into every request', async (done) => {
       const resourceId = 'tprek:8100';
-      const signature = '123456';
       const queryTokens = {
-        username: 'admin@hel.fi',
-        created_at: '2020-11-05T09%3A38%3A36.198Z',
-        valid_until: '2020-11-12T09%3A38%3A36.198Z',
+        hsa_username: 'admin@hel.fi',
+        hsa_created_at: '2020-11-05T09%3A38%3A36.198Z',
+        hsa_valid_until: '2020-11-12T09%3A38%3A36.198Z',
+        hsa_source: 'tprek',
+        hsa_signature: '123456',
       };
-      const mockTokens = { ...queryTokens, signature } as AuthTokens;
+      const mockTokens = queryTokens as AuthTokens;
 
       jest.spyOn(auth, 'getTokens').mockImplementationOnce(() => mockTokens);
 
@@ -37,10 +38,17 @@ describe('apiRequest', () => {
         expect.objectContaining({
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `haukisigned signature=${signature}`,
+            Authorization: `haukisigned hsa_username=${encodeURIComponent(
+              queryTokens.hsa_username
+            )}&hsa_created_at=${encodeURIComponent(
+              queryTokens.hsa_created_at
+            )}&hsa_valid_until=${encodeURIComponent(
+              queryTokens.hsa_valid_until
+            )}&hsa_source=${encodeURIComponent(
+              queryTokens.hsa_source
+            )}&hsa_signature=123456`,
           },
           method: 'post',
-          params: queryTokens,
           url: 'http://localhost:8000/v1/resource/tprek:8100/permission_check/',
           data: {},
         })

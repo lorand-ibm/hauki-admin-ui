@@ -1,4 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import * as querystring from 'querystring';
+import { ParsedUrlQueryInput } from 'querystring';
 import {
   DatePeriod,
   LanguageStrings,
@@ -55,14 +57,14 @@ const addTokensToRequestConfig = (
   authTokens: AuthTokens,
   config: AxiosRequestConfig
 ): AxiosRequestConfig => {
-  const { signature, ...restOfTokens } = authTokens;
   return {
     ...config,
     headers: {
       ...config.headers,
-      Authorization: `haukisigned signature=${signature}`,
+      Authorization: `haukisigned ${querystring.stringify(
+        (authTokens as unknown) as ParsedUrlQueryInput
+      )}`,
     },
-    params: { ...config.params, ...restOfTokens },
   };
 };
 

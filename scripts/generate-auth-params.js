@@ -22,13 +22,13 @@ const signature = crypto
   .digest('hex');
 
 const queryParameters = [
-  `source=${encodeURIComponent(source)}`,
-  `username=${encodeURIComponent(username)}`,
-  `created_at=${encodeURIComponent(createdAt)}`,
-  `valid_until=${encodeURIComponent(validUntil)}`,
-  `resource=${encodeURIComponent(resource)}`,
-  `organization=${encodeURIComponent(organization)}`,
-  `signature=${signature}`,
+  `hsa_source=${encodeURIComponent(source)}`,
+  `hsa_username=${encodeURIComponent(username)}`,
+  `hsa_created_at=${encodeURIComponent(createdAt)}`,
+  `hsa_valid_until=${encodeURIComponent(validUntil)}`,
+  `hsa_resource=${encodeURIComponent(resource)}`,
+  `hsa_organization=${encodeURIComponent(organization)}`,
+  `hsa_signature=${signature}`,
 ].join('&');
 
 process.stdout.write(queryParameters);
