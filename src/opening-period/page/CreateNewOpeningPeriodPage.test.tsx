@@ -43,6 +43,22 @@ const testDatePeriod: DatePeriod = {
   time_span_groups: [],
 };
 
+function getElementOrThrow(
+  container: Element | null,
+  selector: string
+): Element {
+  if (container === null) {
+    throw new Error('container was null');
+  }
+  const element = container.querySelector(selector);
+
+  if (!element) {
+    throw new Error(`Element with selector ${selector} not found`);
+  }
+
+  return element;
+}
+
 async function fillCompulsoryFormFields(container: Element): Promise<void> {
   // Enter title:
   const titleInput = await screen.findByRole('textbox', {
@@ -55,32 +71,25 @@ async function fillCompulsoryFormFields(container: Element): Promise<void> {
   });
 
   // Enter begin date
-  const beginDateButton = container
-    .querySelector('[data-test="openingPeriodBeginDate"]')
-    ?.querySelector('button.iconCalendar');
-  if (!beginDateButton) {
-    throw new Error('BeginDate button not found');
-  }
+  const beginDate = getElementOrThrow(
+    container,
+    '[data-test="openingPeriodBeginDate"]'
+  );
+  const beginDateButton = getElementOrThrow(beginDate, 'button.iconCalendar');
   fireEvent.click(beginDateButton);
-  const todayButton = container.querySelector('button.dayToday');
-  if (!todayButton) {
-    throw new Error('Today button not found');
-  }
+
+  const todayButton = getElementOrThrow(container, 'button.dayToday');
   fireEvent.click(todayButton);
 
   // Enter end date
   const endDate = container.querySelector('[data-test="openingPeriodEndDate"]');
-  const endDateButton = endDate?.querySelector('button.iconCalendar');
-  if (!endDateButton) {
-    throw new Error('EndDate button not found');
-  }
+  const endDateButton = getElementOrThrow(endDate, 'button.iconCalendar');
   fireEvent.click(endDateButton);
-  const nextMonthButton = container.querySelector(
+
+  const nextMonthButton = getElementOrThrow(
+    container,
     '[data-test="show-next-month-button"]'
   );
-  if (!nextMonthButton) {
-    throw new Error('nextMonthButton not found');
-  }
   fireEvent.click(nextMonthButton);
   // Last one requires a separate act wrapping
   await act(async () => {
@@ -150,15 +159,11 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     // Have to do this in act, otherwise dom not updated from initial loadings
     await act(async () => {
       await fillCompulsoryFormFields(container);
-
       // Try submit form
-      const submitFormButton = container.querySelector(
+      const submitFormButton = getElementOrThrow(
+        container,
         '[data-test="publish-new-opening-period-button"]'
       );
-
-      if (!submitFormButton) {
-        throw new Error('submitFormButton not found!');
-      }
       fireEvent.submit(submitFormButton);
     });
 
@@ -189,15 +194,11 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     // Have to do this in act, otherwise dom not updated from initial loadings
     await act(async () => {
       await fillCompulsoryFormFields(container);
-
       // Try submit form
-      const submitFormButton = container.querySelector(
+      const submitFormButton = getElementOrThrow(
+        container,
         '[data-test="publish-new-opening-period-button"]'
       );
-
-      if (!submitFormButton) {
-        throw new Error('submitFormButton not found!');
-      }
       fireEvent.submit(submitFormButton);
     });
 
@@ -231,12 +232,10 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     // try submit form without any input data:
     await act(async () => {
       // Try submit form
-      const submitFormButton = container.querySelector(
+      const submitFormButton = getElementOrThrow(
+        container,
         '[data-test="publish-new-opening-period-button"]'
       );
-      if (!submitFormButton) {
-        throw new Error('submitFormButton not found!');
-      }
       fireEvent.submit(submitFormButton);
     });
 
