@@ -24,7 +24,8 @@
   --opening-periods-header-light-button-color: var(--color-coat-of-arms-dark);
   --opening-periods-header-light-button-border-color: var(--color-coat-of-arms-dark);
   --opening-periods-header-light-button-focus-color: var(--color-coat-of-arms-dark);
-  --opening-periods-header-light-button-hover-background-color:  var(--color-coat-of-arms-dark);
+  --opening-periods-header-light-button-hover-background-color: var(--color-coat-of-arms-dark);
   --opening-periods-header-light-button-hover-color: white;
   --collapse-header-color: var(--color-coat-of-arms);
+  --form-section-background-color: white;
 }
