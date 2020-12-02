@@ -105,6 +105,8 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
   });
 }
 
+const validateStatus = (status: number): boolean => status < 300;
+
 async function apiPost<T>({
   path,
   data = {},
@@ -117,9 +119,19 @@ async function apiPost<T>({
     },
     method: 'post',
     data,
-    validateStatus(status) {
-      return status < 300;
+    validateStatus,
+  });
+}
+
+async function apiPut<T>({ path, data = {} }: PostParameters): Promise<T> {
+  return request<T>({
+    url: `${apiBaseUrl}/v1${path}/`,
+    headers: {
+      'Content-Type': 'application/json',
     },
+    method: 'put',
+    data,
+    validateStatus,
   });
 }
 
@@ -155,9 +167,20 @@ export default {
       parameters: { resource: resourceId, end_date_gte: '-1d' },
     }),
 
+  getDatePeriod: (datePeriodId: number): Promise<DatePeriod> =>
+    apiGet<DatePeriod>({
+      path: `${datePeriodBasePath}/${datePeriodId}`,
+    }),
+
   postDatePeriod: (datePeriod: DatePeriod): Promise<DatePeriod> =>
     apiPost<DatePeriod>({
       path: `${datePeriodBasePath}`,
+      data: datePeriod,
+    }),
+
+  putDatePeriod: (datePeriod: DatePeriod): Promise<DatePeriod> =>
+    apiPut<DatePeriod>({
+      path: `${datePeriodBasePath}/${datePeriod.id}`,
       data: datePeriod,
     }),
 
