@@ -78,6 +78,21 @@
   margin-top: 116px;
 }
 
+.period-save-button {
+  --period-save-button-spinner-color: #fff;
+
+  padding-left: 24px; // spinner-width is 24px. In addition there ca
+  padding-right: 24px;
+  position: relative;
+
+  .period-save-button-spinner {
+    position: absolute;
+    left: 15px;
+    transform: translateY(-50%);
+    top: 50%;
+  }
+}
+
 .opening-period-final-action-button.opening-period-final-action-button.opening-period-final-action-button {
   font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
   margin-right: $spacing-m;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Control, Controller, useForm } from 'react-hook-form';
-import { Button, Notification } from 'hds-react';
+import { Button, Notification, LoadingSpinner } from 'hds-react';
 import { useHistory } from 'react-router-dom';
 import api from '../../common/utils/api/api';
 import {
@@ -74,7 +74,7 @@ export default function EditOpeningPeriodPage({
   >();
   const history = useHistory();
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [isDisabled, setDisabled] = useState<boolean>(false);
+  const [isSaving, setSaving] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('init');
   const resetForm = useCallback(
     (datePeriod: DatePeriod): void =>
@@ -94,6 +94,7 @@ export default function EditOpeningPeriodPage({
         throw new Error('This should never happen, but typescript');
       }
 
+      setSaving(true);
       const updatedPeriod = await api.putDatePeriod({
         resource: resource.id,
         id,
@@ -114,8 +115,10 @@ export default function EditOpeningPeriodPage({
         time_span_groups: [],
       });
       resetForm(updatedPeriod);
+      setSaving(false);
       setSubmitStatus('succeeded');
     } catch (err) {
+      setSaving(false);
       setSubmitStatus('error');
       throw err;
     }
@@ -272,10 +275,24 @@ export default function EditOpeningPeriodPage({
         </div>
         <div className="opening-period-final-action-row-container">
           <Button
-            data-test="edit-opening-period-button"
-            className="opening-period-final-action-button publish-opening-period-button"
+            data-test="opening-period-button period-save-button"
+            className="opening-period-final-action-button publish-opening-period-button period-save-button"
             type="submit"
-            form="opening-period-form">
+            form="opening-period-form"
+            disabled={isSaving}>
+            {isSaving && (
+              <div className="period-save-button-spinner">
+                <LoadingSpinner
+                  small
+                  loadingText="Tallentaa aukiolojakson tietoja"
+                  loadingFinishedText="Aukiolojakson tiedot tallennettu"
+                  theme={{
+                    '--spinner-color':
+                      'var(--period-save-button-spinner-color)',
+                  }}
+                />
+              </div>
+            )}
             Julkaise
           </Button>
           <Button
