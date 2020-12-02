@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Control, Controller, useForm } from 'react-hook-form';
+import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { Button, Notification, LoadingSpinner } from 'hds-react';
 import { useHistory } from 'react-router-dom';
 import api from '../../common/utils/api/api';
@@ -33,7 +33,7 @@ const FormDatePicker = ({
 }: {
   name: string;
   label: string;
-  control: Control<Record<string, any>>;
+  control: Control<FormData & FieldValues>;
   register: () => void;
 }): JSX.Element => (
   <Controller
