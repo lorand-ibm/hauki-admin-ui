@@ -96,7 +96,7 @@ async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {
   };
 
   return request<T>({
-    url: `${apiBaseUrl}/v1${path}`,
+    url: `${apiBaseUrl}/v1${path}/`,
     headers: {
       'Content-Type': 'application/json',
     },

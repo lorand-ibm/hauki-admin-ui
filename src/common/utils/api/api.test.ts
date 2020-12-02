@@ -93,7 +93,7 @@ describe('apiRequest', () => {
         headers: { 'Content-Type': 'application/json' },
         method: 'get',
         params: { format: 'json' },
-        url: 'http://localhost:8000/v1/resource/tprek:8100',
+        url: 'http://localhost:8000/v1/resource/tprek:8100/',
       });
 
       expect(response).toBe(mockResource);
