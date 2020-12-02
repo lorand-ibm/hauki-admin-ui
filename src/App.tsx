@@ -20,6 +20,7 @@ import './App.scss';
 import PrivateResourceRoute from './resource/PrivateResourceRoute';
 import ResourcePage from './resource/page/ResourcePage';
 import CreateNewOpeningPeriodPage from './opening-period/page/CreateNewOpeningPeriodPage';
+import EditOpeningPeriodPage from './opening-period/page/EditOpeningPeriod';
 
 type OptionalAuthTokens = AuthTokens | undefined;
 
@@ -81,6 +82,21 @@ export default function App(): JSX.Element {
                     id: string;
                   }>): ReactElement => (
                     <CreateNewOpeningPeriodPage resourceId={match.params.id} />
+                  )}
+                />
+                <PrivateResourceRoute
+                  id="edit-opening-period-route"
+                  path="/resource/:id/period/:datePeriodId"
+                  render={({
+                    match,
+                  }: RouteComponentProps<{
+                    id: string;
+                    datePeriodId: string;
+                  }>): ReactElement => (
+                    <EditOpeningPeriodPage
+                      resourceId={match.params.id}
+                      datePeriodId={match.params.datePeriodId}
+                    />
                   )}
                 />
               </Switch>
