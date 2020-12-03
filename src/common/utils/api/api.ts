@@ -38,12 +38,17 @@ interface GetParameters {
   parameters?: RequestParameters;
 }
 
-interface PostParameters {
+interface DataRequestParameters {
   path: string;
   headers?: { [key: string]: string };
   data?: RequestParameters;
+}
+
+interface PostParameters extends DataRequestParameters {
   useRootPath?: boolean;
 }
+
+type PutRequestParameters = DataRequestParameters;
 
 enum ApiResponseFormat {
   json = 'json',
@@ -123,7 +128,10 @@ async function apiPost<T>({
   });
 }
 
-async function apiPut<T>({ path, data = {} }: PostParameters): Promise<T> {
+async function apiPut<T>({
+  path,
+  data = {},
+}: PutRequestParameters): Promise<T> {
   return request<T>({
     url: `${apiBaseUrl}/v1${path}/`,
     headers: {
