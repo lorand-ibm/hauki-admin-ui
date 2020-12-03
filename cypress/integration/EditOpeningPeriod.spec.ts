@@ -1,23 +1,38 @@
 /// <reference types="cypress" />
 /// <reference path="../index.d.ts" />
+
 describe('User edits an opening period', () => {
+  let dataPeriodId: string | undefined;
+  const resourceId = Cypress.env('resource-id');
   const datePeriodTitlePrefix = 'e2e-test muokkaus:aukiolojakso';
+  const newTitle = `${datePeriodTitlePrefix} ${new Date().toJSON()}`;
+  const startDate = new Date();
+  const endDate = new Date();
+  endDate.setDate(new Date().getDate() + 1);
+
+  before(() => {
+    cy.createDatePeriod({
+      name: newTitle,
+      startDate,
+      endDate,
+      resourceId,
+    }).then((id: string) => {
+      if (id) {
+        dataPeriodId = id;
+      }
+    });
+  });
 
   beforeEach(() => {
-    cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resource-id'));
+    cy.visitResourcePageAsAuthenticatedUser(resourceId);
   });
 
   it('User successfully edits an opening period', () => {
-    const newTitle = `${datePeriodTitlePrefix} ${new Date().toJSON()}`;
-
     // Enter in edit page from resource page
     cy.get('[data-test=resource-opening-periods-list]', {
       timeout: 5000,
     })
-      .get('[data-test=openingPeriodName]')
-      .contains(datePeriodTitlePrefix)
-      .parent()
-      .find('[data-test="openingPeriodEditLink"]')
+      .find(`[data-test="openingPeriodEditLink-${dataPeriodId}"]`)
       .click();
 
     // Check that form exists
