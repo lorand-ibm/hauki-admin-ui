@@ -26,9 +26,10 @@ export default function OpeningPeriod({
           </div>
         </div>
         <div className="opening-period-title">
-          <h4>{datePeriod.name?.fi}</h4>
+          <h4 data-test="openingPeriodName">{datePeriod.name?.fi}</h4>
           <Link
             className="opening-period-edit-link"
+            data-test="openingPeriodEditLink"
             to={`/resource/${resourceId}/period/${datePeriod.id}`}>
             <IconPenLine aria-hidden="true" />
             <span className="sr-only">{`Muokkaa ${

@@ -275,7 +275,7 @@ export default function EditOpeningPeriodPage({
         </div>
         <div className="opening-period-final-action-row-container">
           <Button
-            data-test="opening-period-button period-save-button"
+            data-test="opening-period-save-button"
             className="opening-period-final-action-button publish-opening-period-button period-save-button"
             type="submit"
             form="opening-period-form"
