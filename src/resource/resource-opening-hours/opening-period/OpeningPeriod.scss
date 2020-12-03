@@ -43,4 +43,8 @@
 .opening-period-edit-link {
   color: inherit;
   margin-left: auto;
+
+  &:hover {
+    color: var(--hauki-content-link-color)
+  }
 }
