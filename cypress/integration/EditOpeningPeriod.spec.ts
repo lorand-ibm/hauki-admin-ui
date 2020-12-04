@@ -33,7 +33,7 @@ describe('User edits an opening period', () => {
       timeout: 5000,
     })
       .find(`[data-test="openingPeriodEditLink-${dataPeriodId}"]`)
-      .click();
+      .click({ log: true });
 
     // Check that form exists
     cy.get('[data-test=opening-period-form]', {
@@ -46,10 +46,15 @@ describe('User edits an opening period', () => {
       .should('not.be', undefined);
 
     // Change the title
-    cy.get('[data-test=openingPeriodTitle]').clear().type(newTitle);
+    cy.get('[data-test=openingPeriodTitle]')
+      .clear()
+      .type(newTitle, { log: true });
 
     // Save
-    cy.get('[data-test=opening-period-save-button]').click({ force: true });
+    cy.get('[data-test=opening-period-save-button]').click({
+      force: true,
+      log: true,
+    });
 
     // Wait for success notification
     cy.get('[data-testid=opening-period-edited-successfully-notification]', {

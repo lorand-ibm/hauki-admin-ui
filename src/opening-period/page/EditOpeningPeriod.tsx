@@ -74,6 +74,7 @@ export default function EditOpeningPeriodPage({
   >();
   const history = useHistory();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isFormReady, setIsFormReady] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('init');
   const resetForm = useCallback(
@@ -148,14 +149,22 @@ export default function EditOpeningPeriodPage({
           if (datePeriod) {
             resetForm(datePeriod);
           }
-          setIsLoading(false);
+          setIsFormReady(true);
         })
         .catch((e: Error) => {
           setDatePeriodLoadingError(e);
           setIsLoading(false);
         });
     }
-  }, [datePeriodId, id, reset, resetForm, resource]);
+  }, [id, resetForm, resource]);
+
+  useEffect((): void => {
+    // UseEffect's callbacks are synchronous to prevent a race condition.
+    // We can not use an async function as an useEffect's callback because it would return Promise<void>
+    if (isFormReady) {
+      setIsLoading(false);
+    }
+  }, [isFormReady]);
 
   if (hasLoadingResourceError) {
     return (
