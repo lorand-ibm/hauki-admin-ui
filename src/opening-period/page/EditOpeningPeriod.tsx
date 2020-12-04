@@ -131,7 +131,6 @@ export default function EditOpeningPeriodPage({
       .getResource(resourceId)
       .then((r: Resource) => {
         setResource(r);
-        setIsLoading(false);
       })
       .catch((e: Error) => {
         setLoadingResourceError(e);
@@ -143,7 +142,6 @@ export default function EditOpeningPeriodPage({
     // UseEffect's callbacks are synchronous to prevent a race condition.
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
     if (resource) {
-      setIsLoading(true);
       api
         .getDatePeriod(id)
         .then((datePeriod: DatePeriod) => {
