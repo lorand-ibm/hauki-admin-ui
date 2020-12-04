@@ -84,7 +84,7 @@ Cypress.Commands.add(
         const apiUrl = win.ENV?.API_URL;
 
         if (!apiUrl) {
-          return cy.task('log', 'API_URL is not set!!!');
+          throw new Error('API_URL is not set!!!');
         }
 
         return cy
