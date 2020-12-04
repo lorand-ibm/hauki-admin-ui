@@ -17,7 +17,7 @@ export default function OpeningPeriod({
   return (
     <div className="opening-period">
       <div className="opening-period-row">
-        <div className="opening-period-dates">
+        <div className="opening-period-dates opening-period-row-column">
           <div>
             {formatDateRange({
               startDate: datePeriod.start_date,
@@ -25,8 +25,10 @@ export default function OpeningPeriod({
             })}
           </div>
         </div>
-        <div className="opening-period-title">
+        <div className="opening-period-title opening-period-row-column">
           <h4>{datePeriod.name?.fi}</h4>
+        </div>
+        <div className="opening-period-actions opening-period-row-column">
           <Link
             className="opening-period-edit-link"
             data-test={`openingPeriodEditLink-${datePeriod.id}`}
