@@ -11,7 +11,6 @@ import {
 } from '../../common/lib/types';
 import { transformToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
-import LoadingIndicator from '../../components/loadingIndicator/LoadingIndicator';
 import { ErrorToast, SuccessToast } from '../../components/notification/Toast';
 import { ResourceInfo } from '../../resource/page/ResourcePage';
 import './EditOpeningPeriod.scss';
@@ -74,7 +73,6 @@ export default function EditOpeningPeriodPage({
   >();
   const history = useHistory();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isFormReady, setIsFormReady] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('init');
   const resetForm = useCallback(
@@ -149,7 +147,7 @@ export default function EditOpeningPeriodPage({
           if (datePeriod) {
             resetForm(datePeriod);
           }
-          setIsFormReady(true);
+          setIsLoading(false);
         })
         .catch((e: Error) => {
           setDatePeriodLoadingError(e);
@@ -157,14 +155,6 @@ export default function EditOpeningPeriodPage({
         });
     }
   }, [id, resetForm, resource]);
-
-  useEffect((): void => {
-    // UseEffect's callbacks are synchronous to prevent a race condition.
-    // We can not use an async function as an useEffect's callback because it would return Promise<void>
-    if (isFormReady) {
-      setIsLoading(false);
-    }
-  }, [isFormReady]);
 
   if (hasLoadingResourceError) {
     return (
@@ -196,10 +186,6 @@ export default function EditOpeningPeriodPage({
     return (
       <>
         <h1 className="resource-info-title">Aukiolojakson muokkaus</h1>
-        <LoadingIndicator
-          text="Aukiolojakson tietoja haetaan."
-          readyText="Aukiolojakson tiedot haettu"
-        />
       </>
     );
   }
