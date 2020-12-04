@@ -127,9 +127,9 @@ export default function EditOpeningPeriodPage({
           api.getResource(resourceId),
           api.getDatePeriod(id),
         ]);
-        setIsLoading(false);
         setResource(apiResource);
         resetForm(datePeriod);
+        setIsLoading(false);
       } catch (e) {
         setHasDataLoadingError(e);
         setIsLoading(false);
@@ -137,7 +137,7 @@ export default function EditOpeningPeriodPage({
     };
 
     fetchData();
-  }, [id, resetForm, resource, resourceId]);
+  }, [id, resetForm, resourceId]);
 
   if (hasDataLoadingError) {
     return (
