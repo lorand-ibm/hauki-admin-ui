@@ -62,10 +62,7 @@ export default function EditOpeningPeriodPage({
   const id = parseInt(datePeriodId, 10);
   const selectedLanguage: Language = 'fi';
   const [resource, setResource] = useState<Resource>();
-  const [hasLoadingResourceError, setLoadingResourceError] = useState<
-    Error | undefined
-  >(undefined);
-  const [hasDatePeriodLoadingError, setDatePeriodLoadingError] = useState<
+  const [hasDataLoadingError, setHasDataLoadingError] = useState<
     Error | undefined
   >(undefined);
   const { reset, register, handleSubmit, control, errors } = useForm<
@@ -124,59 +121,32 @@ export default function EditOpeningPeriodPage({
   };
 
   useEffect((): void => {
-    // UseEffect's callbacks are synchronous to prevent a race condition.
-    // We can not use an async function as an useEffect's callback because it would return Promise<void>
-    api
-      .getResource(resourceId)
-      .then((r: Resource) => {
-        setResource(r);
-      })
-      .catch((e: Error) => {
-        setLoadingResourceError(e);
+    const fetchData = async (): Promise<void> => {
+      try {
+        const [apiResource, datePeriod] = await Promise.all([
+          api.getResource(resourceId),
+          api.getDatePeriod(id),
+        ]);
         setIsLoading(false);
-      });
-  }, [resourceId]);
+        setResource(apiResource);
+        resetForm(datePeriod);
+      } catch (e) {
+        setHasDataLoadingError(e);
+        setIsLoading(false);
+      }
+    };
 
-  useEffect((): void => {
-    // UseEffect's callbacks are synchronous to prevent a race condition.
-    // We can not use an async function as an useEffect's callback because it would return Promise<void>
-    if (resource) {
-      api
-        .getDatePeriod(id)
-        .then((datePeriod: DatePeriod) => {
-          if (datePeriod) {
-            resetForm(datePeriod);
-          }
-          setIsLoading(false);
-        })
-        .catch((e: Error) => {
-          setDatePeriodLoadingError(e);
-          setIsLoading(false);
-        });
-    }
-  }, [id, resetForm, resource]);
+    fetchData();
+  }, [id, resetForm, resource, resourceId]);
 
-  if (hasLoadingResourceError) {
+  if (hasDataLoadingError) {
     return (
       <>
         <h1 className="resource-info-title">Virhe</h1>
         <Notification
           label="Toimipisteen tietoja ei saatu ladattua."
           type="error">
-          Tarkista toimipiste-id.
-        </Notification>
-      </>
-    );
-  }
-
-  if (hasDatePeriodLoadingError) {
-    return (
-      <>
-        <h1 className="resource-info-title">Virhe</h1>
-        <Notification
-          label="Toimipisteen aukiolojaksotietoja ei saatu ladattua."
-          type="error">
-          Tarkista toimipisteen aukiolojakson id.
+          Tarkista toimipisteen id tai aukiolojakson id.
         </Notification>
       </>
     );
