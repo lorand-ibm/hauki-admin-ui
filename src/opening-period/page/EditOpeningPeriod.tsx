@@ -73,8 +73,8 @@ export default function EditOpeningPeriodPage({
     FormData
   >();
   const history = useHistory();
-  const [isLoading, setLoading] = useState<boolean>(true);
-  const [isSaving, setSaving] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('init');
   const resetForm = useCallback(
     (datePeriod: DatePeriod): void =>
@@ -94,7 +94,7 @@ export default function EditOpeningPeriodPage({
         throw new Error('This should never happen, but typescript');
       }
 
-      setSaving(true);
+      setIsSaving(true);
       const updatedPeriod = await api.putDatePeriod({
         resource: resource.id,
         id,
@@ -115,10 +115,10 @@ export default function EditOpeningPeriodPage({
         time_span_groups: [],
       });
       resetForm(updatedPeriod);
-      setSaving(false);
+      setIsSaving(false);
       setSubmitStatus('succeeded');
     } catch (err) {
-      setSaving(false);
+      setIsSaving(false);
       setSubmitStatus('error');
       throw err;
     }
@@ -131,11 +131,11 @@ export default function EditOpeningPeriodPage({
       .getResource(resourceId)
       .then((r: Resource) => {
         setResource(r);
-        setLoading(false);
+        setIsLoading(false);
       })
       .catch((e: Error) => {
         setLoadingResourceError(e);
-        setLoading(false);
+        setIsLoading(false);
       });
   }, [resourceId]);
 
@@ -143,18 +143,18 @@ export default function EditOpeningPeriodPage({
     // UseEffect's callbacks are synchronous to prevent a race condition.
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
     if (resource) {
-      setLoading(true);
+      setIsLoading(true);
       api
         .getDatePeriod(id)
         .then((datePeriod: DatePeriod) => {
           if (datePeriod) {
             resetForm(datePeriod);
           }
-          setLoading(false);
+          setIsLoading(false);
         })
         .catch((e: Error) => {
           setDatePeriodLoadingError(e);
-          setLoading(false);
+          setIsLoading(false);
         });
     }
   }, [datePeriodId, id, reset, resetForm, resource]);
