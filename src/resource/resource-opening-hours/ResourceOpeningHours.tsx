@@ -91,7 +91,7 @@ const OpeningPeriodsList = ({
         {datePeriods.length > 0 ? (
           datePeriods.map((datePeriod: DatePeriod) => (
             <li key={datePeriod.id}>
-              <OpeningPeriod datePeriod={datePeriod} />
+              <OpeningPeriod datePeriod={datePeriod} resourceId={resourceId} />
             </li>
           ))
         ) : (

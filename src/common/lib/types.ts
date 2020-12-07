@@ -1,4 +1,4 @@
-type Language = 'fi' | 'sv' | 'en';
+export type Language = 'fi' | 'sv' | 'en';
 
 export type LanguageStrings = {
   [x in Language]: string | null;

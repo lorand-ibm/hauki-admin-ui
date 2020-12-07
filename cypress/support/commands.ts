@@ -24,6 +24,9 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+/// <reference path="../../src/globals.d.ts" />
+import Chainable = Cypress.Chainable;
+
 Cypress.Commands.add(
   'visitResourcePageAsUnauthenticatedUser',
   (resourceId: string) => {
@@ -38,7 +41,7 @@ Cypress.Commands.add(
   'visitResourcePageAsAuthenticatedUser',
   (resourceId: string) => {
     cy.exec('node ./scripts/generate-auth-params.js').then((params) => {
-      cy.task('log', `Starting visit as authenticated user`);
+      cy.task('log', 'Starting visit as authenticated user');
       cy.visit(`/resource/${resourceId}?${params.stdout}`, {
         log: true,
       }).task('log', 'Visiting the page as authenticated user');
@@ -58,3 +61,73 @@ Cypress.on('uncaught:exception', (err: Error): boolean | Error => {
 
   return err;
 });
+
+const toJsonDate = (date: Date): string => date.toJSON().split('T')[0];
+
+Cypress.Commands.add(
+  'createDatePeriod',
+  ({
+    name,
+    startDate,
+    endDate,
+    resourceId,
+  }: {
+    name: string;
+    startDate: Date;
+    endDate: Date;
+    resourceId: string;
+  }): Chainable => {
+    return cy
+      .visit('/')
+      .window()
+      .then((win: Window) => {
+        const apiUrl = win.ENV?.API_URL;
+
+        if (!apiUrl) {
+          throw new Error('API_URL is not set!!!');
+        }
+
+        return cy
+          .exec('node ./scripts/generate-auth-params.js')
+          .then((params) =>
+            cy
+              .request(
+                'GET',
+                `${apiUrl}/v1/resource/${resourceId}?${params.stdout}`
+              )
+              .then((resourceResponse) => {
+                const data = {
+                  resource: resourceResponse?.body?.id,
+                  name: {
+                    fi: name,
+                    sv: null,
+                    en: null,
+                  },
+                  description: {
+                    fi: null,
+                    sv: null,
+                    en: null,
+                  },
+                  start_date: toJsonDate(startDate),
+                  end_date: toJsonDate(endDate),
+                  resource_state: 'open',
+                  override: false,
+                  time_span_groups: [],
+                };
+                cy.task(
+                  'log',
+                  `Creating date-period, ${apiUrl}, ${JSON.stringify(data)}`
+                );
+
+                return cy
+                  .request(
+                    'POST',
+                    `${apiUrl}/v1/date_period/?${params.stdout}`,
+                    data
+                  )
+                  .then((dataPeriodResponse) => dataPeriodResponse.body?.id);
+              })
+          );
+      });
+  }
+);

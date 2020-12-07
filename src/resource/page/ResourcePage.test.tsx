@@ -1,6 +1,7 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import { act } from 'react-dom/test-utils';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { DatePeriod, Resource, ResourceState } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
 import ResourcePage from './ResourcePage';
@@ -43,6 +44,14 @@ const testDatePeriod: DatePeriod = {
   time_span_groups: [],
 };
 
+// We need wrap page with router because it renders a Link in the list and "You should not use <Link> outside a <Router>"
+const renderResourcePageWithRouter = (): ReactWrapper =>
+  mount(
+    <Router>
+      <ResourcePage id="tprek:8100" />
+    </Router>
+  );
+
 describe(`<ResourcePage />`, () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -57,7 +66,7 @@ describe(`<ResourcePage />`, () => {
       .spyOn(api, 'getDatePeriods')
       .mockImplementation(() => Promise.resolve([testDatePeriod]));
 
-    const resourcePage = mount(<ResourcePage id="tprek:8100" />);
+    const resourcePage = renderResourcePageWithRouter();
 
     await act(async () => {
       resourcePage.update(); // First tick to trigger useEffect to load
@@ -75,7 +84,7 @@ describe(`<ResourcePage />`, () => {
         Promise.reject(new Error('Failed to load a resource'))
       );
 
-    const resourcePage = mount(<ResourcePage id="tprek:8100" />);
+    const resourcePage = renderResourcePageWithRouter();
 
     await act(async () => {
       resourcePage.update(); // First tick for useEffect
@@ -96,7 +105,7 @@ describe(`<ResourcePage />`, () => {
       .spyOn(api, 'getDatePeriods')
       .mockImplementation(() => Promise.resolve([testDatePeriod]));
 
-    const resourcePage = mount(<ResourcePage id="tprek:8100" />);
+    const resourcePage = renderResourcePageWithRouter();
 
     await act(async () => {
       resourcePage.update(); // First tick for useEffect
@@ -124,7 +133,7 @@ describe(`<ResourcePage />`, () => {
 
     const linkSelector = `a[href="${testResource.extra_data.admin_url}"]`;
 
-    const resourcePage = mount(<ResourcePage id="tprek:8100" />);
+    const resourcePage = renderResourcePageWithRouter();
 
     await act(async () => {
       resourcePage.update(); // First tick for useEffect

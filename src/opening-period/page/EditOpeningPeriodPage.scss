@@ -1,0 +1,131 @@
+@import 'node_modules/hds-design-tokens/lib/all.scss';
+
+.opening-period-page-header-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.opening-period-page-title {
+  margin-top: $spacing-2-xs;
+  font-size: $fontsize-heading-m;
+  color: var(--color-coat-of-arms);
+}
+
+.opening-period-form-section {
+  background-color: var(--form-section-background-color);
+  margin-top: $spacing-m;
+  padding: $spacing-layout-xs $spacing-layout-xs;
+
+  label {
+    display: block;
+    margin-top: $spacing-m;
+  }
+
+  input {
+    display: block;
+  }
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.opening-period-optional-description-input {
+  padding: $spacing-layout-2-xs;
+  width: calc(0.5808333 * 100%);
+  height: 164px;
+  border: 2px solid rgb(128, 128, 128);
+  margin-bottom: $spacing-layout-2-xs;
+
+  @media screen and (max-width: $breakpoint-m) {
+    width: 100%;
+  }
+}
+
+.opening-period-section-title {
+  font-size: $fontsize-heading-xxs;
+}
+
+.opening-period-title-input {
+  font-family: HelsinkiGrotesk-Regular, Arial, sans-serif;
+  font-size: $fontsize-body-l;
+  line-height: 2.5;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border: 2px solid rgb(128, 128, 128);
+  min-width: 400px;
+}
+
+.opening-period-form-dates {
+  display: flex;
+  align-items: center;
+}
+
+.dash-between-begin-and-end-date {
+  margin-bottom: -35px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
+}
+
+.form-content-container {
+  padding-left: $spacing-layout-xs;
+  padding-right: $spacing-layout-xs;
+}
+
+.opening-period-final-action-row-container {
+  margin-top: 116px;
+}
+
+.period-save-button {
+  --period-save-button-spinner-color: #fff;
+
+  padding-left: 24px; // spinner-width is 24px. In addition there is small padding between the spinner and text-span added by HDS-button component
+  padding-right: 24px;
+  position: relative;
+
+  .period-save-button-spinner {
+    position: absolute;
+    left: 15px;
+    transform: translateY(-50%);
+    top: 50%;
+  }
+}
+
+.opening-period-final-action-button.opening-period-final-action-button.opening-period-final-action-button {
+  font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
+  margin-right: $spacing-m;
+  border-color: var(--color-coat-of-arms);
+}
+
+.publish-opening-period-button.publish-opening-period-button.publish-opening-period-button {
+  color: var(--add-new-opening-period-button-color);
+  background-color: var(--color-coat-of-arms);
+
+  &:hover {
+    background-color: var(--color-coat-of-arms-dark);
+    border-color: var(--color-coat-of-arms-dark);
+  }
+
+  &:focus {
+    background-color: var(--color-coat-of-arms);
+    border-color: var(--color-coat-of-arms) !important;
+    outline-color: var(--color-coat-of-arms);
+  }
+}
+
+.cancel-opening-period-button.cancel-opening-period-button.cancel-opening-period-button {
+  color: var(--color-coat-of-arms);
+
+  &:hover {
+    background-color: var(--color-coat-of-arms-light);
+    border-color: var(--color-coat-of-arms);
+  }
+
+  &:focus {
+    border-color: var(--color-coat-of-arms) !important;
+    outline-color: var(--color-coat-of-arms);
+    color: var(--color-coat-of-arms) !important;
+  }
+}

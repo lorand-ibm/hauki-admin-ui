@@ -4,10 +4,11 @@
   font-family: HelsinkiGrotesk-Regular, Arial, sans-serif;
   box-sizing: border-box;
   background-color: var(--opening-period-background-color);
-  padding: $spacing-s $spacing-m;
+  padding: 6px $spacing-m;
 
   h4 {
     margin: 0;
+    word-break: break-all;
   }
 }
 
@@ -15,10 +16,16 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  margin-left: -$spacing-m;
+
+  > * {
+    margin-left: $spacing-m;
+  }
 }
 
-.opening-period-dates,
-.opening-period-title {
+.opening-period-row-column {
+  flex: 1;
+  align-items: center;
   display: flex;
   justify-content: space-between;
 }
@@ -33,9 +40,20 @@
   display: flex;
   flex-grow: 600;
   justify-content: normal;
-  margin-left: $spacing-m;
+}
 
-  * + * {
-    margin-left: $spacing-m;
+.opening-period-edit-link {
+  border-radius: 0;
+  color: inherit;
+  margin-left: auto;
+  padding: $spacing-xs $spacing-s;
+
+  &:hover {
+    background-color: var(--opening-period-listing-button-hover-background-color);
+  }
+
+  &:focus {
+    border-radius: 0;
+    outline: 2px solid var(--opening-period-listing-button-focus-border-color);
   }
 }
