@@ -56,10 +56,6 @@
   align-items: center;
   display: flex;
   flex-direction: row;
-
-  > * + * {
-    margin-left: $spacing-xl;
-  }
 }
 
 .opening-periods-header-title {
@@ -72,6 +68,12 @@
 
 .opening-periods-header-info {
   color: inherit;
+}
+
+.opening-periods-header-actions {
+  > * + * {
+    margin-left: $spacing-xl;
+  }
 }
 
 .period-count {

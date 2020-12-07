@@ -48,7 +48,7 @@ const OpeningPeriodsList = ({
             className="opening-periods-header-info"
           />
         </div>
-        <div className="opening-periods-header-container">
+        <div className="opening-periods-header-container opening-periods-header-actions">
           <p className="period-count">{datePeriods.length} jaksoa</p>
           <LanguageSelect
             id={`${id}-language-select`}
