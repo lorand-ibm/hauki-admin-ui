@@ -5,7 +5,11 @@ import { useHistory } from 'react-router-dom';
 import formatDate from 'date-fns/format';
 import parse from 'date-fns/parse';
 import api from '../../common/utils/api/api';
-import { ResourceInfo } from '../../resource/page/ResourcePage';
+import {
+  ResourceAddress,
+  ResourceInfo,
+  ResourceTitle,
+} from '../../resource/page/ResourcePage';
 import Datepicker from '../../components/datepicker/Datepicker';
 import { ErrorToast, SuccessToast } from '../../components/notification/Toast';
 import './CreateNewOpeningPeriodPage.scss';
@@ -209,10 +213,14 @@ export default function CreateNewOpeningPeriodPage({
         />
       )}
       <div className="opening-period-page-header-row">
-        <ResourceInfo resource={resource} />
-        <h2 className="add-new-opening-period-page-title">
-          Toimipisteen aukiolojakson lisäys
-        </h2>
+        <ResourceInfo>
+          <ResourceTitle resource={resource}>
+            <h2 className="add-new-opening-period-page-title">
+              Toimipisteen aukiolojakson lisäys
+            </h2>
+          </ResourceTitle>
+          <ResourceAddress resource={resource} />
+        </ResourceInfo>
       </div>
       <form
         id="add-new-opening-period-form"

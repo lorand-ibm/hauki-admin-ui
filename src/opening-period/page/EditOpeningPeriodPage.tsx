@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
-import { Button, Notification, LoadingSpinner } from 'hds-react';
+import { Button, LoadingSpinner, Notification } from 'hds-react';
 import { useHistory } from 'react-router-dom';
 import api from '../../common/utils/api/api';
 import {
@@ -12,7 +12,11 @@ import {
 import { transformToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
 import { ErrorToast, SuccessToast } from '../../components/notification/Toast';
-import { ResourceInfo } from '../../resource/page/ResourcePage';
+import {
+  ResourceInfo,
+  ResourceTitle,
+  ResourceAddress,
+} from '../../resource/page/ResourcePage';
 import './EditOpeningPeriodPage.scss';
 
 type FormData = {
@@ -60,7 +64,7 @@ export default function EditOpeningPeriodPage({
   datePeriodId: string;
 }): JSX.Element {
   const id = parseInt(datePeriodId, 10);
-  const selectedLanguage: Language = 'fi';
+  const selectedLanguage: Language = Language.FI;
   const [resource, setResource] = useState<Resource>();
   const [hasDataLoadingError, setHasDataLoadingError] = useState<
     Error | undefined
@@ -81,7 +85,7 @@ export default function EditOpeningPeriodPage({
         openingPeriodBeginDate: datePeriod.start_date || undefined,
         openingPeriodEndDate: datePeriod.end_date || undefined,
       }),
-    [reset]
+    [reset, selectedLanguage]
   );
 
   const onSubmit = async (data: FormData): Promise<void> => {
@@ -178,10 +182,14 @@ export default function EditOpeningPeriodPage({
         />
       )}
       <div className="opening-period-page-header-row">
-        <ResourceInfo resource={resource} />
-        <h2 className="opening-period-page-title">
-          Toimipisteen aukiolojakson muokkaus
-        </h2>
+        <ResourceInfo>
+          <ResourceTitle resource={resource}>
+            <h2 className="opening-period-page-title">
+              Toimipisteen aukiolojakson muokkaus
+            </h2>
+          </ResourceTitle>
+          <ResourceAddress resource={resource} />
+        </ResourceInfo>
       </div>
       <form
         id="opening-period-form"
