@@ -13,21 +13,6 @@ export default function HaukiNavigation(): JSX.Element {
   const history = useHistory();
   const isAuthenticated = !!authTokens;
 
-  interface LanguageOption {
-    label: string;
-    value: string;
-  }
-
-  const languageOptions: LanguageOption[] = [
-    { label: 'Suomeksi', value: 'fi' },
-    { label: 'Svenska', value: 'sv' },
-    { label: 'English', value: 'en' },
-  ];
-
-  const [language, setLanguage] = useState(languageOptions[0]);
-  const formatSelectedValue = ({ value }: LanguageOption): string =>
-    value.toUpperCase();
-
   const signOut = async (): Promise<void> => {
     try {
       const isAuthInvalidated = await api.invalidateAuth();
@@ -81,20 +66,6 @@ export default function HaukiNavigation(): JSX.Element {
             onClick={(): Promise<void> => signOut()}
           />
         </Navigation.User>
-        <Navigation.LanguageSelector label={formatSelectedValue(language)}>
-          {languageOptions.map((languageOption) => (
-            <Navigation.Item
-              key={languageOption.value}
-              label={languageOption.label}
-              onClick={(
-                e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-              ): void => {
-                e.preventDefault();
-                setLanguage(languageOption);
-              }}
-            />
-          ))}
-        </Navigation.LanguageSelector>
       </Navigation.Actions>
       {signOutError && (
         <ErrorToast label="Uloskirjautuminen epäonnistui" text={signOutError} />
