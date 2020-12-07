@@ -13,7 +13,7 @@ import { transformToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
 import { ErrorToast, SuccessToast } from '../../components/notification/Toast';
 import { ResourceInfo } from '../../resource/page/ResourcePage';
-import './EditOpeningPeriod.scss';
+import './EditOpeningPeriodPage.scss';
 
 type FormData = {
   openingPeriodTitle: string;
