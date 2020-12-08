@@ -54,3 +54,21 @@ code {
 .text-danger {
   color: var(--color-brick-dark);
 }
+
+.button-icon {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: var(--spacing-xs) var(--spacing-s);
+
+  &:hover {
+    background-color: var(--opening-period-listing-button-hover-background-color);
+  }
+
+  &:focus {
+    border-radius: 0;
+    outline: 2px solid var(--opening-period-listing-button-focus-border-color);
+  }
+}
