@@ -59,13 +59,13 @@ export function ConfirmationModal({
     close();
   };
 
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent): void => {
-      if (event.key === 'esc') {
-        close();
-      }
-    };
+  const onKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  };
 
+  useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-visible');
       document.addEventListener('keydown', onKeyDown, false);
