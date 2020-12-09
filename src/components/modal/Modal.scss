@@ -1,3 +1,8 @@
+body.modal-visible {
+  height: 100vh;
+  overflow-y: hidden !important;
+}
+
 .modal-backdrop {
   background: var(--modal-backdrop-background-color);
   height: 100%;

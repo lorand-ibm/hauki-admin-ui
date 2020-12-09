@@ -67,13 +67,14 @@ export function ConfirmationModal({
     };
 
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-visible');
       document.addEventListener('keydown', onKeyDown, false);
       if (buttonRef.current) buttonRef.current.focus();
     }
 
     return (): void => {
       document.removeEventListener('keydown', onKeyDown, false);
+      document.body.classList.remove('modal-visible');
     };
   });
 
