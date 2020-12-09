@@ -22,26 +22,62 @@ enum WeekdayTypes {
 
 type Weekdays = Array<WeekdayTypes>;
 
-type TimeSpan = {
-  id: number;
-  created: string;
-  modified: string;
-  is_removed: boolean;
-  name: LanguageStrings;
-  description: LanguageStrings;
+export type TimeSpan = {
   start_time: string;
   end_time: string;
-  full_day: boolean;
   weekdays: Weekdays;
-  resource_state: ResourceState;
-  group: 1;
+  id?: number;
+  created?: string;
+  modified?: string;
+  is_removed?: boolean;
+  name?: LanguageStrings;
+  description?: LanguageStrings;
+  full_day?: boolean;
+  resource_state?: ResourceState;
+  group?: 1;
+};
+
+export type TimeSpanFormFormat = {
+  description: string;
+  endTime: string;
+  startTime: string;
+  resourceState: ResourceState;
+  weekdays: [
+    true | false,
+    true | false,
+    true | false,
+    true | false,
+    true | false,
+    true | false,
+    true | false
+  ];
+};
+
+type ResourceStateApiOption = {
+  value: string;
+  display_name: string;
+};
+
+export type ResourceStateOption = {
+  label: string;
+  value: string;
+};
+
+export type DatePeriodOptions = {
+  actions: {
+    POST: {
+      resource_state: {
+        choices: ResourceStateApiOption[];
+      };
+    };
+  };
 };
 
 export type TimeSpanGroup = {
-  id: number;
+  id?: number;
   time_spans: TimeSpan[];
   rules: [];
-  period: number;
+  period?: number;
 };
 
 export type DatePeriod = {
@@ -53,7 +89,7 @@ export type DatePeriod = {
   description: LanguageStrings;
   start_date: string;
   end_date: string;
-  resource_state: ResourceState;
+  resource_state?: ResourceState;
   override: boolean;
   resource: number;
   time_span_groups: TimeSpanGroup[];

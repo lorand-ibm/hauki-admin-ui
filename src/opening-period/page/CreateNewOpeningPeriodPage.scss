@@ -16,6 +16,7 @@
   label {
     display: block;
     margin-top: $spacing-m;
+    font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
   }
 
   input {
@@ -30,30 +31,9 @@
   margin-top: $spacing-xl;
 }
 
-.opening-period-optional-description {
-  padding: $spacing-layout-2-xs;
-  width: calc(0.5808333 * 100%);
-  height: 164px;
-  border: 2px solid rgb(128, 128, 128);
-  margin-bottom: $spacing-layout-2-xs;
-
-  @media screen and (max-width: $breakpoint-m) {
-    width: 100%;
-  }
-}
-
 .opening-period-section-title {
+  font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
   font-size: $fontsize-heading-xxs;
-}
-
-.add-new-opening-period-title {
-  font-family: HelsinkiGrotesk-Regular, Arial, sans-serif;
-  font-size: $fontsize-body-l;
-  line-height: 2.5;
-  padding-left: 16px;
-  padding-right: 16px;
-  border: 2px solid rgb(128, 128, 128);
-  min-width: 400px;
 }
 
 .opening-period-time-period {
@@ -73,44 +53,31 @@
 }
 
 .add-new-opening-period-final-action-button.add-new-opening-period-final-action-button.add-new-opening-period-final-action-button {
-  font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
   margin-right: $spacing-m;
-  border-color: var(--color-coat-of-arms);
-}
-
-.publish-new-opening-period-button.publish-new-opening-period-button.publish-new-opening-period-button {
-  color: var(--add-new-opening-period-button-color);
-  background-color: var(--color-coat-of-arms);
-
-  &:hover {
-    background-color: var(--color-coat-of-arms-dark);
-    border-color: var(--color-coat-of-arms-dark);
-  }
-
-  &:focus {
-    background-color: var(--color-coat-of-arms);
-    border-color: var(--color-coat-of-arms) !important;
-    outline-color: var(--color-coat-of-arms);
-  }
-}
-
-.cancel-creation-of-new-opening-period-button.cancel-creation-of-new-opening-period-button.cancel-creation-of-new-opening-period-button {
-  color: var(--color-coat-of-arms);
-
-  &:hover {
-    background-color: var(--color-coat-of-arms-light);
-    border-color: var(--color-coat-of-arms);
-  }
-
-  &:focus {
-    border-color: var(--color-coat-of-arms) !important;
-    outline-color: var(--color-coat-of-arms);
-    color: var(--color-coat-of-arms) !important;
-  }
 }
 
 .form-section {
   padding: $spacing-layout-xs;
   background-color: white;
   margin-bottom: $spacing-layout-xs;
+}
+
+.time-span-list-container {
+  position: relative;
+  border-bottom: 1px solid var(--hauki-content-border-color);
+  padding-top: 0;
+  padding-bottom: var(--spacing-layout-xs);
+
+  & > div:first-of-type {
+    border-top: none;
+    margin-top: 0;
+  }
+}
+
+.add-new-time-span-button {
+  margin-top: $spacing-l;
+}
+
+.time-span-group {
+  border-top: $spacing-3-xs solid var(--color-coat-of-arms);
 }

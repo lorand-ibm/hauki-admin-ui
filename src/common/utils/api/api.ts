@@ -3,6 +3,7 @@ import * as querystring from 'querystring';
 import { ParsedUrlQueryInput } from 'querystring';
 import {
   DatePeriod,
+  DatePeriodOptions,
   LanguageStrings,
   Resource,
   ResourceState,
@@ -42,6 +43,11 @@ interface DataRequestParameters {
   path: string;
   headers?: { [key: string]: string };
   data?: RequestParameters;
+}
+
+interface OptionsParameters {
+  path: string;
+  useRootPath?: boolean;
 }
 
 interface PostParameters extends DataRequestParameters {
@@ -143,6 +149,22 @@ async function apiPut<T>({
   });
 }
 
+async function apiOptions<T>({
+  path,
+  useRootPath = false,
+}: OptionsParameters): Promise<T> {
+  return request<T>({
+    url: `${apiBaseUrl}${useRootPath ? '' : '/v1'}${path}/`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'options',
+    validateStatus(status) {
+      return status < 300;
+    },
+  });
+}
+
 interface AuthTestResponse {
   message: string;
   username: string;
@@ -178,6 +200,11 @@ export default {
   getDatePeriod: (datePeriodId: number): Promise<DatePeriod> =>
     apiGet<DatePeriod>({
       path: `${datePeriodBasePath}/${datePeriodId}`,
+    }),
+
+  getDatePeriodFormOptions: (): Promise<DatePeriodOptions> =>
+    apiOptions<DatePeriodOptions>({
+      path: `${datePeriodBasePath}`,
     }),
 
   postDatePeriod: (datePeriod: DatePeriod): Promise<DatePeriod> =>
