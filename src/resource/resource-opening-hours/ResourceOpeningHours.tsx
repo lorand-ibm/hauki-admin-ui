@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { IconInfoCircle, Button } from 'hds-react';
+import React, { useEffect, useState } from 'react';
+import { IconInfoCircle, Navigation, Button, Notification } from 'hds-react';
 import { useHistory } from 'react-router-dom';
+import { DatePeriod, Language } from '../../common/lib/types';
+import api from '../../common/utils/api/api';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect from '../../components/language-select/LanguageSelect';
 import OpeningPeriod from './opening-period/OpeningPeriod';
 import './ResourceOpeningHours.scss';
-import { DatePeriod, Language } from '../../common/lib/types';
 
 enum PeriodsListTheme {
   DEFAULT = 'DEFAULT',
@@ -23,7 +24,7 @@ const OpeningPeriodsList = ({
 }: {
   id: string;
   addNewOpeningPeriodButtonDataTest?: string;
-  resourceId: string;
+  resourceId: number;
   title: string;
   datePeriods: DatePeriod[];
   theme: PeriodsListTheme;
@@ -93,17 +94,8 @@ const OpeningPeriodsNotFound = ({ text }: { text: string }): JSX.Element => (
   <p className="opening-periods-not-found">{text}</p>
 );
 
-export default function ResourceOpeningHours({
-  id,
-  datePeriods,
-}: {
-  id: string;
-  datePeriods: DatePeriod[];
-}): JSX.Element {
-  const [
-    defaultPeriods = [],
-    exceptionPeriods = [],
-  ]: DatePeriod[][] = datePeriods.reduce(
+const partitionByOverride = (datePeriods: DatePeriod[]): DatePeriod[][] =>
+  datePeriods.reduce(
     ([defaults = [], exceptions = []]: DatePeriod[][], current: DatePeriod) => {
       return current.override
         ? [defaults, [...exceptions, current]]
@@ -112,10 +104,46 @@ export default function ResourceOpeningHours({
     []
   );
 
+export default function ResourceOpeningHours({
+  resourceId,
+}: {
+  resourceId: number;
+}): JSX.Element | null {
+  const [error, setError] = useState<Error | undefined>(undefined);
+  const [[defaultPeriods, exceptionPeriods], setDividedDatePeriods] = useState<
+    DatePeriod[][]
+  >([[], []]);
+  const fetchDatePeriods = async (id: number): Promise<void> => {
+    try {
+      const apiDatePeriods = await api.getDatePeriods(id);
+      const datePeriodLists = partitionByOverride(apiDatePeriods);
+      setDividedDatePeriods(datePeriodLists);
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchDatePeriods(resourceId);
+  }, [resourceId]);
+
+  if (error) {
+    return (
+      <>
+        <h1 className="resource-info-title">Virhe</h1>
+        <Notification
+          label="Toimipisteen aukiolojaksoja ei saatu ladattua."
+          type="error">
+          Tarkista toimipiste-id.
+        </Notification>
+      </>
+    );
+  }
+
   return (
     <Collapse
       isOpen
-      collapseContentId={`${id}-opening-hours-section`}
+      collapseContentId={`${resourceId}-opening-hours-section`}
       title="Toimipisteen aukiolotiedot">
       <p>
         Toimipisteen aukiolotietoja muokataan jaksokohtaisesti. Aukiolojaksot
@@ -128,7 +156,7 @@ export default function ResourceOpeningHours({
       <OpeningPeriodsList
         id="resource-opening-periods-list"
         addNewOpeningPeriodButtonDataTest="add-new-opening-period-button"
-        resourceId={id}
+        resourceId={resourceId}
         title="Aukiolojaksot"
         datePeriods={defaultPeriods}
         theme={PeriodsListTheme.DEFAULT}
@@ -136,7 +164,7 @@ export default function ResourceOpeningHours({
       />
       <OpeningPeriodsList
         id="resource-exception-opening-periods-list"
-        resourceId={id}
+        resourceId={resourceId}
         title="Poikkeusaukiolojaksot"
         datePeriods={exceptionPeriods}
         theme={PeriodsListTheme.LIGHT}
