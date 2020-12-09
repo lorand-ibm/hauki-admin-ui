@@ -28,14 +28,10 @@ body.modal-visible {
   border-top: 10px solid var(--modal-border-color);
   position: relative;
   margin: auto;
-  padding: var(--spacing-s) var(--spacing-m);
+  padding: var(--spacing-s) var(--spacing-m) var(--spacing-m);
   min-width: 450px;
   width: 100%;
   z-index: 100;
-
-  > * + * {
-    margin-top: var(--spacing-m);
-  }
 }
 
 .modal-header {
@@ -54,7 +50,13 @@ body.modal-visible {
   margin-left: auto;
 }
 
+.modal-content {
+  line-height: var(--lineheight-l);
+  margin-top: var(--spacing-s);
+}
+
 .modal-actions {
+  margin-top: var(--spacing-l);
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: var(--spacing-m);
