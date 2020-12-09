@@ -159,7 +159,7 @@ export default function CreateNewOpeningPeriodPage({
         setLoadingResourceError(e);
         setLoading(false);
       });
-  }, [append, resourceId]);
+  }, [resourceId]);
 
   if (isLoading) {
     return (
