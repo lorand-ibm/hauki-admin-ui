@@ -43,17 +43,5 @@
 }
 
 .opening-period-edit-link {
-  border-radius: 0;
-  color: inherit;
   margin-left: auto;
-  padding: $spacing-xs $spacing-s;
-
-  &:hover {
-    background-color: var(--opening-period-listing-button-hover-background-color);
-  }
-
-  &:focus {
-    border-radius: 0;
-    outline: 2px solid var(--opening-period-listing-button-focus-border-color);
-  }
 }

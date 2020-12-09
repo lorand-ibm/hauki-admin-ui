@@ -85,7 +85,10 @@ export function ConfirmationModal({
         <div className="modal">
           <div className="modal-header">
             <IconAlertCircle size="s" />
-            <h2 id={titleId} className="modal-title text-bold text-md">
+            <h2
+              id={titleId}
+              className="modal-title text-bold text-md"
+              data-test="modalTitle">
               {title}
             </h2>
             <button
@@ -99,7 +102,10 @@ export function ConfirmationModal({
           </div>
           <div className="modal-content">{text}</div>
           <div className="modal-actions confirm-modal-actions">
-            <Button variant="primary" onClick={(): void => onConfirm()}>
+            <Button
+              variant="primary"
+              onClick={(): void => onConfirm()}
+              data-test="modalConfirmButton">
               {confirmText}
             </Button>
             <Button variant="secondary" onClick={(): void => onClose()}>

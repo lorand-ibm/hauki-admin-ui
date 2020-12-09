@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IconInfoCircle, Navigation, Button, Notification } from 'hds-react';
+import { IconInfoCircle, Button, Notification } from 'hds-react';
 import { useHistory } from 'react-router-dom';
 import { DatePeriod, Language } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
@@ -21,6 +21,7 @@ const OpeningPeriodsList = ({
   datePeriods,
   theme,
   notFoundLabel,
+  deletePeriod,
 }: {
   id: string;
   addNewOpeningPeriodButtonDataTest?: string;
@@ -29,6 +30,7 @@ const OpeningPeriodsList = ({
   datePeriods: DatePeriod[];
   theme: PeriodsListTheme;
   notFoundLabel: string;
+  deletePeriod: (id: number) => Promise<void>;
 }): JSX.Element => {
   const openingPeriodsHeaderClassName =
     theme === PeriodsListTheme.LIGHT
@@ -77,6 +79,7 @@ const OpeningPeriodsList = ({
                 datePeriod={datePeriod}
                 resourceId={resourceId}
                 language={language}
+                deletePeriod={deletePeriod}
               />
             </li>
           ))
@@ -127,6 +130,15 @@ export default function ResourceOpeningHours({
     fetchDatePeriods(resourceId);
   }, [resourceId]);
 
+  const deletePeriod = async (datePeriodId: number): Promise<void> => {
+    try {
+      await api.deleteDatePeriod(datePeriodId);
+      fetchDatePeriods(resourceId);
+    } catch (e) {
+      setError(e);
+    }
+  };
+
   if (error) {
     return (
       <>
@@ -161,6 +173,7 @@ export default function ResourceOpeningHours({
         datePeriods={defaultPeriods}
         theme={PeriodsListTheme.DEFAULT}
         notFoundLabel="Ei aukiolojaksoja."
+        deletePeriod={deletePeriod}
       />
       <OpeningPeriodsList
         id="resource-exception-opening-periods-list"
@@ -169,6 +182,7 @@ export default function ResourceOpeningHours({
         datePeriods={exceptionPeriods}
         theme={PeriodsListTheme.LIGHT}
         notFoundLabel="Ei poikkeusaukiolojaksoja."
+        deletePeriod={deletePeriod}
       />
     </Collapse>
   );
