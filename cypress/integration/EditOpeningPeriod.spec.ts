@@ -4,7 +4,7 @@
 describe('User edits an opening period', () => {
   let dataPeriodId: string | undefined;
   const resourceId = Cypress.env('resource-id');
-  const datePeriodTitlePrefix = 'e2e-test muokkaus:aukiolojakso';
+  const datePeriodTitlePrefix = 'e2e-test Muokkaamisen testijakson otsikko';
   const newTitle = `${datePeriodTitlePrefix} ${new Date().toJSON()}`;
   const startDate = new Date();
   const endDate = new Date();
