@@ -11,6 +11,8 @@ import LoadingIndicator from '../../components/loadingIndicator/LoadingIndicator
 import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
 import './ResourcePage.scss';
 
+const resourceTitleId = 'resource-title';
+
 export const ResourceTitle = ({
   resource,
   language = Language.FI,
@@ -26,7 +28,10 @@ export const ResourceTitle = ({
 
   return (
     <div className="resource-info-title-wrapper">
-      <h1 data-test="resource-info" className="resource-info-title">
+      <h1
+        id={resourceTitleId}
+        data-test="resource-info"
+        className="resource-info-title">
         {name}
       </h1>
       <div className="resource-info-title-add-on">{children}</div>
@@ -58,7 +63,7 @@ export const ResourceInfo = ({
 }: {
   children: ReactNode;
 }): JSX.Element => (
-  <section aria-label="Toimipisteen tiedot">{children}</section>
+  <section aria-labelledby={resourceTitleId}>{children}</section>
 );
 
 const ResourceSection = ({
