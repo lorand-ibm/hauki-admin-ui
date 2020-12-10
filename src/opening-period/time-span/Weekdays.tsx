@@ -1,6 +1,36 @@
 import React from 'react';
 import './Weekdays.scss';
 
+const DayCheckbox = ({
+  register,
+  dataTest,
+  timeSpanIndex,
+  dayIndex,
+  children,
+}: {
+  register: Function;
+  dataTest: string;
+  timeSpanIndex: number;
+  dayIndex: number;
+  children: string;
+}) => {
+  return (
+    <label
+      data-test={dataTest}
+      htmlFor={`timeSpans[${timeSpanIndex}].weekdays[${dayIndex}]`}
+      className="day-label">
+      <input
+        ref={register()}
+        type="checkbox"
+        name={`timeSpans[${timeSpanIndex}].weekdays[${dayIndex}]`}
+        className="opening-hours-day-checkbox-input"
+        id={`timeSpans[${timeSpanIndex}].weekdays[${dayIndex}]`}
+      />
+      <span className="day-option">{children}</span>
+    </label>
+  );
+};
+
 export default function Weekdays({
   index,
   register,
@@ -11,97 +41,55 @@ export default function Weekdays({
   return (
     <fieldset>
       <legend>Päivät *</legend>
-      <label
-        data-test={`weekdays-monday-${index}`}
-        htmlFor={`timeSpans[${index}].weekdays[0]`}
-        className="day-label">
-        <input
-          ref={register()}
-          type="checkbox"
-          name={`timeSpans[${index}].weekdays[0]`}
-          className="opening-hours-day-checkbox-input"
-          id={`timeSpans[${index}].weekdays[0]`}
-        />
-        <span className="day-option">Ma</span>
-      </label>
-      <label
-        data-test={`weekdays-tuesday-${index}`}
-        htmlFor={`timeSpans[${index}].weekdays[1]`}
-        className="day-label">
-        <input
-          ref={register()}
-          type="checkbox"
-          name={`timeSpans[${index}].weekdays[1]`}
-          className="opening-hours-day-checkbox-input"
-          id={`timeSpans[${index}].weekdays[1]`}
-        />
-        <span className="day-option">Ti</span>
-      </label>
-      <label
-        data-test={`weekdays-wednesday-${index}`}
-        htmlFor={`timeSpans[${index}].weekdays[2]`}
-        className="day-label">
-        <input
-          ref={register()}
-          type="checkbox"
-          name={`timeSpans[${index}].weekdays[2]`}
-          className="opening-hours-day-checkbox-input"
-          id={`timeSpans[${index}].weekdays[2]`}
-        />
-        <span className="day-option">Ke</span>
-      </label>
-      <label
-        data-test={`weekdays-thursday-${index}`}
-        htmlFor={`timeSpans[${index}].weekdays[3]`}
-        className="day-label">
-        <input
-          ref={register()}
-          type="checkbox"
-          name={`timeSpans[${index}].weekdays[3]`}
-          className="opening-hours-day-checkbox-input"
-          id={`timeSpans[${index}].weekdays[3]`}
-        />
-        <span className="day-option">To</span>
-      </label>
-      <label
-        data-test={`weekdays-friday-${index}`}
-        htmlFor={`timeSpans[${index}].weekdays[4]`}
-        className="day-label">
-        <input
-          ref={register()}
-          type="checkbox"
-          name={`timeSpans[${index}].weekdays[4]`}
-          className="opening-hours-day-checkbox-input"
-          id={`timeSpans[${index}].weekdays[4]`}
-        />
-        <span className="day-option">Pe</span>
-      </label>
-      <label
-        data-test={`weekdays-saturday-${index}`}
-        htmlFor={`timeSpans[${index}].weekdays[5]`}
-        className="day-label">
-        <input
-          ref={register()}
-          type="checkbox"
-          name={`timeSpans[${index}].weekdays[5]`}
-          className="opening-hours-day-checkbox-input"
-          id={`timeSpans[${index}].weekdays[5]`}
-        />
-        <span className="day-option">La</span>
-      </label>
-      <label
-        data-test={`weekdays-sunday-${index}`}
-        htmlFor={`timeSpans[${index}].weekdays[6]`}
-        className="day-label">
-        <input
-          ref={register()}
-          type="checkbox"
-          name={`timeSpans[${index}].weekdays[6]`}
-          className="opening-hours-day-checkbox-input"
-          id={`timeSpans[${index}].weekdays[6]`}
-        />
-        <span className="day-option">Su</span>
-      </label>
+      <DayCheckbox
+        register={register}
+        dataTest={`weekdays-monday-${index}`}
+        timeSpanIndex={index}
+        dayIndex={0}>
+        Ma
+      </DayCheckbox>
+      <DayCheckbox
+        register={register}
+        dataTest={`weekdays-tuesday-${index}`}
+        timeSpanIndex={index}
+        dayIndex={1}>
+        Ti
+      </DayCheckbox>
+      <DayCheckbox
+        register={register}
+        dataTest={`weekdays-wednesday-${index}`}
+        timeSpanIndex={index}
+        dayIndex={2}>
+        Ke
+      </DayCheckbox>
+      <DayCheckbox
+        register={register}
+        dataTest={`weekdays-thursday-${index}`}
+        timeSpanIndex={index}
+        dayIndex={3}>
+        To
+      </DayCheckbox>
+      <DayCheckbox
+        register={register}
+        dataTest={`weekdays-friday-${index}`}
+        timeSpanIndex={index}
+        dayIndex={4}>
+        Pe
+      </DayCheckbox>
+      <DayCheckbox
+        register={register}
+        dataTest={`weekdays-saturday-${index}`}
+        timeSpanIndex={index}
+        dayIndex={5}>
+        La
+      </DayCheckbox>
+      <DayCheckbox
+        register={register}
+        dataTest={`weekdays-sunday-${index}`}
+        timeSpanIndex={index}
+        dayIndex={6}>
+        Su
+      </DayCheckbox>
     </fieldset>
   );
 }
