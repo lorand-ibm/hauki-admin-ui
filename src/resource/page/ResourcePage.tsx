@@ -4,7 +4,7 @@ import api from '../../common/utils/api/api';
 import { DatePeriod, Language, Resource } from '../../common/lib/types';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
-  getMissingText,
+  displayLangVersionNotFound,
 } from '../../components/language-select/LanguageSelect';
 import { ExternalLink } from '../../components/link/Link';
 import LoadingIndicator from '../../components/loadingIndicator/LoadingIndicator';
@@ -21,7 +21,8 @@ export const ResourceTitle = ({
   children: ReactNode;
 }): JSX.Element => {
   const name =
-    resource?.name[language] || getMissingText({ language, label: 'nimi' });
+    resource?.name[language] ||
+    displayLangVersionNotFound({ language, label: 'toimipisteen nimi' });
 
   return (
     <div className="resource-info-title-wrapper">
@@ -42,7 +43,7 @@ export const ResourceAddress = ({
 }): JSX.Element => {
   const address =
     resource?.address[language] ||
-    getMissingText({ language, label: 'address' });
+    displayLangVersionNotFound({ language, label: 'toimipisteen osoite' });
 
   return (
     <>

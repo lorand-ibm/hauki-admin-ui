@@ -9,7 +9,7 @@ export const languageOptions: LanguageOption[] = [
   { label: 'English', value: Language.EN },
 ];
 
-export const getMissingText = ({
+export const displayLangVersionNotFound = ({
   language,
   label,
 }: {

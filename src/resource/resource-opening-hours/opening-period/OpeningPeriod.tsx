@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { IconPenLine } from 'hds-react';
 import { DatePeriod, Language } from '../../../common/lib/types';
 import { formatDateRange } from '../../../common/utils/date-time/format';
-import { getMissingText } from '../../../components/language-select/LanguageSelect';
+import { displayLangVersionNotFound } from '../../../components/language-select/LanguageSelect';
 import './OpeningPeriod.scss';
 
 export default function OpeningPeriod({
@@ -33,7 +33,10 @@ export default function OpeningPeriod({
             <h4>{name}</h4>
           ) : (
             <h4 className="text-danger">
-              {getMissingText({ language, label: 'nimi' })}
+              {displayLangVersionNotFound({
+                language,
+                label: 'aukiolojakson nimi',
+              })}
             </h4>
           )}
         </div>
