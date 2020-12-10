@@ -14,6 +14,7 @@ import {
   TimeSpanFormFormat,
   Resource,
   ResourceStateOption,
+  ResourceStateApiOption,
 } from '../../common/lib/types';
 import {
   dateApiFormat,
@@ -146,12 +147,16 @@ export default function CreateNewOpeningPeriodPage({
         const resourceStateOptionsInApiFormat =
           values[1].actions.POST.resource_state.choices;
         setResourceStateOptions(
-          resourceStateOptionsInApiFormat.map((optionInApiFormat) => {
-            return {
-              value: optionInApiFormat.value,
-              label: optionInApiFormat.display_name,
-            };
-          })
+          resourceStateOptionsInApiFormat.map(
+            (
+              optionInApiFormat: ResourceStateApiOption
+            ): { value: string; label: string } => {
+              return {
+                value: optionInApiFormat.value,
+                label: optionInApiFormat.display_name,
+              };
+            }
+          )
         );
         setLoading(false);
       })

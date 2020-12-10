@@ -45,7 +45,7 @@ export type TimeSpanFormFormat = {
   weekdays: [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 };
 
-type ResourceStateApiOption = {
+export type ResourceStateApiOption = {
   value: string;
   display_name: string;
 };
