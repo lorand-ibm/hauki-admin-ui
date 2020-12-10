@@ -22,10 +22,6 @@ export default function TimeSpan({
     register({ name: `timeSpans[${index}].resourceState` });
   });
 
-  if (!resourceStateOptions) {
-    throw new Error('This should never happen but typescript');
-  }
-
   return (
     <div data-test={`time-span-${index}`} className="time-span-container">
       <div className="time-span-first-header-row">
