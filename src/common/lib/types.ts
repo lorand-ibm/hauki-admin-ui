@@ -42,15 +42,7 @@ export type TimeSpanFormFormat = {
   endTime: string;
   startTime: string;
   resourceState: ResourceState;
-  weekdays: [
-    true | false,
-    true | false,
-    true | false,
-    true | false,
-    true | false,
-    true | false,
-    true | false
-  ];
+  weekdays: [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 };
 
 type ResourceStateApiOption = {
