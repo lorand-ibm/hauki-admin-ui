@@ -37,6 +37,7 @@ export default function OpeningPeriodDescription({
       </label>
       <textarea
         cols={90}
+        rows={9}
         className="opening-period-optional-description"
         id="openingPeriodOptionalDescription"
         name="openingPeriodOptionalDescription"
