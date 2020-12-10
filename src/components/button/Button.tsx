@@ -14,8 +14,7 @@ interface ButtonProps {
   type?: ButtonTypeVariant;
 }
 
-export default function Button({
-  variant = 'primary',
+export function SecondaryButton({
   children,
   dataTest,
   onClick,
@@ -25,10 +24,27 @@ export default function Button({
   return (
     <HDSButton
       data-test={dataTest}
-      className={`button-common ${
-        variant === 'primary' ? 'primary-button' : 'secondary-button'
-      } ${className}`}
-      variant={variant}
+      className={`button-common secondary-button ${className}`}
+      variant="secondary"
+      onClick={onClick}
+      type={type}>
+      {children}
+    </HDSButton>
+  );
+}
+
+export function PrimaryButton({
+  children,
+  dataTest,
+  onClick,
+  className = '',
+  type = 'button',
+}: ButtonProps): JSX.Element {
+  return (
+    <HDSButton
+      data-test={dataTest}
+      className={`button-common primary-button ${className}`}
+      variant="primary"
       onClick={onClick}
       type={type}>
       {children}

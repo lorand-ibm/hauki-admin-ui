@@ -19,7 +19,7 @@ import {
   dateApiFormat,
   dateFormFormat,
 } from '../../common/utils/date-time/format';
-import Button from '../../components/button/Button';
+import { PrimaryButton, SecondaryButton } from '../../components/button/Button';
 import OpeningPeriodDescription from '../description/OpeningPeriodDescription';
 
 import TimeSpan from '../time-span/TimeSpan';
@@ -255,27 +255,26 @@ export default function CreateNewOpeningPeriodPage({
               />
             ))}
           </div>
-          <Button
+          <SecondaryButton
             dataTest="add-new-time-span-button"
             onClick={(): void => append({})}
-            className="add-new-opening-period-final-action-button add-new-time-span-button"
-            variant="secondary">
+            className="add-new-opening-period-final-action-button add-new-time-span-button">
             + Lisää aukioloaika
-          </Button>
+          </SecondaryButton>
         </section>
         <div className="add-new-opening-period-final-action-row-container">
-          <Button
+          <PrimaryButton
             dataTest="publish-new-opening-period-button"
             className="add-new-opening-period-final-action-button"
             type="submit">
             Julkaise
-          </Button>
-          <Button
-            onClick={(): void => history.push(`/resource/${resourceId}`)}
+          </PrimaryButton>
+          <SecondaryButton
+            dataTest="publish-new-opening-period-button"
             className="add-new-opening-period-final-action-button"
-            variant="secondary">
+            onClick={(): void => history.push(`/resource/${resourceId}`)}>
             Peruuta ja palaa
-          </Button>
+          </SecondaryButton>
         </div>
       </form>
     </>
