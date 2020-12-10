@@ -28,6 +28,18 @@ h5 {
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
 }
 
+fieldset {
+  padding: 0 !important;
+  margin-right: 0;
+  margin-left: 0;
+  border: none;
+  min-width: min-content;
+}
+
+label {
+  font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
+}
+
 #root {
   margin: 0;
   height: 100%;

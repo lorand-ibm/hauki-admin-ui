@@ -31,6 +31,19 @@ describe('User adds a new opening period', () => {
     cy.get('[data-test=openingPeriodEndDate]').click();
     cy.get('[data-test=show-next-month-button]').click();
     cy.get('button.dayButton').contains('01').click();
+
+    // Then enter time span data
+    cy.get('[data-test=weekdays-monday-0]').click();
+    cy.get('[data-test=weekdays-tuesday-0]').click();
+    cy.get('[data-test=weekdays-wednesday-0]').click();
+    cy.get('[data-test=weekdays-thursday-0]').click();
+    cy.get('[data-test=weekdays-friday-0]').click();
+    cy.get('[data-test=time-span-start-time-0]').type('08:00');
+    cy.get('[data-test=time-span-end-time-0]').type('16:00');
+    cy.get('button#time-span-state-id-0-toggle-button').click(); // HDS component Select appends the part '-toggle-button' to the given id
+    cy.get('li#time-span-state-id-0-item-0').click();
+
+    // Try submit form
     cy.get('[data-test=publish-new-opening-period-button]').click();
 
     // On successful creation a success notification should appear. Let's test that this is the case

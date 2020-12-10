@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Button, Notification } from 'hds-react';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { Notification } from 'hds-react';
 import { useHistory } from 'react-router-dom';
 import formatDate from 'date-fns/format';
 import parse from 'date-fns/parse';
@@ -9,37 +9,85 @@ import { ResourceInfo } from '../../resource/page/ResourcePage';
 import Datepicker from '../../components/datepicker/Datepicker';
 import { ErrorToast, SuccessToast } from '../../components/notification/Toast';
 import './CreateNewOpeningPeriodPage.scss';
-import { Resource, ResourceState } from '../../common/lib/types';
+import {
+  TimeSpan as TimeSpanApiFormat,
+  TimeSpanFormFormat,
+  Resource,
+  ResourceStateOption,
+  ResourceStateApiOption,
+} from '../../common/lib/types';
 import {
   dateApiFormat,
   dateFormFormat,
 } from '../../common/utils/date-time/format';
+import { PrimaryButton, SecondaryButton } from '../../components/button/Button';
+import OpeningPeriodDescription from '../description/OpeningPeriodDescription';
+
+import TimeSpan from '../time-span/TimeSpan';
 
 type Inputs = {
   openingPeriodTitle: string;
   openingPeriodOptionalDescription: string;
   openingPeriodBeginDate: string;
   openingPeriodEndDate: string;
+  timeSpans: Array<TimeSpanFormFormat>;
 };
 
 type SubmitStatus = 'init' | 'succeeded' | 'error';
+
+function formatTimeSpansToApiFormat(
+  timeSpans: TimeSpanFormFormat[]
+): TimeSpanApiFormat[] {
+  return timeSpans.map((timeSpan) => {
+    return {
+      description: {
+        fi: timeSpan.description,
+        sv: null,
+        en: null,
+      },
+      end_time: `${timeSpan.endTime}:00`,
+      start_time: `${timeSpan.startTime}:00`,
+      resource_state: timeSpan.resourceState,
+      weekdays: timeSpan.weekdays.reduce(
+        (acc: Array<number>, currentValue: boolean, currentIndex: number) => {
+          if (currentValue) {
+            acc.push(currentIndex + 1);
+            return acc;
+          }
+          return acc;
+        },
+        []
+      ),
+    };
+  });
+}
 
 export default function CreateNewOpeningPeriodPage({
   resourceId,
 }: {
   resourceId: string;
 }): JSX.Element {
-  const { register, handleSubmit, errors } = useForm<Inputs>({
-    mode: 'all',
-    defaultValues: {
-      openingPeriodTitle: '',
-      openingPeriodOptionalDescription: '',
-      openingPeriodBeginDate: undefined,
-      openingPeriodEndDate: undefined,
-    },
+  const { register, handleSubmit, errors, control, setValue } = useForm<Inputs>(
+    {
+      mode: 'all',
+      defaultValues: {
+        openingPeriodTitle: '',
+        openingPeriodOptionalDescription: '',
+        openingPeriodBeginDate: undefined,
+        openingPeriodEndDate: undefined,
+        timeSpans: [{}],
+      },
+    }
+  );
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'timeSpans',
   });
   const history = useHistory();
   const [resource, setResource] = useState<Resource>();
+  const [resourceStateOptions, setResourceStateOptions] = useState<
+    ResourceStateOption[]
+  >([]);
   const [hasLoadingResourceError, setLoadingResourceError] = useState<
     Error | undefined
   >(undefined);
@@ -73,23 +121,43 @@ export default function CreateNewOpeningPeriodPage({
           parse(data.openingPeriodEndDate, dateFormFormat, new Date()),
           dateApiFormat
         ),
-        resource_state: ResourceState.OPEN,
         override: false,
-        time_span_groups: [],
+        time_span_groups: [
+          {
+            time_spans: formatTimeSpansToApiFormat(data.timeSpans || []),
+            rules: [],
+          },
+        ],
       });
       setSubmitStatus('succeeded');
     } catch (err) {
       setSubmitStatus('error');
+      // eslint-disable-next-line no-console
+      console.error(err); // For debug purposes
     }
   };
 
   useEffect((): void => {
     // UseEffect's callbacks are synchronous to prevent a race condition.
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
-    api
-      .getResource(resourceId)
-      .then((r: Resource) => {
-        setResource(r);
+
+    Promise.all([api.getResource(resourceId), api.getDatePeriodFormOptions()])
+      .then((values) => {
+        setResource(values[0] as Resource);
+        const resourceStateOptionsInApiFormat =
+          values[1].actions.POST.resource_state.choices;
+        setResourceStateOptions(
+          resourceStateOptionsInApiFormat.map(
+            (
+              optionInApiFormat: ResourceStateApiOption
+            ): { value: string; label: string } => {
+              return {
+                value: optionInApiFormat.value,
+                label: optionInApiFormat.display_name,
+              };
+            }
+          )
+        );
         setLoading(false);
       })
       .catch((e: Error) => {
@@ -113,9 +181,10 @@ export default function CreateNewOpeningPeriodPage({
         <h1 className="resource-info-title">Virhe</h1>
         <Notification
           dataTestId="error-retrieving-resource-info"
-          label="Toimipisteen tietoja ei saatu ladattua."
+          label="Toimipisteen tai lomakkeen tietoja ei saatu ladattua."
           type="error">
-          Tarkista toimipiste-id.
+          Tarkista toimipiste-id ja että sinulla on riittävät oikeudet sen
+          aukiolojen muokkaamiseen.
         </Notification>
       </>
     );
@@ -150,33 +219,10 @@ export default function CreateNewOpeningPeriodPage({
         data-test="add-new-opening-period-form"
         className="add-new-opening-period-form"
         onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-content-container">
-          <h3 className="opening-period-section-title">Jakson kuvaus</h3>
-          <label htmlFor="openingPeriodTitle">Aukiolojakson otsikko *</label>
-          <input
-            className="add-new-opening-period-title"
-            type="text"
-            name="openingPeriodTitle"
-            data-test="openingPeriodTitle"
-            id="openingPeriodTitle"
-            aria-invalid={errors.openingPeriodTitle ? 'true' : 'false'}
-            ref={register({ required: true, maxLength: 100 })}
-          />
-          {errors.openingPeriodTitle &&
-            errors.openingPeriodTitle.type === 'required' && (
-              <span role="alert">Aukiolojakson otsikko on pakollinen</span>
-            )}
-
-          <label htmlFor="openingPeriodOptionalDescription">
-            Jakson valinnainen kuvaus
-          </label>
-          <textarea
-            cols={90}
-            className="opening-period-optional-description"
-            id="openingPeriodOptionalDescription"
-            name="openingPeriodOptionalDescription"
-            ref={register({ maxLength: 255 })}
-          />
+        <section className="form-section">
+          <OpeningPeriodDescription register={register} errors={errors} />
+        </section>
+        <section className="form-section">
           <h3 className="opening-period-section-title">Ajanjakso</h3>
           <section className="opening-period-time-period">
             <Datepicker
@@ -199,21 +245,40 @@ export default function CreateNewOpeningPeriodPage({
               required
             />
           </section>
-        </div>
+        </section>
+        <section className="form-section time-span-group">
+          <div className="time-span-list-container">
+            <h3 className="opening-period-section-title">Aukioloajat</h3>
+            {fields.map((item, index) => (
+              <TimeSpan
+                resourceStateOptions={resourceStateOptions}
+                setValue={setValue}
+                register={register}
+                key={`time-span-${index}`}
+                index={index}
+                remove={remove}
+              />
+            ))}
+          </div>
+          <SecondaryButton
+            dataTest="add-new-time-span-button"
+            onClick={(): void => append({})}
+            className="add-new-opening-period-final-action-button add-new-time-span-button">
+            + Lisää aukioloaika
+          </SecondaryButton>
+        </section>
         <div className="add-new-opening-period-final-action-row-container">
-          <Button
-            data-test="publish-new-opening-period-button"
-            className="add-new-opening-period-final-action-button publish-new-opening-period-button"
-            type="submit"
-            form="add-new-opening-period-form">
+          <PrimaryButton
+            dataTest="publish-new-opening-period-button"
+            className="add-new-opening-period-final-action-button"
+            type="submit">
             Julkaise
-          </Button>
-          <Button
-            onClick={(): void => history.push(`/resource/${resourceId}`)}
-            className="add-new-opening-period-final-action-button cancel-creation-of-new-opening-period-button"
-            variant="secondary">
+          </PrimaryButton>
+          <SecondaryButton
+            className="add-new-opening-period-final-action-button"
+            onClick={(): void => history.push(`/resource/${resourceId}`)}>
             Peruuta ja palaa
-          </Button>
+          </SecondaryButton>
         </div>
       </form>
     </>
