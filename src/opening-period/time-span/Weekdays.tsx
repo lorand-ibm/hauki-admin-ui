@@ -13,7 +13,7 @@ const DayCheckbox = ({
   timeSpanIndex: number;
   dayIndex: number;
   children: string;
-}) => {
+}): JSX.Element => {
   return (
     <label
       data-test={dataTest}
