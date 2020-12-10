@@ -23,7 +23,6 @@ const DayCheckbox = ({
         ref={register()}
         type="checkbox"
         name={`timeSpans[${timeSpanIndex}].weekdays[${dayIndex}]`}
-        className="opening-hours-day-checkbox-input"
         id={`timeSpans[${timeSpanIndex}].weekdays[${dayIndex}]`}
       />
       <span className="day-option">{children}</span>
