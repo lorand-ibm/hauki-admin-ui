@@ -31,10 +31,10 @@ label.day-label {
     background-color: var(--color-coat-of-arms);
     color: white;
   }
-}
 
-.opening-hours-day-checkbox-input {
-  visibility: hidden;
+  & input[type="checkbox"]:focus ~ .day-option {
+    outline: blue solid 2px;
+  }
 }
 
 .form-section {
