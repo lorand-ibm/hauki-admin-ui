@@ -124,7 +124,7 @@ export default function CreateNewOpeningPeriodPage({
         override: false,
         time_span_groups: [
           {
-            time_spans: formatTimeSpansToApiFormat(data.timeSpans),
+            time_spans: formatTimeSpansToApiFormat(data.timeSpans || []),
             rules: [],
           },
         ],
