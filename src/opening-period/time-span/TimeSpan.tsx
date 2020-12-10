@@ -16,7 +16,7 @@ export default function TimeSpan({
   remove: Function;
   register: Function;
   setValue: Function;
-  resourceStateOptions: ResourceStateOption[] | undefined;
+  resourceStateOptions: ResourceStateOption[];
 }): JSX.Element {
   useEffect(() => {
     register({ name: `timeSpans[${index}].resourceState` });

@@ -86,8 +86,8 @@ export default function CreateNewOpeningPeriodPage({
   const history = useHistory();
   const [resource, setResource] = useState<Resource>();
   const [resourceStateOptions, setResourceStateOptions] = useState<
-    ResourceStateOption[] | undefined
-  >(undefined);
+    ResourceStateOption[]
+  >([]);
   const [hasLoadingResourceError, setLoadingResourceError] = useState<
     Error | undefined
   >(undefined);
