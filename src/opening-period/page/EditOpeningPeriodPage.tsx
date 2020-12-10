@@ -181,16 +181,14 @@ export default function EditOpeningPeriodPage({
           onClose={(): void => setSubmitStatus('init')}
         />
       )}
-      <div className="opening-period-page-header-row">
-        <ResourceInfo>
-          <ResourceTitle resource={resource}>
-            <h2 className="opening-period-page-title">
-              Toimipisteen aukiolojakson muokkaus
-            </h2>
-          </ResourceTitle>
-          <ResourceAddress resource={resource} />
-        </ResourceInfo>
-      </div>
+      <ResourceInfo>
+        <ResourceTitle resource={resource}>
+          <h2 className="opening-period-page-title">
+            Toimipisteen aukiolojakson muokkaus
+          </h2>
+        </ResourceTitle>
+        <ResourceAddress resource={resource} />
+      </ResourceInfo>
       <form
         id="opening-period-form"
         data-test="opening-period-form"

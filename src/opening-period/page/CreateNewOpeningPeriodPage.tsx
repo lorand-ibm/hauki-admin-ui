@@ -212,16 +212,14 @@ export default function CreateNewOpeningPeriodPage({
           onClose={(): void => setSubmitStatus('init')}
         />
       )}
-      <div className="opening-period-page-header-row">
-        <ResourceInfo>
-          <ResourceTitle resource={resource}>
-            <h2 className="add-new-opening-period-page-title">
-              Toimipisteen aukiolojakson lisäys
-            </h2>
-          </ResourceTitle>
-          <ResourceAddress resource={resource} />
-        </ResourceInfo>
-      </div>
+      <ResourceInfo>
+        <ResourceTitle resource={resource}>
+          <h2 className="add-new-opening-period-page-title">
+            Toimipisteen aukiolojakson lisäys
+          </h2>
+        </ResourceTitle>
+        <ResourceAddress resource={resource} />
+      </ResourceInfo>
       <form
         id="add-new-opening-period-form"
         data-test="add-new-opening-period-form"
