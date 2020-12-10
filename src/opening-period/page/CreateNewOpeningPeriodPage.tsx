@@ -270,7 +270,6 @@ export default function CreateNewOpeningPeriodPage({
             Julkaise
           </PrimaryButton>
           <SecondaryButton
-            dataTest="publish-new-opening-period-button"
             className="add-new-opening-period-final-action-button"
             onClick={(): void => history.push(`/resource/${resourceId}`)}>
             Peruuta ja palaa
