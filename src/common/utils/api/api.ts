@@ -47,7 +47,6 @@ interface DataRequestParameters {
 
 interface OptionsParameters {
   path: string;
-  useRootPath?: boolean;
 }
 
 interface PostParameters extends DataRequestParameters {
@@ -149,12 +148,9 @@ async function apiPut<T>({
   });
 }
 
-async function apiOptions<T>({
-  path,
-  useRootPath = false,
-}: OptionsParameters): Promise<T> {
+async function apiOptions<T>({ path }: OptionsParameters): Promise<T> {
   return request<T>({
-    url: `${apiBaseUrl}${useRootPath ? '' : '/v1'}${path}/`,
+    url: `${apiBaseUrl}/v1${path}/`,
     headers: {
       'Content-Type': 'application/json',
     },
