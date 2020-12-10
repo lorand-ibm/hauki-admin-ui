@@ -57,7 +57,9 @@ export const ResourceInfo = ({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element => <div className="resource-info-container">{children}</div>;
+}): JSX.Element => (
+  <section aria-label="Toimipisteen tiedot">{children}</section>
+);
 
 const ResourceSection = ({
   id,
