@@ -156,7 +156,7 @@ async function selectTimeAndTypeInTimeSpan(
 }
 
 describe(`<CreateNewOpeningPeriodPage />`, () => {
-  jest.setTimeout(15000);
+  jest.setTimeout(30000);
   let testDatePeriodOptions: DatePeriodOptions;
   let testResource: Resource;
   let testDatePeriod: DatePeriod;
