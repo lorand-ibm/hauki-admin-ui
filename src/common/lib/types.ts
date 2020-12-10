@@ -34,7 +34,7 @@ export type TimeSpan = {
   description?: LanguageStrings;
   full_day?: boolean;
   resource_state?: ResourceState;
-  group?: 1;
+  group?: number;
 };
 
 export type TimeSpanFormFormat = {
