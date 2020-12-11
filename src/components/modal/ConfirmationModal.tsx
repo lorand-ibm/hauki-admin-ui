@@ -24,16 +24,16 @@ const ModalWrapper = ({
 );
 
 type UseModalProps = {
-  isOpen: boolean;
-  toggle: () => void;
+  isModalOpen: boolean;
+  toggleModal: () => void;
 };
 
 export const useModal = (): UseModalProps => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const toggle = (): void => setIsOpen(!isOpen);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const toggleModal = (): void => setIsModalOpen(!isModalOpen);
   return {
-    isOpen,
-    toggle,
+    isModalOpen,
+    toggleModal,
   };
 };
 
