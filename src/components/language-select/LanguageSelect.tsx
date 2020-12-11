@@ -56,6 +56,8 @@ export default function LanguageSelect({
       label={formatter(selectedLanguage)}>
       {languageOptions.map((languageOption) => (
         <Navigation.Item
+          as="a"
+          href="#"
           key={languageOption.value}
           label={languageOption.label}
           onClick={(
