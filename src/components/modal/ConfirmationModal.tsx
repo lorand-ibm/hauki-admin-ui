@@ -4,7 +4,6 @@ import { IconAlertCircle, IconCross } from 'hds-react';
 import { PrimaryButton, SecondaryButton } from '../button/Button';
 import './ConfirmationModal.scss';
 
-const ModalBackDrop = (): JSX.Element => <div className="modal-backdrop" />;
 const ModalWrapper = ({
   id,
   ariaLabelledBy,
@@ -81,7 +80,7 @@ export function ConfirmationModal({
 
   const Modal = (): JSX.Element => (
     <>
-      <ModalBackDrop />
+      <div className="modal-backdrop" />
       <ModalWrapper id="confirmation-modal" ariaLabelledBy={titleId}>
         <div className="modal">
           <div className="modal-header">
