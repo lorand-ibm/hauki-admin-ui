@@ -38,7 +38,7 @@ describe('User deletes an opening period', () => {
     // Check that delete modal exists
     cy.get('[data-test=modalTitle]', {
       timeout: 5000,
-    }).should('have.text', 'Oletko varma että haluat poistaa aukiolojakson?');
+    }).should('exist');
 
     // Click delete modal confirm button
     cy.get('[data-test=modalConfirmButton]').click();
