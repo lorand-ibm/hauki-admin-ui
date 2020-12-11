@@ -25,15 +25,18 @@ const ModalWrapper = ({
 
 type UseModalProps = {
   isModalOpen: boolean;
-  toggleModal: () => void;
+  openModal: () => void;
+  closeModal: () => void;
 };
 
 export const useModal = (): UseModalProps => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const toggleModal = (): void => setIsModalOpen(!isModalOpen);
+  const openModal = (): void => setIsModalOpen(true);
+  const closeModal = (): void => setIsModalOpen(false);
   return {
     isModalOpen,
-    toggleModal,
+    openModal,
+    closeModal,
   };
 };
 
@@ -63,6 +66,11 @@ export function ConfirmationModal({
     if (event.key === 'Escape') {
       onClose();
     }
+  };
+
+  const onConfirmClick = (): void => {
+    onConfirm();
+    close();
   };
 
   useEffect(() => {
@@ -103,7 +111,7 @@ export function ConfirmationModal({
           <div className="modal-content">{text}</div>
           <div className="modal-actions confirm-modal-actions">
             <PrimaryButton
-              onClick={(): void => onConfirm()}
+              onClick={(): void => onConfirmClick()}
               dataTest="modalConfirmButton">
               {confirmText}
             </PrimaryButton>

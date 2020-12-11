@@ -39,14 +39,7 @@ export default function OpeningPeriod({
       </p>
     </>
   );
-  const { isModalOpen, toggleModal } = useModal();
-
-  const deleteDatePeriod = (id: number | undefined): void => {
-    if (id) {
-      deletePeriod(id);
-    }
-    toggleModal();
-  };
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
     <div
@@ -82,23 +75,25 @@ export default function OpeningPeriod({
             className="opening-period-delete-link button-icon"
             data-test={`openingPeriodDeleteLink-${datePeriod.id}`}
             type="button"
-            onClick={(): void => toggleModal()}>
+            onClick={(): void => openModal()}>
             <IconTrash aria-hidden="true" />
             <span className="sr-only">{`Poista ${
               name || 'nimetön'
             } aukiolojakso`}</span>
           </button>
         </div>
-        {datePeriod.id && (
-          <ConfirmationModal
-            onConfirm={(): void => deleteDatePeriod(datePeriod.id)}
-            title={deleteModalTitle}
-            text={<DeleteModalText />}
-            isOpen={isModalOpen}
-            close={toggleModal}
-            confirmText="Poista"
-          />
-        )}
+        <ConfirmationModal
+          onConfirm={(): void => {
+            if (datePeriod.id) {
+              deletePeriod(datePeriod.id);
+            }
+          }}
+          title={deleteModalTitle}
+          text={<DeleteModalText />}
+          isOpen={isModalOpen}
+          close={closeModal}
+          confirmText="Poista"
+        />
       </div>
     </div>
   );
