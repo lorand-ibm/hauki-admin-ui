@@ -171,6 +171,14 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
                 value: 'open',
                 display_name: 'Open',
               },
+              {
+                value: 'closed',
+                display_name: {
+                  fi: 'Suljettu',
+                  sv: null,
+                  en: null,
+                },
+              },
             ],
           },
         },

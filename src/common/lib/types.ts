@@ -47,7 +47,7 @@ export type TimeSpanFormFormat = {
 
 export type ResourceStateApiOption = {
   value: string;
-  display_name: string;
+  display_name: string | LanguageStrings;
 };
 
 export type ResourceStateOption = {
