@@ -1,36 +1,69 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
-import { DatePeriod, Resource } from '../../common/lib/types';
+import { DatePeriod, Language, Resource } from '../../common/lib/types';
 import Collapse from '../../components/collapse/Collapse';
+import LanguageSelect, {
+  displayLangVersionNotFound,
+} from '../../components/language-select/LanguageSelect';
 import { ExternalLink } from '../../components/link/Link';
 import LoadingIndicator from '../../components/loadingIndicator/LoadingIndicator';
 import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
 import './ResourcePage.scss';
 
-const hasText = (str: string | null | undefined): boolean =>
-  str !== undefined && str !== null && str !== '';
+const resourceTitleId = 'resource-title';
 
-export const ResourceInfo = ({
+export const ResourceTitle = ({
   resource,
+  language = Language.FI,
+  children,
 }: {
   resource?: Resource;
+  language?: Language;
+  children: ReactNode;
+}): JSX.Element => {
+  const name =
+    resource?.name[language] ||
+    displayLangVersionNotFound({ language, label: 'toimipisteen nimi' });
+
+  return (
+    <div className="resource-info-title-wrapper">
+      <h1
+        id={resourceTitleId}
+        data-test="resource-info"
+        className="resource-info-title">
+        {name}
+      </h1>
+      <div className="resource-info-title-add-on">{children}</div>
+    </div>
+  );
+};
+
+export const ResourceAddress = ({
+  resource,
+  language = Language.FI,
+}: {
+  resource?: Resource;
+  language?: Language;
+}): JSX.Element => {
+  const address =
+    resource?.address[language] ||
+    displayLangVersionNotFound({ language, label: 'toimipisteen osoite' });
+
+  return (
+    <>
+      <span>Osoite: </span>
+      <address className="resource-info-address">{address}</address>
+    </>
+  );
+};
+
+export const ResourceInfo = ({
+  children,
+}: {
+  children: ReactNode;
 }): JSX.Element => (
-  <div className="resource-info-container">
-    <h1 data-test="resource-info" className="resource-info-title">
-      {resource?.name?.fi}
-    </h1>
-    {hasText(resource?.address?.fi) && (
-      <div>
-        <span>Osoite: </span>
-        <address className="resource-info-address">
-          {hasText(resource?.address?.fi)
-            ? resource?.address?.fi
-            : 'Toimipisteellä ei ole osoitetta.'}
-        </address>
-      </div>
-    )}
-  </div>
+  <section aria-labelledby={resourceTitleId}>{children}</section>
 );
 
 const ResourceSection = ({
@@ -95,6 +128,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
   const [datePeriods, setDatePeriods] = useState<DatePeriod[]>([]);
   const [hasError, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
+  const [language, setLanguage] = useState<Language>(Language.FI);
 
   useEffect((): void => {
     // UseEffect's callbacks are synchronous to prevent a race condition.
@@ -155,12 +189,29 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
 
   return (
     <>
-      <ResourceInfo resource={resource} />
+      <ResourceInfo>
+        <ResourceTitle resource={resource} language={language}>
+          <LanguageSelect
+            id="resource-info-language-select"
+            label="Toimipisteen tietojen kielivalinta"
+            className="resource-info-language-selector"
+            selectedLanguage={language}
+            onSelect={setLanguage}
+            formatter={(selectedLanguage: Language): string =>
+              `Esityskieli: ${selectedLanguage.toUpperCase()}`
+            }
+            theme="dark"
+          />
+        </ResourceTitle>
+        <ResourceAddress resource={resource} language={language} />
+      </ResourceInfo>
       <ResourceDetailsSection id="resource-description" title="Perustiedot">
         <p className="resource-description-text">
-          {hasText(resource?.description?.fi)
-            ? resource?.description?.fi
-            : 'Toimipisteellä ei ole kuvausta.'}
+          {resource?.description[language] ||
+            displayLangVersionNotFound({
+              language,
+              label: 'toimipisteen kuvaus',
+            })}
         </p>
       </ResourceDetailsSection>
       <ResourceSourceLink id="resource-source-link" resource={resource} />

@@ -3,6 +3,15 @@
   padding: var(--spacing-layout-2-xs) 0;
 }
 
+.resource-info-title-wrapper {
+  align-items: center;
+  display: flex;
+}
+
+.resource-info-title-add-on {
+  margin-left: auto;
+}
+
 .resource-info-title {
   font-size: var(--fontsize-heading-l);
   margin-top: 0;
@@ -16,8 +25,4 @@
 
 .resource-description-text {
   white-space: pre-wrap;
-}
-
-.resource-info-container {
-  flex-direction: column;
 }

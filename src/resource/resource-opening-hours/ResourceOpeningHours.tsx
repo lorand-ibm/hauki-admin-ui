@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { IconInfoCircle, Navigation, Button } from 'hds-react';
+import { IconInfoCircle, Button } from 'hds-react';
 import { useHistory } from 'react-router-dom';
-import OpeningPeriod from './opening-period/OpeningPeriod';
 import Collapse from '../../components/collapse/Collapse';
+import LanguageSelect from '../../components/language-select/LanguageSelect';
+import OpeningPeriod from './opening-period/OpeningPeriod';
 import './ResourceOpeningHours.scss';
-import { DatePeriod } from '../../common/lib/types';
+import { DatePeriod, Language } from '../../common/lib/types';
 
 enum PeriodsListTheme {
   DEFAULT = 'DEFAULT',
@@ -33,20 +34,8 @@ const OpeningPeriodsList = ({
       ? 'opening-periods-header-light'
       : 'opening-periods-header';
 
-  interface LanguageOption {
-    label: string;
-    value: string;
-  }
-
-  const languageOptions: LanguageOption[] = [
-    { label: 'Suomeksi', value: 'fi' },
-    { label: 'Svenska', value: 'sv' },
-    { label: 'English', value: 'en' },
-  ];
   const history = useHistory();
-  const [language, setLanguage] = useState(languageOptions[0]);
-  const formatSelectedValue = ({ value }: LanguageOption): string =>
-    value.toUpperCase();
+  const [language, setLanguage] = useState(Language.FI);
 
   return (
     <section className="opening-periods-section">
@@ -59,22 +48,14 @@ const OpeningPeriodsList = ({
             className="opening-periods-header-info"
           />
         </div>
-        <div className="opening-periods-header-container">
+        <div className="opening-periods-header-container opening-periods-header-actions">
           <p className="period-count">{datePeriods.length} jaksoa</p>
-          <Navigation.LanguageSelector label={formatSelectedValue(language)}>
-            {languageOptions.map((languageOption) => (
-              <Navigation.Item
-                key={languageOption.value}
-                label={languageOption.label}
-                onClick={(
-                  e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-                ): void => {
-                  e.preventDefault();
-                  setLanguage(languageOption);
-                }}
-              />
-            ))}
-          </Navigation.LanguageSelector>
+          <LanguageSelect
+            id={`${id}-language-select`}
+            label={`${title}-listan kielivalinta`}
+            selectedLanguage={language}
+            onSelect={setLanguage}
+          />
           <Button
             data-test={addNewOpeningPeriodButtonDataTest}
             size="small"
@@ -91,7 +72,11 @@ const OpeningPeriodsList = ({
         {datePeriods.length > 0 ? (
           datePeriods.map((datePeriod: DatePeriod) => (
             <li key={datePeriod.id}>
-              <OpeningPeriod datePeriod={datePeriod} resourceId={resourceId} />
+              <OpeningPeriod
+                datePeriod={datePeriod}
+                resourceId={resourceId}
+                language={language}
+              />
             </li>
           ))
         ) : (
