@@ -105,7 +105,7 @@ export function ConfirmationModal({
           <div className="modal-actions confirm-modal-actions">
             <PrimaryButton
               onClick={(): void => onConfirm()}
-              data-test="modalConfirmButton">
+              dataTest="modalConfirmButton">
               {confirmText}
             </PrimaryButton>
             <SecondaryButton onClick={(): void => onClose()}>
