@@ -4,7 +4,10 @@ import { IconPenLine, IconTrash } from 'hds-react';
 import { DatePeriod, Language } from '../../../common/lib/types';
 import { formatDateRange } from '../../../common/utils/date-time/format';
 import { displayLangVersionNotFound } from '../../../components/language-select/LanguageSelect';
-import { ConfirmationModal, useModal } from '../../../components/modal/Modal';
+import {
+  ConfirmationModal,
+  useModal,
+} from '../../../components/modal/ConfirmationModal';
 import './OpeningPeriod.scss';
 
 export default function OpeningPeriod({

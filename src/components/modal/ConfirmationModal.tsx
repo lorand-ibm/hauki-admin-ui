@@ -2,7 +2,7 @@ import React, { ReactNode, RefObject, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { IconAlertCircle, IconCross } from 'hds-react';
 import { PrimaryButton, SecondaryButton } from '../button/Button';
-import './Modal.scss';
+import './ConfirmationModal.scss';
 
 const ModalBackDrop = (): JSX.Element => <div className="modal-backdrop" />;
 const ModalWrapper = ({
