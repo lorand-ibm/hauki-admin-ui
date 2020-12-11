@@ -1,6 +1,7 @@
 import React, { ReactNode, RefObject, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Button, IconAlertCircle, IconCross } from 'hds-react';
+import { IconAlertCircle, IconCross } from 'hds-react';
+import { PrimaryButton, SecondaryButton } from '../button/Button';
 import './Modal.scss';
 
 const ModalBackDrop = (): JSX.Element => <div className="modal-backdrop" />;
@@ -102,15 +103,14 @@ export function ConfirmationModal({
           </div>
           <div className="modal-content">{text}</div>
           <div className="modal-actions confirm-modal-actions">
-            <Button
-              variant="primary"
+            <PrimaryButton
               onClick={(): void => onConfirm()}
               data-test="modalConfirmButton">
               {confirmText}
-            </Button>
-            <Button variant="secondary" onClick={(): void => onClose()}>
+            </PrimaryButton>
+            <SecondaryButton onClick={(): void => onClose()}>
               Peruuta
-            </Button>
+            </SecondaryButton>
           </div>
         </div>
       </ModalWrapper>
