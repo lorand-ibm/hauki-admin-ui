@@ -157,7 +157,11 @@ export default function CreateNewOpeningPeriodPage({
             ): { value: string; label: string } => {
               return {
                 value: optionInApiFormat.value,
-                label: optionInApiFormat.display_name,
+                label: `${
+                  typeof optionInApiFormat.display_name === 'string'
+                    ? optionInApiFormat.display_name
+                    : optionInApiFormat.display_name.fi
+                }`,
               };
             }
           )
