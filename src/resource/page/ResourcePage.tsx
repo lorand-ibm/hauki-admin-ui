@@ -207,7 +207,11 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       </ResourceInfo>
       <ResourceDetailsSection id="resource-description" title="Perustiedot">
         <p className="resource-description-text">
-          {resource?.description[language] || 'Toimipisteellä ei ole kuvausta.'}
+          {resource?.description[language] ||
+            displayLangVersionNotFound({
+              language,
+              label: 'toimipisteen kuvaus',
+            })}
         </p>
       </ResourceDetailsSection>
       <ResourceSourceLink id="resource-source-link" resource={resource} />
