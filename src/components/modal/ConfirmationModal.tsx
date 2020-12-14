@@ -56,7 +56,7 @@ export function ConfirmationModal({
   close: () => void;
 }): JSX.Element | null {
   const titleId = 'confirmation-modal-title';
-  const buttonRef: RefObject<HTMLButtonElement> = React.createRef();
+  const closeButtonRef: RefObject<HTMLButtonElement> = React.createRef();
 
   const onClose = (): void => {
     close();
@@ -77,7 +77,7 @@ export function ConfirmationModal({
     if (isOpen) {
       document.body.classList.add('modal-visible');
       document.addEventListener('keydown', onKeyDown, false);
-      if (buttonRef.current) buttonRef.current.focus();
+      if (closeButtonRef.current) closeButtonRef.current.focus();
     }
 
     return (): void => {
@@ -100,7 +100,7 @@ export function ConfirmationModal({
               {title}
             </h2>
             <button
-              ref={buttonRef}
+              ref={closeButtonRef}
               className="modal-close button-icon"
               type="button"
               onClick={(): void => close()}
