@@ -64,11 +64,11 @@ code {
   padding: var(--spacing-xs) var(--spacing-s);
 
   &:hover {
-    background-color: var(--opening-period-listing-button-hover-background-color);
+    background-color: var(--button-icon-hover-background-color);
   }
 
   &:focus {
     border-radius: 0;
-    outline: 2px solid var(--opening-period-listing-button-focus-border-color);
+    outline: 2px solid var(--button-icon-focus-border-color);
   }
 }

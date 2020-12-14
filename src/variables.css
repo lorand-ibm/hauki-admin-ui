@@ -33,4 +33,6 @@
   --modal-backdrop-background-color: rgba(0, 0, 0, 0.2);
   --modal-border-color: var(--color-coat-of-arms);
   --modal-close-button-color: var(--color-coat-of-arms);
+  --button-icon-hover-background-color: var(--color-coat-of-arms-light);
+  --button-icon-focus-border-color: var(--color-coat-of-arms);
 }
