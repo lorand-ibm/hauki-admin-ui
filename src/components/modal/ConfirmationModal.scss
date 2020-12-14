@@ -25,11 +25,12 @@ body.modal-visible {
 
 .modal {
   background: white;
+  box-sizing: border-box;
   border-top: 10px solid var(--modal-border-color);
   position: relative;
   margin: auto;
   padding: var(--spacing-s) var(--spacing-m) var(--spacing-m);
-  min-width: 450px;
+  min-width: 590px;
   width: 100%;
   z-index: 100;
 }
@@ -40,9 +41,7 @@ body.modal-visible {
 }
 
 .modal-title {
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: var(--spacing-s);
+  margin: 0 var(--spacing-s);
 }
 
 .modal-close {
