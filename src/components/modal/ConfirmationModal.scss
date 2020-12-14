@@ -56,13 +56,8 @@ body.modal-visible {
 }
 
 .modal-actions {
-  --modal-action-buttons-spacing: calc(var(--spacing-m) / 2);
-
-  margin: var(--spacing-xl) calc(-1 * var(--modal-action-buttons-spacing)) 0;
-  display: flex;
-
-  > button {
-    flex: 1;
-    margin: 0 var(--modal-action-buttons-spacing);
-  }
+  margin-top: var(--spacing-xl);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: var(--spacing-m);
 }
