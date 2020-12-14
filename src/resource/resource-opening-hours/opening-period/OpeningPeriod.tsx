@@ -1,32 +1,53 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IconPenLine } from 'hds-react';
+import { IconPenLine, IconTrash } from 'hds-react';
 import { DatePeriod, Language } from '../../../common/lib/types';
 import { formatDateRange } from '../../../common/utils/date-time/format';
 import { displayLangVersionNotFound } from '../../../components/language-select/LanguageSelect';
+import {
+  ConfirmationModal,
+  useModal,
+} from '../../../components/modal/ConfirmationModal';
 import './OpeningPeriod.scss';
 
 export default function OpeningPeriod({
   resourceId,
   datePeriod,
   language,
+  deletePeriod,
 }: {
-  resourceId: string;
+  resourceId: number;
   datePeriod: DatePeriod;
   language: Language;
+  deletePeriod: (id: number) => Promise<void>;
 }): JSX.Element {
   const name = datePeriod.name[language];
+  const formattedDateRange = formatDateRange({
+    startDate: datePeriod.start_date,
+    endDate: datePeriod.end_date,
+  });
+  const deleteModalTitle = 'Oletko varma että haluat poistaa aukiolojakson?';
+  const DeleteModalText = (): JSX.Element => (
+    <>
+      <p>Olet poistamassa aukiolojakson</p>
+      <p>
+        <b>
+          {name}
+          <br />
+          {formattedDateRange}
+        </b>
+      </p>
+    </>
+  );
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
-    <div className="opening-period">
+    <div
+      className="opening-period"
+      data-test={`openingPeriod-${datePeriod.id}`}>
       <div className="opening-period-row">
         <div className="opening-period-dates opening-period-row-column">
-          <div>
-            {formatDateRange({
-              startDate: datePeriod.start_date,
-              endDate: datePeriod.end_date,
-            })}
-          </div>
+          <div>{formattedDateRange}</div>
         </div>
         <div className="opening-period-title opening-period-row-column">
           {name ? (
@@ -42,7 +63,7 @@ export default function OpeningPeriod({
         </div>
         <div className="opening-period-actions opening-period-row-column">
           <Link
-            className="opening-period-edit-link"
+            className="opening-period-edit-link button-icon"
             data-test={`openingPeriodEditLink-${datePeriod.id}`}
             to={`/resource/${resourceId}/period/${datePeriod.id}`}>
             <IconPenLine aria-hidden="true" />
@@ -50,7 +71,29 @@ export default function OpeningPeriod({
               name || 'nimettömän'
             } aukiolojakson tietoja`}</span>
           </Link>
+          <button
+            className="opening-period-delete-link button-icon"
+            data-test={`openingPeriodDeleteLink-${datePeriod.id}`}
+            type="button"
+            onClick={(): void => openModal()}>
+            <IconTrash aria-hidden="true" />
+            <span className="sr-only">{`Poista ${
+              name || 'nimetön'
+            } aukiolojakso`}</span>
+          </button>
         </div>
+        <ConfirmationModal
+          onConfirm={(): void => {
+            if (datePeriod.id) {
+              deletePeriod(datePeriod.id);
+            }
+          }}
+          title={deleteModalTitle}
+          text={<DeleteModalText />}
+          isOpen={isModalOpen}
+          close={closeModal}
+          confirmText="Poista"
+        />
       </div>
     </div>
   );

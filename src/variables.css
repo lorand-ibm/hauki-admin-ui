@@ -30,4 +30,9 @@
   --opening-period-listing-button-hover-background-color: var(--color-coat-of-arms-light);
   --opening-period-listing-button-focus-border-color: var(--color-coat-of-arms);
   --form-section-background-color: white;
+  --modal-backdrop-background-color: rgba(0, 0, 0, 0.2);
+  --modal-border-color: var(--color-coat-of-arms);
+  --modal-close-button-color: var(--color-coat-of-arms);
+  --button-icon-hover-background-color: var(--color-coat-of-arms-light);
+  --button-icon-focus-border-color: var(--color-coat-of-arms);
 }

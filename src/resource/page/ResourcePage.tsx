@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
-import { DatePeriod, Language, Resource } from '../../common/lib/types';
+import { Language, Resource } from '../../common/lib/types';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
   displayLangVersionNotFound,
@@ -125,8 +125,7 @@ const ResourceSourceLink = ({
 
 export default function ResourcePage({ id }: { id: string }): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
-  const [datePeriods, setDatePeriods] = useState<DatePeriod[]>([]);
-  const [hasError, setError] = useState<Error | undefined>(undefined);
+  const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
 
@@ -145,25 +144,6 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       });
   }, [id]);
 
-  useEffect((): void => {
-    // UseEffect's callbacks are synchronous to prevent a race condition.
-    // We can not use an async function as an useEffect's callback because it would return Promise<void>
-    if (resource) {
-      setLoading(true);
-
-      api
-        .getDatePeriods(resource.id)
-        .then((ds: DatePeriod[]) => {
-          setDatePeriods(ds);
-          setLoading(false);
-        })
-        .catch((e: Error) => {
-          setError(e);
-          setLoading(false);
-        });
-    }
-  }, [resource]);
-
   if (isLoading) {
     return (
       <>
@@ -176,7 +156,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
     );
   }
 
-  if (hasError) {
+  if (error) {
     return (
       <>
         <h1 className="resource-info-title">Virhe</h1>
@@ -216,7 +196,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       </ResourceDetailsSection>
       <ResourceSourceLink id="resource-source-link" resource={resource} />
       <ResourceSection id="resource-opening-hours">
-        <ResourceOpeningHours id={id} datePeriods={datePeriods} />
+        {resource && <ResourceOpeningHours resourceId={resource.id} />}
       </ResourceSection>
     </>
   );
