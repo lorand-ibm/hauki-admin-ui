@@ -146,4 +146,30 @@ describe(`<ResourcePage />`, () => {
       'noopener noreferrer'
     );
   });
+
+  it.only('Should successfully render a resource that has zero date periods', async () => {
+    jest
+      .spyOn(api, 'getResource')
+      .mockImplementation(() => Promise.resolve(testResource));
+
+    jest
+      .spyOn(api, 'getDatePeriods')
+      .mockImplementation(() => Promise.resolve([]));
+
+    const resourcePage = renderResourcePageWithRouter();
+
+    await act(async () => {
+      resourcePage.update(); // First tick for useEffect
+    });
+
+    resourcePage.update(); // Second tick for useState
+
+    expect(resourcePage.find('h1').text()).toEqual(testResource.name.fi);
+    expect(resourcePage.find('address').text()).toEqual(
+      testResource.address.fi
+    );
+    expect(resourcePage.find('#resource-description p').text()).toEqual(
+      testResource.description.fi
+    );
+  });
 });

@@ -104,7 +104,7 @@ const partitionByOverride = (datePeriods: DatePeriod[]): DatePeriod[][] =>
         ? [defaults, [...exceptions, current]]
         : [[...defaults, current], exceptions];
     },
-    []
+    [[], []]
   );
 
 export default function ResourceOpeningHours({
