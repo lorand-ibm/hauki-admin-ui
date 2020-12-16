@@ -57,7 +57,7 @@ export type FormWeekdays = [
 ];
 
 export type TimeSpanFormFormat = {
-  id?: number | string;
+  id?: number;
   description: string;
   endTime: string;
   startTime: string;
