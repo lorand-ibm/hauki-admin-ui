@@ -231,7 +231,7 @@ export default function OpeningPeriodForm({
           <SecondaryButton
             dataTest="add-new-time-span-button"
             onClick={(): void => append({})}
-            className="opening-period-final-action-button add-new-time-span-button">
+            className="add-new-time-span-button">
             + Lisää aukioloaika
           </SecondaryButton>
         </section>
