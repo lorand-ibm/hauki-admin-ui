@@ -26,5 +26,5 @@ export const formatDateRange = ({
   return `${formatDate(startDate)} - ${formatDate(endDate)}`;
 };
 
-export const transformToApiFormat = (formDate: string): string =>
+export const transformDateToApiFormat = (formDate: string): string =>
   format(parse(formDate, dateFormFormat, new Date()), dateApiFormat);

@@ -9,7 +9,7 @@ import {
   ResourceStateOption,
   TimeSpanFormFormat,
 } from '../../common/lib/types';
-import { transformToApiFormat } from '../../common/utils/date-time/format';
+import { transformDateToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
 import { PrimaryButton, SecondaryButton } from '../../components/button/Button';
 import { ErrorToast, SuccessToast } from '../../components/notification/Toast';
@@ -136,10 +136,10 @@ export default function OpeningPeriodForm({
           en: null,
         },
         start_date: data.openingPeriodBeginDate
-          ? transformToApiFormat(data.openingPeriodBeginDate)
+          ? transformDateToApiFormat(data.openingPeriodBeginDate)
           : undefined,
         end_date: data.openingPeriodEndDate
-          ? transformToApiFormat(data.openingPeriodEndDate)
+          ? transformDateToApiFormat(data.openingPeriodEndDate)
           : undefined,
         override: datePeriod?.override || false,
         time_span_groups: [
