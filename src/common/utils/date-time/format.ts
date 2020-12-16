@@ -8,15 +8,17 @@ export const formatDateRange = ({
   startDate,
   endDate,
 }: {
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
 }): string => {
-  const isSingleDate: boolean = !endDate || startDate === endDate;
-  const formattedStartDate: string = formatDate(startDate);
-  if (isSingleDate) {
-    return formattedStartDate;
+  if (!startDate || (!startDate && !endDate)) {
+    return '';
   }
-  return `${formattedStartDate} - ${formatDate(endDate)}`;
+
+  if (!endDate) {
+    return formatDate(startDate);
+  }
+  return `${formatDate(startDate)} - ${formatDate(endDate)}`;
 };
 
 export const dateApiFormat = 'yyyy-MM-dd';

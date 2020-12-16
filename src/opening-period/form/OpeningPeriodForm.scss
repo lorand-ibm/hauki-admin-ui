@@ -1,0 +1,74 @@
+@import 'node_modules/hds-design-tokens/lib/all.scss';
+
+.opening-period-page-title {
+  margin-top: $spacing-2-xs;
+  font-size: $fontsize-heading-m;
+  color: var(--color-coat-of-arms);
+}
+
+.opening-period-form {
+  .form-control {
+    margin-top: $spacing-m;
+  }
+
+  input[type="text"] {
+    display: block;
+  }
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  margin-top: $spacing-xl;
+}
+
+.opening-period-section-title {
+  font-size: $fontsize-heading-xxs;
+}
+
+.opening-period-time-period {
+  display: flex;
+  align-items: center;
+}
+
+.dash-between-begin-and-end-date {
+  margin-bottom: -35px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
+}
+
+.opening-period-final-action-row-container {
+  margin-top: 116px;
+}
+
+.opening-period-final-action-button.opening-period-final-action-button.opening-period-final-action-button {
+  margin-right: $spacing-m;
+}
+
+.form-section {
+  padding: $spacing-layout-xs;
+  background-color: white;
+  margin-bottom: $spacing-layout-xs;
+}
+
+.time-span-list-container {
+  position: relative;
+  border-bottom: 1px solid var(--hauki-content-border-color);
+  padding-top: 0;
+  padding-bottom: var(--spacing-layout-xs);
+
+  & > div:first-of-type {
+    border-top: none;
+    margin-top: 0;
+  }
+}
+
+.add-new-time-span-button {
+  margin-top: $spacing-l;
+}
+
+.time-span-group {
+  border-top: var(--spacing-3-xs) solid var(--color-coat-of-arms);
+}
