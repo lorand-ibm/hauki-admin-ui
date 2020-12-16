@@ -155,7 +155,7 @@ async function selectTimeAndTypeInTimeSpan(
   });
 }
 
-describe.only(`<CreateNewOpeningPeriodPage />`, () => {
+describe(`<CreateNewOpeningPeriodPage />`, () => {
   jest.setTimeout(30000); // We suspect rendering + react-hooks + act wrapping + async await causes tests to run slow
   let testDatePeriodOptions: DatePeriodOptions;
   let testResource: Resource;
