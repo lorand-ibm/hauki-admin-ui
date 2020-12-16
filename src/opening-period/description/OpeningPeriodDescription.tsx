@@ -1,7 +1,6 @@
 import React from 'react';
 import { FieldErrors } from 'react-hook-form/dist/types/errors.d';
 import { TextArea, TextInput } from 'hds-react';
-import '../page/CreateNewOpeningPeriodPage.scss';
 import './OpeningPeriodDescription.scss';
 
 type TFieldValues = {

@@ -9,10 +9,10 @@ import api from '../../common/utils/api/api';
 import {
   ResourceAddress,
   ResourceInfo,
+  ResourceInfoSubTitle,
   ResourceTitle,
 } from '../../resource/page/ResourcePage';
 import OpeningPeriodForm from '../form/OpeningPeriodForm';
-import './CreateNewOpeningPeriodPage.scss';
 
 export default function CreateNewOpeningPeriodPage({
   resourceId,
@@ -80,9 +80,7 @@ export default function CreateNewOpeningPeriodPage({
     <>
       <ResourceInfo>
         <ResourceTitle resource={resource}>
-          <h2 className="add-new-opening-period-page-title">
-            Toimipisteen aukiolojakson lisäys
-          </h2>
+          <ResourceInfoSubTitle text="Toimipisteen aukiolojakson lisäys" />
         </ResourceTitle>
         <ResourceAddress resource={resource} />
       </ResourceInfo>

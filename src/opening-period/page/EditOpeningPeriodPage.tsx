@@ -10,9 +10,9 @@ import {
   ResourceInfo,
   ResourceTitle,
   ResourceAddress,
+  ResourceInfoSubTitle,
 } from '../../resource/page/ResourcePage';
 import OpeningPeriodForm from '../form/OpeningPeriodForm';
-import './EditOpeningPeriodPage.scss';
 
 export default function EditOpeningPeriodPage({
   resourceId,
@@ -87,9 +87,7 @@ export default function EditOpeningPeriodPage({
     <>
       <ResourceInfo>
         <ResourceTitle resource={resource}>
-          <h2 className="opening-period-page-title">
-            Toimipisteen aukiolojakson muokkaus
-          </h2>
+          <ResourceInfoSubTitle text="Toimipisteen aukiolojakson muokkaus" />
         </ResourceTitle>
         <ResourceAddress resource={resource} />
       </ResourceInfo>
