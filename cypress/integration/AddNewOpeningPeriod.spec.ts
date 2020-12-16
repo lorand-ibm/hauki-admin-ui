@@ -44,10 +44,10 @@ describe('User adds a new opening period', () => {
     cy.get('li#time-span-state-id-0-item-0').click();
 
     // Try submit form
-    cy.get('[data-test=publish-new-opening-period-button]').click();
+    cy.get('[data-test=publish-opening-period-button]').click();
 
     // On successful creation a success notification should appear. Let's test that this is the case
-    cy.get('[data-testid=opening-period-added-successfully-notification]', {
+    cy.get('[data-testid=opening-period-form-success]', {
       timeout: 10000,
     }).should('be.visible');
   });
