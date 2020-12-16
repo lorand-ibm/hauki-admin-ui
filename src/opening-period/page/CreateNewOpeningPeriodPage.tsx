@@ -90,13 +90,13 @@ export default function CreateNewOpeningPeriodPage({
           resourceId={resource.id}
           datePeriodOptions={datePeriodOptions}
           submitFn={submitFn}
-          successTexts={{
+          successTextAndLabel={{
             label: 'Aukiolojakso tallennettu onnistuneesti.',
-            description: 'Aukiolojakso tallennettu onnistuneesti.',
+            text: 'Aukiolojakso tallennettu onnistuneesti.',
           }}
-          errorTexts={{
+          errorTextAndLabel={{
             label: 'Aukiolojakson tallennus epäonnistui',
-            description:
+            text:
               'Aukiolojakson tallennus epäonnistui. Yritä myöhemmin uudestaan.',
           }}
         />

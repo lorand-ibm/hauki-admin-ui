@@ -98,13 +98,13 @@ export default function EditOpeningPeriodPage({
           resourceId={resource.id}
           datePeriodOptions={datePeriodOptions}
           submitFn={submitFn}
-          successTexts={{
+          successTextAndLabel={{
             label: 'Aukiolojakson muutokset tallennettu onnistuneesti.',
-            description: 'Aukiolojakson muutokset tallennettu onnistuneesti.',
+            text: 'Aukiolojakson muutokset tallennettu onnistuneesti.',
           }}
-          errorTexts={{
+          errorTextAndLabel={{
             label: 'Aukiolojakson muokkaus epäonnistui',
-            description:
+            text:
               'Aukiolojakson muokkaus epäonnistui. Yritä myöhemmin uudestaan.',
           }}
         />

@@ -32,7 +32,7 @@ type SubmitStatus = 'init' | 'succeeded' | 'error';
 
 type NotificationTexts = {
   label: string;
-  description: string;
+  text: string;
 };
 
 function formatTimeSpansToApiFormat(
@@ -120,16 +120,16 @@ export default function OpeningPeriodForm({
   resourceId,
   datePeriodOptions,
   submitFn,
-  successTexts,
-  errorTexts,
+  successTextAndLabel,
+  errorTextAndLabel,
 }: {
   formId: string;
   datePeriod?: DatePeriod;
   resourceId: number;
   datePeriodOptions: DatePeriodOptions;
   submitFn: (datePeriod: DatePeriod) => Promise<DatePeriod>;
-  successTexts: NotificationTexts;
-  errorTexts: NotificationTexts;
+  successTextAndLabel: NotificationTexts;
+  errorTextAndLabel: NotificationTexts;
 }): JSX.Element {
   const language = Language.FI;
 
@@ -224,16 +224,16 @@ export default function OpeningPeriodForm({
       {submitStatus === 'succeeded' && (
         <SuccessToast
           dataTestId="opening-period-form-success"
-          label={successTexts.label}
-          text={successTexts.description}
+          label={successTextAndLabel.label}
+          text={successTextAndLabel.text}
           onClose={(): void => setSubmitStatus('init')}
         />
       )}
       {submitStatus === 'error' && (
         <ErrorToast
           dataTestId="opening-period-form-error"
-          label={errorTexts.label}
-          text={errorTexts.description}
+          label={errorTextAndLabel.label}
+          text={errorTextAndLabel.text}
           onClose={(): void => setSubmitStatus('init')}
         />
       )}
