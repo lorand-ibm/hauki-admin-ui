@@ -1,6 +1,5 @@
 import {
   FormWeekdays,
-  ResourceState,
   TimeSpan as TimeSpanApiFormat,
   TimeSpanFormFormat,
 } from '../../../common/lib/types';
@@ -61,7 +60,7 @@ export function formatApiTimeSpansToFormFormat(
         endTime: apiTimeSpan.end_time
           ? dropMilliseconds(apiTimeSpan.end_time)
           : '',
-        resourceState: apiTimeSpan.resource_state || ResourceState.OPEN,
+        resourceState: apiTimeSpan?.resource_state,
         weekdays: weekdays as FormWeekdays,
       };
     });
