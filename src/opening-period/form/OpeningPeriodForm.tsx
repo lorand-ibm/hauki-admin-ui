@@ -4,12 +4,9 @@ import { useHistory } from 'react-router-dom';
 import {
   DatePeriod,
   DatePeriodOptions,
-  FormWeekdays,
   Language,
-  ResourceState,
   ResourceStateApiOption,
   ResourceStateOption,
-  TimeSpan as TimeSpanApiFormat,
   TimeSpanFormFormat,
 } from '../../common/lib/types';
 import { transformToApiFormat } from '../../common/utils/date-time/format';
