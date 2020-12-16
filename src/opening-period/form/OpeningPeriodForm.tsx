@@ -36,7 +36,7 @@ type NotificationTexts = {
   text: string;
 };
 
-const formatResourcePeriodOptionsToFormFormat = (
+const formatResourceStateOptionsToFormFormat = (
   resourceStateApiOptions: ResourceStateApiOption[]
 ): ResourceStateOption[] =>
   resourceStateApiOptions.map((optionInApiFormat: ResourceStateApiOption): {
@@ -75,7 +75,7 @@ export default function OpeningPeriodForm({
   const resourceStateOptionsInApiFormat: ResourceStateApiOption[] =
     datePeriodOptions.actions.POST.resource_state.choices;
 
-  const resourceStateOptions: ResourceStateOption[] = formatResourcePeriodOptionsToFormFormat(
+  const resourceStateOptions: ResourceStateOption[] = formatResourceStateOptionsToFormFormat(
     resourceStateOptionsInApiFormat
   );
 
