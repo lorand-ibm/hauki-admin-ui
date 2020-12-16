@@ -25,6 +25,8 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 /// <reference path="../../src/globals.d.ts" />
+
+import { TimeSpan } from '../../src/common/lib/types';
 import Chainable = Cypress.Chainable;
 
 Cypress.Commands.add(
@@ -71,11 +73,13 @@ Cypress.Commands.add(
     startDate,
     endDate,
     resourceId,
+    timeSpans = [],
   }: {
     name: string;
     startDate: Date;
     endDate: Date;
     resourceId: string;
+    timeSpans?: TimeSpan[];
   }): Chainable => {
     return cy
       .visit('/')
@@ -112,7 +116,14 @@ Cypress.Commands.add(
                   end_date: toJsonDate(endDate),
                   resource_state: 'open',
                   override: false,
-                  time_span_groups: [],
+                  time_span_groups: timeSpans
+                    ? [
+                        {
+                          rules: [],
+                          time_spans: timeSpans,
+                        },
+                      ]
+                    : [],
                 };
                 cy.task(
                   'log',

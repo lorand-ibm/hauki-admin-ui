@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 /// <reference path="../index.d.ts" />
+import { ResourceState } from '../../src/common/lib/types';
 
 describe('User edits an opening period', () => {
   let dataPeriodId: string | undefined;
@@ -9,6 +10,14 @@ describe('User edits an opening period', () => {
   const startDate = new Date();
   const endDate = new Date();
   endDate.setDate(new Date().getDate() + 1);
+  const timeSpan = {
+    name: { fi: '', sv: null, en: null },
+    description: { fi: '', sv: null, en: null },
+    end_time: '20:00:00',
+    resource_state: ResourceState.OPEN,
+    start_time: '12:00:00',
+    weekdays: [1],
+  };
 
   before(() => {
     cy.createDatePeriod({
@@ -16,6 +25,7 @@ describe('User edits an opening period', () => {
       startDate,
       endDate,
       resourceId,
+      timeSpans: [timeSpan],
     }).then((id: string) => {
       if (id) {
         dataPeriodId = id;
@@ -36,7 +46,7 @@ describe('User edits an opening period', () => {
       .click({ log: true });
 
     // Check that form exists
-    cy.get('[data-test=opening-period-form]', {
+    cy.get('[data-test=edit-opening-period-form]', {
       timeout: 5000,
     }).should('be.visible');
 
@@ -50,14 +60,25 @@ describe('User edits an opening period', () => {
       .clear()
       .type(newTitle, { log: true });
 
+    // Change timespan data
+    cy.get('[data-test=weekdays-monday-0-checkbox]').should('be.checked');
+    cy.get('[data-test=weekdays-monday-0]').click();
+    cy.get('[data-test=weekdays-monday-0-checkbox]').should('not.be.checked');
+
+    cy.get('[data-test=weekdays-tuesday-0]').click();
+    cy.get('[data-test=weekdays-tuesday-0-checkbox]').should('be.checked');
+
+    cy.get('[data-test=time-span-start-time-0]').type('08:00');
+    cy.get('[data-test=time-span-end-time-0]').type('16:00');
+
     // Save
-    cy.get('[data-test=opening-period-save-button]').click({
+    cy.get('[data-test=publish-opening-period-button]').click({
       force: true,
       log: true,
     });
 
     // Wait for success notification
-    cy.get('[data-testid=opening-period-edited-successfully-notification]', {
+    cy.get('[data-testid=opening-period-form-success]', {
       timeout: 10000,
     }).should('be.visible');
 
