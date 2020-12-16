@@ -25,7 +25,7 @@ export default function OpeningPeriodDescription({
           Aukiolojakson otsikko *
         </label>
         <TextInput
-          className="add-new-opening-period-title"
+          className="opening-period-title-input"
           type="text"
           name="openingPeriodTitle"
           data-test="openingPeriodTitle"

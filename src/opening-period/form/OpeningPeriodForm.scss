@@ -1,11 +1,5 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
-.opening-period-page-title {
-  margin-top: $spacing-2-xs;
-  font-size: $fontsize-heading-m;
-  color: var(--color-coat-of-arms);
-}
-
 .opening-period-form {
   .form-control {
     margin-top: $spacing-m;
@@ -21,10 +15,6 @@
   }
 
   margin-top: $spacing-xl;
-}
-
-.opening-period-section-title {
-  font-size: $fontsize-heading-xxs;
 }
 
 .opening-period-time-period {
