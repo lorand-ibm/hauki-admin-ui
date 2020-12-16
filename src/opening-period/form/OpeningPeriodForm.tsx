@@ -20,19 +20,12 @@ import OpeningPeriodDescription from '../description/OpeningPeriodDescription';
 import TimeSpan from '../time-span/TimeSpan';
 import './OpeningPeriodForm.scss';
 
-type OpeningPeriodBaseData = {
+interface OpeningPeriodFormData {
   openingPeriodTitle: string;
   openingPeriodOptionalDescription: string;
   openingPeriodBeginDate: string | undefined;
   openingPeriodEndDate: string | undefined;
-};
-
-interface OpeningPeriodFormData extends OpeningPeriodBaseData {
   timeSpans: Array<TimeSpanFormFormat> | {}[];
-}
-
-export interface OpeningPeriodApiData extends OpeningPeriodBaseData {
-  timeSpans: Array<TimeSpanApiFormat>;
 }
 
 type SubmitStatus = 'init' | 'succeeded' | 'error';
