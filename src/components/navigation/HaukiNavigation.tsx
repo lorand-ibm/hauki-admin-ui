@@ -45,15 +45,6 @@ export default function HaukiNavigation(): JSX.Element {
       menuToggleAriaLabel="Menu"
       skipTo="#main"
       skipToContentLabel="Siirry pääsisältöön">
-      {isAuthenticated && (
-        <Navigation.Row>
-          <Navigation.Item label="Toimipistehaku" />
-          <Navigation.Item label="Paikat" />
-          <Navigation.Item label="Anna palautetta" />
-          <Navigation.Item label="Tietoa palvelusta" />
-        </Navigation.Row>
-      )}
-
       <Navigation.Actions>
         <Navigation.User
           authenticated={isAuthenticated}
