@@ -1,7 +1,7 @@
 import React from 'react';
 import './Weekdays.scss';
 import { ArrayField } from 'react-hook-form';
-import { TimeSpanFormFormat } from '../../common/lib/types';
+import { TimeSpanFormFormat, FormWeekdays } from '../../common/lib/types';
 
 const DayCheckbox = ({
   register,
@@ -44,7 +44,7 @@ export default function Weekdays({
   register: Function;
   item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
 }): JSX.Element {
-  const asWeekdaysValue = (item.weekdays as unknown) as boolean[];
+  const asWeekdaysValue = (item.weekdays as unknown) as FormWeekdays;
 
   return (
     <fieldset>
