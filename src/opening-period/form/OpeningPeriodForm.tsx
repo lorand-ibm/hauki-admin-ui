@@ -186,27 +186,29 @@ export default function OpeningPeriodForm({
         </section>
         <section className="form-section">
           <h3 className="opening-period-section-title">Ajanjakso</h3>
-          <section className="opening-period-time-period">
-            <Datepicker
-              id="openingPeriodBeginDate"
-              dataTest="openingPeriodBeginDate"
-              labelText="Alkaa"
-              onChange={(value): void => setPeriodBeginDate(value || null)}
-              value={periodBeginDate}
-              registerFn={register}
-              required
-            />
-            <p className="dash-between-begin-and-end-date">—</p>
-            <Datepicker
-              id="openingPeriodEndDate"
-              dataTest="openingPeriodEndDate"
-              labelText="Päättyy"
-              onChange={(value): void => setPeriodEndDate(value || null)}
-              value={periodEndDate}
-              registerFn={register}
-              required
-            />
-          </section>
+          <div className="form-control">
+            <section className="opening-period-time-period">
+              <Datepicker
+                id="openingPeriodBeginDate"
+                dataTest="openingPeriodBeginDate"
+                labelText="Alkaa"
+                onChange={(value): void => setPeriodBeginDate(value || null)}
+                value={periodBeginDate}
+                registerFn={register}
+                required
+              />
+              <p className="dash-between-begin-and-end-date">—</p>
+              <Datepicker
+                id="openingPeriodEndDate"
+                dataTest="openingPeriodEndDate"
+                labelText="Päättyy"
+                onChange={(value): void => setPeriodEndDate(value || null)}
+                value={periodEndDate}
+                registerFn={register}
+                required
+              />
+            </section>
+          </div>
         </section>
         <section className="form-section time-span-group">
           <div className="time-span-list-container">
