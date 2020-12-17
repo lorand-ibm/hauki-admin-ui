@@ -195,7 +195,6 @@ export default function OpeningPeriodForm({
                 onChange={(value): void => setPeriodBeginDate(value || null)}
                 value={periodBeginDate}
                 registerFn={register}
-                required
               />
               <p className="dash-between-begin-and-end-date">—</p>
               <Datepicker
@@ -205,7 +204,6 @@ export default function OpeningPeriodForm({
                 onChange={(value): void => setPeriodEndDate(value || null)}
                 value={periodEndDate}
                 registerFn={register}
-                required
               />
             </section>
           </div>
