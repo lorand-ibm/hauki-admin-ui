@@ -361,14 +361,14 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       // Try submit form
       const submitFormButton = getElementOrThrow(
         container,
-        '[data-test="publish-new-opening-period-button"]'
+        '[data-test="publish-opening-period-button"]'
       );
       fireEvent.submit(submitFormButton);
     });
 
     await act(async () => {
       expect(
-        await screen.findByTestId('opening-period-creation-failed')
+        await screen.findByTestId('opening-period-form-error')
       ).toBeInTheDocument();
     });
   });
@@ -394,16 +394,14 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       // Try submit form
       const submitFormButton = getElementOrThrow(
         container,
-        '[data-test="publish-new-opening-period-button"]'
+        '[data-test="publish-opening-period-button"]'
       );
       fireEvent.submit(submitFormButton);
     });
 
     await act(async () => {
       expect(
-        await screen.findByTestId(
-          'opening-period-added-successfully-notification'
-        )
+        await screen.findByTestId('opening-period-form-success')
       ).toBeInTheDocument();
     });
   });
@@ -436,16 +434,14 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       // Try submit form
       const submitFormButton = getElementOrThrow(
         container,
-        '[data-test="publish-new-opening-period-button"]'
+        '[data-test="publish-opening-period-button"]'
       );
       fireEvent.submit(submitFormButton);
     });
 
     await act(async () => {
       expect(
-        await screen.findByTestId(
-          'opening-period-added-successfully-notification'
-        )
+        await screen.findByTestId('opening-period-form-success')
       ).toBeInTheDocument();
     });
   });
@@ -530,7 +526,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       // Try submit form
       const submitFormButton = getElementOrThrow(
         container,
-        '[data-test="publish-new-opening-period-button"]'
+        '[data-test="publish-opening-period-button"]'
       );
       fireEvent.submit(submitFormButton);
     });

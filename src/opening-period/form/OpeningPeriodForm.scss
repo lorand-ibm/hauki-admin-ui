@@ -1,18 +1,11 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
-.add-new-opening-period-page-title {
-  margin-top: $spacing-2-xs;
-  font-size: $fontsize-heading-m;
-  color: var(--color-coat-of-arms);
-}
-
-.add-new-opening-period-form {
-  label {
-    display: block;
+.opening-period-form {
+  .form-control {
     margin-top: $spacing-m;
   }
 
-  input {
+  input[type="text"] {
     display: block;
   }
 
@@ -22,10 +15,6 @@
   }
 
   margin-top: $spacing-xl;
-}
-
-.opening-period-section-title {
-  font-size: $fontsize-heading-xxs;
 }
 
 .opening-period-time-period {
@@ -40,11 +29,11 @@
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
 }
 
-.add-new-opening-period-final-action-row-container {
+.opening-period-final-action-row-container {
   margin-top: 116px;
 }
 
-.add-new-opening-period-final-action-button.add-new-opening-period-final-action-button.add-new-opening-period-final-action-button {
+.opening-period-final-action-button.opening-period-final-action-button.opening-period-final-action-button {
   margin-right: $spacing-m;
 }
 

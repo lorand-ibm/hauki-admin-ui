@@ -29,12 +29,12 @@ enum WeekdayTypes {
   SUNDAY = 7,
 }
 
-type Weekdays = Array<WeekdayTypes>;
+export type Weekdays = Array<WeekdayTypes>;
 
 export type TimeSpan = {
   start_time: string;
   end_time: string;
-  weekdays: Weekdays;
+  weekdays: Weekdays | null;
   id?: number;
   created?: string;
   modified?: string;
@@ -46,12 +46,23 @@ export type TimeSpan = {
   group?: number;
 };
 
+export type FormWeekdays = [
+  boolean,
+  boolean,
+  boolean,
+  boolean,
+  boolean,
+  boolean,
+  boolean
+];
+
 export type TimeSpanFormFormat = {
+  id?: number;
   description: string;
   endTime: string;
   startTime: string;
-  resourceState: ResourceState;
-  weekdays: [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
+  resourceState?: ResourceState;
+  weekdays: FormWeekdays;
 };
 
 export type ResourceStateApiOption = {
@@ -88,8 +99,8 @@ export type DatePeriod = {
   is_removed?: boolean;
   name: LanguageStrings;
   description: LanguageStrings;
-  start_date: string;
-  end_date: string;
+  start_date?: string;
+  end_date?: string;
   resource_state?: ResourceState;
   override: boolean;
   resource: number;
