@@ -273,11 +273,14 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
   });
 
   it('should show error notification if loading resource info on page load fails', async () => {
+    const error: Error = new Error('Failed to load a resource');
+    const errorConsoleSpy = jest
+      .spyOn(global.console, 'error')
+      .mockImplementationOnce((e) => e);
+
     jest
       .spyOn(api, 'getResource')
-      .mockImplementation(() =>
-        Promise.reject(new Error('Failed to load a resource'))
-      );
+      .mockImplementation(() => Promise.reject(error));
 
     render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />);
 
@@ -285,6 +288,10 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       const errorHeading = await screen.getByRole('heading', { level: 1 });
       const notificationText = await screen.findByTestId(
         'error-retrieving-resource-info'
+      );
+      expect(errorConsoleSpy).toHaveBeenCalledWith(
+        'Add date-period - data initialization error:',
+        error
       );
       expect(errorHeading).toHaveTextContent('Virhe');
       expect(notificationText).toBeInTheDocument();
@@ -292,11 +299,14 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
   });
 
   it('should show error notification if loading date period form options fails', async () => {
+    const error: Error = new Error('Failed to load date period form options');
+    const errorConsoleSpy = jest
+      .spyOn(global.console, 'error')
+      .mockImplementationOnce((e) => e);
+
     jest
       .spyOn(api, 'getDatePeriodFormOptions')
-      .mockImplementation(() =>
-        Promise.reject(new Error('Failed to load date period form options'))
-      );
+      .mockImplementation(() => Promise.reject(error));
 
     render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />);
 
@@ -305,12 +315,21 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       const notificationText = await screen.findByTestId(
         'error-retrieving-resource-info'
       );
+      expect(errorConsoleSpy).toHaveBeenCalledWith(
+        'Add date-period - data initialization error:',
+        error
+      );
       expect(errorHeading).toHaveTextContent('Virhe');
       expect(notificationText).toBeInTheDocument();
     });
   });
 
   it('should show error notification when form submit fails api side', async () => {
+    const error: Error = new Error('ApiError for test purpose');
+    const errorConsoleSpy = jest
+      .spyOn(global.console, 'error')
+      .mockImplementationOnce((e) => e);
+
     jest
       .spyOn(api, 'postDatePeriod')
       .mockImplementation(() =>
@@ -367,6 +386,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
+      expect(errorConsoleSpy).toHaveBeenCalledWith(error);
       expect(
         await screen.findByTestId('opening-period-form-error')
       ).toBeInTheDocument();

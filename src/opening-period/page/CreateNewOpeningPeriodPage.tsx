@@ -45,7 +45,7 @@ export default function CreateNewOpeningPeriodPage({
         setHasDataLoadingError(true);
         setIsLoading(false);
         // eslint-disable-next-line no-console
-        console.error('Add dateperiod - data initialization error:', e);
+        console.error('Add date-period - data initialization error:', e);
       }
     };
 
