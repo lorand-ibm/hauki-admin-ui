@@ -55,7 +55,7 @@ export default function EditOpeningPeriodPage({
         setHasDataLoadingError(true);
         setIsLoading(false);
         // eslint-disable-next-line no-console
-        console.error('Edit dateperiod - data initialization error:', e);
+        console.error('Edit date-period - data initialization error:', e);
       }
     };
 
