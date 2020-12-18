@@ -178,7 +178,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
-  it('should render first the time-span with weekdays in the beginning of the week', async () => {
+  it('should render first the time-span when it has the weekdays in the beginning of the week', async () => {
     let container: HTMLElement;
 
     await act(async () => {
@@ -232,7 +232,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
-  it('should render last the time-span with weekdays in the end of the week', async () => {
+  it('should render last the time-span when it has the weekdays in the end of the week', async () => {
     let container: HTMLElement;
 
     await act(async () => {
@@ -302,7 +302,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
-  it('should show error notification if loading date period fails', async () => {
+  it('should show error notification when loading date period fails', async () => {
     const error: Error = new Error('Failed to load date period form options');
     const errorConsoleSpy = jest
       .spyOn(global.console, 'error')
