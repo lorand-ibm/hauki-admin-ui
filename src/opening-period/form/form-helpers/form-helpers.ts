@@ -10,7 +10,7 @@ export function formatTimeSpansToApiFormat(
   return timeSpans.map((timeSpan) => {
     return {
       description: {
-        fi: timeSpan?.description,
+        fi: timeSpan?.description ?? '',
         sv: null,
         en: null,
       },

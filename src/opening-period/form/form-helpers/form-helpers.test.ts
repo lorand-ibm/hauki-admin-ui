@@ -33,13 +33,13 @@ const apiTimeSpanA: TimeSpan = {
 };
 
 const apiTimeSpanB: TimeSpan = {
-  id: 1234,
+  id: 2345,
   name: { en: null, fi: null, sv: null },
-  description: { en: null, fi: 'description text A', sv: null },
+  description: { en: null, fi: null, sv: null },
   end_time: '18:00:00',
   resource_state: ResourceState.SELF_SERVICE,
   start_time: '10:00:00',
-  weekdays: [6, 7],
+  weekdays: [],
   created: '2020-12-16T12:21:37.255923+02:00',
   modified: '2020-12-16T12:21:37.255923+02:00',
   full_day: false,
@@ -75,6 +75,19 @@ describe('opening-period form-helpers', () => {
       ]);
     });
 
+    it('should provide default values for form-format (ui-format)', () => {
+      expect(formatApiTimeSpansToFormFormat([apiTimeSpanB])).toEqual([
+        {
+          id: 2345,
+          description: '',
+          endTime: '18:00',
+          resourceState: ResourceState.SELF_SERVICE,
+          startTime: '10:00',
+          weekdays: [false, false, false, false, false, false, false],
+        },
+      ]);
+    });
+
     it('should sort time-spans by weekdays (spans with selected days in the beginning of the week are listed higher)', () => {
       const [
         formTimeSpanFirst,
@@ -97,8 +110,8 @@ describe('opening-period form-helpers', () => {
         false,
         false,
         false,
-        true,
-        true,
+        false,
+        false,
       ]);
     });
   });

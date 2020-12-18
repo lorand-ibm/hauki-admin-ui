@@ -100,7 +100,7 @@ export default function TimeSpan({
             id={`timeSpans[${index}].description`}
             name={`timeSpans[${index}].description`}
             className="time-span-description"
-            defaultValue={`${item.description || ''}`}
+            defaultValue={`${item.description}`}
             label="Kuvaus"
             placeholder="Valinnainen lyhyt kuvaus esim. naisten vuoro"
           />
