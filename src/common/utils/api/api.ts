@@ -84,19 +84,10 @@ async function request<T>(requestConfig: AxiosRequestConfig): Promise<T> {
     ? addTokensToRequestConfig(authTokens, requestConfig)
     : requestConfig;
 
-  try {
-    const response: AxiosResponse<T> = await axios.request<T, AxiosResponse<T>>(
-      config
-    );
-    return response.data;
-  } catch (error) {
-    const errorMessage: string | undefined = error.response?.data?.detail;
-    if (errorMessage) {
-      throw new Error(errorMessage);
-    } else {
-      throw new Error(error);
-    }
-  }
+  const response: AxiosResponse<T> = await axios.request<T, AxiosResponse<T>>(
+    config
+  );
+  return response.data;
 }
 
 async function apiGet<T>({ path, parameters = {} }: GetParameters): Promise<T> {

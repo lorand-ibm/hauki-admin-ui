@@ -56,6 +56,14 @@ export default function App(): JSX.Element {
                 <Route exact path="/">
                   <h1>Etusivu</h1>
                 </Route>
+                <Route exact path="/not_found">
+                  <h1>Kohdetta ei löydy</h1>
+                  <p>
+                    Kohdetta ei löytynyt. Yritä myöhemmin uudestaan. Ongelman
+                    toistuessa ota yhteys sivuston ylläpitoon. Teidät on
+                    automaattisesti kirjattu ulos.
+                  </p>
+                </Route>
                 <Route exact path="/unauthorized">
                   <h1>Puutteelliset tunnukset</h1>
                 </Route>

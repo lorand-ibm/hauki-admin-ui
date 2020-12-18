@@ -5,6 +5,7 @@ import {
   RouteProps,
   RouteComponentProps,
   useLocation,
+  useHistory,
 } from 'react-router-dom';
 import { AuthContextProps, useAuth } from '../auth/auth-context';
 import api from '../common/utils/api/api';
@@ -17,7 +18,8 @@ const PermissionResolver = ({
   children?: ReactNode;
 }): JSX.Element => {
   const { authTokens, clearAuth }: Partial<AuthContextProps> = useAuth();
-  const { search } = useLocation();
+  const { pathname, search } = useLocation();
+  const history = useHistory();
   const isAuthenticated = !!authTokens;
   const [isLoading, setLoading] = useState<boolean>(true);
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
@@ -32,14 +34,19 @@ const PermissionResolver = ({
           setIsAuthorized(hasPermission);
           setLoading(false);
         })
-        .catch(() => {
+        .catch((e) => {
           if (clearAuth) {
             clearAuth();
           }
-          setLoading(false);
+          if (e.response?.status === 404) {
+            return history.push(
+              `/not_found?original_request=${pathname}${search}`
+            );
+          }
+          return setLoading(false);
         });
     }
-  }, [clearAuth, id, isAuthenticated]);
+  }, [clearAuth, history, id, isAuthenticated, pathname, search]);
 
   if (isLoading) {
     return (
