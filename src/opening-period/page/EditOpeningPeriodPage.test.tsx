@@ -300,7 +300,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
   });
 
   it('should show error notification when loading date period fails', async () => {
-    const error: Error = new Error('Failed to load date period form options');
+    const error: Error = new Error('Failed to load date period');
     const errorConsoleSpy = jest
       .spyOn(global.console, 'error')
       .mockImplementationOnce((cb) => cb);
