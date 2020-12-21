@@ -151,7 +151,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
       if (!container) {
         throw new Error(
-          'Something went wrong in rendering of CreateNewOpeningPeriodPage'
+          'Something went wrong in rendering of EditOpeningPeriodPage'
         );
       }
     });
@@ -185,7 +185,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
       if (!container) {
         throw new Error(
-          'Something went wrong in rendering of CreateNewOpeningPeriodPage'
+          'Something went wrong in rendering of EditOpeningPeriodPage'
         );
       }
     });
@@ -239,7 +239,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
       if (!container) {
         throw new Error(
-          'Something went wrong in rendering of CreateNewOpeningPeriodPage'
+          'Something went wrong in rendering of EditOpeningPeriodPage'
         );
       }
     });
