@@ -62,9 +62,6 @@ const testResource: Resource = {
 
 const testDatePeriod: DatePeriod = {
   id: 1,
-  created: '2020-11-20',
-  modified: '2020-11-20',
-  is_removed: false,
   name: { fi: 'test opening period', sv: '', en: '' },
   description: { fi: 'test opening period description', sv: '', en: '' },
   start_date: '2020-12-18',
