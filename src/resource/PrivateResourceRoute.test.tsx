@@ -29,6 +29,9 @@ const renderRoutesWithPrivateRoute = (): ReactWrapper => {
   );
   return mount(
     <Router>
+      <Route exact path="/not_found">
+        <h1>Test not found</h1>
+      </Route>
       <Route exact path="/unauthenticated">
         <h1>Test unauthenticated</h1>
       </Route>
@@ -138,5 +141,31 @@ describe(`<PrivateResourceRoute />`, () => {
     });
 
     expect(renderedComponent.find('h1').text()).toEqual('Test unauthenticated');
+  });
+
+  it('should redirect to /not_found', async () => {
+    mockContext();
+
+    const resourceNotFoundError = {
+      response: {
+        status: 404,
+      },
+    };
+
+    jest
+      .spyOn(api, 'testResourcePostPermission')
+      .mockImplementation(() => Promise.reject(resourceNotFoundError));
+
+    const renderedComponent = renderRoutesWithPrivateRoute();
+
+    await act(async () => {
+      renderedComponent.update();
+    });
+
+    await act(async () => {
+      renderedComponent.update();
+    });
+
+    expect(renderedComponent.find('h1').text()).toEqual('Test not found');
   });
 });

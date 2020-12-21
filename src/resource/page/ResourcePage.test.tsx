@@ -147,7 +147,7 @@ describe(`<ResourcePage />`, () => {
     );
   });
 
-  it('Should successfully render a resource that has zero date periods', async () => {
+  it.skip('Should successfully render a resource that has zero date periods', async () => {
     jest
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.resolve(testResource));

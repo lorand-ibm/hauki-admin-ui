@@ -1,6 +1,7 @@
 /* This file needs to be a css file because stylelint-value-no-unknown-custom-properties plugin cannot read .scss files in .stylelintrc.json */
 
 :root {
+  --hauki-default-font: HelsinkiGrotesk-Regular, Arial, sans-serif;
   --primary-color: var(--color-coat-of-arms);
   --hauki-header-background-color: var(--color-coat-of-arms);
   --hauki-header-color: white;
