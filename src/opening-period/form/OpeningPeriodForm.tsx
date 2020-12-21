@@ -209,25 +209,28 @@ export default function OpeningPeriodForm({
           </div>
         </section>
         <section className="form-section time-span-group">
-          <div className="time-span-list-container">
-            <h3 className="opening-period-section-title">Aukioloajat</h3>
+          <h3 className="opening-period-section-title">Aukioloajat</h3>
+          <ul
+            className="opening-period-time-span-list"
+            data-test="time-span-list">
             {fields.map(
               (
                 item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>,
                 index
               ) => (
-                <TimeSpan
-                  item={item}
-                  resourceStateOptions={resourceStateOptions}
-                  setValue={setValue}
-                  register={register}
-                  key={`time-span-${item.id || index}`}
-                  index={index}
-                  remove={remove}
-                />
+                <li key={`time-span-${item.id || index}`}>
+                  <TimeSpan
+                    item={item}
+                    resourceStateOptions={resourceStateOptions}
+                    setValue={setValue}
+                    register={register}
+                    index={index}
+                    remove={remove}
+                  />
+                </li>
               )
             )}
-          </div>
+          </ul>
           <SecondaryButton
             dataTest="add-new-time-span-button"
             onClick={(): void => append({})}
