@@ -191,41 +191,65 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
+      const firstTimeSpan = container.querySelector(
+        '[data-test="time-span-list"] > li:first-child'
+      );
+
+      if (!firstTimeSpan) {
+        throw new Error(
+          'Something went wrong in first time-span rendering of EditOpeningPeriodPage'
+        );
+      }
+
       expect(
-        container.querySelector('[data-test="weekdays-monday-0-checkbox"]')
+        firstTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-monday"]'
+        )
       ).toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-tuesday-0-checkbox"]')
+        firstTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-tuesday"]'
+        )
       ).toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-wednesday-0-checkbox"]')
+        firstTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-wednesday"]'
+        )
       ).toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-thursday-0-checkbox"]')
+        firstTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-thursday"]'
+        )
       ).toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-friday-0-checkbox"]')
+        firstTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-friday"]'
+        )
       ).toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-saturday-0-checkbox"]')
+        firstTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-saturday"]'
+        )
       ).not.toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-sunday-0-checkbox"]')
+        firstTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-sunday"]'
+        )
       ).not.toBeChecked();
 
       expect(
-        container.querySelector('#time-span-state-id-0-toggle-button')
+        firstTimeSpan.querySelector('#time-span-state-id-0-toggle-button')
       ).toHaveTextContent('Open');
 
-      expect(container.querySelector('#time-span-0-description')).toHaveValue(
-        'Arkena ovet menevät kiinni puolta tuntia aiemmin'
-      );
+      expect(
+        firstTimeSpan.querySelector('#time-span-0-description')
+      ).toHaveValue('Arkena ovet menevät kiinni puolta tuntia aiemmin');
     });
   });
 
@@ -245,41 +269,64 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
+      const lastTimeSpan = container.querySelector(
+        '[data-test="time-span-list"] > li:last-child'
+      );
+
+      if (!lastTimeSpan) {
+        throw new Error(
+          'Something went wrong in last time-span rendering of EditOpeningPeriodPage'
+        );
+      }
       expect(
-        container.querySelector('[data-test="weekdays-monday-1-checkbox"]')
+        lastTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-monday"]'
+        )
       ).not.toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-tuesday-1-checkbox"]')
+        lastTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-tuesday"]'
+        )
       ).not.toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-wednesday-1-checkbox"]')
+        lastTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-wednesday"]'
+        )
       ).not.toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-thursday-1-checkbox"]')
+        lastTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-thursday"]'
+        )
       ).not.toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-friday-1-checkbox"]')
+        lastTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-friday"]'
+        )
       ).not.toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-saturday-1-checkbox"]')
+        lastTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-saturday"]'
+        )
       ).toBeChecked();
 
       expect(
-        container.querySelector('[data-test="weekdays-sunday-1-checkbox"]')
+        lastTimeSpan.querySelector(
+          '[type="checkbox"][data-test^="weekdays-sunday"]'
+        )
       ).toBeChecked();
 
       expect(
-        container.querySelector('#time-span-state-id-1-toggle-button')
+        lastTimeSpan.querySelector('#time-span-state-id-1-toggle-button')
       ).toHaveTextContent('Self service');
 
-      expect(container.querySelector('#time-span-1-description')).toHaveValue(
-        'Viikonloppuna ovet menevät kiinni tuntia aiemmin'
-      );
+      expect(
+        lastTimeSpan.querySelector('#time-span-1-description')
+      ).toHaveValue('Viikonloppuna ovet menevät kiinni tuntia aiemmin');
     });
   });
 
