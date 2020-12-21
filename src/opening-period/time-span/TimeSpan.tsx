@@ -97,10 +97,10 @@ export default function TimeSpan({
         <div className="time-span-description-container">
           <TextInput
             ref={register()}
-            id={`timeSpans[${index}].description`}
+            id={`time-span-${index}-description`}
             name={`timeSpans[${index}].description`}
             className="time-span-description"
-            defaultValue={`${item.description || ''}`}
+            defaultValue={`${item.description}`}
             label="Kuvaus"
             placeholder="Valinnainen lyhyt kuvaus esim. naisten vuoro"
           />

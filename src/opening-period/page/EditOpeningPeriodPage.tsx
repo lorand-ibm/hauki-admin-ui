@@ -55,7 +55,7 @@ export default function EditOpeningPeriodPage({
         setHasDataLoadingError(true);
         setIsLoading(false);
         // eslint-disable-next-line no-console
-        console.error('Edit dateperiod - data initialization error:', e);
+        console.error('Edit date-period - data initialization error:', e);
       }
     };
 
@@ -67,6 +67,7 @@ export default function EditOpeningPeriodPage({
       <>
         <h1 className="resource-info-title">Virhe</h1>
         <Notification
+          dataTestId="error-retrieving-resource-info"
           label="Toimipisteen tietoja ei saatu ladattua."
           type="error">
           Tarkista toimipisteen id tai aukiolojakson id.
@@ -79,6 +80,7 @@ export default function EditOpeningPeriodPage({
     return (
       <>
         <h1 className="resource-info-title">Aukiolojakson muokkaus</h1>
+        <p>Sivua ladataan...</p>
       </>
     );
   }
