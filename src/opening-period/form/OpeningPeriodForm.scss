@@ -48,15 +48,15 @@
   margin: 0;
   padding: 0 0 var(--spacing-layout-xs);
   position: relative;
+}
 
-  li {
-    list-style: none;
-    border-top: var(--spacing-4-xs) solid var(--primary-color);
-    margin: $spacing-2-xl 0 0;
-    padding: 0;
-  }
+.opening-period-time-span-list-item {
+  list-style: none;
+  border-top: var(--spacing-4-xs) solid var(--primary-color);
+  margin: $spacing-2-xl 0 0;
+  padding: 0;
 
-  > li:first-child {
+  &:first-child {
     border-top: none;
     margin-top: 0;
   }

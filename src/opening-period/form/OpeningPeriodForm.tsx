@@ -218,7 +218,9 @@ export default function OpeningPeriodForm({
                 item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>,
                 index
               ) => (
-                <li key={`time-span-${item.id || index}`}>
+                <li
+                  className="opening-period-time-span-list-item"
+                  key={`time-span-${item.id || index}`}>
                   <TimeSpan
                     item={item}
                     resourceStateOptions={resourceStateOptions}
