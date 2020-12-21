@@ -175,7 +175,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
-  it('should render first the time-span when it has the weekdays in the beginning of the week', async () => {
+  it('should render first the time-span which has the weekdays in the beginning of the week', async () => {
     let container: HTMLElement;
 
     await act(async () => {
