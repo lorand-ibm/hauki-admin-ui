@@ -354,9 +354,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
     jest
       .spyOn(api, 'getDatePeriod')
-      .mockImplementation(() =>
-        Promise.reject(new Error('Failed to load date period form options'))
-      );
+      .mockImplementation(() => Promise.reject(error));
 
     render(<EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />);
 
