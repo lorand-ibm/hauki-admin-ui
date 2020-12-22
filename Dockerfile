@@ -34,6 +34,10 @@ RUN yarn build
 FROM nginx:1.19 as production
 # =============================
 
+# Set root rights for shared folder
+RUN chgrp -R nginx /usr/share/nginx/html && \
+    chmod -R g=u /usr/share/nginx/html
+
 # Copy static build
 COPY --from=staticbuilder --chown=nginx:nginx /app/build /usr/share/nginx/html
 
