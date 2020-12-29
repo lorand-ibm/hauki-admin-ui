@@ -8,6 +8,7 @@ import {
   ResourceStateApiOption,
   ResourceStateOption,
   TimeSpanFormFormat,
+  TimeSpanGroup,
 } from '../../common/lib/types';
 import { transformDateToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
@@ -79,12 +80,12 @@ export default function OpeningPeriodForm({
     resourceStateOptionsInApiFormat
   );
 
+  const firstTimeSpanGroup: TimeSpanGroup | undefined =
+    datePeriod?.time_span_groups[0];
+
   const spans: TimeSpanFormFormat[] | {}[] =
-    datePeriod?.time_span_groups[0] &&
-    datePeriod?.time_span_groups[0].time_spans
-      ? formatApiTimeSpansToFormFormat(
-          datePeriod?.time_span_groups[0].time_spans
-        )
+    firstTimeSpanGroup && firstTimeSpanGroup.time_spans
+      ? formatApiTimeSpansToFormFormat(firstTimeSpanGroup.time_spans)
       : [{}];
 
   const [periodBeginDate, setPeriodBeginDate] = useState<Date | null>(
@@ -144,6 +145,8 @@ export default function OpeningPeriodForm({
         override: datePeriod?.override || false,
         time_span_groups: [
           {
+            id: firstTimeSpanGroup?.id,
+            period: firstTimeSpanGroup?.period,
             time_spans: formatTimeSpansToApiFormat(validTimeSpans || []),
             rules: [],
           },
