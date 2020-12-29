@@ -102,7 +102,7 @@ export default function OpeningPeriodForm({
     timeSpans: spans,
   };
 
-  const { register, handleSubmit, errors, control, watch } = useForm<
+  const { register, handleSubmit, errors, control } = useForm<
     OpeningPeriodFormData
   >({
     mode: 'all',

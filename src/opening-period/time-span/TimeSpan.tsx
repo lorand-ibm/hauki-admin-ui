@@ -26,6 +26,12 @@ export default function TimeSpan({
 }): JSX.Element {
   return (
     <div data-test={`time-span-${index}`} className="time-span-container">
+      <input
+        type="hidden"
+        name={`timeSpans[${index}].id`}
+        defaultValue={item.id}
+        ref={register()}
+      />
       <div className="time-span-first-header-row">
         <Weekdays index={index} item={item} register={register} />
         <HDSButton

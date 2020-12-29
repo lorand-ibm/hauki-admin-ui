@@ -65,7 +65,7 @@ describe('opening-period form-helpers', () => {
     it('should return time-spans in form-format (ui-format)', () => {
       expect(formatApiTimeSpansToFormFormat([apiTimeSpanA])).toEqual([
         {
-          id: 1234,
+          id: '1234',
           description: 'description text A',
           endTime: '18:00',
           resourceState: ResourceState.OPEN,
@@ -78,7 +78,7 @@ describe('opening-period form-helpers', () => {
     it('should provide default values for form-format (ui-format)', () => {
       expect(formatApiTimeSpansToFormFormat([apiTimeSpanB])).toEqual([
         {
-          id: 2345,
+          id: '2345',
           description: '',
           endTime: '18:00',
           resourceState: ResourceState.SELF_SERVICE,

@@ -9,6 +9,7 @@ export function formatTimeSpansToApiFormat(
 ): TimeSpanApiFormat[] {
   return timeSpans.map((timeSpan) => {
     return {
+      id: timeSpan.id ? parseInt(timeSpan.id, 10) : undefined,
       description: {
         fi: timeSpan?.description ?? '',
         sv: null,
@@ -52,7 +53,7 @@ export function formatApiTimeSpansToFormFormat(
         );
 
       return {
-        id: apiTimeSpan.id,
+        id: apiTimeSpan.id ? apiTimeSpan.id.toString() : undefined,
         description: apiTimeSpan.description?.fi || '',
         startTime: apiTimeSpan.start_time
           ? dropMilliseconds(apiTimeSpan.start_time)
