@@ -102,7 +102,7 @@ export default function OpeningPeriodForm({
     timeSpans: spans,
   };
 
-  const { register, handleSubmit, errors, control, setValue } = useForm<
+  const { register, handleSubmit, errors, control, watch } = useForm<
     OpeningPeriodFormData
   >({
     mode: 'all',
@@ -224,7 +224,7 @@ export default function OpeningPeriodForm({
                   <TimeSpan
                     item={item}
                     resourceStateOptions={resourceStateOptions}
-                    setValue={setValue}
+                    control={control}
                     register={register}
                     index={index}
                     remove={remove}
