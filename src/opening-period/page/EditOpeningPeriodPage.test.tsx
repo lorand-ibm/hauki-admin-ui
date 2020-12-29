@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import {
   DatePeriod,
   DatePeriodOptions,
@@ -10,6 +10,15 @@ import {
 import api from '../../common/utils/api/api';
 import EditOpeningPeriodPage from './EditOpeningPeriodPage';
 
+const closedResourceState = {
+  value: 'closed',
+  display_name: {
+    fi: 'Suljettu',
+    sv: null,
+    en: null,
+  },
+};
+
 const testDatePeriodOptions: DatePeriodOptions = {
   actions: {
     POST: {
@@ -17,19 +26,12 @@ const testDatePeriodOptions: DatePeriodOptions = {
         choices: [
           {
             value: 'open',
-            display_name: 'Open',
+            display_name: 'Auki',
           },
-          {
-            value: 'closed',
-            display_name: {
-              fi: 'Suljettu',
-              sv: null,
-              en: null,
-            },
-          },
+          { ...closedResourceState },
           {
             value: 'self_service',
-            display_name: 'Self service',
+            display_name: 'Itsepalvelu',
           },
         ],
       },
@@ -60,6 +62,9 @@ const testResource: Resource = {
   },
 };
 
+const weedayTimeSpanId = 2636;
+const weekendTimeSpanId = 2637;
+
 const testDatePeriod: DatePeriod = {
   id: 1,
   name: { fi: 'test opening period', sv: '', en: '' },
@@ -71,48 +76,30 @@ const testDatePeriod: DatePeriod = {
   resource: 1,
   time_span_groups: [
     {
-      id: 2,
+      id: 1225,
       period: 1,
       rules: [],
       time_spans: [
         {
-          created: '2020-12-18T10:00:00.000000+02:00',
           description: {
             fi: 'Viikonloppuna ovet menevät kiinni tuntia aiemmin',
             sv: null,
             en: null,
           },
           end_time: '17:00:00',
-          full_day: false,
-          group: 1225,
-          id: 2637,
-          modified: '2020-12-18T10:00:00.000000+02:00',
-          name: {
-            fi: null,
-            sv: null,
-            en: null,
-          },
+          id: weekendTimeSpanId,
           resource_state: ResourceState.SELF_SERVICE,
           start_time: '12:00:00',
           weekdays: [6, 7],
         },
         {
-          created: '2020-12-18T10:00:00.000000+02:00',
           description: {
             fi: 'Arkena ovet menevät kiinni puolta tuntia aiemmin',
             sv: null,
             en: null,
           },
           end_time: '18:00:00',
-          full_day: false,
-          group: 1225,
-          id: 2636,
-          modified: '2020-12-18T10:00:00.000000+02:00',
-          name: {
-            fi: null,
-            sv: null,
-            en: null,
-          },
+          id: weedayTimeSpanId,
           resource_state: ResourceState.OPEN,
           start_time: '10:00:00',
           weekdays: [1, 2, 3, 4, 5],
@@ -245,7 +232,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
       expect(
         firstTimeSpan.querySelector('#time-span-state-id-0-toggle-button')
-      ).toHaveTextContent('Open');
+      ).toHaveTextContent('Auki');
 
       expect(
         firstTimeSpan.querySelector('#time-span-0-description')
@@ -322,7 +309,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
       expect(
         lastTimeSpan.querySelector('#time-span-state-id-1-toggle-button')
-      ).toHaveTextContent('Self service');
+      ).toHaveTextContent('Itsepalvelu');
 
       expect(
         lastTimeSpan.querySelector('#time-span-1-description')
@@ -369,6 +356,100 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       );
       expect(errorHeading).toHaveTextContent('Virhe');
       expect(notificationText).toBeInTheDocument();
+    });
+  });
+
+  it('should save correct time-span-group data after edit', async () => {
+    let container: HTMLElement;
+    let lastTimeSpan: HTMLElement | null;
+
+    const putDatePeriodSpy = jest
+      .spyOn(api, 'putDatePeriod')
+      .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
+
+    await act(async () => {
+      container = render(
+        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
+      ).container;
+
+      if (!container) {
+        throw new Error(
+          'Something went wrong in rendering of EditOpeningPeriodPage'
+        );
+      }
+    });
+
+    await act(async () => {
+      lastTimeSpan = container.querySelector(
+        '[data-test="time-span-list"] > li:last-child'
+      );
+
+      if (!lastTimeSpan) {
+        throw new Error(
+          'Something went wrong in rendering of EditOpeningPeriodPage'
+        );
+      }
+    });
+
+    await act(async () => {
+      const dropDownSelector = 'button#time-span-state-id-1-toggle-button';
+      const stateDropDown = lastTimeSpan?.querySelector(dropDownSelector);
+      if (!stateDropDown) {
+        throw new Error(`Element with selector ${dropDownSelector} not found`);
+      }
+
+      fireEvent.click(stateDropDown);
+    });
+
+    await act(async () => {
+      const [closedOption] = Array.from(
+        lastTimeSpan?.querySelectorAll('li') ?? []
+      ).filter((el) => {
+        return el.textContent && el.textContent?.toLowerCase() === 'suljettu';
+      });
+
+      if (!closedOption) {
+        throw new Error(`Closed option not found`);
+      }
+
+      fireEvent.click(closedOption);
+    });
+
+    await act(async () => {
+      const saveButtonSelector = '[data-test="publish-opening-period-button"]';
+      const saveButton = container.querySelector(saveButtonSelector);
+      if (!saveButton) {
+        throw new Error(`Element with selector ${saveButton} not found`);
+      }
+
+      fireEvent.click(saveButton);
+    });
+
+    await act(async () => {
+      const timeSpans = testDatePeriod.time_span_groups[0].time_spans;
+      const modifiedOpeningPeriod = timeSpans.find(
+        ({ id }) => id === weekendTimeSpanId
+      );
+      const rest = timeSpans.filter(({ id }) => id !== weekendTimeSpanId);
+
+      expect(putDatePeriodSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          time_span_groups: [
+            {
+              id: 1225,
+              period: 1,
+              rules: [],
+              time_spans: [
+                ...rest,
+                {
+                  ...modifiedOpeningPeriod,
+                  resource_state: closedResourceState.value,
+                },
+              ],
+            },
+          ],
+        })
+      );
     });
   });
 });
