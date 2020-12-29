@@ -363,8 +363,8 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     let container: HTMLElement;
     let lastTimeSpan: HTMLElement | null;
 
-    const putDatePeriodSpy = jest
-      .spyOn(api, 'putDatePeriod')
+    const patchDatePeriodSpy = jest
+      .spyOn(api, 'patchDatePeriod')
       .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
 
     await act(async () => {
@@ -432,7 +432,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       );
       const rest = timeSpans.filter(({ id }) => id !== weekendTimeSpanId);
 
-      expect(putDatePeriodSpy).toHaveBeenCalledWith(
+      expect(patchDatePeriodSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           time_span_groups: [
             {

@@ -124,7 +124,7 @@ async function apiPost<T>({
   });
 }
 
-async function apiPut<T>({
+async function apiPatch<T>({
   path,
   data = {},
 }: PutRequestParameters): Promise<T> {
@@ -133,7 +133,7 @@ async function apiPut<T>({
     headers: {
       'Content-Type': 'application/json',
     },
-    method: 'put',
+    method: 'patch',
     data,
     validateStatus,
   });
@@ -210,8 +210,8 @@ export default {
       data: datePeriod,
     }),
 
-  putDatePeriod: (datePeriod: DatePeriod): Promise<DatePeriod> =>
-    apiPut<DatePeriod>({
+  patchDatePeriod: (datePeriod: DatePeriod): Promise<DatePeriod> =>
+    apiPatch<DatePeriod>({
       path: `${datePeriodBasePath}/${datePeriod.id}`,
       data: datePeriod,
     }),
