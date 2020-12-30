@@ -33,7 +33,7 @@ export default function EditOpeningPeriodPage({
   );
 
   const submitFn = (updatedDatePeriod: DatePeriod): Promise<DatePeriod> =>
-    api.putDatePeriod(updatedDatePeriod);
+    api.patchDatePeriod(updatedDatePeriod);
 
   useEffect((): void => {
     const fetchData = async (): Promise<void> => {

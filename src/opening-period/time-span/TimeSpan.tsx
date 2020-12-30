@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { ArrayField } from 'react-hook-form';
+import React from 'react';
+import { ArrayField, Controller, Control } from 'react-hook-form';
 import { Button as HDSButton, IconTrash, Select, TextInput } from 'hds-react';
 import Weekdays from './Weekdays';
 import './TimeSpan.scss';
@@ -14,22 +14,24 @@ export default function TimeSpan({
   index,
   remove,
   register,
-  setValue,
+  control,
   resourceStateOptions,
 }: {
   item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
   index: number;
   remove: Function;
   register: Function;
-  setValue: Function;
+  control: Control;
   resourceStateOptions: ResourceStateOption[];
 }): JSX.Element {
-  useEffect(() => {
-    register({ name: `timeSpans[${index}].resourceState` });
-  });
-
   return (
     <div data-test={`time-span-${index}`} className="time-span-container">
+      <input
+        type="hidden"
+        name={`timeSpans[${index}].id`}
+        defaultValue={item.id}
+        ref={register()}
+      />
       <div className="time-span-first-header-row">
         <Weekdays index={index} item={item} register={register} />
         <HDSButton
@@ -77,19 +79,26 @@ export default function TimeSpan({
       </div>
       <div className="form-control">
         <div className="time-span-state-container">
-          <Select
-            id={`time-span-state-id-${index}`}
-            onChange={(selection: { label: string; value: string }): void => {
-              setValue(`timeSpans[${index}].resourceState`, selection.value);
-            }}
-            className="time-span-state"
-            defaultValue={resourceStateOptions.find(
-              ({ value }) =>
-                value === ((item.resourceState as unknown) as string)
+          <Controller
+            control={control}
+            name={`timeSpans[${index}].resourceState`}
+            defaultValue={`${item.resourceState}`}
+            render={({ onChange, value }): JSX.Element => (
+              <Select
+                id={`time-span-state-id-${index}`}
+                onChange={(selected: ResourceStateOption): void => {
+                  onChange(selected.value);
+                }}
+                className="time-span-state"
+                defaultValue={resourceStateOptions.find(
+                  (option: ResourceStateOption): boolean =>
+                    option.value === value
+                )}
+                options={resourceStateOptions}
+                label="Tyyppi"
+                placeholder="Valitse tyyppi"
+              />
             )}
-            options={resourceStateOptions}
-            label="Tyyppi"
-            placeholder="Valitse tyyppi"
           />
         </div>
       </div>
