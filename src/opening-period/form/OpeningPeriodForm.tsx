@@ -122,6 +122,15 @@ export default function OpeningPeriodForm({
       (span: TimeSpanFormFormat | {}) => Object.keys(span).length > 0
     ) as TimeSpanFormFormat[];
 
+    const validRules: GroupRule[] = data.rules
+      ? (data.rules.filter((rule: GroupRule | {}): boolean => {
+          const validValues = Object.values(rule)
+            .filter((value) => value !== '')
+            .filter((val) => val);
+          return validValues.length > 0;
+        }) as GroupRule[])
+      : [];
+
     try {
       const dataAsDatePeriod: DatePeriod = {
         ...(datePeriod?.id ? { id: datePeriod.id } : {}),
@@ -148,7 +157,7 @@ export default function OpeningPeriodForm({
             id: firstTimeSpanGroup?.id,
             period: firstTimeSpanGroup?.period,
             time_spans: formatTimeSpansToApiFormat(validTimeSpans || []),
-            rules: [],
+            rules: validRules,
           },
         ],
       };
