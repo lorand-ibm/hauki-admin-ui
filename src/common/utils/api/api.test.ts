@@ -157,6 +157,53 @@ describe('apiRequest', () => {
                 },
               ],
             },
+            time_span_groups: {
+              child: {
+                children: {
+                  rules: {
+                    child: {
+                      children: {
+                        context: {
+                          choices: [
+                            {
+                              display_name: {
+                                fi: 'Jakso',
+                                sv: 'Jakso',
+                                en: 'Period',
+                              },
+                              value: 'period',
+                            },
+                          ],
+                        },
+                        frequency_modifier: {
+                          choices: [
+                            {
+                              display_name: {
+                                fi: 'Parillinen',
+                                sv: 'Parillinen',
+                                en: 'Even',
+                              },
+                              value: 'even',
+                            },
+                            {
+                              display_name: {
+                                fi: 'Pariton',
+                                sv: 'Pariton',
+                                en: 'Odd',
+                              },
+                              value: 'odd',
+                            },
+                          ],
+                        },
+                        subject: {
+                          choices: [],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
       };
@@ -175,6 +222,33 @@ describe('apiRequest', () => {
               value: 'closed',
             },
           ],
+        },
+        timeSpanGroup: {
+          rule: {
+            context: {
+              options: [
+                {
+                  label: 'Jakso',
+                  value: 'period',
+                },
+              ],
+            },
+            subject: {
+              options: [],
+            },
+            frequencyModifier: {
+              options: [
+                {
+                  label: 'Parillinen',
+                  value: 'even',
+                },
+                {
+                  label: 'Pariton',
+                  value: 'odd',
+                },
+              ],
+            },
+          },
         },
       });
       done();

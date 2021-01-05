@@ -81,6 +81,27 @@ export type DatePeriodOptions = {
       resource_state: {
         choices: ApiChoice[];
       };
+      time_span_groups: {
+        child: {
+          children: {
+            rules: {
+              child: {
+                children: {
+                  context: {
+                    choices: ApiChoice[];
+                  };
+                  frequency_modifier: {
+                    choices: ApiChoice[];
+                  };
+                  subject: {
+                    choices: ApiChoice[];
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
     };
   };
 };
@@ -89,8 +110,17 @@ export type UiFieldConfig = {
   options: InputOption[];
 };
 
+export type UiRuleConfig = {
+  context: UiFieldConfig;
+  subject: UiFieldConfig;
+  frequencyModifier: UiFieldConfig;
+};
+
 export type UiDatePeriodConfig = {
   resourceState: UiFieldConfig;
+  timeSpanGroup: {
+    rule: UiRuleConfig;
+  };
 };
 
 export type TimeSpanGroup = {

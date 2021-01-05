@@ -29,6 +29,19 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
       },
     ],
   },
+  timeSpanGroup: {
+    rule: {
+      context: {
+        options: [],
+      },
+      subject: {
+        options: [],
+      },
+      frequencyModifier: {
+        options: [],
+      },
+    },
+  },
 };
 
 const testResource: Resource = {
