@@ -35,11 +35,11 @@ export default function TimeSpan({
         defaultValue={item.id}
         ref={register()}
       />
-      <div className="time-span-first-header-row">
+      <div className="time-span-first-header-row form-control">
         <Weekdays index={index} item={item} register={register} />
         <HDSButton
           data-test={`remove-time-span-button-${index}`}
-          className="remove-time-span-button"
+          className="opening-period-remove-list-item-button"
           variant="supplementary"
           onClick={(): void => remove(index)}
           iconLeft={<IconTrash />}>

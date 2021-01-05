@@ -41,22 +41,28 @@
   margin-bottom: $spacing-layout-xs;
 }
 
-.opening-period-time-span-list {
-  border-bottom: 1px solid var(--hauki-content-border-color);
+.form-group {
+  padding: $spacing-layout-s 0;
+
+  &:not(:last-child):not(:empty) {
+    border-bottom: 1px solid var(--hauki-content-border-color);
+  }
+}
+
+.opening-period-field-list {
   margin: 0;
-  padding: 0 0 var(--spacing-layout-xs);
+  padding: 0;
   position: relative;
 }
 
-.opening-period-time-span-list-item {
-  list-style: none;
+.opening-period-field-list-item {
   border-top: var(--spacing-4-xs) solid var(--primary-color);
-  margin: $spacing-2-xl 0 0;
-  padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 $spacing-xl;
 
   &:first-child {
     border-top: none;
-    margin-top: 0;
   }
 }
 
@@ -66,4 +72,8 @@
 
 .time-span-group {
   border-top: var(--spacing-3-xs) solid var(--color-coat-of-arms);
+}
+
+.opening-period-remove-list-item-button.opening-period-remove-list-item-button {
+  color: var(--color-coat-of-arms);
 }

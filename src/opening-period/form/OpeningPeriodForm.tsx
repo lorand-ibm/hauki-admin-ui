@@ -189,7 +189,7 @@ export default function OpeningPeriodForm({
         <section className="form-section time-span-group">
           <h3 className="opening-period-section-title">Aukioloajat</h3>
           <ul
-            className="opening-period-time-span-list"
+            className="opening-period-field-list form-group"
             data-test="time-span-list">
             {fields.map(
               (
@@ -197,7 +197,7 @@ export default function OpeningPeriodForm({
                 index
               ) => (
                 <li
-                  className="opening-period-time-span-list-item"
+                  className="opening-period-field-list-item"
                   key={`time-span-${item.id || index}`}>
                   <TimeSpan
                     item={item}
