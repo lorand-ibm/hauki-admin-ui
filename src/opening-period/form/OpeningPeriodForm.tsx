@@ -282,7 +282,7 @@ export default function OpeningPeriodForm({
             </ul>
             <div className="form-group">
               <SecondaryButton
-                dataTest="add-new-rule-span-button"
+                dataTest="add-new-rule-button"
                 onClick={(): void => appendRule({})}>
                 + Lisää aukioloaikojen voimassaolosääntö
               </SecondaryButton>
