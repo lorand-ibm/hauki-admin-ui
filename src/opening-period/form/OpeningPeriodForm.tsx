@@ -118,9 +118,11 @@ export default function OpeningPeriodForm({
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('init');
 
   const onSubmit = async (data: OpeningPeriodFormData): Promise<void> => {
-    const validTimeSpans: TimeSpanFormFormat[] = data.timeSpans.filter(
-      (span: TimeSpanFormFormat | {}) => Object.keys(span).length > 0
-    ) as TimeSpanFormFormat[];
+    const validTimeSpans: TimeSpanFormFormat[] = data.timeSpans
+      ? (data.timeSpans.filter(
+          (span: TimeSpanFormFormat | {}) => Object.keys(span).length > 0
+        ) as TimeSpanFormFormat[])
+      : [];
 
     const validRules: GroupRule[] = data.rules
       ? (data.rules.filter((rule: GroupRule | {}): boolean => {
