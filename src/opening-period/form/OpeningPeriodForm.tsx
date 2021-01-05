@@ -266,7 +266,7 @@ export default function OpeningPeriodForm({
                 ) => (
                   <li
                     className="opening-period-field-list-item opening-period-rule-list-item"
-                    key={`rule-${index}`}>
+                    key={`rule-${rule.id || index}`}>
                     <Rule
                       rule={rule}
                       index={index}
