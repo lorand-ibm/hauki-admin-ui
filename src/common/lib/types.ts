@@ -123,10 +123,22 @@ export type UiDatePeriodConfig = {
   };
 };
 
+export type Frequency = {
+  frequency_ordinal: number | null;
+  frequency_modifier: string | null;
+};
+
+export interface GroupRule extends Frequency {
+  id?: number;
+  context: string;
+  subject: string;
+  start: number;
+}
+
 export type TimeSpanGroup = {
   id?: number;
   time_spans: TimeSpan[];
-  rules: [];
+  rules: GroupRule[];
   period?: number;
 };
 

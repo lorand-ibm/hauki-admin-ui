@@ -7,6 +7,7 @@ import {
   Language,
   TimeSpanFormFormat,
   TimeSpanGroup,
+  GroupRule,
 } from '../../common/lib/types';
 import { transformDateToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
@@ -18,6 +19,7 @@ import {
 } from './form-helpers/form-helpers';
 import OpeningPeriodDescription from '../description/OpeningPeriodDescription';
 import TimeSpan from '../time-span/TimeSpan';
+import Rule from '../rule/Rule';
 import './OpeningPeriodForm.scss';
 
 interface OpeningPeriodFormData {
@@ -26,6 +28,7 @@ interface OpeningPeriodFormData {
   openingPeriodBeginDate: string | undefined;
   openingPeriodEndDate: string | undefined;
   timeSpans: Array<TimeSpanFormFormat> | {}[];
+  rules: GroupRule[];
 }
 
 type SubmitStatus = 'init' | 'succeeded' | 'error';
@@ -53,7 +56,10 @@ export default function OpeningPeriodForm({
   errorTextAndLabel: NotificationTexts;
 }): JSX.Element {
   const language = Language.FI;
-  const { resourceState: resourceStateConfig } = datePeriodConfig;
+  const {
+    resourceState: resourceStateConfig,
+    timeSpanGroup: { rule: ruleConfig },
+  } = datePeriodConfig;
 
   const firstTimeSpanGroup: TimeSpanGroup | undefined =
     datePeriod?.time_span_groups[0];
@@ -63,9 +69,14 @@ export default function OpeningPeriodForm({
       ? formatApiTimeSpansToFormFormat(firstTimeSpanGroup.time_spans)
       : [{}];
 
+  const rules: GroupRule[] | [] = firstTimeSpanGroup?.rules.length
+    ? firstTimeSpanGroup?.rules
+    : [];
+
   const [periodBeginDate, setPeriodBeginDate] = useState<Date | null>(
     datePeriod?.start_date ? new Date(datePeriod?.start_date) : null
   );
+
   const [periodEndDate, setPeriodEndDate] = useState<Date | null>(
     datePeriod?.end_date ? new Date(datePeriod?.end_date) : null
   );
@@ -76,20 +87,34 @@ export default function OpeningPeriodForm({
     openingPeriodBeginDate: datePeriod?.start_date,
     openingPeriodEndDate: datePeriod?.end_date,
     timeSpans: spans,
+    rules,
   };
 
-  const { register, handleSubmit, errors, control } = useForm<
+  const { register, handleSubmit, errors, control, setValue } = useForm<
     OpeningPeriodFormData
   >({
     mode: 'all',
     defaultValues: formValues,
   });
+
   const { fields, append, remove } = useFieldArray({
     control,
     keyName: 'timeSpanUiId',
     name: 'timeSpans',
   });
+
+  const {
+    fields: ruleFields,
+    append: appendRule,
+    remove: removeRule,
+  } = useFieldArray({
+    control,
+    keyName: 'rulesUiId',
+    name: 'rules',
+  });
+
   const history = useHistory();
+
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('init');
 
   const onSubmit = async (data: OpeningPeriodFormData): Promise<void> => {
@@ -211,12 +236,47 @@ export default function OpeningPeriodForm({
               )
             )}
           </ul>
-          <SecondaryButton
-            dataTest="add-new-time-span-button"
-            onClick={(): void => append({})}
-            className="add-new-time-span-button">
-            + Lisää aukioloaika
-          </SecondaryButton>
+          <div className="form-group">
+            <SecondaryButton
+              dataTest="add-new-time-span-button"
+              onClick={(): void => append({})}>
+              + Lisää aukioloaika
+            </SecondaryButton>
+          </div>
+          <div className="form-group">
+            <h3 className="opening-period-section-title">
+              Aukioloaikojen voimassaolo
+            </h3>
+            <ul className="opening-period-field-list opening-period-rule-list form-group">
+              {ruleFields.map(
+                (
+                  rule: Partial<ArrayField<Record<string, GroupRule>>>,
+                  index
+                ) => (
+                  <li
+                    className="opening-period-field-list-item opening-period-rule-list-item"
+                    key={`rule-${index}`}>
+                    <Rule
+                      rule={rule}
+                      index={index}
+                      control={control}
+                      setValue={setValue}
+                      remove={removeRule}
+                      register={register}
+                      ruleConfig={ruleConfig}
+                    />
+                  </li>
+                )
+              )}
+            </ul>
+            <div className="form-group">
+              <SecondaryButton
+                dataTest="add-new-rule-span-button"
+                onClick={(): void => appendRule({})}>
+                + Lisää aukioloaikojen voimassaolosääntö
+              </SecondaryButton>
+            </div>
+          </div>
         </section>
         <div className="opening-period-final-action-row-container">
           <PrimaryButton

@@ -1,0 +1,38 @@
+@import 'node_modules/hds-design-tokens/lib/all.scss';
+
+.opening-group-rule-remove {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.opening-group-rule-fieldset {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin: $spacing-xs -1rem 0;
+  width: 100%;
+
+  > * {
+    margin-left: 1rem;
+  }
+}
+
+.opening-group-rule-column {
+  flex: 1 1 20ch;
+  margin-bottom: $spacing-m;
+}
+
+.opening-group-rule-column-large {
+  align-items: flex-end;
+  display: flex;
+  flex: 1 0 auto;
+
+  > * + * {
+    margin-left: 1rem;
+  }
+
+  > .opening-group-rule-select {
+    flex: 1;
+    max-width: 30ch;
+  }
+}

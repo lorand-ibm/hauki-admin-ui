@@ -66,8 +66,12 @@
   }
 }
 
-.add-new-time-span-button {
-  margin-top: $spacing-l;
+.opening-period-rule-list:not(:empty) {
+  margin-top: -4rem; // A hacky way to inline the first remove button with the section title
+}
+
+.opening-period-rule-list-item {
+  padding-bottom: $spacing-s;
 }
 
 .time-span-group {
