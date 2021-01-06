@@ -32,13 +32,44 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
   timeSpanGroup: {
     rule: {
       context: {
-        options: [],
+        options: [
+          {
+            value: 'period',
+            label: 'Jakso',
+          },
+          {
+            value: 'month',
+            label: 'Kuukausi',
+          },
+        ],
       },
       subject: {
-        options: [],
+        options: [
+          {
+            value: 'week',
+            label: 'Viikko',
+          },
+          {
+            value: 'month',
+            label: 'Kuukausi',
+          },
+          {
+            value: 'mon',
+            label: 'Maanantai',
+          },
+        ],
       },
       frequencyModifier: {
-        options: [],
+        options: [
+          {
+            value: 'odd',
+            label: 'Pariton',
+          },
+          {
+            value: 'even',
+            label: 'Parillinen',
+          },
+        ],
       },
     },
   },
@@ -69,6 +100,8 @@ const testResource: Resource = {
 
 const weekdayTimeSpanId = 2636;
 const weekendTimeSpanId = 2637;
+const periodRuleId = 10;
+const monthRuleId = 20;
 
 const testDatePeriod: DatePeriod = {
   id: 1,
@@ -83,7 +116,24 @@ const testDatePeriod: DatePeriod = {
     {
       id: 1225,
       period: 1,
-      rules: [],
+      rules: [
+        {
+          id: periodRuleId,
+          context: 'period',
+          frequency_modifier: 'even',
+          frequency_ordinal: 3,
+          subject: 'mon',
+          start: 1,
+        },
+        {
+          id: monthRuleId,
+          context: 'month',
+          frequency_modifier: null,
+          frequency_ordinal: 1,
+          subject: 'week',
+          start: 2,
+        },
+      ],
       time_spans: [
         {
           description: {
@@ -322,6 +372,84 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
+  it('should render correct time-span-group rules', async () => {
+    let container: HTMLElement;
+
+    await act(async () => {
+      container = render(
+        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
+      ).container;
+
+      if (!container) {
+        throw new Error(
+          'Something went wrong in rendering of EditOpeningPeriodPage'
+        );
+      }
+    });
+
+    await act(async () => {
+      const periodRuleFieldset = container.querySelector(
+        `[data-test="rule-list-item-${periodRuleId}"]`
+      );
+
+      if (!periodRuleFieldset) {
+        throw new Error(
+          'Something went wrong in period-rule rendering of EditOpeningPeriodPage'
+        );
+      }
+
+      expect(
+        periodRuleFieldset.querySelector('[id$="context-toggle-button"]')
+      ).toHaveTextContent('Jakso');
+
+      expect(
+        periodRuleFieldset.querySelector('[id$="frequency-toggle-button"]')
+      ).toHaveTextContent('3. Parillinen');
+
+      expect(
+        periodRuleFieldset.querySelector('[id$="subject-toggle-button"]')
+      ).toHaveTextContent('Maanantai');
+
+      expect(
+        periodRuleFieldset.querySelector('[id$="start-toggle-button"]')
+      ).toHaveTextContent('1.');
+
+      expect(
+        periodRuleFieldset.querySelector('[data-test="rule-subject-indicator"]')
+      ).toHaveTextContent('Maanantai');
+
+      const monthRuleFieldset = container.querySelector(
+        `[data-test="rule-list-item-${monthRuleId}"]`
+      );
+
+      if (!monthRuleFieldset) {
+        throw new Error(
+          'Something went wrong in month-rule rendering of EditOpeningPeriodPage'
+        );
+      }
+
+      expect(
+        monthRuleFieldset.querySelector('[id$="context-toggle-button"]')
+      ).toHaveTextContent('Kuukausi');
+
+      expect(
+        monthRuleFieldset.querySelector('[id$="frequency-toggle-button"]')
+      ).toHaveTextContent('Jokainen');
+
+      expect(
+        monthRuleFieldset.querySelector('[id$="subject-toggle-button"]')
+      ).toHaveTextContent('Viikko');
+
+      expect(
+        monthRuleFieldset.querySelector('[id$="start-toggle-button"]')
+      ).toHaveTextContent('2.');
+
+      expect(
+        monthRuleFieldset.querySelector('[data-test="rule-subject-indicator"]')
+      ).toHaveTextContent('Viikko');
+    });
+  });
+
   it('should show loading indicator while loading date period', async () => {
     jest.spyOn(api, 'getDatePeriod').mockImplementation(() => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -443,7 +571,24 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
             {
               id: 1225,
               period: 1,
-              rules: [],
+              rules: [
+                {
+                  context: 'period',
+                  frequency_modifier: 'even',
+                  frequency_ordinal: 3,
+                  id: '10',
+                  subject: 'mon',
+                  start: '1',
+                },
+                {
+                  context: 'month',
+                  frequency_modifier: null,
+                  frequency_ordinal: 1,
+                  id: '20',
+                  subject: 'week',
+                  start: '2',
+                },
+              ],
               time_spans: [
                 ...rest,
                 {

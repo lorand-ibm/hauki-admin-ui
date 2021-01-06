@@ -258,7 +258,9 @@ export default function OpeningPeriodForm({
             <h3 className="opening-period-section-title">
               Aukioloaikojen voimassaolo
             </h3>
-            <ul className="opening-period-field-list opening-period-rule-list form-group">
+            <ul
+              className="opening-period-field-list opening-period-rule-list form-group"
+              data-test="rule-list">
               {ruleFields.map(
                 (
                   rule: Partial<ArrayField<Record<string, GroupRule>>>,
@@ -266,7 +268,8 @@ export default function OpeningPeriodForm({
                 ) => (
                   <li
                     className="opening-period-field-list-item opening-period-rule-list-item"
-                    key={`rule-${rule.id || index}`}>
+                    key={`rule-${rule.id || index}`}
+                    data-test={`rule-list-item-${rule.id || index}`}>
                     <Rule
                       rule={rule}
                       index={index}

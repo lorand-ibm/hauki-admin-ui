@@ -45,9 +45,9 @@ const hardCodedFrequencyOptions: FrequencyOption[] = [
 const frequencyToString = (frequency: Frequency): string =>
   `${frequency.frequency_ordinal} ${frequency.frequency_modifier} `;
 
-const unknownFrequencyToString = (
+const generateUnknownFrequencyLabel = (
   ordinal: number | null,
-  modifierLabel?: string
+  modifierLabel?: string | null
 ): string => {
   const optionalOrdinalLabel: string | undefined =
     ordinal && ordinal > 1 ? `${ordinal}.` : undefined;
@@ -55,7 +55,7 @@ const unknownFrequencyToString = (
   return [optionalOrdinalLabel, modifierLabel].join(' ');
 };
 
-const convertFrequencyToOption = ({
+const convertFrequencyToInputOption = ({
   value,
   label,
 }: {
@@ -95,8 +95,8 @@ export default function Rule({
     context,
     subject,
     start: startAt,
-    frequency_modifier: frequencyModifier,
-    frequency_ordinal: frequencyOrdinal,
+    frequency_modifier: frequencyModifier = null,
+    frequency_ordinal: frequencyOrdinal = null,
   } = rule;
 
   const {
@@ -112,12 +112,9 @@ export default function Rule({
     selectedSubject?.label ?? ''
   );
 
-  const frequencyModifierField = `rules[${index}].frequency_modifier`;
-  const frequencyOrdinalField = `rules[${index}].frequency_ordinal`;
-
-  const currentFrequency: Frequency = {
-    frequency_ordinal: frequencyOrdinal || null,
-    frequency_modifier: frequencyModifier || null,
+  const currentFrequency = {
+    frequency_modifier: frequencyModifier,
+    frequency_ordinal: frequencyOrdinal,
   } as Frequency;
 
   const knownFrequencyValues: FrequencyOption[] = [
@@ -133,15 +130,10 @@ export default function Rule({
     ),
   ];
 
-  const isKnownFrequencySelected = !!knownFrequencyValues.find(
+  const isKnownFrequencySelected = knownFrequencyValues.find(
     ({ value }) =>
       value.frequency_modifier === currentFrequency.frequency_modifier &&
       value.frequency_ordinal === currentFrequency.frequency_ordinal
-  );
-
-  const selectedModifier = frequencyModifierOptions.find(
-    (modifierOption: InputOption) =>
-      modifierOption.value === currentFrequency.frequency_modifier
   );
 
   const allFrequencyValues: FrequencyOption[] = isKnownFrequencySelected
@@ -149,40 +141,58 @@ export default function Rule({
     : [
         ...knownFrequencyValues,
         {
-          label: unknownFrequencyToString(
+          label: generateUnknownFrequencyLabel(
             currentFrequency.frequency_ordinal,
-            selectedModifier?.label
+            frequencyModifierOptions.find(
+              (modifierOption: InputOption) =>
+                modifierOption.value === currentFrequency.frequency_modifier
+            )?.label
           ),
           value: currentFrequency,
         },
       ];
 
   const frequencyOptions: InputOption[] = allFrequencyValues.map(
-    convertFrequencyToOption
+    convertFrequencyToInputOption
   );
+
+  const frequencyModifierField = `rules[${index}].frequency_modifier`;
+  const frequencyOrdinalField = `rules[${index}].frequency_ordinal`;
 
   const onFrequencyChange = (selected: InputOption): void => {
     const selectedFrequency = allFrequencyValues.find(
       ({ label }) => label === selected.label
     );
 
-    if (selectedFrequency) {
-      setValue(
-        frequencyModifierField,
-        selectedFrequency.value.frequency_modifier
-      );
-
-      setValue(
-        frequencyOrdinalField,
-        selectedFrequency.value.frequency_ordinal
-      );
-    }
+    setValue(
+      frequencyModifierField,
+      selectedFrequency?.value.frequency_modifier || null
+    );
+    setValue(
+      frequencyOrdinalField,
+      selectedFrequency?.value.frequency_ordinal || null
+    );
   };
 
   useEffect(() => {
-    register(frequencyModifierField);
-    register(frequencyOrdinalField);
-  }, [frequencyModifierField, frequencyOrdinalField, register]);
+    register({ name: frequencyModifierField });
+    register({ name: frequencyOrdinalField });
+
+    // "If you choose to not use Controller and manually register fields, you will need to update the input value with setValue." - https://react-hook-form.com/api#register
+    setValue(frequencyModifierField, frequencyModifier, {
+      shouldValidate: false,
+    });
+    setValue(frequencyOrdinalField, frequencyOrdinal, {
+      shouldValidate: false,
+    });
+  }, [
+    frequencyModifier,
+    frequencyModifierField,
+    frequencyOrdinal,
+    frequencyOrdinalField,
+    register,
+    setValue,
+  ]);
 
   return (
     <div className="opening-group-rule form-control" key={`rules-${index}`}>
@@ -245,6 +255,7 @@ export default function Rule({
           defaultValue={`${subject || ''}`}
           render={({ onChange, value }): JSX.Element => (
             <Select
+              id={`rules-${index}-subject`}
               className="opening-group-rule-column opening-group-rule-select"
               defaultValue={subjectOptions.find(
                 (selected: InputOption): boolean => selected.value === value
@@ -268,6 +279,7 @@ export default function Rule({
             defaultValue={`${startAt || ''}`}
             render={({ onChange, value }): JSX.Element => (
               <Select
+                id={`rules-${index}-start`}
                 className="opening-group-rule-select"
                 defaultValue={startAtOptions.find(
                   (selected: InputOption): boolean => selected.value === value
@@ -281,7 +293,11 @@ export default function Rule({
               />
             )}
           />
-          <p key={`rules-${index}-start-postfix`}>{subjectLabel || ''}</p>
+          <p
+            key={`rules-${index}-start-postfix`}
+            data-test="rule-subject-indicator">
+            {subjectLabel || ''}
+          </p>
         </div>
       </div>
     </div>
