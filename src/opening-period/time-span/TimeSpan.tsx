@@ -5,8 +5,9 @@ import Weekdays from './Weekdays';
 import './TimeSpan.scss';
 import TimeInput from './TimeInput';
 import {
-  ResourceStateOption,
+  UiFieldConfig,
   TimeSpanFormFormat,
+  InputOption,
 } from '../../common/lib/types';
 
 export default function TimeSpan({
@@ -15,15 +16,17 @@ export default function TimeSpan({
   remove,
   register,
   control,
-  resourceStateOptions,
+  resourceStateConfig,
 }: {
   item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
   index: number;
   remove: Function;
   register: Function;
   control: Control;
-  resourceStateOptions: ResourceStateOption[];
+  resourceStateConfig: UiFieldConfig;
 }): JSX.Element {
+  const { options: resourceStateOptions } = resourceStateConfig;
+
   return (
     <div data-test={`time-span-${index}`} className="time-span-container">
       <input
@@ -86,13 +89,12 @@ export default function TimeSpan({
             render={({ onChange, value }): JSX.Element => (
               <Select
                 id={`time-span-state-id-${index}`}
-                onChange={(selected: ResourceStateOption): void => {
+                onChange={(selected: InputOption): void => {
                   onChange(selected.value);
                 }}
                 className="time-span-state"
                 defaultValue={resourceStateOptions.find(
-                  (option: ResourceStateOption): boolean =>
-                    option.value === value
+                  (option: InputOption): boolean => option.value === value
                 )}
                 options={resourceStateOptions}
                 label="Tyyppi"

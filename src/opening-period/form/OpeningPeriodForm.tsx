@@ -3,10 +3,8 @@ import { ArrayField, useFieldArray, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import {
   DatePeriod,
-  DatePeriodOptions,
+  UiDatePeriodConfig,
   Language,
-  ResourceStateApiOption,
-  ResourceStateOption,
   TimeSpanFormFormat,
   TimeSpanGroup,
 } from '../../common/lib/types';
@@ -37,28 +35,11 @@ type NotificationTexts = {
   text: string;
 };
 
-const formatResourceStateOptionsToFormFormat = (
-  resourceStateApiOptions: ResourceStateApiOption[]
-): ResourceStateOption[] =>
-  resourceStateApiOptions.map((optionInApiFormat: ResourceStateApiOption): {
-    value: string;
-    label: string;
-  } => {
-    return {
-      value: optionInApiFormat.value,
-      label: `${
-        typeof optionInApiFormat.display_name === 'string'
-          ? optionInApiFormat.display_name
-          : optionInApiFormat.display_name.fi
-      }`,
-    };
-  });
-
 export default function OpeningPeriodForm({
   formId,
   datePeriod,
   resourceId,
-  datePeriodOptions,
+  datePeriodConfig,
   submitFn,
   successTextAndLabel,
   errorTextAndLabel,
@@ -66,19 +47,13 @@ export default function OpeningPeriodForm({
   formId: string;
   datePeriod?: DatePeriod;
   resourceId: number;
-  datePeriodOptions: DatePeriodOptions;
+  datePeriodConfig: UiDatePeriodConfig;
   submitFn: (datePeriod: DatePeriod) => Promise<DatePeriod>;
   successTextAndLabel: NotificationTexts;
   errorTextAndLabel: NotificationTexts;
 }): JSX.Element {
   const language = Language.FI;
-
-  const resourceStateOptionsInApiFormat: ResourceStateApiOption[] =
-    datePeriodOptions.actions.POST.resource_state.choices;
-
-  const resourceStateOptions: ResourceStateOption[] = formatResourceStateOptionsToFormFormat(
-    resourceStateOptionsInApiFormat
-  );
+  const { resourceState: resourceStateConfig } = datePeriodConfig;
 
   const firstTimeSpanGroup: TimeSpanGroup | undefined =
     datePeriod?.time_span_groups[0];
@@ -226,7 +201,7 @@ export default function OpeningPeriodForm({
                   key={`time-span-${item.id || index}`}>
                   <TimeSpan
                     item={item}
-                    resourceStateOptions={resourceStateOptions}
+                    resourceStateConfig={resourceStateConfig}
                     control={control}
                     register={register}
                     index={index}

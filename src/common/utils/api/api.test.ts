@@ -139,4 +139,45 @@ describe('apiRequest', () => {
       done();
     });
   });
+
+  describe('getDatePeriodFormOptions', () => {
+    it('should convert options to ui config', async (done) => {
+      const datePeriodOptions = {
+        actions: {
+          POST: {
+            resource_state: {
+              choices: [
+                {
+                  display_name: { fi: 'Auki', sv: 'Auki', en: 'Open' },
+                  value: 'open',
+                },
+                {
+                  display_name: 'Kiinni',
+                  value: 'closed',
+                },
+              ],
+            },
+          },
+        },
+      };
+
+      mockedAxios.request.mockResolvedValue({ data: datePeriodOptions });
+      const response = await api.getDatePeriodFormOptions();
+      expect(response).toEqual({
+        resourceState: {
+          options: [
+            {
+              label: 'Auki',
+              value: 'open',
+            },
+            {
+              label: 'Kiinni',
+              value: 'closed',
+            },
+          ],
+        },
+      });
+      done();
+    });
+  });
 });
