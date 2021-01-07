@@ -133,11 +133,14 @@ Cypress.Commands.add(
                 );
 
                 return cy
-                  .request(
-                    'POST',
-                    `${apiUrl}/v1/date_period/?${params.stdout}`,
-                    data
-                  )
+                  .request({
+                    method: 'POST',
+                    headers: {
+                      authorization: `haukisigned ${params.stdout}`,
+                    },
+                    url: `${apiUrl}/v1/date_period/`,
+                    body: data,
+                  })
                   .then((dataPeriodResponse) => dataPeriodResponse.body?.id);
               })
           );
