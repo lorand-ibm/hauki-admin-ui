@@ -11,12 +11,14 @@ declare namespace Cypress {
       endDate,
       resourceId,
       timeSpans,
+      rules,
     }: {
       name: string;
       startDate: Date;
       endDate: Date;
       resourceId: string;
       timeSpans?: Partial<TimeSpan>[];
+      rules?: Partial<GroupRule>[];
     }) => Chainable;
   }
 }

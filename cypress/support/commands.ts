@@ -26,7 +26,7 @@
 
 /// <reference path="../../src/globals.d.ts" />
 
-import { TimeSpan } from '../../src/common/lib/types';
+import { GroupRule, TimeSpan } from '../../src/common/lib/types';
 import Chainable = Cypress.Chainable;
 
 Cypress.Commands.add(
@@ -74,12 +74,14 @@ Cypress.Commands.add(
     endDate,
     resourceId,
     timeSpans = [],
+    rules = [],
   }: {
     name: string;
     startDate: Date;
     endDate: Date;
     resourceId: string;
     timeSpans?: TimeSpan[];
+    rules?: GroupRule[];
   }): Chainable => {
     return cy
       .visit('/')
@@ -119,7 +121,7 @@ Cypress.Commands.add(
                   time_span_groups: timeSpans
                     ? [
                         {
-                          rules: [],
+                          rules,
                           time_spans: timeSpans,
                         },
                       ]
