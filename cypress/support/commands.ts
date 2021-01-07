@@ -28,6 +28,7 @@
 
 import { GroupRule, TimeSpan } from '../../src/common/lib/types';
 import Chainable = Cypress.Chainable;
+import PrevSubject = Cypress.PrevSubject;
 
 Cypress.Commands.add(
   'visitResourcePageAsUnauthenticatedUser',
@@ -145,5 +146,26 @@ Cypress.Commands.add(
               })
           );
       });
+  }
+);
+
+Cypress.Commands.add(
+  'selectHdsDropdown',
+  { prevSubject: 'optional' },
+  (
+    subject: PrevSubject | undefined,
+    { id, value }: { id: string; value: string }
+  ) => {
+    const dropDownButtonSelector = `button#${id}-toggle-button`; // HDS component Select appends the part '-toggle-button' to the given id
+    const startingChainable = (): Chainable =>
+      subject
+        ? cy.wrap(subject).get(dropDownButtonSelector)
+        : cy.get(dropDownButtonSelector);
+
+    return startingChainable()
+      .click()
+      .get(`li[id^=${id}-item]`)
+      .contains(value)
+      .click(); // HDS component Select appends the part '-item' in the option's id in addition to given component id
   }
 );

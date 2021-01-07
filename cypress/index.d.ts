@@ -20,5 +20,12 @@ declare namespace Cypress {
       timeSpans?: Partial<TimeSpan>[];
       rules?: Partial<GroupRule>[];
     }) => Chainable;
+    selectHdsDropdown: ({
+      id,
+      value,
+    }: {
+      id: string;
+      value: string;
+    }) => Chainable;
   }
 }

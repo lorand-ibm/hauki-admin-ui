@@ -40,8 +40,7 @@ describe('User adds a new opening period', () => {
     cy.get('[data-test=weekdays-friday-0]').click();
     cy.get('[data-test=time-span-start-time-0]').type('08:00');
     cy.get('[data-test=time-span-end-time-0]').type('16:00');
-    cy.get('button#time-span-state-id-0-toggle-button').click(); // HDS component Select appends the part '-toggle-button' to the given id
-    cy.get('li#time-span-state-id-0-item-0').click();
+    cy.selectHdsDropdown({ id: 'time-span-state-id-0', value: 'Auki' });
 
     // Try submit form
     cy.get('[data-test=publish-opening-period-button]').click();
