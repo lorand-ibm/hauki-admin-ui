@@ -97,7 +97,11 @@ export default function OpeningPeriodForm({
     defaultValues: formValues,
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: timeSpanFields,
+    append: appendTimeSpan,
+    remove: removeTimeSpan,
+  } = useFieldArray({
     control,
     keyName: 'timeSpanUiId',
     name: 'timeSpans',
@@ -227,7 +231,7 @@ export default function OpeningPeriodForm({
           <ul
             className="opening-period-field-list form-group"
             data-test="time-span-list">
-            {fields.map(
+            {timeSpanFields.map(
               (
                 item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>,
                 index
@@ -241,7 +245,7 @@ export default function OpeningPeriodForm({
                     control={control}
                     register={register}
                     index={index}
-                    remove={remove}
+                    remove={removeTimeSpan}
                   />
                 </li>
               )
@@ -250,7 +254,7 @@ export default function OpeningPeriodForm({
           <div className="form-group">
             <SecondaryButton
               dataTest="add-new-time-span-button"
-              onClick={(): void => append({})}>
+              onClick={(): void => appendTimeSpan({})}>
               + Lisää aukioloaika
             </SecondaryButton>
           </div>
