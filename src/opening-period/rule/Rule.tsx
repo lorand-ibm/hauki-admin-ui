@@ -293,7 +293,10 @@ export default function Rule({
               />
             )}
           />
-          <p key="rule-subject-indicator" data-test="rule-subject-indicator">
+          <p
+            key="rule-subject-indicator"
+            data-test="rule-subject-indicator"
+            className="opening-group-rule-subject-indicator">
             {subjectLabel || ''}
           </p>
         </div>

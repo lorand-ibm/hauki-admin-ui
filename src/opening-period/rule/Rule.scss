@@ -18,21 +18,26 @@
 }
 
 .opening-group-rule-column {
-  flex: 1 1 20ch;
+  flex: 1 1 10ch;
   margin-bottom: $spacing-m;
 }
 
 .opening-group-rule-column-large {
   align-items: flex-end;
   display: flex;
-  flex: 1 0 auto;
+  flex: 2;
 
   > * + * {
     margin-left: 1rem;
   }
 
   > .opening-group-rule-select {
-    flex: 1;
-    max-width: 30ch;
+    flex: 1 1;
+    min-width: 30ch;
+    max-width: 45ch; // when columns wrap
   }
+}
+
+.opening-group-rule-subject-indicator {
+  min-width: 9ch; // maanantai is the longest known subject option at the moment
 }
