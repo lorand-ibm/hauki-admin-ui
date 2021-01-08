@@ -580,7 +580,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
-  it('should save correct rule data after edit', async () => {
+  it('should remove rule', async () => {
     let container: HTMLElement;
 
     const patchDatePeriodSpy = jest
