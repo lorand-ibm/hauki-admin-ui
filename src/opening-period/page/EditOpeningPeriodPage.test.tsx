@@ -579,4 +579,64 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       );
     });
   });
+
+  it('should save correct rule data after edit', async () => {
+    let container: HTMLElement;
+
+    const patchDatePeriodSpy = jest
+      .spyOn(api, 'patchDatePeriod')
+      .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
+
+    await act(async () => {
+      container = renderEditOpeningPeriodPage();
+    });
+
+    await act(async () => {
+      const periodRuleRemoveButton = container.querySelector(
+        `[data-test="rule-list-item-${periodRuleId}"] [data-test^=remove-rule-button]`
+      );
+
+      if (!periodRuleRemoveButton) {
+        throw new Error(
+          'Something went wrong in period-rule rendering of EditOpeningPeriodPage'
+        );
+      }
+
+      fireEvent.click(periodRuleRemoveButton);
+    });
+
+    await act(async () => {
+      const saveButtonSelector = '[data-test="publish-opening-period-button"]';
+      const saveButton = container.querySelector(saveButtonSelector);
+      if (!saveButton) {
+        throw new Error(`Element with selector ${saveButton} not found`);
+      }
+
+      fireEvent.click(saveButton);
+    });
+
+    await act(async () => {
+      expect(patchDatePeriodSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          time_span_groups: [
+            {
+              id: 1225,
+              period: 1,
+              rules: [
+                {
+                  context: 'month',
+                  frequency_modifier: null,
+                  frequency_ordinal: 1,
+                  id: '20',
+                  subject: 'week',
+                  start: '2',
+                },
+              ],
+              time_spans: testDatePeriod.time_span_groups[0].time_spans,
+            },
+          ],
+        })
+      );
+    });
+  });
 });
