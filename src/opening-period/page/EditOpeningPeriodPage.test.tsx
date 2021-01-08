@@ -483,7 +483,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
-  it('should save correct time-span-group data after edit', async () => {
+  it('should save correct time-span data after edit', async () => {
     let container: HTMLElement;
     let lastTimeSpan: HTMLElement | null;
 
