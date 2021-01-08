@@ -67,7 +67,9 @@
 }
 
 .opening-period-rule-list:not(:empty) {
-  margin-top: -4rem; // A hacky way to inline the first remove button with the section title
+  @media screen and (min-width: $breakpoint-m) {
+    margin-top: -4rem; // A hacky way to inline the first remove button with the section title
+  }
 }
 
 .opening-period-rule-list-item {
