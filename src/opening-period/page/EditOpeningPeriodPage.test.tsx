@@ -164,6 +164,29 @@ const testDatePeriod: DatePeriod = {
   ],
 };
 
+const renderEditOpeningPeriodPage = (): HTMLElement => {
+  const { container } = render(
+    <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
+  );
+
+  if (!container) {
+    throw new Error(
+      'Something went wrong in rendering of EditOpeningPeriodPage'
+    );
+  }
+  return container;
+};
+
+const clickFormSave = (container: HTMLElement): void => {
+  const saveButtonSelector = '[data-test="publish-opening-period-button"]';
+  const saveButton = container.querySelector(saveButtonSelector);
+  if (!saveButton) {
+    throw new Error(`Element with selector ${saveButton} not found`);
+  }
+
+  fireEvent.click(saveButton);
+};
+
 describe(`<EditNewOpeningPeriodPage />`, () => {
   beforeEach(() => {
     jest
@@ -187,15 +210,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     let container: HTMLElement;
 
     await act(async () => {
-      container = render(
-        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
-      ).container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
+      container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
@@ -221,15 +236,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     let container: HTMLElement;
 
     await act(async () => {
-      container = render(
-        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
-      ).container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
+      container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
@@ -299,15 +306,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     let container: HTMLElement;
 
     await act(async () => {
-      container = render(
-        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
-      ).container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
+      container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
@@ -376,15 +375,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     let container: HTMLElement;
 
     await act(async () => {
-      container = render(
-        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
-      ).container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
+      container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
@@ -501,15 +492,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
 
     await act(async () => {
-      container = render(
-        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
-      ).container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
+      container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
@@ -549,13 +532,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
-      const saveButtonSelector = '[data-test="publish-opening-period-button"]';
-      const saveButton = container.querySelector(saveButtonSelector);
-      if (!saveButton) {
-        throw new Error(`Element with selector ${saveButton} not found`);
-      }
-
-      fireEvent.click(saveButton);
+      clickFormSave(container);
     });
 
     await act(async () => {
