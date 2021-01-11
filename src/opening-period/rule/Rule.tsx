@@ -4,9 +4,9 @@ import { ArrayField, Control, Controller } from 'react-hook-form';
 
 import {
   InputOption,
-  GroupRule,
   Frequency,
   UiRuleConfig,
+  GroupRuleFormFormat,
 } from '../../common/lib/types';
 import './Rule.scss';
 
@@ -82,7 +82,7 @@ export default function Rule({
   index,
   ruleConfig,
 }: {
-  rule: Partial<ArrayField<Record<string, GroupRule>>>;
+  rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>;
   control: Control;
   setValue: Function;
   remove: Function;

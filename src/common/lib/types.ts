@@ -128,11 +128,19 @@ export type Frequency = {
   frequency_modifier: string | null;
 };
 
-export interface GroupRule extends Frequency {
-  id?: number;
+interface BaseGroupRule extends Frequency {
   context: string;
   subject: string;
+}
+
+export interface GroupRule extends BaseGroupRule {
+  id?: number;
   start: number;
+}
+
+export interface GroupRuleFormFormat extends BaseGroupRule {
+  id?: string;
+  start: string;
 }
 
 export type TimeSpanGroup = {

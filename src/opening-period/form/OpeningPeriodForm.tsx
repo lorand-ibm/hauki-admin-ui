@@ -8,6 +8,7 @@ import {
   TimeSpanFormFormat,
   TimeSpanGroup,
   GroupRule,
+  GroupRuleFormFormat,
 } from '../../common/lib/types';
 import { transformDateToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
@@ -16,6 +17,8 @@ import { ErrorToast, SuccessToast } from '../../components/notification/Toast';
 import {
   formatApiTimeSpansToFormFormat,
   formatTimeSpansToApiFormat,
+  formatApiRulesToFormFormat,
+  formatRulesToApiFormat,
 } from './form-helpers/form-helpers';
 import OpeningPeriodDescription from '../description/OpeningPeriodDescription';
 import TimeSpan from '../time-span/TimeSpan';
@@ -28,7 +31,7 @@ interface OpeningPeriodFormData {
   openingPeriodBeginDate: string | undefined;
   openingPeriodEndDate: string | undefined;
   timeSpans: Array<TimeSpanFormFormat> | {}[];
-  rules: GroupRule[];
+  rules: GroupRuleFormFormat[];
 }
 
 type SubmitStatus = 'init' | 'succeeded' | 'error';
@@ -69,8 +72,8 @@ export default function OpeningPeriodForm({
       ? formatApiTimeSpansToFormFormat(firstTimeSpanGroup.time_spans)
       : [{}];
 
-  const rules: GroupRule[] | [] = firstTimeSpanGroup?.rules.length
-    ? firstTimeSpanGroup?.rules
+  const rules: GroupRuleFormFormat[] | [] = firstTimeSpanGroup?.rules.length
+    ? formatApiRulesToFormFormat(firstTimeSpanGroup?.rules)
     : [];
 
   const [periodBeginDate, setPeriodBeginDate] = useState<Date | null>(
@@ -128,13 +131,13 @@ export default function OpeningPeriodForm({
         ) as TimeSpanFormFormat[])
       : [];
 
-    const validRules: GroupRule[] = data.rules
-      ? (data.rules.filter((rule: GroupRule | {}): boolean => {
+    const validRules: GroupRuleFormFormat[] = data.rules
+      ? (data.rules.filter((rule: GroupRuleFormFormat | {}): boolean => {
           const validValues = Object.values(rule)
             .filter((value) => value !== '')
             .filter((val) => val);
           return validValues.length > 0;
-        }) as GroupRule[])
+        }) as GroupRuleFormFormat[])
       : [];
 
     try {
@@ -163,7 +166,7 @@ export default function OpeningPeriodForm({
             id: firstTimeSpanGroup?.id,
             period: firstTimeSpanGroup?.period,
             time_spans: formatTimeSpansToApiFormat(validTimeSpans || []),
-            rules: validRules,
+            rules: formatRulesToApiFormat(validRules),
           },
         ],
       };
@@ -267,7 +270,9 @@ export default function OpeningPeriodForm({
               data-test="rule-list">
               {ruleFields.map(
                 (
-                  rule: Partial<ArrayField<Record<string, GroupRule>>>,
+                  rule: Partial<
+                    ArrayField<Record<string, GroupRuleFormFormat>>
+                  >,
                   index
                 ) => (
                   <li
