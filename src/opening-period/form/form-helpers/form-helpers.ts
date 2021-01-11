@@ -1,5 +1,7 @@
 import {
   FormWeekdays,
+  GroupRule,
+  GroupRuleFormFormat,
   TimeSpan as TimeSpanApiFormat,
   TimeSpanFormFormat,
 } from '../../../common/lib/types';
@@ -65,4 +67,24 @@ export function formatApiTimeSpansToFormFormat(
         weekdays: weekdays as FormWeekdays,
       };
     });
+}
+
+export function formatRulesToApiFormat(
+  rules: GroupRuleFormFormat[]
+): GroupRule[] {
+  return rules.map(({ id, start, ...rest }) => ({
+    ...rest,
+    start: parseInt(start, 10),
+    ...(id && id !== '' ? { id: parseInt(id, 10) } : {}), // hidden input converts number to string
+  }));
+}
+
+export function formatApiRulesToFormFormat(
+  rules: GroupRule[]
+): GroupRuleFormFormat[] {
+  return rules.map(({ id, start, ...rest }) => ({
+    ...rest,
+    start: start.toString(),
+    id: id ? id.toString() : '',
+  }));
 }

@@ -26,8 +26,9 @@
 
 /// <reference path="../../src/globals.d.ts" />
 
-import { TimeSpan } from '../../src/common/lib/types';
+import { GroupRule, TimeSpan } from '../../src/common/lib/types';
 import Chainable = Cypress.Chainable;
+import PrevSubject = Cypress.PrevSubject;
 
 Cypress.Commands.add(
   'visitResourcePageAsUnauthenticatedUser',
@@ -74,12 +75,14 @@ Cypress.Commands.add(
     endDate,
     resourceId,
     timeSpans = [],
+    rules = [],
   }: {
     name: string;
     startDate: Date;
     endDate: Date;
     resourceId: string;
     timeSpans?: TimeSpan[];
+    rules?: GroupRule[];
   }): Chainable => {
     return cy
       .visit('/')
@@ -119,7 +122,7 @@ Cypress.Commands.add(
                   time_span_groups: timeSpans
                     ? [
                         {
-                          rules: [],
+                          rules,
                           time_spans: timeSpans,
                         },
                       ]
@@ -131,14 +134,38 @@ Cypress.Commands.add(
                 );
 
                 return cy
-                  .request(
-                    'POST',
-                    `${apiUrl}/v1/date_period/?${params.stdout}`,
-                    data
-                  )
+                  .request({
+                    method: 'POST',
+                    headers: {
+                      authorization: `haukisigned ${params.stdout}`,
+                    },
+                    url: `${apiUrl}/v1/date_period/`,
+                    body: data,
+                  })
                   .then((dataPeriodResponse) => dataPeriodResponse.body?.id);
               })
           );
       });
+  }
+);
+
+Cypress.Commands.add(
+  'selectHdsDropdown',
+  { prevSubject: 'optional' },
+  (
+    subject: PrevSubject | undefined,
+    { id, value }: { id: string; value: string }
+  ) => {
+    const dropDownButtonSelector = `button#${id}-toggle-button`; // HDS component Select appends the part '-toggle-button' to the given id
+    const startingChainable = (): Chainable =>
+      subject
+        ? cy.wrap(subject).get(dropDownButtonSelector)
+        : cy.get(dropDownButtonSelector);
+
+    return startingChainable()
+      .click()
+      .get(`li[id^=${id}-item]`)
+      .contains(value)
+      .click(); // HDS component Select appends the part '-item' in the option's id in addition to given component id
   }
 );

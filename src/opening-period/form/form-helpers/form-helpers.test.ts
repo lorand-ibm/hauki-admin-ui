@@ -6,7 +6,9 @@ import {
   TimeSpanFormFormat,
 } from '../../../common/lib/types';
 import {
+  formatApiRulesToFormFormat,
   formatApiTimeSpansToFormFormat,
+  formatRulesToApiFormat,
   formatTimeSpansToApiFormat,
 } from './form-helpers';
 
@@ -112,6 +114,72 @@ describe('opening-period form-helpers', () => {
         false,
         false,
         false,
+      ]);
+    });
+  });
+
+  describe('formatRulesToApiFormat', () => {
+    it('should return rules in api-format', () => {
+      expect(
+        formatRulesToApiFormat([
+          {
+            context: 'month',
+            frequency_modifier: null,
+            frequency_ordinal: 1,
+            id: '20',
+            subject: 'week',
+            start: '2',
+          },
+          {
+            context: 'month',
+            frequency_modifier: null,
+            frequency_ordinal: 1,
+            subject: 'week',
+            start: '1',
+          },
+        ])
+      ).toEqual([
+        {
+          context: 'month',
+          frequency_modifier: null,
+          frequency_ordinal: 1,
+          id: 20,
+          subject: 'week',
+          start: 2,
+        },
+        {
+          context: 'month',
+          frequency_modifier: null,
+          frequency_ordinal: 1,
+          subject: 'week',
+          start: 1,
+        },
+      ]);
+    });
+  });
+
+  describe('formatApiRulesToFormFormat', () => {
+    it('should return rules in form-format', () => {
+      expect(
+        formatApiRulesToFormFormat([
+          {
+            context: 'month',
+            frequency_modifier: null,
+            frequency_ordinal: 1,
+            id: 20,
+            subject: 'week',
+            start: 2,
+          },
+        ])
+      ).toEqual([
+        {
+          context: 'month',
+          frequency_modifier: null,
+          frequency_ordinal: 1,
+          id: '20',
+          subject: 'week',
+          start: '2',
+        },
       ]);
     });
   });

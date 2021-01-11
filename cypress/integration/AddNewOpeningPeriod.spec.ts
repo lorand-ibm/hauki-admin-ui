@@ -40,8 +40,14 @@ describe('User adds a new opening period', () => {
     cy.get('[data-test=weekdays-friday-0]').click();
     cy.get('[data-test=time-span-start-time-0]').type('08:00');
     cy.get('[data-test=time-span-end-time-0]').type('16:00');
-    cy.get('button#time-span-state-id-0-toggle-button').click(); // HDS component Select appends the part '-toggle-button' to the given id
-    cy.get('li#time-span-state-id-0-item-0').click();
+    cy.selectHdsDropdown({ id: 'time-span-state-id-0', value: 'Auki' });
+
+    // Enter rules data
+    cy.get('button[data-test="add-new-rule-button"]').click();
+    cy.selectHdsDropdown({ id: 'rule-0-context', value: 'Kuukausi' });
+    cy.selectHdsDropdown({ id: 'rule-0-frequency', value: 'Parillinen' });
+    cy.selectHdsDropdown({ id: 'rule-0-subject', value: 'Viikko' });
+    cy.selectHdsDropdown({ id: 'rule-0-start', value: '1.' });
 
     // Try submit form
     cy.get('[data-test=publish-opening-period-button]').click();

@@ -41,29 +41,45 @@
   margin-bottom: $spacing-layout-xs;
 }
 
-.opening-period-time-span-list {
-  border-bottom: 1px solid var(--hauki-content-border-color);
-  margin: 0;
-  padding: 0 0 var(--spacing-layout-xs);
-  position: relative;
-}
+.form-group {
+  padding: $spacing-layout-s 0;
 
-.opening-period-time-span-list-item {
-  list-style: none;
-  border-top: var(--spacing-4-xs) solid var(--primary-color);
-  margin: $spacing-2-xl 0 0;
-  padding: 0;
-
-  &:first-child {
-    border-top: none;
-    margin-top: 0;
+  &:not(:last-child):not(:empty) {
+    border-bottom: 1px solid var(--hauki-content-border-color);
   }
 }
 
-.add-new-time-span-button {
-  margin-top: $spacing-l;
+.opening-period-field-list {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.opening-period-field-list-item {
+  border-top: var(--spacing-4-xs) solid var(--primary-color);
+  list-style: none;
+  margin: 0;
+  padding: 0 0 $spacing-xl;
+
+  &:first-child {
+    border-top: none;
+  }
+}
+
+.opening-period-rule-list:not(:empty) {
+  @media screen and (min-width: $breakpoint-m) {
+    margin-top: -4rem; // A hacky way to inline the first remove button with the section title
+  }
+}
+
+.opening-period-rule-list-item {
+  padding-bottom: $spacing-s;
 }
 
 .time-span-group {
   border-top: var(--spacing-3-xs) solid var(--color-coat-of-arms);
+}
+
+.opening-period-remove-list-item-button.opening-period-remove-list-item-button {
+  color: var(--color-coat-of-arms);
 }

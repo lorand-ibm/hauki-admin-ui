@@ -29,6 +29,50 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
       },
     ],
   },
+  timeSpanGroup: {
+    rule: {
+      context: {
+        options: [
+          {
+            value: 'period',
+            label: 'Jakso',
+          },
+          {
+            value: 'month',
+            label: 'Kuukausi',
+          },
+        ],
+      },
+      subject: {
+        options: [
+          {
+            value: 'week',
+            label: 'Viikko',
+          },
+          {
+            value: 'month',
+            label: 'Kuukausi',
+          },
+          {
+            value: 'mon',
+            label: 'Maanantai',
+          },
+        ],
+      },
+      frequencyModifier: {
+        options: [
+          {
+            value: 'odd',
+            label: 'Pariton',
+          },
+          {
+            value: 'even',
+            label: 'Parillinen',
+          },
+        ],
+      },
+    },
+  },
 };
 
 const testResource: Resource = {
@@ -56,6 +100,8 @@ const testResource: Resource = {
 
 const weekdayTimeSpanId = 2636;
 const weekendTimeSpanId = 2637;
+const periodRuleId = 10;
+const monthRuleId = 20;
 
 const testDatePeriod: DatePeriod = {
   id: 1,
@@ -70,7 +116,24 @@ const testDatePeriod: DatePeriod = {
     {
       id: 1225,
       period: 1,
-      rules: [],
+      rules: [
+        {
+          id: periodRuleId,
+          context: 'period',
+          frequency_modifier: 'even',
+          frequency_ordinal: 3,
+          subject: 'mon',
+          start: 1,
+        },
+        {
+          id: monthRuleId,
+          context: 'month',
+          frequency_modifier: null,
+          frequency_ordinal: 1,
+          subject: 'week',
+          start: 2,
+        },
+      ],
       time_spans: [
         {
           description: {
@@ -101,6 +164,72 @@ const testDatePeriod: DatePeriod = {
   ],
 };
 
+const renderEditOpeningPeriodPage = (): HTMLElement => {
+  const { container } = render(
+    <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
+  );
+
+  if (!container) {
+    throw new Error(
+      'Something went wrong in rendering of EditOpeningPeriodPage'
+    );
+  }
+  return container;
+};
+
+const clickFormSave = (container: HTMLElement): void => {
+  const saveButtonSelector = '[data-test="publish-opening-period-button"]';
+  const saveButton = container.querySelector(saveButtonSelector);
+  if (!saveButton) {
+    throw new Error(`Element with selector ${saveButton} not found`);
+  }
+
+  fireEvent.click(saveButton);
+};
+
+const selectOption = async ({
+  container,
+  id,
+  value,
+}: {
+  container: HTMLElement;
+  id: string;
+  value: string;
+}): Promise<void> => {
+  await act(async () => {
+    const selectButtonSelector = `${id}-toggle-button`;
+    const selectButton = container.querySelector(selectButtonSelector);
+
+    if (!selectButton) {
+      throw new Error(`Select button ${selectButtonSelector} not found`);
+    }
+
+    fireEvent.click(selectButton);
+  });
+
+  await act(async () => {
+    const selectDropDownSelector = `${id}-menu`;
+    const selectMenu = container.querySelector(selectDropDownSelector);
+
+    if (!selectMenu) {
+      throw new Error(`Select menu ${selectDropDownSelector} not found`);
+    }
+
+    const [optionToSelect] = Array.from(
+      selectMenu?.querySelectorAll('li') ?? []
+    ).filter(
+      (el) =>
+        el.textContent && el.textContent?.toLowerCase() === value.toLowerCase()
+    );
+
+    if (!optionToSelect) {
+      throw new Error(`${value} option not found`);
+    }
+
+    fireEvent.click(optionToSelect);
+  });
+};
+
 describe(`<EditNewOpeningPeriodPage />`, () => {
   beforeEach(() => {
     jest
@@ -124,15 +253,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     let container: HTMLElement;
 
     await act(async () => {
-      container = render(
-        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
-      ).container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
+      container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
@@ -158,15 +279,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     let container: HTMLElement;
 
     await act(async () => {
-      container = render(
-        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
-      ).container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
+      container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
@@ -236,15 +349,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     let container: HTMLElement;
 
     await act(async () => {
-      container = render(
-        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
-      ).container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
+      container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
@@ -309,6 +414,76 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
+  it('should render correct time-span-group rules', async () => {
+    let container: HTMLElement;
+
+    await act(async () => {
+      container = renderEditOpeningPeriodPage();
+    });
+
+    await act(async () => {
+      const periodRuleFieldset = container.querySelector(
+        `[data-test="rule-list-item-${periodRuleId}"]`
+      );
+
+      if (!periodRuleFieldset) {
+        throw new Error(
+          'Something went wrong in period-rule rendering of EditOpeningPeriodPage'
+        );
+      }
+
+      expect(
+        periodRuleFieldset.querySelector('[id$="context-toggle-button"]')
+      ).toHaveTextContent('Jakso');
+
+      expect(
+        periodRuleFieldset.querySelector('[id$="frequency-toggle-button"]')
+      ).toHaveTextContent('3. Parillinen');
+
+      expect(
+        periodRuleFieldset.querySelector('[id$="subject-toggle-button"]')
+      ).toHaveTextContent('Maanantai');
+
+      expect(
+        periodRuleFieldset.querySelector('[id$="start-toggle-button"]')
+      ).toHaveTextContent('1.');
+
+      expect(
+        periodRuleFieldset.querySelector('[data-test="rule-subject-indicator"]')
+      ).toHaveTextContent('Maanantai');
+
+      const monthRuleFieldset = container.querySelector(
+        `[data-test="rule-list-item-${monthRuleId}"]`
+      );
+
+      if (!monthRuleFieldset) {
+        throw new Error(
+          'Something went wrong in month-rule rendering of EditOpeningPeriodPage'
+        );
+      }
+
+      expect(
+        monthRuleFieldset.querySelector('[id$="context-toggle-button"]')
+      ).toHaveTextContent('Kuukausi');
+
+      expect(
+        monthRuleFieldset.querySelector('[id$="frequency-toggle-button"]')
+      ).toHaveTextContent('Jokainen');
+
+      expect(
+        monthRuleFieldset.querySelector('[id$="subject-toggle-button"]')
+      ).toHaveTextContent('Viikko');
+
+      expect(
+        monthRuleFieldset.querySelector('[id$="start-toggle-button"]')
+      ).toHaveTextContent('2.');
+
+      expect(
+        monthRuleFieldset.querySelector('[data-test="rule-subject-indicator"]')
+      ).toHaveTextContent('Viikko');
+    });
+  });
+
   it('should show loading indicator while loading date period', async () => {
     jest.spyOn(api, 'getDatePeriod').mockImplementation(() => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -351,7 +526,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
-  it('should save correct time-span-group data after edit', async () => {
+  it('should save correct time-span data after edit', async () => {
     let container: HTMLElement;
     let lastTimeSpan: HTMLElement | null;
 
@@ -360,15 +535,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
 
     await act(async () => {
-      container = render(
-        <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
-      ).container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
+      container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
@@ -384,37 +551,15 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
-      const dropDownSelector = 'button#time-span-state-id-1-toggle-button';
-      const stateDropDown = lastTimeSpan?.querySelector(dropDownSelector);
-      if (!stateDropDown) {
-        throw new Error(`Element with selector ${dropDownSelector} not found`);
-      }
-
-      fireEvent.click(stateDropDown);
-    });
-
-    await act(async () => {
-      const [closedOption] = Array.from(
-        lastTimeSpan?.querySelectorAll('li') ?? []
-      ).filter((el) => {
-        return el.textContent && el.textContent?.toLowerCase() === 'suljettu';
+      await selectOption({
+        container,
+        id: '#time-span-state-id-1',
+        value: 'Suljettu',
       });
-
-      if (!closedOption) {
-        throw new Error(`Closed option not found`);
-      }
-
-      fireEvent.click(closedOption);
     });
 
     await act(async () => {
-      const saveButtonSelector = '[data-test="publish-opening-period-button"]';
-      const saveButton = container.querySelector(saveButtonSelector);
-      if (!saveButton) {
-        throw new Error(`Element with selector ${saveButton} not found`);
-      }
-
-      fireEvent.click(saveButton);
+      clickFormSave(container);
     });
 
     await act(async () => {
@@ -430,7 +575,24 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
             {
               id: 1225,
               period: 1,
-              rules: [],
+              rules: [
+                {
+                  context: 'period',
+                  frequency_modifier: 'even',
+                  frequency_ordinal: 3,
+                  id: 10,
+                  subject: 'mon',
+                  start: 1,
+                },
+                {
+                  context: 'month',
+                  frequency_modifier: null,
+                  frequency_ordinal: 1,
+                  id: 20,
+                  subject: 'week',
+                  start: 2,
+                },
+              ],
               time_spans: [
                 ...rest,
                 {
@@ -438,6 +600,153 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
                   resource_state: closedResourceState.value,
                 },
               ],
+            },
+          ],
+        })
+      );
+    });
+  });
+
+  it('should save added rules after edit', async () => {
+    let container: HTMLElement;
+
+    const patchDatePeriodSpy = jest
+      .spyOn(api, 'patchDatePeriod')
+      .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
+
+    await act(async () => {
+      container = renderEditOpeningPeriodPage();
+    });
+
+    await act(async () => {
+      const addRuleButtonSelector = '[data-test="add-new-rule-button"]';
+      const addRuleButton = container.querySelector(addRuleButtonSelector);
+      if (!addRuleButton) {
+        throw new Error(
+          `Element with selector ${addRuleButtonSelector} not found`
+        );
+      }
+
+      fireEvent.click(addRuleButton);
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-2-context',
+        value: 'Jakso',
+      });
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-2-frequency',
+        value: 'Joka toinen',
+      });
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-2-subject',
+        value: 'Viikko',
+      });
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-2-start',
+        value: '1.',
+      });
+    });
+
+    await act(async () => {
+      clickFormSave(container);
+    });
+
+    await act(async () => {
+      const timeSpans = testDatePeriod.time_span_groups[0].time_spans;
+      const { rules } = testDatePeriod.time_span_groups[0];
+
+      expect(patchDatePeriodSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          time_span_groups: [
+            {
+              id: 1225,
+              period: 1,
+              rules: [
+                ...rules,
+                {
+                  context: 'period',
+                  frequency_modifier: null,
+                  frequency_ordinal: 2,
+                  start: 1,
+                  subject: 'week',
+                },
+              ],
+              time_spans: timeSpans,
+            },
+          ],
+        })
+      );
+    });
+  });
+
+  it('should remove rule', async () => {
+    let container: HTMLElement;
+
+    const patchDatePeriodSpy = jest
+      .spyOn(api, 'patchDatePeriod')
+      .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
+
+    await act(async () => {
+      container = renderEditOpeningPeriodPage();
+    });
+
+    await act(async () => {
+      const periodRuleRemoveButton = container.querySelector(
+        `[data-test="rule-list-item-${periodRuleId}"] [data-test^=remove-rule-button]`
+      );
+
+      if (!periodRuleRemoveButton) {
+        throw new Error(
+          'Something went wrong in period-rule rendering of EditOpeningPeriodPage'
+        );
+      }
+
+      fireEvent.click(periodRuleRemoveButton);
+    });
+
+    await act(async () => {
+      const saveButtonSelector = '[data-test="publish-opening-period-button"]';
+      const saveButton = container.querySelector(saveButtonSelector);
+      if (!saveButton) {
+        throw new Error(`Element with selector ${saveButton} not found`);
+      }
+
+      fireEvent.click(saveButton);
+    });
+
+    await act(async () => {
+      expect(patchDatePeriodSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          time_span_groups: [
+            {
+              id: 1225,
+              period: 1,
+              rules: [
+                {
+                  context: 'month',
+                  frequency_modifier: null,
+                  frequency_ordinal: 1,
+                  id: 20,
+                  subject: 'week',
+                  start: 2,
+                },
+              ],
+              time_spans: testDatePeriod.time_span_groups[0].time_spans,
             },
           ],
         })

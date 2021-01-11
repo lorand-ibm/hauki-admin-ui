@@ -222,9 +222,38 @@ export default {
       convertApiChoiceToInputOption
     );
 
+    const timeSpanGroupOptions =
+      response.actions.POST.time_span_groups.child.children.rules.child
+        .children;
+
+    const ruleContextOptions: InputOption[] = timeSpanGroupOptions.context.choices.map(
+      convertApiChoiceToInputOption
+    );
+
+    const ruleSubjectOptions: InputOption[] = timeSpanGroupOptions.subject.choices.map(
+      convertApiChoiceToInputOption
+    );
+
+    const ruleFrequencyModifierOptions: InputOption[] = timeSpanGroupOptions.frequency_modifier.choices.map(
+      convertApiChoiceToInputOption
+    );
+
     return {
       resourceState: {
         options: resourceStateOptions,
+      },
+      timeSpanGroup: {
+        rule: {
+          context: {
+            options: ruleContextOptions,
+          },
+          subject: {
+            options: ruleSubjectOptions,
+          },
+          frequencyModifier: {
+            options: ruleFrequencyModifierOptions,
+          },
+        },
       },
     };
   },
