@@ -607,6 +607,93 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
+  it('should save added rules after edit', async () => {
+    let container: HTMLElement;
+
+    const patchDatePeriodSpy = jest
+      .spyOn(api, 'patchDatePeriod')
+      .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
+
+    await act(async () => {
+      container = renderEditOpeningPeriodPage();
+    });
+
+    await act(async () => {
+      const addRuleButtonSelector = '[data-test="add-new-rule-button"]';
+      const addRuleButton = container.querySelector(addRuleButtonSelector);
+      if (!addRuleButton) {
+        throw new Error(
+          `Element with selector ${addRuleButtonSelector} not found`
+        );
+      }
+
+      fireEvent.click(addRuleButton);
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-2-context',
+        value: 'Jakso',
+      });
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-2-frequency',
+        value: 'Joka toinen',
+      });
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-2-subject',
+        value: 'Viikko',
+      });
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-2-start',
+        value: '1.',
+      });
+    });
+
+    await act(async () => {
+      clickFormSave(container);
+    });
+
+    await act(async () => {
+      const timeSpans = testDatePeriod.time_span_groups[0].time_spans;
+      const { rules } = testDatePeriod.time_span_groups[0];
+
+      expect(patchDatePeriodSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          time_span_groups: [
+            {
+              id: 1225,
+              period: 1,
+              rules: [
+                ...rules,
+                {
+                  context: 'period',
+                  frequency_modifier: null,
+                  frequency_ordinal: 2,
+                  start: 1,
+                  subject: 'week',
+                },
+              ],
+              time_spans: timeSpans,
+            },
+          ],
+        })
+      );
+    });
+  });
+
   it('should remove rule', async () => {
     let container: HTMLElement;
 
