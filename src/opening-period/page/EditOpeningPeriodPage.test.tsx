@@ -187,6 +187,49 @@ const clickFormSave = (container: HTMLElement): void => {
   fireEvent.click(saveButton);
 };
 
+const selectOption = async ({
+  container,
+  id,
+  value,
+}: {
+  container: HTMLElement;
+  id: string;
+  value: string;
+}): Promise<void> => {
+  await act(async () => {
+    const selectButtonSelector = `${id}-toggle-button`;
+    const selectButton = container.querySelector(selectButtonSelector);
+
+    if (!selectButton) {
+      throw new Error(`Select button ${selectButtonSelector} not found`);
+    }
+
+    fireEvent.click(selectButton);
+  });
+
+  await act(async () => {
+    const selectDropDownSelector = `${id}-menu`;
+    const selectMenu = container.querySelector(selectDropDownSelector);
+
+    if (!selectMenu) {
+      throw new Error(`Select menu ${selectDropDownSelector} not found`);
+    }
+
+    const [optionToSelect] = Array.from(
+      selectMenu?.querySelectorAll('li') ?? []
+    ).filter(
+      (el) =>
+        el.textContent && el.textContent?.toLowerCase() === value.toLowerCase()
+    );
+
+    if (!optionToSelect) {
+      throw new Error(`${value} option not found`);
+    }
+
+    fireEvent.click(optionToSelect);
+  });
+};
+
 describe(`<EditNewOpeningPeriodPage />`, () => {
   beforeEach(() => {
     jest
@@ -508,27 +551,11 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
-      const dropDownSelector = 'button#time-span-state-id-1-toggle-button';
-      const stateDropDown = lastTimeSpan?.querySelector(dropDownSelector);
-      if (!stateDropDown) {
-        throw new Error(`Element with selector ${dropDownSelector} not found`);
-      }
-
-      fireEvent.click(stateDropDown);
-    });
-
-    await act(async () => {
-      const [closedOption] = Array.from(
-        lastTimeSpan?.querySelectorAll('li') ?? []
-      ).filter((el) => {
-        return el.textContent && el.textContent?.toLowerCase() === 'suljettu';
+      await selectOption({
+        container,
+        id: '#time-span-state-id-1',
+        value: 'Suljettu',
       });
-
-      if (!closedOption) {
-        throw new Error(`Closed option not found`);
-      }
-
-      fireEvent.click(closedOption);
     });
 
     await act(async () => {
