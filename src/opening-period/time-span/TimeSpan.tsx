@@ -85,7 +85,7 @@ export default function TimeSpan({
           <Controller
             control={control}
             name={`timeSpans[${index}].resourceState`}
-            defaultValue={`${item.resourceState}`}
+            defaultValue={`${item.resourceState || ''}`}
             render={({ onChange, value }): JSX.Element => (
               <Select
                 id={`time-span-state-id-${index}`}
