@@ -7,7 +7,6 @@ import {
   Language,
   TimeSpanFormFormat,
   TimeSpanGroup,
-  GroupRule,
   GroupRuleFormFormat,
 } from '../../common/lib/types';
 import { transformDateToApiFormat } from '../../common/utils/date-time/format';
