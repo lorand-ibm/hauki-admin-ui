@@ -81,6 +81,7 @@ describe('apiRequest', () => {
           citizen_url: 'kansalaisen puolen url',
           admin_url: 'admin puolen url',
         },
+        children: [],
       };
 
       mockedAxios.request.mockResolvedValue({ data: mockResource });

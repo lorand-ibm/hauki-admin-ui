@@ -207,6 +207,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
         citizen_url: 'kansalaisen puolen url',
         admin_url: 'admin puolen url',
       },
+      children: [],
     };
 
     testDatePeriod = {

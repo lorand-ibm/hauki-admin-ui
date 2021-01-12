@@ -96,6 +96,7 @@ const testResource: Resource = {
     citizen_url: 'kansalaisen puolen url',
     admin_url: 'admin puolen url',
   },
+  children: [],
 };
 
 const weekdayTimeSpanId = 2636;
