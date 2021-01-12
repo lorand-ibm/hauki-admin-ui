@@ -131,12 +131,8 @@ export default function ResourceOpeningHours({
   }, [resourceId]);
 
   const deletePeriod = async (datePeriodId: number): Promise<void> => {
-    try {
-      await api.deleteDatePeriod(datePeriodId);
-      fetchDatePeriods(resourceId);
-    } catch (e) {
-      setError(e);
-    }
+    await api.deleteDatePeriod(datePeriodId);
+    fetchDatePeriods(resourceId);
   };
 
   if (error) {
