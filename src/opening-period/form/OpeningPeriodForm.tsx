@@ -12,7 +12,7 @@ import {
 import { transformDateToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
 import { PrimaryButton, SecondaryButton } from '../../components/button/Button';
-import { ErrorToast, SuccessToast } from '../../components/notification/Toast';
+import toast from '../../components/notification/Toast';
 import {
   formatApiTimeSpansToFormFormat,
   formatTimeSpansToApiFormat,
@@ -121,8 +121,6 @@ export default function OpeningPeriodForm({
 
   const history = useHistory();
 
-  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('init');
-
   const onSubmit = async (data: OpeningPeriodFormData): Promise<void> => {
     const validTimeSpans: TimeSpanFormFormat[] = data.timeSpans
       ? (data.timeSpans.filter(
@@ -169,85 +167,114 @@ export default function OpeningPeriodForm({
           },
         ],
       };
-      await submitFn(dataAsDatePeriod);
-      setSubmitStatus('succeeded');
+      const updatedPeriod = await submitFn(dataAsDatePeriod);
+      if (updatedPeriod) {
+        toast.success({
+          dataTestId: 'opening-period-form-success',
+          label: successTextAndLabel.label,
+          text: successTextAndLabel.text,
+        });
+      }
     } catch (err) {
-      setSubmitStatus('error');
+      toast.error({
+        dataTestId: 'opening-period-form-error',
+        label: errorTextAndLabel.label,
+        text: errorTextAndLabel.text,
+      });
       // eslint-disable-next-line no-console
       console.error(err); // For debug purposes
     }
   };
 
   return (
-    <>
-      {submitStatus === 'succeeded' && (
-        <SuccessToast
-          dataTestId="opening-period-form-success"
-          label={successTextAndLabel.label}
-          text={successTextAndLabel.text}
-          onClose={(): void => setSubmitStatus('init')}
-        />
-      )}
-      {submitStatus === 'error' && (
-        <ErrorToast
-          dataTestId="opening-period-form-error"
-          label={errorTextAndLabel.label}
-          text={errorTextAndLabel.text}
-          onClose={(): void => setSubmitStatus('init')}
-        />
-      )}
-      <form
-        id={formId}
-        data-test={formId}
-        className="opening-period-form"
-        onSubmit={handleSubmit(onSubmit)}>
-        <section className="form-section">
-          <OpeningPeriodDescription register={register} errors={errors} />
-        </section>
-        <section className="form-section">
-          <h3 className="opening-period-section-title">Ajanjakso</h3>
-          <div className="form-control">
-            <section className="opening-period-time-period">
-              <Datepicker
-                id="openingPeriodBeginDate"
-                dataTest="openingPeriodBeginDate"
-                labelText="Alkaa"
-                onChange={(value): void => setPeriodBeginDate(value || null)}
-                value={periodBeginDate}
-                registerFn={register}
-              />
-              <p className="dash-between-begin-and-end-date">—</p>
-              <Datepicker
-                id="openingPeriodEndDate"
-                dataTest="openingPeriodEndDate"
-                labelText="Päättyy"
-                onChange={(value): void => setPeriodEndDate(value || null)}
-                value={periodEndDate}
-                registerFn={register}
-              />
-            </section>
-          </div>
-        </section>
-        <section className="form-section time-span-group">
-          <h3 className="opening-period-section-title">Aukioloajat</h3>
+    <form
+      id={formId}
+      data-test={formId}
+      className="opening-period-form"
+      onSubmit={handleSubmit(onSubmit)}>
+      <section className="form-section">
+        <OpeningPeriodDescription register={register} errors={errors} />
+      </section>
+      <section className="form-section">
+        <h3 className="opening-period-section-title">Ajanjakso</h3>
+        <div className="form-control">
+          <section className="opening-period-time-period">
+            <Datepicker
+              id="openingPeriodBeginDate"
+              dataTest="openingPeriodBeginDate"
+              labelText="Alkaa"
+              onChange={(value): void => setPeriodBeginDate(value || null)}
+              value={periodBeginDate}
+              registerFn={register}
+            />
+            <p className="dash-between-begin-and-end-date">—</p>
+            <Datepicker
+              id="openingPeriodEndDate"
+              dataTest="openingPeriodEndDate"
+              labelText="Päättyy"
+              onChange={(value): void => setPeriodEndDate(value || null)}
+              value={periodEndDate}
+              registerFn={register}
+            />
+          </section>
+        </div>
+      </section>
+      <section className="form-section time-span-group">
+        <h3 className="opening-period-section-title">Aukioloajat</h3>
+        <ul
+          className="opening-period-field-list form-group"
+          data-test="time-span-list">
+          {timeSpanFields.map(
+            (
+              item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>,
+              index
+            ) => (
+              <li
+                className="opening-period-field-list-item"
+                key={`time-span-${item.id || index}`}>
+                <TimeSpan
+                  item={item}
+                  resourceStateConfig={resourceStateConfig}
+                  control={control}
+                  register={register}
+                  index={index}
+                  remove={removeTimeSpan}
+                />
+              </li>
+            )
+          )}
+        </ul>
+        <div className="form-group">
+          <SecondaryButton
+            dataTest="add-new-time-span-button"
+            onClick={(): void => appendTimeSpan({})}>
+            + Lisää aukioloaika
+          </SecondaryButton>
+        </div>
+        <div className="form-group">
+          <h3 className="opening-period-section-title">
+            Aukioloaikojen voimassaolo
+          </h3>
           <ul
-            className="opening-period-field-list form-group"
-            data-test="time-span-list">
-            {timeSpanFields.map(
+            className="opening-period-field-list opening-period-rule-list form-group"
+            data-test="rule-list">
+            {ruleFields.map(
               (
-                item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>,
+                rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>,
                 index
               ) => (
                 <li
-                  className="opening-period-field-list-item"
-                  key={`time-span-${item.id || index}`}>
-                  <TimeSpan
-                    item={item}
-                    resourceStateConfig={resourceStateConfig}
-                    control={control}
-                    register={register}
+                  className="opening-period-field-list-item opening-period-rule-list-item"
+                  key={`rule-${rule.id || index}`}
+                  data-test={`rule-list-item-${rule.id || index}`}>
+                  <Rule
+                    rule={rule}
                     index={index}
-                    remove={removeTimeSpan}
+                    control={control}
+                    setValue={setValue}
+                    remove={removeRule}
+                    register={register}
+                    ruleConfig={ruleConfig}
                   />
                 </li>
               )
@@ -255,65 +282,26 @@ export default function OpeningPeriodForm({
           </ul>
           <div className="form-group">
             <SecondaryButton
-              dataTest="add-new-time-span-button"
-              onClick={(): void => appendTimeSpan({})}>
-              + Lisää aukioloaika
+              dataTest="add-new-rule-button"
+              onClick={(): void => appendRule({})}>
+              + Lisää aukioloaikojen voimassaolosääntö
             </SecondaryButton>
           </div>
-          <div className="form-group">
-            <h3 className="opening-period-section-title">
-              Aukioloaikojen voimassaolo
-            </h3>
-            <ul
-              className="opening-period-field-list opening-period-rule-list form-group"
-              data-test="rule-list">
-              {ruleFields.map(
-                (
-                  rule: Partial<
-                    ArrayField<Record<string, GroupRuleFormFormat>>
-                  >,
-                  index
-                ) => (
-                  <li
-                    className="opening-period-field-list-item opening-period-rule-list-item"
-                    key={`rule-${rule.id || index}`}
-                    data-test={`rule-list-item-${rule.id || index}`}>
-                    <Rule
-                      rule={rule}
-                      index={index}
-                      control={control}
-                      setValue={setValue}
-                      remove={removeRule}
-                      register={register}
-                      ruleConfig={ruleConfig}
-                    />
-                  </li>
-                )
-              )}
-            </ul>
-            <div className="form-group">
-              <SecondaryButton
-                dataTest="add-new-rule-button"
-                onClick={(): void => appendRule({})}>
-                + Lisää aukioloaikojen voimassaolosääntö
-              </SecondaryButton>
-            </div>
-          </div>
-        </section>
-        <div className="opening-period-final-action-row-container">
-          <PrimaryButton
-            dataTest="publish-opening-period-button"
-            className="opening-period-final-action-button"
-            type="submit">
-            Julkaise
-          </PrimaryButton>
-          <SecondaryButton
-            className="opening-period-final-action-button"
-            onClick={(): void => history.push(`/resource/${resourceId}`)}>
-            Peruuta ja palaa
-          </SecondaryButton>
         </div>
-      </form>
-    </>
+      </section>
+      <div className="opening-period-final-action-row-container">
+        <PrimaryButton
+          dataTest="publish-opening-period-button"
+          className="opening-period-final-action-button"
+          type="submit">
+          Julkaise
+        </PrimaryButton>
+        <SecondaryButton
+          className="opening-period-final-action-button"
+          onClick={(): void => history.push(`/resource/${resourceId}`)}>
+          Peruuta ja palaa
+        </SecondaryButton>
+      </div>
+    </form>
   );
 }
