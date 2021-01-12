@@ -7,7 +7,6 @@ import LanguageSelect, {
   displayLangVersionNotFound,
 } from '../../components/language-select/LanguageSelect';
 import { ExternalLink, Link } from '../../components/link/Link';
-import LoadingIndicator from '../../components/loadingIndicator/LoadingIndicator';
 import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
 import './ResourcePage.scss';
 
