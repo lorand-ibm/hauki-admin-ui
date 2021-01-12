@@ -4,12 +4,14 @@ import './Link.scss';
 export function Link({
   href,
   text,
+  dataTest,
 }: {
   href: string;
   text: string;
+  dataTest?: string;
 }): JSX.Element {
   return (
-    <a href={href} className="custom-link">
+    <a data-test={dataTest} href={href} className="custom-link">
       {text}
     </a>
   );

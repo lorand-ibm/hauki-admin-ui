@@ -27,6 +27,31 @@ const testResource: Resource = {
     citizen_url: 'kansalaisen puolen url',
     admin_url: 'admin puolen url',
   },
+  children: [123],
+};
+
+const testChildResource: Resource = {
+  id: 123,
+  name: {
+    fi: 'Test child resource name in finnish',
+    sv: 'Test child resource name in swedish',
+    en: 'Test child resource name in english',
+  },
+  address: {
+    fi: 'Test address in finnish',
+    sv: 'Test address in swedish',
+    en: 'Test address in english',
+  },
+  description: {
+    fi: 'Test description in finnish',
+    sv: 'Test description in swedish',
+    en: 'Test description in english',
+  },
+  extra_data: {
+    citizen_url: 'kansalaisen puolen url',
+    admin_url: 'admin puolen url',
+  },
+  children: [],
 };
 
 const testDatePeriod: DatePeriod = {
@@ -53,11 +78,7 @@ const renderResourcePageWithRouter = (): ReactWrapper =>
   );
 
 describe(`<ResourcePage />`, () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should show loading indicator', async () => {
+  beforeEach(() => {
     jest
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.resolve(testResource));
@@ -66,6 +87,17 @@ describe(`<ResourcePage />`, () => {
       .spyOn(api, 'getDatePeriods')
       .mockImplementation(() => Promise.resolve([testDatePeriod]));
 
+    jest
+      .spyOn(api, 'getChildResourcesByParentId')
+      .mockImplementation(() =>
+        Promise.resolve({ results: [testChildResource] })
+      );
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should show loading indicator', async () => {
     const resourcePage = renderResourcePageWithRouter();
 
     await act(async () => {
@@ -97,14 +129,6 @@ describe(`<ResourcePage />`, () => {
   });
 
   it('should show resource details', async () => {
-    jest
-      .spyOn(api, 'getResource')
-      .mockImplementation(() => Promise.resolve(testResource));
-
-    jest
-      .spyOn(api, 'getDatePeriods')
-      .mockImplementation(() => Promise.resolve([testDatePeriod]));
-
     const resourcePage = renderResourcePageWithRouter();
 
     await act(async () => {
@@ -122,15 +146,28 @@ describe(`<ResourcePage />`, () => {
     );
   });
 
+  it('should show child resources', async () => {
+    const resourcePage = renderResourcePageWithRouter();
+
+    await act(async () => {
+      resourcePage.update(); // First tick for useEffect
+    });
+
+    resourcePage.update(); // Second tick for useState
+
+    expect(
+      resourcePage.find('p[data-test="child-resource-description"]').exists()
+    ).toEqual(true);
+
+    expect(
+      resourcePage.find('p[data-test="child-resource-description-0"]').text()
+    ).toEqual(testChildResource.description.fi);
+    expect(
+      resourcePage.find('a[data-test="child-resource-name-0"]').text()
+    ).toEqual(testChildResource.name.fi);
+  });
+
   it('should show resource source link', async () => {
-    jest
-      .spyOn(api, 'getResource')
-      .mockImplementation(() => Promise.resolve(testResource));
-
-    jest
-      .spyOn(api, 'getDatePeriods')
-      .mockImplementation(() => Promise.resolve([testDatePeriod]));
-
     const linkSelector = `a[href="${testResource.extra_data.admin_url}"]`;
 
     const resourcePage = renderResourcePageWithRouter();
