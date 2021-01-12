@@ -469,7 +469,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
   });
 
   it('should be able to add and delete time spans', async () => {
-    let container: HTMLElement;
+    let container: Element;
     // Have to wrap inside act this time, otherwise time-span elements not found
     await act(async () => {
       container = render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />)
@@ -530,7 +530,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
   });
 
   it('Should show required indicator when title is not set', async () => {
-    let container: HTMLElement;
+    let container: Element;
 
     await act(async () => {
       container = render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />)
