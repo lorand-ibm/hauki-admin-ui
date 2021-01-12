@@ -33,8 +33,6 @@ interface OpeningPeriodFormData {
   rules: GroupRuleFormFormat[];
 }
 
-type SubmitStatus = 'init' | 'succeeded' | 'error';
-
 type NotificationTexts = {
   label: string;
   text: string;
