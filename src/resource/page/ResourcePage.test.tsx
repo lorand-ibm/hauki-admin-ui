@@ -1,6 +1,6 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
 import { act } from 'react-dom/test-utils';
+import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { DatePeriod, Resource, ResourceState } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
@@ -38,14 +38,14 @@ const testChildResource: Resource = {
     en: 'Test child resource name in english',
   },
   address: {
-    fi: 'Test address in finnish',
-    sv: 'Test address in swedish',
-    en: 'Test address in english',
+    fi: 'Test child address in finnish',
+    sv: 'Test child address in swedish',
+    en: 'Test child address in english',
   },
   description: {
-    fi: 'Test description in finnish',
-    sv: 'Test description in swedish',
-    en: 'Test description in english',
+    fi: 'Test child description in finnish',
+    sv: 'Test child description in swedish',
+    en: 'Test child description in english',
   },
   extra_data: {
     citizen_url: 'kansalaisen puolen url',
@@ -69,14 +69,6 @@ const testDatePeriod: DatePeriod = {
   time_span_groups: [],
 };
 
-// We need wrap page with router because it renders a Link in the list and "You should not use <Link> outside a <Router>"
-const renderResourcePageWithRouter = (): ReactWrapper =>
-  mount(
-    <Router>
-      <ResourcePage id="tprek:8100" />
-    </Router>
-  );
-
 describe(`<ResourcePage />`, () => {
   beforeEach(() => {
     jest
@@ -98,15 +90,22 @@ describe(`<ResourcePage />`, () => {
   });
 
   it('should show loading indicator', async () => {
-    const resourcePage = renderResourcePageWithRouter();
+    jest
+      .spyOn(api, 'getResource')
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .mockImplementation(() => new Promise(() => {}));
+
+    render(
+      <Router>
+        <ResourcePage id="tprek:8100" />
+      </Router>
+    );
 
     await act(async () => {
-      resourcePage.update(); // First tick to trigger useEffect to load
+      expect(await screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+        'Toimipisteen tietojen haku'
+      );
     });
-
-    expect(resourcePage.find('h1').text()).toEqual(
-      'Toimipisteen tietojen haku'
-    );
   });
 
   it('should show error notification', async () => {
@@ -116,97 +115,122 @@ describe(`<ResourcePage />`, () => {
         Promise.reject(new Error('Failed to load a resource'))
       );
 
-    const resourcePage = renderResourcePageWithRouter();
-
     await act(async () => {
-      resourcePage.update(); // First tick for useEffect
+      render(
+        <Router>
+          <ResourcePage id="tprek:8100" />
+        </Router>
+      );
     });
 
-    resourcePage.update(); // Second tick for useState
+    await act(async () => {
+      expect(await screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+        'Virhe'
+      );
 
-    expect(resourcePage.find('h1').text()).toEqual('Virhe');
-    expect(resourcePage.text()).toContain('Toimipistettä ei saatu ladattua.');
+      expect(
+        await screen.findByText('Toimipistettä ei saatu ladattua.')
+      ).toBeInTheDocument();
+    });
   });
 
   it('should show resource details', async () => {
-    const resourcePage = renderResourcePageWithRouter();
-
     await act(async () => {
-      resourcePage.update(); // First tick for useEffect
+      render(
+        <Router>
+          <ResourcePage id="tprek:8100" />
+        </Router>
+      );
     });
 
-    resourcePage.update(); // Second tick for useState
+    await act(async () => {
+      expect(await screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+        testResource.name.fi
+      );
+      expect(
+        await screen.findByText(testResource.address.fi)
+      ).toBeInTheDocument();
 
-    expect(resourcePage.find('h1').text()).toEqual(testResource.name.fi);
-    expect(resourcePage.find('address').text()).toEqual(
-      testResource.address.fi
-    );
-    expect(resourcePage.find('#resource-description p').text()).toEqual(
-      testResource.description.fi
-    );
+      expect(
+        await screen.findByText(testResource.description.fi)
+      ).toBeInTheDocument();
+    });
   });
 
   it('should show child resources', async () => {
-    const resourcePage = renderResourcePageWithRouter();
-
+    let container: Element;
     await act(async () => {
-      resourcePage.update(); // First tick for useEffect
+      container = render(
+        <Router>
+          <ResourcePage id="tprek:8100" />
+        </Router>
+      ).container;
     });
 
-    resourcePage.update(); // Second tick for useState
+    await act(async () => {
+      expect(
+        await container.querySelector(
+          'p[data-test="child-resource-description"]'
+        )
+      ).toBeInTheDocument();
 
-    expect(
-      resourcePage.find('p[data-test="child-resource-description"]').exists()
-    ).toEqual(true);
+      expect(
+        await container.querySelector(
+          'p[data-test="child-resource-description-0"]'
+        )
+      ).toHaveTextContent(testChildResource.description.fi);
 
-    expect(
-      resourcePage.find('p[data-test="child-resource-description-0"]').text()
-    ).toEqual(testChildResource.description.fi);
-    expect(
-      resourcePage.find('a[data-test="child-resource-name-0"]').text()
-    ).toEqual(testChildResource.name.fi);
+      expect(
+        await container.querySelector('a[data-test="child-resource-name-0"]')
+      ).toHaveTextContent(testChildResource.name.fi);
+    });
   });
 
   it('should show resource source link', async () => {
-    const linkSelector = `a[href="${testResource.extra_data.admin_url}"]`;
-
-    const resourcePage = renderResourcePageWithRouter();
-
+    let container: Element;
     await act(async () => {
-      resourcePage.update(); // First tick for useEffect
+      container = render(
+        <Router>
+          <ResourcePage id="tprek:8100" />
+        </Router>
+      ).container;
     });
 
-    resourcePage.update(); // Second tick for useState
+    const linkSelector = `a[href="${testResource.extra_data.admin_url}"]`;
 
-    expect(resourcePage.find(linkSelector).exists()).toBe(true);
-    expect(resourcePage.find(linkSelector).prop('rel')).toBe(
-      'noopener noreferrer'
-    );
+    await act(async () => {
+      expect(await container.querySelector(linkSelector)).toBeInTheDocument();
+      expect(await container.querySelector(linkSelector)).toHaveAttribute(
+        'rel',
+        'noopener noreferrer'
+      );
+    });
   });
 
-  it.skip('Should successfully render a resource that has zero date periods', async () => {
-    jest
-      .spyOn(api, 'getResource')
-      .mockImplementation(() => Promise.resolve(testResource));
+  it('Should successfully render a resource that has zero date periods', async () => {
+    await act(async () => {
+      render(
+        <Router>
+          <ResourcePage id="tprek:8100" />
+        </Router>
+      );
+    });
 
     jest
       .spyOn(api, 'getDatePeriods')
       .mockImplementation(() => Promise.resolve([]));
 
-    const resourcePage = renderResourcePageWithRouter();
-
     await act(async () => {
-      resourcePage.update(); // First tick for useEffect
+      expect(await screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+        testResource.name.fi
+      );
+      expect(
+        await screen.findByText(testResource.address.fi)
+      ).toBeInTheDocument();
+
+      expect(
+        await screen.findByText(testResource.description.fi)
+      ).toBeInTheDocument();
     });
-
-    resourcePage.update(); // Second tick for useState
-
-    expect(resourcePage.find('h1').text()).toEqual(testResource.name.fi);
-    expect(resourcePage.find('address').text()).toEqual(
-      testResource.address.fi
-    );
-    expect(resourcePage.find('#resource-description p').text()).toEqual(
-      testResource.description.fi
-    );
   });
 });
