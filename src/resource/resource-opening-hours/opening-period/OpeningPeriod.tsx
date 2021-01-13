@@ -90,7 +90,7 @@ export default function OpeningPeriod({
                 await deletePeriod(datePeriod.id);
                 toast.success({
                   label: 'Aukiolo poistettu onnistuneesti',
-                  text: `Aukiolo "${name}" poistettu onnistuneesti`,
+                  text: `Aukiolo "${name}" poistettu onnistuneesti.`,
                   dataTestId: 'date-period-delete-success',
                 });
               } catch (_) {
