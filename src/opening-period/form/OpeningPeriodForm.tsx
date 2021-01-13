@@ -119,6 +119,9 @@ export default function OpeningPeriodForm({
 
   const history = useHistory();
 
+  const returnToResourcePage = (): void =>
+    history.push(`/resource/${resourceId}`);
+
   const onSubmit = async (data: OpeningPeriodFormData): Promise<void> => {
     const validTimeSpans: TimeSpanFormFormat[] = data.timeSpans
       ? (data.timeSpans.filter(
@@ -172,6 +175,7 @@ export default function OpeningPeriodForm({
           label: successTextAndLabel.label,
           text: successTextAndLabel.text,
         });
+        returnToResourcePage();
       }
     } catch (err) {
       toast.error({
@@ -296,7 +300,7 @@ export default function OpeningPeriodForm({
         </PrimaryButton>
         <SecondaryButton
           className="opening-period-final-action-button"
-          onClick={(): void => history.push(`/resource/${resourceId}`)}>
+          onClick={(): void => returnToResourcePage()}>
           Peruuta ja palaa
         </SecondaryButton>
       </div>
