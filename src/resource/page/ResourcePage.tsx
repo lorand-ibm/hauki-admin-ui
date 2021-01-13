@@ -203,41 +203,44 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
             })}
         </p>
       </ResourceDetailsSection>
-      <ResourceDetailsSection
-        id="child-resource-description"
-        title="Alikohteet">
-        <p
-          data-test="child-resource-description"
-          className="resource-description-text">
-          Tässä toimipisteessä on alikohteita. Alikohteet voivat olla
-          esimerkiksi toimipisteen eri tiloja. Voit muokata alikohteiden muita
-          tietoja tilapaikkarekisterissä.
-        </p>
-        {childResources?.map((childResource, index) => (
-          <div className="child-resource-list-item" key={index}>
-            <Link
-              dataTest={`child-resource-name-${index}`}
-              href={`/resource/${childResource.id}`}
-              text={
-                childResource?.name[language] ||
-                displayLangVersionNotFound({
-                  language,
-                  label: 'Alikohteen nimi',
-                })
-              }
-            />
-            <p
-              data-test={`child-resource-description-${index}`}
-              className="resource-description-text child-resource-description-text">
-              {childResource?.description[language] ||
-                displayLangVersionNotFound({
-                  language,
-                  label: 'Alikohteen kuvaus',
-                })}
-            </p>
-          </div>
-        ))}
-      </ResourceDetailsSection>
+      {childResources?.length > 0 && (
+        <ResourceDetailsSection
+          id="child-resource-description"
+          title="Alikohteet">
+          <p
+            data-test="child-resource-description"
+            className="resource-description-text">
+            Tässä toimipisteessä on alikohteita. Alikohteet voivat olla
+            esimerkiksi toimipisteen eri tiloja. Voit muokata alikohteiden muita
+            tietoja tilapaikkarekisterissä.
+          </p>
+          {childResources?.map((childResource, index) => (
+            <div className="child-resource-list-item" key={index}>
+              <Link
+                dataTest={`child-resource-name-${index}`}
+                href={`/resource/${childResource.id}`}
+                text={
+                  childResource?.name[language] ||
+                  displayLangVersionNotFound({
+                    language,
+                    label: 'Alikohteen nimi',
+                  })
+                }
+              />
+              <p
+                data-test={`child-resource-description-${index}`}
+                className="resource-description-text child-resource-description-text">
+                {childResource?.description[language] ||
+                  displayLangVersionNotFound({
+                    language,
+                    label: 'Alikohteen kuvaus',
+                  })}
+              </p>
+            </div>
+          ))}
+        </ResourceDetailsSection>
+      )}
+
       <ResourceSourceLink id="resource-source-link" resource={resource} />
       <ResourceSection id="resource-opening-hours">
         {resource && <ResourceOpeningHours resourceId={resource.id} />}
