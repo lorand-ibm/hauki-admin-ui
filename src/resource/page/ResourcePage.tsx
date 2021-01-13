@@ -6,8 +6,7 @@ import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
   displayLangVersionNotFound,
 } from '../../components/language-select/LanguageSelect';
-import { ExternalLink } from '../../components/link/Link';
-import LoadingIndicator from '../../components/loadingIndicator/LoadingIndicator';
+import { ExternalLink, Link } from '../../components/link/Link';
 import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
 import './ResourcePage.scss';
 
@@ -131,6 +130,7 @@ const ResourceSourceLink = ({
 
 export default function ResourcePage({ id }: { id: string }): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
+  const [childResources, setChildResources] = useState<Resource[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
@@ -140,8 +140,15 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
     // We can not use an async function as an useEffect's callback because it would return Promise<void>
     api
       .getResource(id)
-      .then((r: Resource) => {
+      .then(async (r: Resource) => {
         setResource(r);
+        if (r.children.length > 0) {
+          // fetch children
+          const childR = await api
+            .getChildResourcesByParentId(r.id)
+            .then((resourcesResponse) => resourcesResponse.results);
+          setChildResources(childR);
+        }
         setLoading(false);
       })
       .catch((e: Error) => {
@@ -154,10 +161,6 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
     return (
       <>
         <h1 className="resource-info-title">Toimipisteen tietojen haku</h1>
-        <LoadingIndicator
-          text="Toimipisteen tietoja haetaan."
-          readyText="Toimipisteen tiedot haettu"
-        />
       </>
     );
   }
@@ -199,6 +202,41 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
               label: 'toimipisteen kuvaus',
             })}
         </p>
+      </ResourceDetailsSection>
+      <ResourceDetailsSection
+        id="child-resource-description"
+        title="Alikohteet">
+        <p
+          data-test="child-resource-description"
+          className="resource-description-text">
+          Tässä toimipisteessä on alikohteita. Alikohteet voivat olla
+          esimerkiksi toimipisteen eri tiloja. Voit muokata alikohteiden muita
+          tietoja tilapaikkarekisterissä.
+        </p>
+        {childResources?.map((childResource, index) => (
+          <div className="child-resource-list-item" key={index}>
+            <Link
+              dataTest={`child-resource-name-${index}`}
+              href={`/resource/${childResource.id}`}
+              text={
+                childResource?.name[language] ||
+                displayLangVersionNotFound({
+                  language,
+                  label: 'Alikohteen nimi',
+                })
+              }
+            />
+            <p
+              data-test={`child-resource-description-${index}`}
+              className="resource-description-text child-resource-description-text">
+              {childResource?.description[language] ||
+                displayLangVersionNotFound({
+                  language,
+                  label: 'Alikohteen kuvaus',
+                })}
+            </p>
+          </div>
+        ))}
       </ResourceDetailsSection>
       <ResourceSourceLink id="resource-source-link" resource={resource} />
       <ResourceSection id="resource-opening-hours">

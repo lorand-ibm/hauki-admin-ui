@@ -186,4 +186,5 @@ export interface Resource {
     citizen_url: string;
     admin_url: string;
   };
+  children: number[];
 }
