@@ -130,9 +130,7 @@ const ResourceSourceLink = ({
 
 export default function ResourcePage({ id }: { id: string }): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
-  const [childResources, setChildResources] = useState<Resource[] | undefined>(
-    undefined
-  );
+  const [childResources, setChildResources] = useState<Resource[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
