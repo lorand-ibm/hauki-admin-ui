@@ -165,7 +165,7 @@ const testDatePeriod: DatePeriod = {
   ],
 };
 
-const renderEditOpeningPeriodPage = (): HTMLElement => {
+const renderEditOpeningPeriodPage = (): Element => {
   const { container } = render(
     <EditOpeningPeriodPage resourceId="tprek:8100" datePeriodId="1" />
   );
@@ -178,7 +178,7 @@ const renderEditOpeningPeriodPage = (): HTMLElement => {
   return container;
 };
 
-const clickFormSave = (container: HTMLElement): void => {
+const clickFormSave = (container: Element): void => {
   const saveButtonSelector = '[data-test="publish-opening-period-button"]';
   const saveButton = container.querySelector(saveButtonSelector);
   if (!saveButton) {
@@ -193,7 +193,7 @@ const selectOption = async ({
   id,
   value,
 }: {
-  container: HTMLElement;
+  container: Element;
   id: string;
   value: string;
 }): Promise<void> => {
@@ -251,7 +251,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
   });
 
   it('should render basic date-period data', async () => {
-    let container: HTMLElement;
+    let container: Element;
 
     await act(async () => {
       container = renderEditOpeningPeriodPage();
@@ -277,7 +277,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
   });
 
   it('should render first the time-span which has the weekdays in the beginning of the week', async () => {
-    let container: HTMLElement;
+    let container: Element;
 
     await act(async () => {
       container = renderEditOpeningPeriodPage();
@@ -347,7 +347,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
   });
 
   it('should render last the time-span when it has the weekdays in the end of the week', async () => {
-    let container: HTMLElement;
+    let container: Element;
 
     await act(async () => {
       container = renderEditOpeningPeriodPage();
@@ -416,7 +416,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
   });
 
   it('should render correct time-span-group rules', async () => {
-    let container: HTMLElement;
+    let container: Element;
 
     await act(async () => {
       container = renderEditOpeningPeriodPage();
@@ -528,7 +528,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
   });
 
   it('should save correct time-span data after edit', async () => {
-    let container: HTMLElement;
+    let container: Element;
     let lastTimeSpan: HTMLElement | null;
 
     const patchDatePeriodSpy = jest
@@ -609,7 +609,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
   });
 
   it('should save added rules after edit', async () => {
-    let container: HTMLElement;
+    let container: Element;
 
     const patchDatePeriodSpy = jest
       .spyOn(api, 'patchDatePeriod')
@@ -696,7 +696,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
   });
 
   it('should remove rule', async () => {
-    let container: HTMLElement;
+    let container: Element;
 
     const patchDatePeriodSpy = jest
       .spyOn(api, 'patchDatePeriod')
