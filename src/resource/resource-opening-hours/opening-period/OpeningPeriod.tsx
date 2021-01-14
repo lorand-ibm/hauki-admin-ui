@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { IconPenLine, IconTrash } from 'hds-react';
 import { DatePeriod, Language } from '../../../common/lib/types';
 import { formatDateRange } from '../../../common/utils/date-time/format';
+import toast from '../../../components/notification/Toast';
 import { displayLangVersionNotFound } from '../../../components/language-select/LanguageSelect';
 import {
   ConfirmationModal,
@@ -83,9 +84,22 @@ export default function OpeningPeriod({
           </button>
         </div>
         <ConfirmationModal
-          onConfirm={(): void => {
+          onConfirm={async (): Promise<void> => {
             if (datePeriod.id) {
-              deletePeriod(datePeriod.id);
+              try {
+                await deletePeriod(datePeriod.id);
+                toast.success({
+                  label: 'Aukiolo poistettu onnistuneesti',
+                  text: `Aukiolo "${name}" poistettu onnistuneesti.`,
+                  dataTestId: 'date-period-delete-success',
+                });
+              } catch (_) {
+                toast.error({
+                  label: 'Aukiolon poisto epäonnistui',
+                  text:
+                    'Aukiolon poisto epäonnistui. Yritä myöhemmin uudelleen.',
+                });
+              }
             }
           }}
           title={deleteModalTitle}

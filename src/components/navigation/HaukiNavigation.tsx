@@ -1,34 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Navigation } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { AuthContextProps, TokenKeys, useAuth } from '../../auth/auth-context';
 import './HaukiNavigation.scss';
-import { ErrorToast } from '../notification/Toast';
+import toast from '../notification/Toast';
 
 export default function HaukiNavigation(): JSX.Element {
-  const [signOutError, setSignOutError] = useState<string | undefined>();
   const authProps: Partial<AuthContextProps> = useAuth();
   const { authTokens, clearAuth } = authProps;
   const history = useHistory();
   const isAuthenticated = !!authTokens;
 
+  const showSignOutErrorNotification = (text: string): void =>
+    toast.error({
+      label: 'Uloskirjautuminen epäonnistui',
+      text,
+    });
+
   const signOut = async (): Promise<void> => {
     try {
       const isAuthInvalidated = await api.invalidateAuth();
       if (isAuthInvalidated) {
-        setSignOutError(undefined);
         if (clearAuth) {
           clearAuth();
         }
         history.push('/');
       } else {
-        setSignOutError('Uloskirjautuminen hylättiin.');
+        showSignOutErrorNotification('Uloskirjautuminen hylättiin.');
       }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('Sign out failed:', e.message);
-      setSignOutError(
+      showSignOutErrorNotification(
         `Uloskirjautuminen epäonnistui. Yritä myöhemmin uudestaan. Virhe: ${e}`
       );
     }
@@ -58,9 +62,6 @@ export default function HaukiNavigation(): JSX.Element {
           />
         </Navigation.User>
       </Navigation.Actions>
-      {signOutError && (
-        <ErrorToast label="Uloskirjautuminen epäonnistui" text={signOutError} />
-      )}
     </Navigation>
   );
 }
