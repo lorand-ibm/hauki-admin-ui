@@ -1,5 +1,5 @@
 export default function testSetup(): void {
-  beforeEach(async () => {
+  beforeEach(() => {
     document.body.innerHTML = '';
   });
 }
