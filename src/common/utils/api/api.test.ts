@@ -82,6 +82,7 @@ describe('apiRequest', () => {
           admin_url: 'admin puolen url',
         },
         children: [],
+        parents: [],
       };
 
       mockedAxios.request.mockResolvedValue({ data: mockResource });

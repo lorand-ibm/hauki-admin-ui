@@ -97,6 +97,7 @@ const testResource: Resource = {
     admin_url: 'admin puolen url',
   },
   children: [],
+  parents: [],
 };
 
 const weekdayTimeSpanId = 2636;

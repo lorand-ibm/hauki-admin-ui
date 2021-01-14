@@ -208,6 +208,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
         admin_url: 'admin puolen url',
       },
       children: [],
+      parents: [],
     };
 
     testDatePeriod = {
