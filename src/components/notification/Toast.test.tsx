@@ -25,25 +25,25 @@ describe(`toast`, () => {
 
   it('should remove notification container from the dom after close', async () => {
     const props = {
-      dataTestId: 'test-success-notification',
-      label: 'test-success-notification-label',
-      text: 'test-success-notification-text',
+      dataTestId: 'test-remove-notification',
+      label: 'test-remove-notification-label',
+      text: 'test-remove-notification-text',
     };
-
-    const container =
-      document.body.querySelector(`[data-testId="${props.dataTestId}"]`)
-        ?.parentElement || null;
 
     act(() => {
       toast.success(props);
+      expect(
+        document.body.querySelectorAll(`[data-testId="${props.dataTestId}"]`)
+          .length
+      ).toBe(1);
     });
-
-    expect(document.body.contains(container)).toBe(true);
 
     act(() => {
       jest.advanceTimersByTime(20000);
+      expect(
+        document.body.querySelectorAll(`[data-testId="${props.dataTestId}"]`)
+          .length
+      ).toBe(0);
     });
-
-    expect(document.body.contains(container)).toBe(false);
   });
 });
