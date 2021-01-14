@@ -131,6 +131,7 @@ const ResourceSourceLink = ({
 export default function ResourcePage({ id }: { id: string }): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
   const [childResources, setChildResources] = useState<Resource[]>([]);
+  const [parentResources, setParentResources] = useState<Resource[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
@@ -142,12 +143,22 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       .getResource(id)
       .then(async (r: Resource) => {
         setResource(r);
-        if (r.children.length > 0) {
-          // fetch children
-          const childR = await api
-            .getChildResourcesByParentId(r.id)
-            .then((resourcesResponse) => resourcesResponse.results);
-          setChildResources(childR);
+        const resourceHasChildren = r.children.length > 0;
+        const resourceHasParents = r.parents.length > 0;
+
+        if (resourceHasChildren || resourceHasParents) {
+          // fetch children and parents
+          const [childsResponse, parentsResponse] = await Promise.all([
+            resourceHasChildren
+              ? api.getChildResourcesByParentId(r.id)
+              : { results: [] },
+            resourceHasParents
+              ? api.getParentResourcesByChildId(r.id)
+              : { results: [] },
+          ]);
+
+          setChildResources(childsResponse.results);
+          setParentResources(parentsResponse.results);
         }
         setLoading(false);
       })
@@ -203,6 +214,41 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
             })}
         </p>
       </ResourceDetailsSection>
+      {parentResources?.length > 0 && (
+        <ResourceDetailsSection
+          id="parent-resource-description"
+          title="Yläkohteet">
+          <p
+            data-test="parent-resource-description"
+            className="resource-description-text">
+            Tämä toimipiste on alikohteena seuraaville yläkohteille.
+          </p>
+          {parentResources?.map((parentResource, index) => (
+            <div className="child-and-parent-resource-list-item" key={index}>
+              <Link
+                dataTest={`parent-resource-name-${index}`}
+                href={`/resource/${parentResource.id}`}
+                text={
+                  parentResource?.name[language] ||
+                  displayLangVersionNotFound({
+                    language,
+                    label: 'Yläkohteen nimi',
+                  })
+                }
+              />
+              <p
+                data-test={`parent-resource-description-${index}`}
+                className="resource-description-text child-and-parent-resource-description-text">
+                {parentResource?.description[language] ||
+                  displayLangVersionNotFound({
+                    language,
+                    label: 'Yläkohteen kuvaus',
+                  })}
+              </p>
+            </div>
+          ))}
+        </ResourceDetailsSection>
+      )}
       {childResources?.length > 0 && (
         <ResourceDetailsSection
           id="child-resource-description"
@@ -215,7 +261,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
             tietoja tilapaikkarekisterissä.
           </p>
           {childResources?.map((childResource, index) => (
-            <div className="child-resource-list-item" key={index}>
+            <div className="child-and-parent-resource-list-item" key={index}>
               <Link
                 dataTest={`child-resource-name-${index}`}
                 href={`/resource/${childResource.id}`}
@@ -229,7 +275,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
               />
               <p
                 data-test={`child-resource-description-${index}`}
-                className="resource-description-text child-resource-description-text">
+                className="resource-description-text child-and-parent-resource-description-text">
                 {childResource?.description[language] ||
                   displayLangVersionNotFound({
                     language,
@@ -240,7 +286,6 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
           ))}
         </ResourceDetailsSection>
       )}
-
       <ResourceSourceLink id="resource-source-link" resource={resource} />
       <ResourceSection id="resource-opening-hours">
         {resource && <ResourceOpeningHours resourceId={resource.id} />}

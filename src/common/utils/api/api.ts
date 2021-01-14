@@ -208,6 +208,14 @@ export default {
       },
     }),
 
+  getParentResourcesByChildId: (id: number): Promise<{ results: Resource[] }> =>
+    apiGet<{ results: Resource[] }>({
+      path: `${resourceBasePath}`,
+      parameters: {
+        child: id,
+      },
+    }),
+
   getDatePeriods: (resourceId: number): Promise<DatePeriod[]> =>
     apiGet<DatePeriod[]>({
       path: `${datePeriodBasePath}`,

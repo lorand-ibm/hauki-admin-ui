@@ -28,6 +28,32 @@ const testResource: Resource = {
     admin_url: 'admin puolen url',
   },
   children: [123],
+  parents: [321],
+};
+
+const testParentResource: Resource = {
+  id: 321,
+  name: {
+    fi: 'Test parent resource name in finnish',
+    sv: 'Test parent resource name in swedish',
+    en: 'Test parent resource name in english',
+  },
+  address: {
+    fi: 'Test parent address in finnish',
+    sv: 'Test parent address in swedish',
+    en: 'Test parent address in english',
+  },
+  description: {
+    fi: 'Test parent description in finnish',
+    sv: 'Test parent description in swedish',
+    en: 'Test parent description in english',
+  },
+  extra_data: {
+    citizen_url: 'kansalaisen puolen url',
+    admin_url: 'admin puolen url',
+  },
+  children: [1186],
+  parents: [],
 };
 
 const testChildResource: Resource = {
@@ -52,6 +78,7 @@ const testChildResource: Resource = {
     admin_url: 'admin puolen url',
   },
   children: [],
+  parents: [1186],
 };
 
 const testDatePeriod: DatePeriod = {
@@ -83,6 +110,12 @@ describe(`<ResourcePage />`, () => {
       .spyOn(api, 'getChildResourcesByParentId')
       .mockImplementation(() =>
         Promise.resolve({ results: [testChildResource] })
+      );
+
+    jest
+      .spyOn(api, 'getParentResourcesByChildId')
+      .mockImplementation(() =>
+        Promise.resolve({ results: [testParentResource] })
       );
   });
   afterEach(() => {
@@ -183,6 +216,35 @@ describe(`<ResourcePage />`, () => {
       expect(
         await container.querySelector('a[data-test="child-resource-name-0"]')
       ).toHaveTextContent(testChildResource.name.fi);
+    });
+  });
+
+  it('should show parent resources', async () => {
+    let container: Element;
+    await act(async () => {
+      container = render(
+        <Router>
+          <ResourcePage id="tprek:8100" />
+        </Router>
+      ).container;
+    });
+
+    await act(async () => {
+      expect(
+        await container.querySelector(
+          'p[data-test="parent-resource-description"]'
+        )
+      ).toBeInTheDocument();
+
+      expect(
+        await container.querySelector(
+          'p[data-test="parent-resource-description-0"]'
+        )
+      ).toHaveTextContent(testParentResource.description.fi);
+
+      expect(
+        await container.querySelector('a[data-test="parent-resource-name-0"]')
+      ).toHaveTextContent(testParentResource.name.fi);
     });
   });
 
