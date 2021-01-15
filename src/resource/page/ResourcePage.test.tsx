@@ -108,15 +108,11 @@ describe(`<ResourcePage />`, () => {
 
     jest
       .spyOn(api, 'getChildResourcesByParentId')
-      .mockImplementation(() =>
-        Promise.resolve({ results: [testChildResource] })
-      );
+      .mockImplementation(() => Promise.resolve([testChildResource]));
 
     jest
       .spyOn(api, 'getParentResourcesByChildId')
-      .mockImplementation(() =>
-        Promise.resolve({ results: [testParentResource] })
-      );
+      .mockImplementation(() => Promise.resolve([testParentResource]));
   });
   afterEach(() => {
     jest.clearAllMocks();
