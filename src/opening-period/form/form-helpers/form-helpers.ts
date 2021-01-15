@@ -4,9 +4,11 @@ import {
   GroupRuleFormFormat,
   TimeSpan as TimeSpanApiFormat,
   TimeSpanFormFormat,
+  TimeSpanGroup,
+  TimeSpanGroupFormFormat,
 } from '../../../common/lib/types';
 
-export function formatTimeSpansToApiFormat(
+function formatTimeSpansToApiFormat(
   timeSpans: TimeSpanFormFormat[]
 ): TimeSpanApiFormat[] {
   return timeSpans.map((timeSpan) => {
@@ -38,7 +40,7 @@ const dropMilliseconds = (time: string): string => time.slice(0, -3);
 const getLowestWeekdayNumber = (timeSpan: TimeSpanApiFormat): number =>
   timeSpan && timeSpan.weekdays ? timeSpan.weekdays.sort()[0] : 0;
 
-export function formatApiTimeSpansToFormFormat(
+function formatApiTimeSpansToFormFormat(
   apiTimeSpans: TimeSpanApiFormat[]
 ): TimeSpanFormFormat[] {
   return apiTimeSpans
@@ -69,8 +71,8 @@ export function formatApiTimeSpansToFormFormat(
     });
 }
 
-export function formatRulesToApiFormat(
-  rules: GroupRuleFormFormat[]
+function formatRulesToApiFormat(
+  rules: GroupRuleFormFormat[] = []
 ): GroupRule[] {
   return rules.map(({ id, start, ...rest }) => ({
     ...rest,
@@ -79,12 +81,31 @@ export function formatRulesToApiFormat(
   }));
 }
 
-export function formatApiRulesToFormFormat(
-  rules: GroupRule[]
-): GroupRuleFormFormat[] {
+function formatApiRulesToFormFormat(rules: GroupRule[]): GroupRuleFormFormat[] {
   return rules.map(({ id, start, ...rest }) => ({
     ...rest,
     start: start.toString(),
     id: id ? id.toString() : '',
+  }));
+}
+
+export function formatTimeSpanGroupsToApiFormat(
+  timeSpanGroups: TimeSpanGroupFormFormat[] = []
+): TimeSpanGroup[] {
+  return timeSpanGroups.map(({ rules, timeSpans, ...rest }) => ({
+    ...rest,
+    rules: formatRulesToApiFormat(rules),
+    time_spans: formatTimeSpansToApiFormat(timeSpans),
+  }));
+}
+
+export function formatTimeSpanGroupsToFormFormat(
+  timeSpanGroups: TimeSpanGroup[]
+): TimeSpanGroupFormFormat[] {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  return timeSpanGroups.map(({ rules, time_spans, ...rest }) => ({
+    ...rest,
+    rules: formatApiRulesToFormFormat(rules),
+    timeSpans: formatApiTimeSpansToFormFormat(time_spans),
   }));
 }

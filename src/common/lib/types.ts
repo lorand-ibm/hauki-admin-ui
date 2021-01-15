@@ -143,12 +143,20 @@ export interface GroupRuleFormFormat extends BaseGroupRule {
   start: string;
 }
 
-export type TimeSpanGroup = {
+type BaseTimeSpanGroup = {
   id?: number;
-  time_spans: TimeSpan[];
-  rules: GroupRule[];
   period?: number;
 };
+
+export interface TimeSpanGroup extends BaseTimeSpanGroup {
+  time_spans: TimeSpan[];
+  rules: GroupRule[];
+}
+
+export interface TimeSpanGroupFormFormat extends BaseTimeSpanGroup {
+  timeSpans: TimeSpanFormFormat[];
+  rules: GroupRuleFormFormat[];
+}
 
 export type DatePeriod = {
   id?: number;
