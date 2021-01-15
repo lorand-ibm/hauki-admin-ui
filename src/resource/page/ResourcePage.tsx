@@ -224,7 +224,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
             Tämä toimipiste on alikohteena seuraaville yläkohteille.
           </p>
           {parentResources?.map((parentResource, index) => (
-            <div className="child-and-parent-resource-list-item" key={index}>
+            <div className="related-resource-list-item" key={index}>
               <Link
                 dataTest={`parent-resource-name-${index}`}
                 href={`/resource/${parentResource.id}`}
@@ -238,7 +238,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
               />
               <p
                 data-test={`parent-resource-description-${index}`}
-                className="resource-description-text child-and-parent-resource-description-text">
+                className="resource-description-text related-resource-description-text">
                 {parentResource?.description[language] ||
                   displayLangVersionNotFound({
                     language,
@@ -261,7 +261,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
             tietoja tilapaikkarekisterissä.
           </p>
           {childResources?.map((childResource, index) => (
-            <div className="child-and-parent-resource-list-item" key={index}>
+            <div className="related-resource-list-item" key={index}>
               <Link
                 dataTest={`child-resource-name-${index}`}
                 href={`/resource/${childResource.id}`}
@@ -275,7 +275,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
               />
               <p
                 data-test={`child-resource-description-${index}`}
-                className="resource-description-text child-and-parent-resource-description-text">
+                className="resource-description-text related-resource-description-text">
                 {childResource?.description[language] ||
                   displayLangVersionNotFound({
                     language,
