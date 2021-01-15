@@ -74,6 +74,7 @@ const startAtOptions: InputOption[] = Array.from({ length: 10 }).map(
 );
 
 export default function Rule({
+  namePrefix,
   rule,
   control,
   setValue,
@@ -82,6 +83,7 @@ export default function Rule({
   index,
   ruleConfig,
 }: {
+  namePrefix: string;
   rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>;
   control: Control;
   setValue: Function;
@@ -90,6 +92,8 @@ export default function Rule({
   index: number;
   ruleConfig: UiRuleConfig;
 }): JSX.Element {
+  const ruleNamePrefix = `${namePrefix}[${index}]`;
+
   const {
     id,
     context,
@@ -156,8 +160,8 @@ export default function Rule({
     convertFrequencyToInputOption
   );
 
-  const frequencyModifierField = `rules[${index}].frequency_modifier`;
-  const frequencyOrdinalField = `rules[${index}].frequency_ordinal`;
+  const frequencyModifierField = `${ruleNamePrefix}.frequency_modifier`;
+  const frequencyOrdinalField = `${ruleNamePrefix}.frequency_ordinal`;
 
   const onFrequencyChange = (selected: InputOption): void => {
     const selectedFrequency = allFrequencyValues.find(
@@ -198,7 +202,7 @@ export default function Rule({
     <div className="opening-group-rule form-control" key={`rules-${index}`}>
       <input
         type="hidden"
-        name={`rules[${index}].id`}
+        name={`${ruleNamePrefix}.id`}
         defaultValue={id}
         ref={register()}
       />
@@ -215,7 +219,7 @@ export default function Rule({
       <div className="opening-group-rule-fieldset">
         <Controller
           key={`rule-${index}-context`}
-          name={`rules[${index}].context`}
+          name={`${ruleNamePrefix}.context`}
           control={control}
           defaultValue={`${context || ''}`}
           render={({ onChange, value }): JSX.Element => (
@@ -250,7 +254,7 @@ export default function Rule({
         />
         <Controller
           key={`rule-${index}-subject`}
-          name={`rules[${index}].subject`}
+          name={`${ruleNamePrefix}.subject`}
           control={control}
           defaultValue={`${subject || ''}`}
           render={({ onChange, value }): JSX.Element => (
@@ -274,7 +278,7 @@ export default function Rule({
           <p key="rule-subject-divider">Alkaen</p>
           <Controller
             key={`rule-${index}-start`}
-            name={`rules[${index}].start`}
+            name={`${ruleNamePrefix}.start`}
             control={control}
             defaultValue={`${startAt || ''}`}
             render={({ onChange, value }): JSX.Element => (

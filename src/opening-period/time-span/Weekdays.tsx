@@ -6,19 +6,19 @@ import { TimeSpanFormFormat, FormWeekdays } from '../../common/lib/types';
 const DayCheckbox = ({
   register,
   dataTest,
-  timeSpanIndex,
+  namePrefix,
   dayIndex,
   weekdays = [],
   children,
 }: {
   register: Function;
   dataTest: string;
-  timeSpanIndex: number;
+  namePrefix: string;
   dayIndex: number;
   weekdays?: boolean[];
   children: string;
 }): JSX.Element => {
-  const checkBoxId = `timeSpans[${timeSpanIndex}].weekdays[${dayIndex}]`;
+  const checkBoxId = `${namePrefix}[${dayIndex}]`;
 
   return (
     <label data-test={dataTest} htmlFor={checkBoxId} className="day-label">
@@ -36,15 +36,18 @@ const DayCheckbox = ({
 };
 
 export default function Weekdays({
+  namePrefix,
   index,
   register,
   item,
 }: {
+  namePrefix: string;
   index: number;
   register: Function;
   item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
 }): JSX.Element {
   const asWeekdaysValue = (item.weekdays as unknown) as FormWeekdays;
+  const weekdaysNamePrefix = `${namePrefix}.weekdays`;
 
   return (
     <fieldset>
@@ -53,7 +56,7 @@ export default function Weekdays({
         weekdays={asWeekdaysValue}
         register={register}
         dataTest={`weekdays-monday-${index}`}
-        timeSpanIndex={index}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={0}>
         Ma
       </DayCheckbox>
@@ -61,7 +64,7 @@ export default function Weekdays({
         weekdays={asWeekdaysValue}
         register={register}
         dataTest={`weekdays-tuesday-${index}`}
-        timeSpanIndex={index}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={1}>
         Ti
       </DayCheckbox>
@@ -69,7 +72,7 @@ export default function Weekdays({
         weekdays={asWeekdaysValue}
         register={register}
         dataTest={`weekdays-wednesday-${index}`}
-        timeSpanIndex={index}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={2}>
         Ke
       </DayCheckbox>
@@ -77,7 +80,7 @@ export default function Weekdays({
         weekdays={asWeekdaysValue}
         register={register}
         dataTest={`weekdays-thursday-${index}`}
-        timeSpanIndex={index}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={3}>
         To
       </DayCheckbox>
@@ -85,7 +88,7 @@ export default function Weekdays({
         weekdays={asWeekdaysValue}
         register={register}
         dataTest={`weekdays-friday-${index}`}
-        timeSpanIndex={index}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={4}>
         Pe
       </DayCheckbox>
@@ -93,7 +96,7 @@ export default function Weekdays({
         weekdays={asWeekdaysValue}
         register={register}
         dataTest={`weekdays-saturday-${index}`}
-        timeSpanIndex={index}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={5}>
         La
       </DayCheckbox>
@@ -101,7 +104,7 @@ export default function Weekdays({
         weekdays={asWeekdaysValue}
         register={register}
         dataTest={`weekdays-sunday-${index}`}
-        timeSpanIndex={index}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={6}>
         Su
       </DayCheckbox>

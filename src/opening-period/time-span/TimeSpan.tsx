@@ -12,6 +12,7 @@ import {
 
 export default function TimeSpan({
   item,
+  namePrefix,
   index,
   remove,
   register,
@@ -19,6 +20,7 @@ export default function TimeSpan({
   resourceStateConfig,
 }: {
   item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
+  namePrefix: string;
   index: number;
   remove: Function;
   register: Function;
@@ -31,12 +33,17 @@ export default function TimeSpan({
     <div data-test={`time-span-${index}`} className="time-span-container">
       <input
         type="hidden"
-        name={`timeSpans[${index}].id`}
+        name={`${namePrefix}.id`}
         defaultValue={item.id}
         ref={register()}
       />
       <div className="time-span-first-header-row form-control">
-        <Weekdays index={index} item={item} register={register} />
+        <Weekdays
+          namePrefix={namePrefix}
+          index={index}
+          item={item}
+          register={register}
+        />
         <HDSButton
           data-test={`remove-time-span-button-${index}`}
           className="opening-period-remove-list-item-button"
@@ -50,7 +57,7 @@ export default function TimeSpan({
         <div className="start-and-end-time-container">
           <div className="start-time-container">
             <label
-              htmlFor={`timeSpans[${index}].startTime`}
+              htmlFor={`${namePrefix}.startTime`}
               className="start-time-container-label">
               Kellonaika *
             </label>
@@ -60,8 +67,8 @@ export default function TimeSpan({
               register={register}
               defaultValue={`${item.startTime}`}
               required
-              id={`timeSpans[${index}].startTime`}
-              name={`timeSpans[${index}].startTime`}
+              id={`${namePrefix}.startTime`}
+              name={`${namePrefix}.startTime`}
               placeholder="--.--"
             />
           </div>
@@ -74,8 +81,8 @@ export default function TimeSpan({
             register={register}
             defaultValue={`${item.endTime}`}
             required
-            id={`timeSpans[${index}].endTime`}
-            name={`timeSpans[${index}].endTime`}
+            id={`${namePrefix}.endTime`}
+            name={`${namePrefix}.endTime`}
             placeholder="--.--"
           />
         </div>
@@ -84,7 +91,7 @@ export default function TimeSpan({
         <div className="time-span-state-container">
           <Controller
             control={control}
-            name={`timeSpans[${index}].resourceState`}
+            name={`${namePrefix}.resourceState`}
             defaultValue={`${item.resourceState || ''}`}
             render={({ onChange, value }): JSX.Element => (
               <Select
@@ -109,7 +116,7 @@ export default function TimeSpan({
           <TextInput
             ref={register()}
             id={`time-span-${index}-description`}
-            name={`timeSpans[${index}].description`}
+            name={`${namePrefix}.description`}
             className="time-span-description"
             defaultValue={`${item.description || ''}`}
             label="Kuvaus"
