@@ -200,21 +200,21 @@ export default {
   getResource: (id: string): Promise<Resource> =>
     apiGet<Resource>({ path: `${resourceBasePath}/${id}` }),
 
-  getChildResourcesByParentId: (id: number): Promise<{ results: Resource[] }> =>
+  getChildResourcesByParentId: (id: number): Promise<Resource[]> =>
     apiGet<{ results: Resource[] }>({
       path: `${resourceBasePath}`,
       parameters: {
         parent: id,
       },
-    }),
+    }).then((response) => response.results),
 
-  getParentResourcesByChildId: (id: number): Promise<{ results: Resource[] }> =>
+  getParentResourcesByChildId: (id: number): Promise<Resource[]> =>
     apiGet<{ results: Resource[] }>({
       path: `${resourceBasePath}`,
       parameters: {
         child: id,
       },
-    }),
+    }).then((response) => response.results),
 
   getDatePeriods: (resourceId: number): Promise<DatePeriod[]> =>
     apiGet<DatePeriod[]>({

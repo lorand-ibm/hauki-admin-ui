@@ -148,17 +148,13 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
 
         if (resourceHasChildren || resourceHasParents) {
           // fetch children and parents
-          const [childsResponse, parentsResponse] = await Promise.all([
-            resourceHasChildren
-              ? api.getChildResourcesByParentId(r.id)
-              : { results: [] },
-            resourceHasParents
-              ? api.getParentResourcesByChildId(r.id)
-              : { results: [] },
+          const [childR, parentR] = await Promise.all([
+            resourceHasChildren ? api.getChildResourcesByParentId(r.id) : [],
+            resourceHasParents ? api.getParentResourcesByChildId(r.id) : [],
           ]);
 
-          setChildResources(childsResponse.results);
-          setParentResources(parentsResponse.results);
+          setChildResources(childR);
+          setParentResources(parentR);
         }
         setLoading(false);
       })
