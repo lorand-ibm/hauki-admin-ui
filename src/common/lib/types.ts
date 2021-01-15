@@ -187,4 +187,5 @@ export interface Resource {
     admin_url: string;
   };
   children: number[];
+  parents: number[];
 }
