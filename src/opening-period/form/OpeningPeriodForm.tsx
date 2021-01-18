@@ -99,7 +99,7 @@ export default function OpeningPeriodForm({
   const { fields: timeSpanGroupFields } = useFieldArray({
     control,
     keyName: 'timeSpanGroupUiId',
-    name: 'timeSpanGroups',
+    name: timeSpanGroupFieldName,
   });
 
   const history = useHistory();
@@ -194,15 +194,29 @@ export default function OpeningPeriodForm({
           <section
             key={`time-group-${timeSpanGroup.id || index}`}
             className="form-section time-span-group">
+            <input
+              type="hidden"
+              name={`${timeSpanGroupFieldName}[${index}].id`}
+              defaultValue={`${timeSpanGroup.id || ''}`}
+              ref={register()}
+            />
+            <input
+              type="hidden"
+              name={`${timeSpanGroupFieldName}[${index}].period`}
+              defaultValue={`${timeSpanGroup.period || ''}`}
+              ref={register()}
+            />
             <TimeSpans
-              namePrefix={`${timeSpanGroupFieldName}[${index}]`}
+              groupIndex={index}
+              namePrefix={timeSpanGroupFieldName}
               control={control}
               register={register}
               resourceStateConfig={resourceStateConfig}
             />
             <div className="form-group">
               <Rules
-                namePrefix={`${timeSpanGroupFieldName}[${index}]`}
+                groupIndex={index}
+                namePrefix={timeSpanGroupFieldName}
                 control={control}
                 register={register}
                 setValue={setValue}

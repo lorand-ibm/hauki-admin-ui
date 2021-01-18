@@ -5,17 +5,19 @@ import { TimeSpanFormFormat, UiFieldConfig } from '../../common/lib/types';
 import TimeSpan from './TimeSpan';
 
 export default function TimeSpans({
+  groupIndex,
   namePrefix,
   control,
   resourceStateConfig,
   register,
 }: {
+  groupIndex: number;
   namePrefix: string;
-  control: Control<Record<string, any>>;
+  control: Control;
   resourceStateConfig: UiFieldConfig;
   register: Function;
 }): JSX.Element {
-  const timeSpanNamePrefix = `${namePrefix}.timeSpans`;
+  const timeSpanNamePrefix = `${namePrefix}[${groupIndex}].timeSpans`;
 
   const { fields, remove, append } = useFieldArray({
     control,
@@ -28,7 +30,7 @@ export default function TimeSpans({
       <h3 className="opening-period-section-title">Aukioloajat</h3>
       <ul
         className="opening-period-field-list form-group"
-        data-test="time-span-list">
+        data-test={`time-span-list-${groupIndex}`}>
         {fields.map(
           (
             item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>,
@@ -38,12 +40,13 @@ export default function TimeSpans({
               className="opening-period-field-list-item"
               key={`time-span-${item.id || index}`}>
               <TimeSpan
-                namePrefix={`${timeSpanNamePrefix}[${index}]`}
+                namePrefix={timeSpanNamePrefix}
                 item={item}
                 resourceStateConfig={resourceStateConfig}
                 control={control}
                 register={register}
                 index={index}
+                groupIndex={groupIndex}
                 remove={remove}
               />
             </li>
@@ -52,7 +55,7 @@ export default function TimeSpans({
       </ul>
       <div className="form-group">
         <SecondaryButton
-          dataTest="add-new-time-span-button"
+          dataTest={`add-new-time-span-button-${groupIndex}`}
           onClick={(): void => append({})}>
           + Lisää aukioloaika
         </SecondaryButton>

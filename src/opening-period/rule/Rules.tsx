@@ -5,19 +5,21 @@ import { GroupRuleFormFormat, UiRuleConfig } from '../../common/lib/types';
 import Rule from './Rule';
 
 export default function Rules({
+  groupIndex,
   namePrefix,
   control,
   ruleConfig,
   register,
   setValue,
 }: {
+  groupIndex: number;
   namePrefix: string;
-  control: Control<Record<string, any>>;
+  control: Control;
   ruleConfig: UiRuleConfig;
   register: Function;
   setValue: Function;
 }): JSX.Element {
-  const ruleNamePrefix = `${namePrefix}.rules`;
+  const ruleNamePrefix = `${namePrefix}[${groupIndex}].rules`;
   const { fields, remove, append } = useFieldArray({
     control,
     name: ruleNamePrefix,
@@ -44,6 +46,7 @@ export default function Rules({
               <Rule
                 namePrefix={ruleNamePrefix}
                 index={index}
+                groupIndex={groupIndex}
                 rule={rule}
                 control={control}
                 setValue={setValue}
@@ -57,7 +60,7 @@ export default function Rules({
       </ul>
       <div className="form-group">
         <SecondaryButton
-          dataTest="add-new-rule-button"
+          dataTest={`add-new-rule-button-${groupIndex}`}
           onClick={(): void => append({})}>
           + Lisää aukioloaikojen voimassaolosääntö
         </SecondaryButton>
