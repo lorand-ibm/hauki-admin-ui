@@ -87,7 +87,7 @@ export default function OpeningPeriodForm({
     timeSpanGroups,
   };
 
-  const { register, handleSubmit, errors, control, setValue, watch } = useForm<
+  const { register, handleSubmit, errors, control, setValue } = useForm<
     OpeningPeriodFormData
   >({
     mode: 'all',
