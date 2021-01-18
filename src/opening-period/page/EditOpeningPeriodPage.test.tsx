@@ -286,7 +286,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
     await act(async () => {
       const firstTimeSpan = container.querySelector(
-        '[data-test="time-span-list"] > li:first-child'
+        '[data-test="time-span-list-0"] > li:first-child'
       );
 
       if (!firstTimeSpan) {
@@ -338,11 +338,11 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       ).not.toBeChecked();
 
       expect(
-        firstTimeSpan.querySelector('#time-span-state-id-0-toggle-button')
+        firstTimeSpan.querySelector('#time-span-state-id-0-0-toggle-button')
       ).toHaveTextContent('Auki');
 
       expect(
-        firstTimeSpan.querySelector('#time-span-0-description')
+        firstTimeSpan.querySelector('#time-span-description-0-0')
       ).toHaveValue('Arkena ovet menevät kiinni puolta tuntia aiemmin');
     });
   });
@@ -356,7 +356,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
     await act(async () => {
       const lastTimeSpan = container.querySelector(
-        '[data-test="time-span-list"] > li:last-child'
+        '[data-test="time-span-list-0"] > li:last-child'
       );
 
       if (!lastTimeSpan) {
@@ -407,11 +407,11 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       ).toBeChecked();
 
       expect(
-        lastTimeSpan.querySelector('#time-span-state-id-1-toggle-button')
+        lastTimeSpan.querySelector('#time-span-state-id-0-1-toggle-button')
       ).toHaveTextContent('Itsepalvelu');
 
       expect(
-        lastTimeSpan.querySelector('#time-span-1-description')
+        lastTimeSpan.querySelector('#time-span-description-0-1')
       ).toHaveValue('Viikonloppuna ovet menevät kiinni tuntia aiemmin');
     });
   });
@@ -435,19 +435,19 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       }
 
       expect(
-        periodRuleFieldset.querySelector('[id$="context-toggle-button"]')
+        periodRuleFieldset.querySelector('button[id^="rule-context"]')
       ).toHaveTextContent('Jakso');
 
       expect(
-        periodRuleFieldset.querySelector('[id$="frequency-toggle-button"]')
+        periodRuleFieldset.querySelector('button[id^="rule-frequency"]')
       ).toHaveTextContent('3. Parillinen');
 
       expect(
-        periodRuleFieldset.querySelector('[id$="subject-toggle-button"]')
+        periodRuleFieldset.querySelector('button[id^="rule-subject"]')
       ).toHaveTextContent('Maanantai');
 
       expect(
-        periodRuleFieldset.querySelector('[id$="start-toggle-button"]')
+        periodRuleFieldset.querySelector('button[id^="rule-start"]')
       ).toHaveTextContent('1.');
 
       expect(
@@ -465,19 +465,19 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       }
 
       expect(
-        monthRuleFieldset.querySelector('[id$="context-toggle-button"]')
+        monthRuleFieldset.querySelector('button[id^="rule-context"]')
       ).toHaveTextContent('Kuukausi');
 
       expect(
-        monthRuleFieldset.querySelector('[id$="frequency-toggle-button"]')
+        monthRuleFieldset.querySelector('button[id^="rule-frequency"]')
       ).toHaveTextContent('Jokainen');
 
       expect(
-        monthRuleFieldset.querySelector('[id$="subject-toggle-button"]')
+        monthRuleFieldset.querySelector('button[id^="rule-subject"]')
       ).toHaveTextContent('Viikko');
 
       expect(
-        monthRuleFieldset.querySelector('[id$="start-toggle-button"]')
+        monthRuleFieldset.querySelector('button[id^="rule-start"]')
       ).toHaveTextContent('2.');
 
       expect(
@@ -542,7 +542,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
     await act(async () => {
       lastTimeSpan = container.querySelector(
-        '[data-test="time-span-list"] > li:last-child'
+        '[data-test="time-span-list-0"] > li:last-child'
       );
 
       if (!lastTimeSpan) {
@@ -555,7 +555,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     await act(async () => {
       await selectOption({
         container,
-        id: '#time-span-state-id-1',
+        id: '#time-span-state-id-0-1',
         value: 'Suljettu',
       });
     });
@@ -621,7 +621,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
-      const addRuleButtonSelector = '[data-test="add-new-rule-button"]';
+      const addRuleButtonSelector = '[data-test="add-new-rule-button-0"]';
       const addRuleButton = container.querySelector(addRuleButtonSelector);
       if (!addRuleButton) {
         throw new Error(
@@ -635,7 +635,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     await act(async () => {
       await selectOption({
         container,
-        id: '#rule-2-context',
+        id: '#rule-context-0-2',
         value: 'Jakso',
       });
     });
@@ -643,7 +643,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     await act(async () => {
       await selectOption({
         container,
-        id: '#rule-2-frequency',
+        id: '#rule-frequency-0-2',
         value: 'Joka toinen',
       });
     });
@@ -651,7 +651,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     await act(async () => {
       await selectOption({
         container,
-        id: '#rule-2-subject',
+        id: '#rule-subject-0-2',
         value: 'Viikko',
       });
     });
@@ -659,7 +659,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     await act(async () => {
       await selectOption({
         container,
-        id: '#rule-2-start',
+        id: '#rule-start-0-2',
         value: '1.',
       });
     });

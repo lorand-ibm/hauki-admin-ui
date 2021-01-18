@@ -66,60 +66,70 @@ async function fillCompulsoryPeriodDescriptionFields(
   });
 }
 
-function selectAllWeekdaysInTimeSpan(
-  container: Element,
-  timeSpanIndex: number
-): void {
+function selectAllWeekdaysInTimeSpan({
+  container,
+  groupIndex,
+  timeSpanIndex,
+}: {
+  container: Element;
+  groupIndex: number;
+  timeSpanIndex: number;
+}): void {
   const mondayButton = getElementOrThrow(
     container,
-    `[data-test=weekdays-monday-${timeSpanIndex}]`
+    `[data-test=weekdays-monday-${groupIndex}-${timeSpanIndex}]`
   );
   fireEvent.click(mondayButton);
 
   const tuesdayButton = getElementOrThrow(
     container,
-    `[data-test=weekdays-tuesday-${timeSpanIndex}]`
+    `[data-test=weekdays-tuesday-${groupIndex}-${timeSpanIndex}]`
   );
   fireEvent.click(tuesdayButton);
 
   const wednesdayButton = getElementOrThrow(
     container,
-    `[data-test=weekdays-wednesday-${timeSpanIndex}]`
+    `[data-test=weekdays-wednesday-${groupIndex}-${timeSpanIndex}]`
   );
   fireEvent.click(wednesdayButton);
 
   const thursdayButton = getElementOrThrow(
     container,
-    `[data-test=weekdays-thursday-${timeSpanIndex}]`
+    `[data-test=weekdays-thursday-${groupIndex}-${timeSpanIndex}]`
   );
   fireEvent.click(thursdayButton);
 
   const fridayButton = getElementOrThrow(
     container,
-    `[data-test=weekdays-friday-${timeSpanIndex}]`
+    `[data-test=weekdays-friday-${groupIndex}-${timeSpanIndex}]`
   );
   fireEvent.click(fridayButton);
 
   const saturdayButton = getElementOrThrow(
     container,
-    `[data-test=weekdays-saturday-${timeSpanIndex}]`
+    `[data-test=weekdays-saturday-${groupIndex}-${timeSpanIndex}]`
   );
   fireEvent.click(saturdayButton);
 
   const sundayButton = getElementOrThrow(
     container,
-    `[data-test=weekdays-sunday-${timeSpanIndex}]`
+    `[data-test=weekdays-sunday-${groupIndex}-${timeSpanIndex}]`
   );
   fireEvent.click(sundayButton);
 }
 
-async function selectTimeAndTypeInTimeSpan(
-  container: Element,
-  timeSpanIndex: number
-): Promise<void> {
+async function selectTimeAndTypeInTimeSpan({
+  container,
+  groupIndex,
+  timeSpanIndex,
+}: {
+  container: Element;
+  groupIndex: number;
+  timeSpanIndex: number;
+}): Promise<void> {
   const beginTime = getElementOrThrow(
     container,
-    `[data-test=time-span-start-time-${timeSpanIndex}]`
+    `[data-test=time-span-start-time-${groupIndex}-${timeSpanIndex}]`
   );
   fireEvent.input(beginTime, {
     target: {
@@ -129,7 +139,7 @@ async function selectTimeAndTypeInTimeSpan(
 
   const endTime = getElementOrThrow(
     container,
-    `[data-test=time-span-end-time-${timeSpanIndex}]`
+    `[data-test=time-span-end-time-${groupIndex}-${timeSpanIndex}]`
   );
 
   fireEvent.input(endTime, {
@@ -140,13 +150,13 @@ async function selectTimeAndTypeInTimeSpan(
 
   const timeSpanStateDropDown = getElementOrThrow(
     container,
-    `button#time-span-state-id-${timeSpanIndex}-toggle-button`
+    `button#time-span-state-id-${groupIndex}-${timeSpanIndex}-toggle-button`
   );
   fireEvent.click(timeSpanStateDropDown);
 
   const firstOptionInStateDropDown = getElementOrThrow(
     container,
-    `li#time-span-state-id-${timeSpanIndex}-item-0`
+    `li#time-span-state-id-${groupIndex}-${timeSpanIndex}-item-0`
   );
 
   // Last one requires a separate act wrapping
@@ -355,13 +365,13 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
 
       const mondayButton = getElementOrThrow(
         container,
-        '[data-test=weekdays-monday-0]'
+        '[data-test=weekdays-monday-0-0]'
       );
       fireEvent.click(mondayButton);
 
       const beginTime = getElementOrThrow(
         container,
-        '[data-test=time-span-start-time-0]'
+        '[data-test=time-span-start-time-0-0]'
       );
       fireEvent.input(beginTime, {
         target: {
@@ -371,7 +381,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
 
       const endTime = getElementOrThrow(
         container,
-        '[data-test=time-span-end-time-0]'
+        '[data-test=time-span-end-time-0-0]'
       );
 
       fireEvent.input(endTime, {
@@ -411,8 +421,16 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     await act(async () => {
       await fillCompulsoryPeriodDescriptionFields(container);
 
-      selectAllWeekdaysInTimeSpan(container, 0);
-      await selectTimeAndTypeInTimeSpan(container, 0);
+      selectAllWeekdaysInTimeSpan({
+        container,
+        groupIndex: 0,
+        timeSpanIndex: 0,
+      });
+      await selectTimeAndTypeInTimeSpan({
+        container,
+        groupIndex: 0,
+        timeSpanIndex: 0,
+      });
 
       // Try submit form
       const submitFormButton = getElementOrThrow(
@@ -444,16 +462,32 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     await act(async () => {
       await fillCompulsoryPeriodDescriptionFields(container);
 
-      selectAllWeekdaysInTimeSpan(container, 0);
-      await selectTimeAndTypeInTimeSpan(container, 0);
+      selectAllWeekdaysInTimeSpan({
+        container,
+        groupIndex: 0,
+        timeSpanIndex: 0,
+      });
+      await selectTimeAndTypeInTimeSpan({
+        container,
+        groupIndex: 0,
+        timeSpanIndex: 0,
+      });
       // Add timespan
       const addNewTimeSpanButton = getElementOrThrow(
         container,
-        '[data-test="add-new-time-span-button"]'
+        '[data-test="add-new-time-span-button-0"]'
       );
       fireEvent.click(addNewTimeSpanButton);
-      selectAllWeekdaysInTimeSpan(container, 1);
-      await selectTimeAndTypeInTimeSpan(container, 1);
+      selectAllWeekdaysInTimeSpan({
+        container,
+        groupIndex: 0,
+        timeSpanIndex: 1,
+      });
+      await selectTimeAndTypeInTimeSpan({
+        container,
+        groupIndex: 0,
+        timeSpanIndex: 1,
+      });
       // Try submit form
       const submitFormButton = getElementOrThrow(
         container,
@@ -487,7 +521,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     await act(async () => {
       const defaultTimeSpanElement = getElementOrThrow(
         container,
-        '[data-test="time-span-0"]'
+        '[data-test="time-span-0-0"]'
       );
 
       await act(async () => {
@@ -497,13 +531,13 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       // Add timespan
       const addNewTimeSpanButton = getElementOrThrow(
         container,
-        '[data-test="add-new-time-span-button"]'
+        '[data-test="add-new-time-span-button-0"]'
       );
       fireEvent.click(addNewTimeSpanButton);
 
       const secondTimeSpanElement = getElementOrThrow(
         container,
-        '[data-test="time-span-1"]'
+        '[data-test="time-span-0-1"]'
       );
 
       await act(async () => {
@@ -513,7 +547,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       // Delete timespan
       const deleteSecondTimeSpanButton = getElementOrThrow(
         container,
-        '[data-test="remove-time-span-button-1"]'
+        '[data-test="remove-time-span-button-0-1"]'
       );
 
       fireEvent.click(deleteSecondTimeSpanButton);
@@ -521,11 +555,11 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
 
     await act(async () => {
       expect(
-        getElementOrThrow(container, '[data-test="time-span-0"]')
+        getElementOrThrow(container, '[data-test="time-span-0-0"]')
       ).toBeInTheDocument();
 
       expect(() =>
-        getElementOrThrow(container, '[data-test="time-span-1"]')
+        getElementOrThrow(container, '[data-test="time-span-0-1"]')
       ).toThrow();
     });
   });
