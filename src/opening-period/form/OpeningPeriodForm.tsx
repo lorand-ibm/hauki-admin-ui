@@ -31,7 +31,7 @@ interface OpeningPeriodFormData {
 }
 
 const defaultTimeSpanGroup: TimeSpanGroupFormFormat = {
-  timeSpans: [],
+  timeSpans: [{}],
   rules: [],
 };
 

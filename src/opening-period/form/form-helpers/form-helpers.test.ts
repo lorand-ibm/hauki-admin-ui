@@ -5,17 +5,19 @@ import {
   formatTimeSpanGroupsToFormFormat,
 } from './form-helpers';
 
-describe.only('opening-period form-helpers', () => {
+describe('opening-period form-helpers', () => {
   describe('formatTimeSpanGroupsToApiFormat', () => {
-    it('should return time-span-groups in api-format', () => {
+    it('should return existing time-span-groups in api-format', () => {
       expect(
         formatTimeSpanGroupsToApiFormat([
           {
+            id: '11',
+            period: '1',
             timeSpans: [
               {
                 description: 'description text A',
-                endTime: '18:00',
                 startTime: '10:00',
+                endTime: '18:00',
                 resourceState: ResourceState.OPEN,
                 weekdays: [false, false, false, false, false, true, true],
               },
@@ -41,12 +43,14 @@ describe.only('opening-period form-helpers', () => {
         ])
       ).toEqual([
         {
+          id: 11,
+          period: 1,
           time_spans: [
             {
               description: { en: null, fi: 'description text A', sv: null },
+              start_time: '10:00:00',
               end_time: '18:00:00',
               resource_state: ResourceState.OPEN,
-              start_time: '10:00:00',
               weekdays: [6, 7],
             },
           ],
@@ -73,18 +77,20 @@ describe.only('opening-period form-helpers', () => {
   });
 
   describe('formatTimeSpanGroupsToFormFormat', () => {
-    it('should return time-span-groups in form-format (in ui-format and time-spans in sorted format)', () => {
+    it('should return time-span-groups in form-format (with sorted time-spans)', () => {
       expect(
         formatTimeSpanGroupsToFormFormat([
           {
+            id: 11,
+            period: 1,
             time_spans: [
               {
                 id: 1234,
                 name: { en: null, fi: null, sv: null },
                 description: { en: null, fi: 'description text A', sv: null },
+                start_time: '10:00:00',
                 end_time: '18:00:00',
                 resource_state: ResourceState.OPEN,
-                start_time: '10:00:00',
                 weekdays: [],
                 created: '2020-12-16T12:21:37.255923+02:00',
                 modified: '2020-12-16T12:21:37.255923+02:00',
@@ -95,9 +101,9 @@ describe.only('opening-period form-helpers', () => {
                 id: 2345,
                 name: { en: null, fi: null, sv: null },
                 description: { en: null, fi: 'description text B', sv: null },
+                start_time: '10:00:00',
                 end_time: '18:00:00',
                 resource_state: ResourceState.OPEN,
-                start_time: '10:00:00',
                 weekdays: [3, 5, 6, 7],
                 created: '2020-12-16T12:21:37.255923+02:00',
                 modified: '2020-12-16T12:21:37.255923+02:00',
@@ -108,9 +114,9 @@ describe.only('opening-period form-helpers', () => {
                 id: 3456,
                 name: { en: null, fi: null, sv: null },
                 description: { en: null, fi: 'description text C', sv: null },
+                start_time: '12:00:00',
                 end_time: '18:00:00',
                 resource_state: ResourceState.OPEN,
-                start_time: '12:00:00',
                 weekdays: [2, 3, 5, 6, 7],
                 created: '2020-12-16T12:21:37.255923+02:00',
                 modified: '2020-12-16T12:21:37.255923+02:00',
@@ -132,29 +138,31 @@ describe.only('opening-period form-helpers', () => {
         ])
       ).toEqual([
         {
+          id: '11',
+          period: '1',
           timeSpans: [
             {
               id: '1234',
               description: 'description text A',
+              startTime: '10:00',
               endTime: '18:00',
               resourceState: ResourceState.OPEN,
-              startTime: '10:00',
               weekdays: [false, false, false, false, false, false, false],
             },
             {
               id: '3456',
               description: 'description text C',
+              startTime: '12:00',
               endTime: '18:00',
               resourceState: ResourceState.OPEN,
-              startTime: '12:00',
               weekdays: [false, true, true, false, true, true, true],
             },
             {
               id: '2345',
               description: 'description text B',
+              startTime: '10:00',
               endTime: '18:00',
               resourceState: ResourceState.OPEN,
-              startTime: '10:00',
               weekdays: [false, false, true, false, true, true, true],
             },
           ],

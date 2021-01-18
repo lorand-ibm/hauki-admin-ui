@@ -143,18 +143,17 @@ export interface GroupRuleFormFormat extends BaseGroupRule {
   start: string;
 }
 
-type BaseTimeSpanGroup = {
+export interface TimeSpanGroup {
   id?: number;
   period?: number;
-};
-
-export interface TimeSpanGroup extends BaseTimeSpanGroup {
   time_spans: TimeSpan[];
   rules: GroupRule[];
 }
 
-export interface TimeSpanGroupFormFormat extends BaseTimeSpanGroup {
-  timeSpans: TimeSpanFormFormat[];
+export interface TimeSpanGroupFormFormat {
+  id?: string;
+  period?: string;
+  timeSpans: TimeSpanFormFormat[] | {}[];
   rules: GroupRuleFormFormat[];
 }
 
