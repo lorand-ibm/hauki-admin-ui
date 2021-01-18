@@ -27,33 +27,35 @@ export default function TimeSpans({
 
   return (
     <>
-      <h3 className="opening-period-section-title">Aukioloajat</h3>
-      <ul
-        className="opening-period-field-list form-group"
-        data-test={`time-span-list-${groupIndex}`}>
-        {fields.map(
-          (
-            item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>,
-            index: number
-          ) => (
-            <li
-              className="opening-period-field-list-item"
-              key={`time-span-${item.id || index}`}>
-              <TimeSpan
-                namePrefix={timeSpanNamePrefix}
-                item={item}
-                resourceStateConfig={resourceStateConfig}
-                control={control}
-                register={register}
-                index={index}
-                groupIndex={groupIndex}
-                remove={remove}
-              />
-            </li>
-          )
-        )}
-      </ul>
-      <div className="form-group">
+      <div className="form-group time-spans-group">
+        <h3 className="opening-period-section-title">Aukioloajat</h3>
+        <ul
+          className="opening-period-field-list"
+          data-test={`time-span-list-${groupIndex}`}>
+          {fields.map(
+            (
+              item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>,
+              index: number
+            ) => (
+              <li
+                className="opening-period-field-list-item"
+                key={`time-span-${item.id || index}`}>
+                <TimeSpan
+                  namePrefix={timeSpanNamePrefix}
+                  item={item}
+                  resourceStateConfig={resourceStateConfig}
+                  control={control}
+                  register={register}
+                  index={index}
+                  groupIndex={groupIndex}
+                  remove={remove}
+                />
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+      <div className="form-group form-button-group">
         <SecondaryButton
           dataTest={`add-new-time-span-button-${groupIndex}`}
           onClick={(): void => append({})}>

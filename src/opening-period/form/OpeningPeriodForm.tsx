@@ -213,16 +213,14 @@ export default function OpeningPeriodForm({
               register={register}
               resourceStateConfig={resourceStateConfig}
             />
-            <div className="form-group">
-              <Rules
-                groupIndex={index}
-                namePrefix={timeSpanGroupFieldName}
-                control={control}
-                register={register}
-                setValue={setValue}
-                ruleConfig={ruleConfig}
-              />
-            </div>
+            <Rules
+              groupIndex={index}
+              namePrefix={timeSpanGroupFieldName}
+              control={control}
+              register={register}
+              setValue={setValue}
+              ruleConfig={ruleConfig}
+            />
           </section>
         )
       )}

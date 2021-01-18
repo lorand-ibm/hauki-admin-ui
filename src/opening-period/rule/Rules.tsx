@@ -28,37 +28,39 @@ export default function Rules({
 
   return (
     <>
-      <h3 className="opening-period-section-title">
-        Aukioloaikojen voimassaolo
-      </h3>
-      <ul
-        className="opening-period-field-list opening-period-rule-list form-group"
-        data-test="rule-list">
-        {fields.map(
-          (
-            rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>,
-            index: number
-          ) => (
-            <li
-              className="opening-period-field-list-item opening-period-rule-list-item"
-              key={`rule-${rule.id || index}`}
-              data-test={`rule-list-item-${rule.id || index}`}>
-              <Rule
-                namePrefix={ruleNamePrefix}
-                index={index}
-                groupIndex={groupIndex}
-                rule={rule}
-                control={control}
-                setValue={setValue}
-                remove={remove}
-                register={register}
-                ruleConfig={ruleConfig}
-              />
-            </li>
-          )
-        )}
-      </ul>
       <div className="form-group">
+        <h3 className="opening-period-section-title">
+          Aukioloaikojen voimassaolo
+        </h3>
+        <ul
+          className="opening-period-field-list opening-period-rule-list"
+          data-test="rule-list">
+          {fields.map(
+            (
+              rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>,
+              index: number
+            ) => (
+              <li
+                className="opening-period-field-list-item opening-period-rule-list-item"
+                key={`rule-${rule.id || index}`}
+                data-test={`rule-list-item-${rule.id || index}`}>
+                <Rule
+                  namePrefix={ruleNamePrefix}
+                  index={index}
+                  groupIndex={groupIndex}
+                  rule={rule}
+                  control={control}
+                  setValue={setValue}
+                  remove={remove}
+                  register={register}
+                  ruleConfig={ruleConfig}
+                />
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+      <div className="form-group form-button-group">
         <SecondaryButton
           dataTest={`add-new-rule-button-${groupIndex}`}
           onClick={(): void => append({})}>
