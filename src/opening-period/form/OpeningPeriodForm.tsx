@@ -40,6 +40,16 @@ type NotificationTexts = {
   text: string;
 };
 
+export type OpeningPeriodFormProps = {
+  formId: string;
+  datePeriod?: DatePeriod;
+  resourceId: number;
+  datePeriodConfig: UiDatePeriodConfig;
+  submitFn: (datePeriod: DatePeriod) => Promise<DatePeriod>;
+  successTextAndLabel: NotificationTexts;
+  errorTextAndLabel: NotificationTexts;
+};
+
 export default function OpeningPeriodForm({
   formId,
   datePeriod,
@@ -48,15 +58,7 @@ export default function OpeningPeriodForm({
   submitFn,
   successTextAndLabel,
   errorTextAndLabel,
-}: {
-  formId: string;
-  datePeriod?: DatePeriod;
-  resourceId: number;
-  datePeriodConfig: UiDatePeriodConfig;
-  submitFn: (datePeriod: DatePeriod) => Promise<DatePeriod>;
-  successTextAndLabel: NotificationTexts;
-  errorTextAndLabel: NotificationTexts;
-}): JSX.Element {
+}: OpeningPeriodFormProps): JSX.Element {
   const language = Language.FI;
   const {
     resourceState: resourceStateConfig,
@@ -192,7 +194,8 @@ export default function OpeningPeriodForm({
           index: number
         ) => (
           <section
-            key={`time-group-${timeSpanGroup.id || index}`}
+            key={`time-span-group-${timeSpanGroup.id || index}`}
+            data-test={`time-span-group-${timeSpanGroup.id || index}`}
             className="form-section time-span-group">
             <input
               type="hidden"

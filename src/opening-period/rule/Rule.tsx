@@ -201,7 +201,10 @@ export default function Rule({
   ]);
 
   return (
-    <div className="opening-group-rule form-control" key={`rules-${index}`}>
+    <div
+      className="opening-group-rule form-control"
+      data-test={`rule-${groupIndex}-${index}`}
+      key={`rules-${index}`}>
       <input
         type="hidden"
         name={`${ruleNamePrefix}.id`}
