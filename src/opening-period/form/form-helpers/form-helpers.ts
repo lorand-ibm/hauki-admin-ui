@@ -97,7 +97,7 @@ function formatApiRulesToFormFormat(rules: GroupRule[]): GroupRuleFormFormat[] {
 export function formatTimeSpanGroupsToApiFormat(
   timeSpanGroups: TimeSpanGroupFormFormat[] = []
 ): TimeSpanGroup[] {
-  return timeSpanGroups.map(({ rules, timeSpans, id, period }) => ({
+  return timeSpanGroups.map(({ rules = [], timeSpans = [], id, period }) => ({
     ...(id && id !== '' ? { id: parseInt(id, 10) } : {}),
     ...(period && period !== '' ? { period: parseInt(period, 10) } : {}),
     rules: formatRulesToApiFormat(rules),
