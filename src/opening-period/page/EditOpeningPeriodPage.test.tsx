@@ -10,6 +10,13 @@ import {
 import api from '../../common/utils/api/api';
 import EditOpeningPeriodPage from './EditOpeningPeriodPage';
 
+// Opening period form uses react-router to redirect after successful save - mocking prevents unnecessary errors in test logs
+jest.mock('react-router-dom', () => ({
+  useHistory: (): { push: jest.Mock } => ({
+    push: jest.fn(),
+  }),
+}));
+
 const closedResourceState = {
   value: 'closed',
   label: 'Suljettu',
