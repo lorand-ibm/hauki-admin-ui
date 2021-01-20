@@ -160,7 +160,7 @@ const renderOpeningPeriodForm = (props: OpeningPeriodFormProps): Element => {
 
 describe(`<OpeningPeriodForm />`, () => {
   describe(`TimeSpanGroups`, () => {
-    it.only('should render time-span-groups', async () => {
+    it('should render time-span-groups', async () => {
       let container: Element;
 
       act(() => {
