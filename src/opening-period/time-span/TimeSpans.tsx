@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrayField, Control, useFieldArray } from 'react-hook-form';
+import { IconClockPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
 import { TimeSpanFormFormat, UiFieldConfig } from '../../common/lib/types';
 import TimeSpan from './TimeSpan';
@@ -55,11 +56,12 @@ export default function TimeSpans({
           )}
         </ul>
       </div>
-      <div className="form-group form-button-group">
+      <div className="form-group">
         <SecondaryButton
           dataTest={`add-new-time-span-button-${groupIndex}`}
+          iconLeft={<IconClockPlus />}
           onClick={(): void => append({})}>
-          + Lisää aukioloaika
+          Lisää aukioloaika
         </SecondaryButton>
       </div>
     </>

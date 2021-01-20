@@ -1,15 +1,15 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
 .opening-period-form {
-  .form-control {
-    margin-top: $spacing-m;
+  margin-top: $spacing-layout-s;
+
+  .form-control:not(:first-child) {
+    margin-top: $spacing-layout-s;
   }
 
   input[type="text"] {
     display: block;
   }
-
-  margin-top: $spacing-xl;
 }
 
 .opening-period-time-period {
@@ -31,30 +31,24 @@
 }
 
 .form-section {
-  padding: $spacing-layout-xs;
+  padding: $spacing-layout-s $spacing-layout-xs;
   background-color: white;
   margin-bottom: $spacing-layout-xs;
 }
 
 .form-group {
-  padding: $spacing-l 0 0;
-
-  &:first-of-type {
-    padding-top: 0;
+  & + & {
+    margin-top: $spacing-layout-s;
   }
 
-  &:not(:last-child):not(:empty) {
-    border-bottom: 1px solid var(--hauki-content-border-color);
-  }
-
-  &.form-button-group {
-    padding-bottom: $spacing-3-xl;
+  &.rule-group {
+    border-top: var(--spacing-4-xs) solid var(--primary-color);
+    padding-top: $spacing-layout-s;
   }
 }
 
 .opening-period-section-title {
-  margin-top: 0;
-  margin-bottom: $spacing-l;
+  margin: 0;
 }
 
 .opening-period-field-list {
@@ -64,19 +58,10 @@
 }
 
 .opening-period-field-list-item {
+  background-color: var(--hauki-content-background-color);
   list-style: none;
-  margin: 0;
-  padding: 0 0 $spacing-xl;
-
-  &:not(:first-child) {
-    border-top: var(--spacing-4-xs) solid var(--primary-color);
-  }
-}
-
-.opening-period-rule-list:not(:empty) {
-  @media screen and (min-width: $breakpoint-m) {
-    margin-top: (-1 * $spacing-5-xl); // A hacky way to inline the first remove button with the section title
-  }
+  margin: $spacing-l 0 0;
+  padding: 1px $spacing-m $spacing-l;
 }
 
 .opening-period-rule-list-item {

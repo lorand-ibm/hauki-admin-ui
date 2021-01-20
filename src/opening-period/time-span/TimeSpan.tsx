@@ -56,7 +56,7 @@ export default function TimeSpan({
           variant="supplementary"
           onClick={(): void => remove(index)}
           iconLeft={<IconTrash />}>
-          Poista aukioloaika
+          Poista
         </HDSButton>
       </div>
       <div className="form-control">

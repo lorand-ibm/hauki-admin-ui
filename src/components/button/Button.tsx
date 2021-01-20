@@ -12,6 +12,7 @@ interface ButtonProps {
   dataTest?: string;
   className?: string;
   type?: ButtonTypeVariant;
+  iconLeft?: ReactNode;
 }
 
 export function SecondaryButton({
@@ -20,6 +21,7 @@ export function SecondaryButton({
   onClick,
   className = '',
   type = 'button',
+  iconLeft,
 }: ButtonProps): JSX.Element {
   return (
     <HDSButton
@@ -27,7 +29,8 @@ export function SecondaryButton({
       className={`button-common secondary-button ${className}`}
       variant="secondary"
       onClick={onClick}
-      type={type}>
+      type={type}
+      iconLeft={iconLeft}>
       {children}
     </HDSButton>
   );
@@ -39,6 +42,7 @@ export function PrimaryButton({
   onClick,
   className = '',
   type = 'button',
+  iconLeft,
 }: ButtonProps): JSX.Element {
   return (
     <HDSButton
@@ -46,7 +50,8 @@ export function PrimaryButton({
       className={`button-common primary-button ${className}`}
       variant="primary"
       onClick={onClick}
-      type={type}>
+      type={type}
+      iconLeft={iconLeft}>
       {children}
     </HDSButton>
   );

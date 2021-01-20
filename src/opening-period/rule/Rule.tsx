@@ -218,7 +218,7 @@ export default function Rule({
           variant="supplementary"
           onClick={(): void => remove(index)}
           iconLeft={<IconTrash />}>
-          Poista aukioloaikojen voimassaolosääntö
+          Poista
         </HDSButton>
       </div>
       <div className="opening-group-rule-fieldset">
