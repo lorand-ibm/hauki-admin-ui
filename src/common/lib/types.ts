@@ -19,7 +19,7 @@ export enum ResourceState {
   CLOSED = 'closed',
 }
 
-enum WeekdayTypes {
+export enum WeekdayTypes {
   MONDAY = 1,
   TUESDAY = 2,
   WEDNESDAY = 3,

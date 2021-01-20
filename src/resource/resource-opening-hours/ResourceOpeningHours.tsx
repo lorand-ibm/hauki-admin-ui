@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { IconInfoCircle, Button, Notification } from 'hds-react';
 import { useHistory } from 'react-router-dom';
-import { DatePeriod, Language } from '../../common/lib/types';
+import {
+  DatePeriod,
+  Language,
+  UiDatePeriodConfig,
+} from '../../common/lib/types';
 import api from '../../common/utils/api/api';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect from '../../components/language-select/LanguageSelect';
@@ -19,6 +23,7 @@ const OpeningPeriodsList = ({
   resourceId,
   title,
   datePeriods,
+  datePeriodConfig,
   theme,
   notFoundLabel,
   deletePeriod,
@@ -28,6 +33,7 @@ const OpeningPeriodsList = ({
   resourceId: number;
   title: string;
   datePeriods: DatePeriod[];
+  datePeriodConfig?: UiDatePeriodConfig;
   theme: PeriodsListTheme;
   notFoundLabel: string;
   deletePeriod: (id: number) => Promise<void>;
@@ -71,24 +77,27 @@ const OpeningPeriodsList = ({
           </Button>
         </div>
       </header>
-      <ul className="opening-periods-list" data-test={id}>
-        {datePeriods.length > 0 ? (
-          datePeriods.map((datePeriod: DatePeriod) => (
-            <li key={datePeriod.id}>
-              <OpeningPeriod
-                datePeriod={datePeriod}
-                resourceId={resourceId}
-                language={language}
-                deletePeriod={deletePeriod}
-              />
+      {datePeriodConfig && (
+        <ul className="opening-periods-list" data-test={id}>
+          {datePeriods.length > 0 ? (
+            datePeriods.map((datePeriod: DatePeriod) => (
+              <li key={datePeriod.id}>
+                <OpeningPeriod
+                  datePeriodConfig={datePeriodConfig}
+                  datePeriod={datePeriod}
+                  resourceId={resourceId}
+                  language={language}
+                  deletePeriod={deletePeriod}
+                />
+              </li>
+            ))
+          ) : (
+            <li>
+              <OpeningPeriodsNotFound text={notFoundLabel} />
             </li>
-          ))
-        ) : (
-          <li>
-            <OpeningPeriodsNotFound text={notFoundLabel} />
-          </li>
-        )}
-      </ul>
+          )}
+        </ul>
+      )}
     </section>
   );
 };
@@ -113,14 +122,21 @@ export default function ResourceOpeningHours({
   resourceId: number;
 }): JSX.Element | null {
   const [error, setError] = useState<Error | undefined>(undefined);
+  const [datePeriodConfig, setDatePeriodConfig] = useState<
+    UiDatePeriodConfig
+  >();
   const [[defaultPeriods, exceptionPeriods], setDividedDatePeriods] = useState<
     DatePeriod[][]
   >([[], []]);
   const fetchDatePeriods = async (id: number): Promise<void> => {
     try {
-      const apiDatePeriods = await api.getDatePeriods(id);
+      const [apiDatePeriods, uiDatePeriodOptions] = await Promise.all([
+        api.getDatePeriods(id),
+        api.getDatePeriodFormOptions(),
+      ]);
       const datePeriodLists = partitionByOverride(apiDatePeriods);
       setDividedDatePeriods(datePeriodLists);
+      setDatePeriodConfig(uiDatePeriodOptions);
     } catch (e) {
       setError(e);
     }
@@ -167,6 +183,7 @@ export default function ResourceOpeningHours({
         resourceId={resourceId}
         title="Aukiolojaksot"
         datePeriods={defaultPeriods}
+        datePeriodConfig={datePeriodConfig}
         theme={PeriodsListTheme.DEFAULT}
         notFoundLabel="Ei aukiolojaksoja."
         deletePeriod={deletePeriod}
@@ -176,6 +193,7 @@ export default function ResourceOpeningHours({
         resourceId={resourceId}
         title="Poikkeusaukiolojaksot"
         datePeriods={exceptionPeriods}
+        datePeriodConfig={datePeriodConfig}
         theme={PeriodsListTheme.LIGHT}
         notFoundLabel="Ei poikkeusaukiolojaksoja."
         deletePeriod={deletePeriod}

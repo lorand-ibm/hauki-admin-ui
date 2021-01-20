@@ -28,3 +28,5 @@ export const formatDateRange = ({
 
 export const transformDateToApiFormat = (formDate: string): string =>
   format(parse(formDate, dateFormFormat, new Date()), dateApiFormat);
+
+export const dropMilliseconds = (time: string): string => time.slice(0, -3);

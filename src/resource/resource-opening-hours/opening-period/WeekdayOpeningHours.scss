@@ -1,0 +1,18 @@
+@import 'node_modules/hds-design-tokens/lib/all.scss';
+
+.weekday-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 1fr 4fr;
+  align-items: start;
+  font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 2;
+
+    &.weekday-description {
+      font-family: HelsinkiGrotesk-Regular, Arial, sans-serif;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import {
   TimeSpan as TimeSpanApiFormat,
   TimeSpanFormFormat,
 } from '../../../common/lib/types';
+import { dropMilliseconds } from '../../../common/utils/date-time/format';
 
 export function formatTimeSpansToApiFormat(
   timeSpans: TimeSpanFormFormat[]
@@ -34,7 +35,6 @@ export function formatTimeSpansToApiFormat(
   });
 }
 
-const dropMilliseconds = (time: string): string => time.slice(0, -3);
 const getLowestWeekdayNumber = (timeSpan: TimeSpanApiFormat): number =>
   timeSpan && timeSpan.weekdays ? timeSpan.weekdays.sort()[0] : 0;
 
