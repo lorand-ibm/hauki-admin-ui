@@ -18,13 +18,6 @@ describe('User edits an opening period', () => {
     start_time: '12:00:00',
     weekdays: [1],
   };
-  const rule = {
-    context: 'period',
-    frequency_modifier: null,
-    frequency_ordinal: 1,
-    subject: 'week',
-    start: '2',
-  };
 
   before(() => {
     cy.createDatePeriod({
@@ -33,7 +26,7 @@ describe('User edits an opening period', () => {
       endDate,
       resourceId,
       timeSpans: [timeSpan],
-      rules: [rule],
+      rules: [],
     }).then((id: string) => {
       if (id) {
         dataPeriodId = id;
@@ -78,12 +71,6 @@ describe('User edits an opening period', () => {
 
     cy.get('[data-test=time-span-start-time-0-0]').type('08:00');
     cy.get('[data-test=time-span-end-time-0-0]').type('16:00');
-
-    // Change rules data
-    cy.selectHdsDropdown({ id: 'rule-context-0-0', value: 'Kuukausi' });
-    cy.selectHdsDropdown({ id: 'rule-frequency-0-0', value: 'Parillinen' });
-    cy.selectHdsDropdown({ id: 'rule-subject-0-0', value: 'Viikko' });
-    cy.selectHdsDropdown({ id: 'rule-start-0-0', value: '1.' });
 
     // Save
     cy.get('[data-test=publish-opening-period-button]').click({

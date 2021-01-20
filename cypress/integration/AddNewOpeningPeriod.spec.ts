@@ -42,13 +42,6 @@ describe('User adds a new opening period', () => {
     cy.get('[data-test=time-span-end-time-0-0]').type('16:00');
     cy.selectHdsDropdown({ id: 'time-span-state-id-0-0', value: 'Auki' });
 
-    // Enter rules data
-    cy.get('button[data-test="add-new-rule-button-0"]').click();
-    cy.selectHdsDropdown({ id: 'rule-context-0-0', value: 'Kuukausi' });
-    cy.selectHdsDropdown({ id: 'rule-frequency-0-0', value: 'Parillinen' });
-    cy.selectHdsDropdown({ id: 'rule-subject-0-0', value: 'Viikko' });
-    cy.selectHdsDropdown({ id: 'rule-start-0-0', value: '1.' });
-
     // Try submit form
     cy.get('[data-test=publish-opening-period-button]').click();
 
