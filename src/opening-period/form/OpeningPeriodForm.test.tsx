@@ -214,7 +214,7 @@ describe(`<OpeningPeriodForm />`, () => {
 
         // Check group B has the only one time-span element
         expect(
-          timeSpanGroupElementB.querySelectorAll('[data-test="time-span-1-0"]')
+          timeSpanGroupElementB.querySelectorAll('[data-test^="time-span-1-"]')
             .length
         ).toBe(1);
 
