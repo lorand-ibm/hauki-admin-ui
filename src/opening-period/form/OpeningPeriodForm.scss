@@ -22,6 +22,22 @@
   margin: 2rem 10px 0;
 }
 
+.opening-period-action-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 $spacing-l;
+}
+
+.opening-period-notification-text {
+  display: flex;
+
+  > * + * {
+    margin-left: $spacing-3-xs;
+  }
+}
+
 .opening-period-final-action-row-container {
   margin-top: 116px;
 }

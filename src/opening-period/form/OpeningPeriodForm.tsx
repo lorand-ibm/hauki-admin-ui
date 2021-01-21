@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrayField, useFieldArray, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
+import { IconAlertCircle, IconPlus } from 'hds-react';
 import {
   DatePeriod,
   UiDatePeriodConfig,
@@ -11,7 +12,11 @@ import {
 } from '../../common/lib/types';
 import { transformDateToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
-import { PrimaryButton, SecondaryButton } from '../../components/button/Button';
+import {
+  PrimaryButton,
+  SecondaryButton,
+  SupplementaryButton,
+} from '../../components/button/Button';
 import toast from '../../components/notification/Toast';
 import {
   formatTimeSpanGroupsToFormFormat,
@@ -98,7 +103,10 @@ export default function OpeningPeriodForm({
 
   const timeSpanGroupFieldName = 'timeSpanGroups';
 
-  const { fields: timeSpanGroupFields } = useFieldArray({
+  const {
+    fields: timeSpanGroupFields,
+    append: appendTimeSpanGroup,
+  } = useFieldArray({
     control,
     keyName: 'timeSpanGroupUiId',
     name: timeSpanGroupFieldName,
@@ -227,6 +235,21 @@ export default function OpeningPeriodForm({
           </section>
         )
       )}
+      <div className="opening-period-action-row">
+        <SupplementaryButton
+          dataTest="add-time-span-group"
+          onClick={(): void => appendTimeSpanGroup(defaultTimeSpanGroup)}
+          iconLeft={<IconPlus />}>
+          Luo uusi aukioloryhmä tähän jaksoon
+        </SupplementaryButton>
+        <p className="opening-period-notification-text">
+          <IconAlertCircle />
+          <span>
+            Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
+            aukioloaikoja useammilla eri säännöillä
+          </span>
+        </p>
+      </div>
       <div className="opening-period-final-action-row-container">
         <PrimaryButton
           dataTest="publish-opening-period-button"
