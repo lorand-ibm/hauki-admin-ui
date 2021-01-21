@@ -37,24 +37,17 @@
 }
 
 .form-group {
-  padding: $spacing-l 0 0;
+  margin-bottom: $spacing-layout-s;
 
-  &:first-of-type {
-    padding-top: 0;
+  & + & {
+    border-top: 1px solid var(--hauki-content-border-color);
+    padding: $spacing-layout-s 0 0;
   }
 
-  &:not(:last-child):not(:empty) {
-    border-bottom: 1px solid var(--hauki-content-border-color);
+  &.time-spans-group,
+  &.rules-group {
+    margin-bottom: 0;
   }
-
-  &.form-button-group {
-    padding-bottom: $spacing-3-xl;
-  }
-}
-
-.opening-period-section-title {
-  margin-top: 0;
-  margin-bottom: $spacing-l;
 }
 
 .opening-period-field-list {
@@ -66,21 +59,26 @@
 .opening-period-field-list-item {
   list-style: none;
   margin: 0;
-  padding: 0 0 $spacing-xl;
+  padding: 0 0 $spacing-layout-s;
 
   &:not(:first-child) {
     border-top: var(--spacing-4-xs) solid var(--primary-color);
   }
 }
 
+.opening-period-rule-list-item {
+  padding-bottom: $spacing-layout-2-xs;
+}
+
+.opening-period-section-title {
+  margin-top: 0;
+  margin-bottom: $spacing-l;
+}
+
 .opening-period-rule-list:not(:empty) {
   @media screen and (min-width: $breakpoint-m) {
     margin-top: (-1 * $spacing-5-xl); // A hacky way to inline the first remove button with the section title
   }
-}
-
-.opening-period-rule-list-item {
-  padding-bottom: $spacing-s;
 }
 
 .time-span-group {

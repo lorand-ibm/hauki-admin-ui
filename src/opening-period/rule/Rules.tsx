@@ -28,7 +28,7 @@ export default function Rules({
 
   return (
     <>
-      <div className="form-group">
+      <div className="form-group rules-group">
         <h3 className="opening-period-section-title">
           Aukioloaikojen voimassaolo
         </h3>
@@ -60,7 +60,7 @@ export default function Rules({
           )}
         </ul>
       </div>
-      <div className="form-group form-button-group">
+      <div className="form-group">
         <SecondaryButton
           dataTest={`add-new-rule-button-${groupIndex}`}
           onClick={(): void => append({})}>

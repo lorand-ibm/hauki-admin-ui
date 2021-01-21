@@ -55,7 +55,7 @@ export default function TimeSpans({
           )}
         </ul>
       </div>
-      <div className="form-group form-button-group">
+      <div className="form-group">
         <SecondaryButton
           dataTest={`add-new-time-span-button-${groupIndex}`}
           onClick={(): void => append({})}>
