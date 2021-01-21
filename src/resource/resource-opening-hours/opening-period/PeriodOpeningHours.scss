@@ -1,8 +1,8 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
-.weekday-row {
+.time-span-row {
   display: grid;
-  grid-template-columns: 70px 1fr 1fr 4fr;
+  grid-template-columns: 180px 2fr 2fr 4fr;
   align-items: start;
   font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
 
@@ -11,7 +11,7 @@
     margin-bottom: 0;
     line-height: 2;
 
-    &.weekday-description {
+    &.time-span-preview-description {
       font-family: HelsinkiGrotesk-Regular, Arial, sans-serif;
     }
   }

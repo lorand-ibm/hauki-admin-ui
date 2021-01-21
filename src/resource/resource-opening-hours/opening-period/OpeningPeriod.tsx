@@ -22,7 +22,7 @@ import {
   useModal,
 } from '../../../components/modal/ConfirmationModal';
 import './OpeningPeriod.scss';
-import WeekdayOpeningHours from './WeekdayOpeningHours';
+import PeriodOpeningHours from './PeriodOpeningHours';
 
 function containsSpecialRules(rules: GroupRule[]): boolean {
   return rules.some((rule) => {
@@ -206,7 +206,7 @@ export default function OpeningPeriod({
         <div className="date-period-details-container">
           {nonSupportedFeatures.length === 0 && (
             <div>
-              <WeekdayOpeningHours
+              <PeriodOpeningHours
                 datePeriod={datePeriod}
                 datePeriodConfig={datePeriodConfig}
                 language={language}
