@@ -9,6 +9,7 @@ import {
 } from 'hds-react';
 import {
   DatePeriod,
+  GroupRule,
   Language,
   LanguageStrings,
   UiDatePeriodConfig,
@@ -23,6 +24,14 @@ import {
 import './OpeningPeriod.scss';
 import WeekdayOpeningHours from './WeekdayOpeningHours';
 
+function containsSpecialRules(rules: GroupRule[]): boolean {
+  return rules.some((rule) => {
+    return (
+      rule.context !== 'period' || rule.subject !== 'day' || rule.start !== 1
+    );
+  });
+}
+
 function getNonSupportedFeatures(datePeriod: DatePeriod): string[] {
   const nonSupportedFeatures = [];
   if (datePeriod.time_span_groups.length === 0) {
@@ -35,9 +44,12 @@ function getNonSupportedFeatures(datePeriod: DatePeriod): string[] {
     return nonSupportedFeatures;
   }
 
-  if (datePeriod.time_span_groups[0].rules.length > 0) {
+  if (
+    datePeriod.time_span_groups[0].rules.length > 0 &&
+    containsSpecialRules(datePeriod.time_span_groups[0].rules)
+  ) {
     nonSupportedFeatures.push(
-      'Jaksossa on erikseen määriteltyjä toistuvuussääntöjä'
+      'Jaksossa on erikseen määriteltyjä perustapauksesta poikkeavia toistuvuussääntöjä'
     );
   }
 
