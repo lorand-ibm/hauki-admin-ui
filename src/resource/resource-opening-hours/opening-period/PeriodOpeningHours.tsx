@@ -2,9 +2,7 @@ import React from 'react';
 import {
   DatePeriod,
   Language,
-  LanguageStrings,
   ResourceState,
-  TimeSpan,
   UiDatePeriodConfig,
   UiFieldConfig,
   Weekdays,
