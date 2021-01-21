@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrayField, Controller, Control } from 'react-hook-form';
-import { Button as HDSButton, IconTrash, Select, TextInput } from 'hds-react';
+import { IconTrash, Select, TextInput } from 'hds-react';
+import { SupplementaryButton } from '../../components/button/Button';
 import Weekdays from './Weekdays';
 import './TimeSpan.scss';
 import TimeInput from './TimeInput';
@@ -50,14 +51,12 @@ export default function TimeSpan({
           item={item}
           register={register}
         />
-        <HDSButton
-          data-test={`remove-time-span-button-${groupIndex}-${index}`}
-          className="opening-period-remove-list-item-button"
-          variant="supplementary"
+        <SupplementaryButton
+          dataTest={`remove-time-span-button-${groupIndex}-${index}`}
           onClick={(): void => remove(index)}
           iconLeft={<IconTrash />}>
           Poista aukioloaika
-        </HDSButton>
+        </SupplementaryButton>
       </div>
       <div className="form-control">
         <div className="start-and-end-time-container">

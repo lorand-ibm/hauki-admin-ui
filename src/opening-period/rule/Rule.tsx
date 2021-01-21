@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button as HDSButton, IconTrash, Select } from 'hds-react';
+import { IconTrash, Select } from 'hds-react';
 import { ArrayField, Control, Controller } from 'react-hook-form';
-
+import { SupplementaryButton } from '../../components/button/Button';
 import {
   InputOption,
   Frequency,
@@ -212,14 +212,12 @@ export default function Rule({
         ref={register()}
       />
       <div className="opening-group-rule-remove">
-        <HDSButton
-          data-test={`remove-rule-button-${groupIndex}-${index}`}
-          className="opening-period-remove-list-item-button"
-          variant="supplementary"
+        <SupplementaryButton
+          dataTest={`remove-rule-button-${groupIndex}-${index}`}
           onClick={(): void => remove(index)}
           iconLeft={<IconTrash />}>
           Poista aukioloaikojen voimassaolosääntö
-        </HDSButton>
+        </SupplementaryButton>
       </div>
       <div className="opening-group-rule-fieldset">
         <Controller
