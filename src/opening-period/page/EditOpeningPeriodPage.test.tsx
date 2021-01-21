@@ -10,10 +10,11 @@ import {
 import api from '../../common/utils/api/api';
 import EditOpeningPeriodPage from './EditOpeningPeriodPage';
 
-// Opening period form uses react-router to redirect after successful save - mocking prevents unnecessary errors in test logs
+const mockHistoryPush = jest.fn();
+
 jest.mock('react-router-dom', () => ({
   useHistory: (): { push: jest.Mock } => ({
-    push: jest.fn(),
+    push: mockHistoryPush,
   }),
 }));
 
@@ -106,6 +107,8 @@ const testResource: Resource = {
   children: [],
   parents: [],
 };
+
+const testResourcePageUrl = `/resource/${testResource.id}`;
 
 const weekdayTimeSpanId = 2636;
 const weekendTimeSpanId = 2637;
@@ -613,6 +616,8 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
           ],
         })
       );
+
+      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
     });
   });
 
@@ -700,6 +705,8 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
           ],
         })
       );
+
+      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
     });
   });
 
@@ -760,6 +767,8 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
           ],
         })
       );
+
+      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
     });
   });
 });

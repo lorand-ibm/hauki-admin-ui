@@ -52,12 +52,6 @@ describe('User adds a new opening period', () => {
     // Try submit form
     cy.get('[data-test=publish-opening-period-button]').click();
 
-    // On successful creation user is redirected to resource page and a success notification should appear. Let's test that this is the case
-
-    cy.location().should((location) => {
-      expect(location.pathname).to.not.contain('new');
-    });
-
     cy.get('[data-testid=opening-period-form-success]', {
       timeout: 10000,
     }).should('be.visible');
