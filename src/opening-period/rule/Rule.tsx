@@ -74,22 +74,28 @@ const startAtOptions: InputOption[] = Array.from({ length: 10 }).map(
 );
 
 export default function Rule({
+  namePrefix,
   rule,
   control,
   setValue,
   remove,
   register,
   index,
+  groupIndex,
   ruleConfig,
 }: {
+  namePrefix: string;
   rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>;
   control: Control;
   setValue: Function;
   remove: Function;
   register: Function;
   index: number;
+  groupIndex: number;
   ruleConfig: UiRuleConfig;
 }): JSX.Element {
+  const ruleNamePrefix = `${namePrefix}[${index}]`;
+
   const {
     id,
     context,
@@ -156,8 +162,8 @@ export default function Rule({
     convertFrequencyToInputOption
   );
 
-  const frequencyModifierField = `rules[${index}].frequency_modifier`;
-  const frequencyOrdinalField = `rules[${index}].frequency_ordinal`;
+  const frequencyModifierField = `${ruleNamePrefix}.frequency_modifier`;
+  const frequencyOrdinalField = `${ruleNamePrefix}.frequency_ordinal`;
 
   const onFrequencyChange = (selected: InputOption): void => {
     const selectedFrequency = allFrequencyValues.find(
@@ -195,16 +201,19 @@ export default function Rule({
   ]);
 
   return (
-    <div className="opening-group-rule form-control" key={`rules-${index}`}>
+    <div
+      className="opening-group-rule form-control"
+      data-test={`rule-${groupIndex}-${index}`}
+      key={`rules-${index}`}>
       <input
         type="hidden"
-        name={`rules[${index}].id`}
+        name={`${ruleNamePrefix}.id`}
         defaultValue={id}
         ref={register()}
       />
       <div className="opening-group-rule-remove">
         <HDSButton
-          data-test={`remove-rule-button-${index}`}
+          data-test={`remove-rule-button-${groupIndex}-${index}`}
           className="opening-period-remove-list-item-button"
           variant="supplementary"
           onClick={(): void => remove(index)}
@@ -214,13 +223,13 @@ export default function Rule({
       </div>
       <div className="opening-group-rule-fieldset">
         <Controller
-          key={`rule-${index}-context`}
-          name={`rules[${index}].context`}
+          key={`rule-context-${groupIndex}-${index}`}
+          name={`${ruleNamePrefix}.context`}
           control={control}
           defaultValue={`${context || ''}`}
           render={({ onChange, value }): JSX.Element => (
             <Select
-              id={`rule-${index}-context`}
+              id={`rule-context-${groupIndex}-${index}`}
               className="opening-group-rule-column opening-group-rule-select"
               onChange={(selected: InputOption): void =>
                 onChange(selected.value)
@@ -235,8 +244,8 @@ export default function Rule({
           )}
         />
         <Select
-          key={`rule-${index}-frequency`}
-          id={`rule-${index}-frequency`}
+          key={`rule-frequency-${groupIndex}-${index}`}
+          id={`rule-frequency-${groupIndex}-${index}`}
           className="opening-group-rule-column opening-group-rule-select"
           defaultValue={frequencyOptions.find(
             ({ value }) => value === frequencyToString(currentFrequency)
@@ -249,13 +258,13 @@ export default function Rule({
           placeholder="Tapahtumatiheys"
         />
         <Controller
-          key={`rule-${index}-subject`}
-          name={`rules[${index}].subject`}
+          key={`rule-subject-${groupIndex}-${index}`}
+          name={`${ruleNamePrefix}.subject`}
           control={control}
           defaultValue={`${subject || ''}`}
           render={({ onChange, value }): JSX.Element => (
             <Select
-              id={`rule-${index}-subject`}
+              id={`rule-subject-${groupIndex}-${index}`}
               className="opening-group-rule-column opening-group-rule-select"
               defaultValue={subjectOptions.find(
                 (selected: InputOption): boolean => selected.value === value
@@ -273,13 +282,13 @@ export default function Rule({
         <div className="opening-group-rule-column opening-group-rule-column-large">
           <p key="rule-subject-divider">Alkaen</p>
           <Controller
-            key={`rule-${index}-start`}
-            name={`rules[${index}].start`}
+            key={`rule-start-${groupIndex}-${index}`}
+            name={`${ruleNamePrefix}.start`}
             control={control}
             defaultValue={`${startAt || ''}`}
             render={({ onChange, value }): JSX.Element => (
               <Select
-                id={`rule-${index}-start`}
+                id={`rule-start-${groupIndex}-${index}`}
                 className="opening-group-rule-select"
                 defaultValue={startAtOptions.find(
                   (selected: InputOption): boolean => selected.value === value

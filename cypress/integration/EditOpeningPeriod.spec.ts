@@ -18,13 +18,6 @@ describe('User edits an opening period', () => {
     start_time: '12:00:00',
     weekdays: [1],
   };
-  const rule = {
-    context: 'period',
-    frequency_modifier: null,
-    frequency_ordinal: 1,
-    subject: 'week',
-    start: '2',
-  };
 
   before(() => {
     cy.createDatePeriod({
@@ -33,7 +26,7 @@ describe('User edits an opening period', () => {
       endDate,
       resourceId,
       timeSpans: [timeSpan],
-      rules: [rule],
+      rules: [],
     }).then((id: string) => {
       if (id) {
         dataPeriodId = id;
@@ -69,21 +62,15 @@ describe('User edits an opening period', () => {
       .type(newTitle, { log: true });
 
     // Change timespan data
-    cy.get('[data-test=weekdays-monday-0-checkbox]').should('be.checked');
-    cy.get('[data-test=weekdays-monday-0]').click();
-    cy.get('[data-test=weekdays-monday-0-checkbox]').should('not.be.checked');
+    cy.get('[data-test=weekdays-monday-0-0-checkbox]').should('be.checked');
+    cy.get('[data-test=weekdays-monday-0-0]').click();
+    cy.get('[data-test=weekdays-monday-0-0-checkbox]').should('not.be.checked');
 
-    cy.get('[data-test=weekdays-tuesday-0]').click();
-    cy.get('[data-test=weekdays-tuesday-0-checkbox]').should('be.checked');
+    cy.get('[data-test=weekdays-tuesday-0-0]').click();
+    cy.get('[data-test=weekdays-tuesday-0-0-checkbox]').should('be.checked');
 
-    cy.get('[data-test=time-span-start-time-0]').type('08:00');
-    cy.get('[data-test=time-span-end-time-0]').type('16:00');
-
-    // Change rules data
-    cy.selectHdsDropdown({ id: 'rule-0-context', value: 'Kuukausi' });
-    cy.selectHdsDropdown({ id: 'rule-0-frequency', value: 'Parillinen' });
-    cy.selectHdsDropdown({ id: 'rule-0-subject', value: 'Viikko' });
-    cy.selectHdsDropdown({ id: 'rule-0-start', value: '1.' });
+    cy.get('[data-test=time-span-start-time-0-0]').type('08:00');
+    cy.get('[data-test=time-span-end-time-0-0]').type('16:00');
 
     // Save
     cy.get('[data-test=publish-opening-period-button]').click({

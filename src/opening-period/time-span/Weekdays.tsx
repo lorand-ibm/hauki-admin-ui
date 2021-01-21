@@ -6,19 +6,19 @@ import { TimeSpanFormFormat, FormWeekdays } from '../../common/lib/types';
 const DayCheckbox = ({
   register,
   dataTest,
-  timeSpanIndex,
+  namePrefix,
   dayIndex,
   weekdays = [],
   children,
 }: {
   register: Function;
   dataTest: string;
-  timeSpanIndex: number;
+  namePrefix: string;
   dayIndex: number;
   weekdays?: boolean[];
   children: string;
 }): JSX.Element => {
-  const checkBoxId = `timeSpans[${timeSpanIndex}].weekdays[${dayIndex}]`;
+  const checkBoxId = `${namePrefix}[${dayIndex}]`;
 
   return (
     <label data-test={dataTest} htmlFor={checkBoxId} className="day-label">
@@ -36,15 +36,20 @@ const DayCheckbox = ({
 };
 
 export default function Weekdays({
+  namePrefix,
   index,
+  groupIndex,
   register,
   item,
 }: {
+  namePrefix: string;
   index: number;
+  groupIndex: number;
   register: Function;
   item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
 }): JSX.Element {
   const asWeekdaysValue = (item.weekdays as unknown) as FormWeekdays;
+  const weekdaysNamePrefix = `${namePrefix}.weekdays`;
 
   return (
     <fieldset>
@@ -52,56 +57,56 @@ export default function Weekdays({
       <DayCheckbox
         weekdays={asWeekdaysValue}
         register={register}
-        dataTest={`weekdays-monday-${index}`}
-        timeSpanIndex={index}
+        dataTest={`weekdays-monday-${groupIndex}-${index}`}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={0}>
         Ma
       </DayCheckbox>
       <DayCheckbox
         weekdays={asWeekdaysValue}
         register={register}
-        dataTest={`weekdays-tuesday-${index}`}
-        timeSpanIndex={index}
+        dataTest={`weekdays-tuesday-${groupIndex}-${index}`}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={1}>
         Ti
       </DayCheckbox>
       <DayCheckbox
         weekdays={asWeekdaysValue}
         register={register}
-        dataTest={`weekdays-wednesday-${index}`}
-        timeSpanIndex={index}
+        dataTest={`weekdays-wednesday-${groupIndex}-${index}`}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={2}>
         Ke
       </DayCheckbox>
       <DayCheckbox
         weekdays={asWeekdaysValue}
         register={register}
-        dataTest={`weekdays-thursday-${index}`}
-        timeSpanIndex={index}
+        dataTest={`weekdays-thursday-${groupIndex}-${index}`}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={3}>
         To
       </DayCheckbox>
       <DayCheckbox
         weekdays={asWeekdaysValue}
         register={register}
-        dataTest={`weekdays-friday-${index}`}
-        timeSpanIndex={index}
+        dataTest={`weekdays-friday-${groupIndex}-${index}`}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={4}>
         Pe
       </DayCheckbox>
       <DayCheckbox
         weekdays={asWeekdaysValue}
         register={register}
-        dataTest={`weekdays-saturday-${index}`}
-        timeSpanIndex={index}
+        dataTest={`weekdays-saturday-${groupIndex}-${index}`}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={5}>
         La
       </DayCheckbox>
       <DayCheckbox
         weekdays={asWeekdaysValue}
         register={register}
-        dataTest={`weekdays-sunday-${index}`}
-        timeSpanIndex={index}
+        dataTest={`weekdays-sunday-${groupIndex}-${index}`}
+        namePrefix={weekdaysNamePrefix}
         dayIndex={6}>
         Su
       </DayCheckbox>

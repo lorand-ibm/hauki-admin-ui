@@ -33,21 +33,14 @@ describe('User adds a new opening period', () => {
     cy.get('button.dayButton').contains('01').click();
 
     // Then enter time span data
-    cy.get('[data-test=weekdays-monday-0]').click();
-    cy.get('[data-test=weekdays-tuesday-0]').click();
-    cy.get('[data-test=weekdays-wednesday-0]').click();
-    cy.get('[data-test=weekdays-thursday-0]').click();
-    cy.get('[data-test=weekdays-friday-0]').click();
-    cy.get('[data-test=time-span-start-time-0]').type('08:00');
-    cy.get('[data-test=time-span-end-time-0]').type('16:00');
-    cy.selectHdsDropdown({ id: 'time-span-state-id-0', value: 'Auki' });
-
-    // Enter rules data
-    cy.get('button[data-test="add-new-rule-button"]').click();
-    cy.selectHdsDropdown({ id: 'rule-0-context', value: 'Kuukausi' });
-    cy.selectHdsDropdown({ id: 'rule-0-frequency', value: 'Parillinen' });
-    cy.selectHdsDropdown({ id: 'rule-0-subject', value: 'Viikko' });
-    cy.selectHdsDropdown({ id: 'rule-0-start', value: '1.' });
+    cy.get('[data-test=weekdays-monday-0-0]').click();
+    cy.get('[data-test=weekdays-tuesday-0-0]').click();
+    cy.get('[data-test=weekdays-wednesday-0-0]').click();
+    cy.get('[data-test=weekdays-thursday-0-0]').click();
+    cy.get('[data-test=weekdays-friday-0-0]').click();
+    cy.get('[data-test=time-span-start-time-0-0]').type('08:00');
+    cy.get('[data-test=time-span-end-time-0-0]').type('16:00');
+    cy.selectHdsDropdown({ id: 'time-span-state-id-0-0', value: 'Auki' });
 
     // Try submit form
     cy.get('[data-test=publish-opening-period-button]').click();

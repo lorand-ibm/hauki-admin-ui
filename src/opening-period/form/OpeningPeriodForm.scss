@@ -9,11 +9,6 @@
     display: block;
   }
 
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
   margin-top: $spacing-xl;
 }
 
@@ -42,11 +37,24 @@
 }
 
 .form-group {
-  padding: $spacing-layout-s 0;
+  padding: $spacing-l 0 0;
+
+  &:first-of-type {
+    padding-top: 0;
+  }
 
   &:not(:last-child):not(:empty) {
     border-bottom: 1px solid var(--hauki-content-border-color);
   }
+
+  &.form-button-group {
+    padding-bottom: $spacing-3-xl;
+  }
+}
+
+.opening-period-section-title {
+  margin-top: 0;
+  margin-bottom: $spacing-l;
 }
 
 .opening-period-field-list {
@@ -56,19 +64,18 @@
 }
 
 .opening-period-field-list-item {
-  border-top: var(--spacing-4-xs) solid var(--primary-color);
   list-style: none;
   margin: 0;
   padding: 0 0 $spacing-xl;
 
-  &:first-child {
-    border-top: none;
+  &:not(:first-child) {
+    border-top: var(--spacing-4-xs) solid var(--primary-color);
   }
 }
 
 .opening-period-rule-list:not(:empty) {
   @media screen and (min-width: $breakpoint-m) {
-    margin-top: -4rem; // A hacky way to inline the first remove button with the section title
+    margin-top: (-1 * $spacing-5-xl); // A hacky way to inline the first remove button with the section title
   }
 }
 
