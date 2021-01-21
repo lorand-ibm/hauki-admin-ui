@@ -78,11 +78,6 @@ describe('User edits an opening period', () => {
       log: true,
     });
 
-    // Wait for resource page redirect
-    cy.location().should((location) => {
-      expect(location.pathname).to.not.contain(dataPeriodId);
-    });
-
     // Wait for success notification
     cy.get('[data-testid=opening-period-form-success]', {
       timeout: 10000,

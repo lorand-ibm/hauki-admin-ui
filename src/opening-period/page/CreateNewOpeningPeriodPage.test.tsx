@@ -10,6 +10,14 @@ import {
 import api from '../../common/utils/api/api';
 import CreateNewOpeningPeriodPage from './CreateNewOpeningPeriodPage';
 
+const mockHistoryPush = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  useHistory: (): { push: jest.Mock } => ({
+    push: mockHistoryPush,
+  }),
+}));
+
 function getElementOrThrow(
   container: Element | null,
   selector: string
@@ -169,6 +177,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
   jest.setTimeout(30000); // We suspect rendering + react-hooks + act wrapping + async await causes tests to run slow
   let testDatePeriodConfig: UiDatePeriodConfig;
   let testResource: Resource;
+  let testResourcePageUrl: string;
   let testDatePeriod: DatePeriod;
 
   beforeEach(() => {
@@ -220,6 +229,8 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       children: [],
       parents: [],
     };
+
+    testResourcePageUrl = `/resource/${testResource.id}`;
 
     testDatePeriod = {
       id: 1,
@@ -441,6 +452,8 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
+      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
+
       expect(
         await screen.findByTestId('opening-period-form-success')
       ).toBeInTheDocument();
@@ -497,6 +510,8 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
+      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
+
       expect(
         await screen.findByTestId('opening-period-form-success')
       ).toBeInTheDocument();

@@ -10,6 +10,14 @@ import {
 import api from '../../common/utils/api/api';
 import EditOpeningPeriodPage from './EditOpeningPeriodPage';
 
+const mockHistoryPush = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  useHistory: (): { push: jest.Mock } => ({
+    push: mockHistoryPush,
+  }),
+}));
+
 const closedResourceState = {
   value: 'closed',
   label: 'Suljettu',
@@ -99,6 +107,8 @@ const testResource: Resource = {
   children: [],
   parents: [],
 };
+
+const testResourcePageUrl = `/resource/${testResource.id}`;
 
 const weekdayTimeSpanId = 2636;
 const weekendTimeSpanId = 2637;
@@ -606,6 +616,8 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
           ],
         })
       );
+
+      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
     });
   });
 
@@ -693,6 +705,8 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
           ],
         })
       );
+
+      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
     });
   });
 
@@ -753,6 +767,8 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
           ],
         })
       );
+
+      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
     });
   });
 });
