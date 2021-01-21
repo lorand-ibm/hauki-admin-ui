@@ -13,14 +13,6 @@ import {
 import { dropMilliseconds } from '../../../common/utils/date-time/format';
 import './PeriodOpeningHours.scss';
 
-interface WeekdayRow {
-  weekdayIndex: WeekdayTypes;
-  startTime: string;
-  endTime: string;
-  resourceState: ResourceState;
-  description: LanguageStrings;
-}
-
 type WeekdayIndexToShortNameMappings = {
   [language in Language]: {
     [weekdayType in WeekdayTypes]: string;
