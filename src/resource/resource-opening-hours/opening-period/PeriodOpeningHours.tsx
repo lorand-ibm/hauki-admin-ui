@@ -33,10 +33,10 @@ export default function PeriodOpeningHours({
   const timeSpans = datePeriod.time_span_groups[0].time_spans;
 
   return (
-    <>
+    <div data-test="period-opening-hours-container">
       {timeSpans.map((timeSpan, index) => {
         return (
-          <div className="time-span-row" key={index}>
+          <div data-test="time-span-row" className="time-span-row" key={index}>
             <p>
               {createWeekdaysStringFromIndices(timeSpan.weekdays, language)}
             </p>
@@ -56,6 +56,6 @@ export default function PeriodOpeningHours({
           </div>
         );
       })}
-    </>
+    </div>
   );
 }

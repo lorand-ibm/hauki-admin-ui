@@ -2,7 +2,12 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { DatePeriod, Resource, ResourceState } from '../../common/lib/types';
+import {
+  DatePeriod,
+  Resource,
+  ResourceState,
+  UiDatePeriodConfig,
+} from '../../common/lib/types';
 import api from '../../common/utils/api/api';
 import ResourcePage from './ResourcePage';
 
@@ -96,6 +101,71 @@ const testDatePeriod: DatePeriod = {
   time_span_groups: [],
 };
 
+const closedResourceState = {
+  value: 'closed',
+  label: 'Suljettu',
+};
+
+const testDatePeriodOptions: UiDatePeriodConfig = {
+  resourceState: {
+    options: [
+      {
+        value: 'open',
+        label: 'Auki',
+      },
+      { ...closedResourceState },
+      {
+        value: 'self_service',
+        label: 'Itsepalvelu',
+      },
+    ],
+  },
+  timeSpanGroup: {
+    rule: {
+      context: {
+        options: [
+          {
+            value: 'period',
+            label: 'Jakso',
+          },
+          {
+            value: 'month',
+            label: 'Kuukausi',
+          },
+        ],
+      },
+      subject: {
+        options: [
+          {
+            value: 'week',
+            label: 'Viikko',
+          },
+          {
+            value: 'month',
+            label: 'Kuukausi',
+          },
+          {
+            value: 'mon',
+            label: 'Maanantai',
+          },
+        ],
+      },
+      frequencyModifier: {
+        options: [
+          {
+            value: 'odd',
+            label: 'Pariton',
+          },
+          {
+            value: 'even',
+            label: 'Parillinen',
+          },
+        ],
+      },
+    },
+  },
+};
+
 describe(`<ResourcePage />`, () => {
   beforeEach(() => {
     jest
@@ -105,6 +175,10 @@ describe(`<ResourcePage />`, () => {
     jest
       .spyOn(api, 'getDatePeriods')
       .mockImplementation(() => Promise.resolve([testDatePeriod]));
+
+    jest
+      .spyOn(api, 'getDatePeriodFormOptions')
+      .mockImplementation(() => Promise.resolve(testDatePeriodOptions));
 
     jest
       .spyOn(api, 'getChildResourcesByParentId')
@@ -262,6 +336,23 @@ describe(`<ResourcePage />`, () => {
         'rel',
         'noopener noreferrer'
       );
+    });
+  });
+
+  it('should show resource opening hours', async () => {
+    let container: Element;
+    await act(async () => {
+      container = render(
+        <Router>
+          <ResourcePage id="tprek:8100" />
+        </Router>
+      ).container;
+    });
+
+    await act(async () => {
+      expect(
+        await container.querySelector('div[data-test="openingPeriod-1"]')
+      ).toBeInTheDocument();
     });
   });
 

@@ -214,7 +214,9 @@ export default function OpeningPeriod({
               {datePeriodDescriptionExistsInSomeLanguage(
                 datePeriod.description
               ) && (
-                <div className="date-period-description">
+                <div
+                  data-test="date-period-description"
+                  className="date-period-description">
                   <div>
                     {datePeriodDescription && <p>{datePeriodDescription}</p>}
                     {!datePeriodDescription && (

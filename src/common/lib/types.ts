@@ -135,6 +135,11 @@ interface BaseGroupRule extends Frequency {
 
 export interface GroupRule extends BaseGroupRule {
   id?: number;
+  group?: number;
+  name?: LanguageStrings;
+  description?: LanguageStrings;
+  created?: string;
+  modified?: string;
   start: number;
 }
 
