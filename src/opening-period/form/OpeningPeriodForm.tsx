@@ -158,7 +158,7 @@ export default function OpeningPeriodForm({
       setValue(
         'timeSpanGroups',
         datePeriod?.time_span_groups
-          ? formatTimeSpanGroupsToFormFormat(datePeriod?.time_span_groups)
+          ? formatTimeSpanGroupsToFormFormat(datePeriod.time_span_groups)
           : [defaultTimeSpanGroup]
       );
     }
