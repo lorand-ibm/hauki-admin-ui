@@ -214,7 +214,7 @@ export default function OpeningPeriodForm({
                   removeTimeSpanGroup(index);
                 }}
                 iconLeft={<IconTrash />}>
-                Poista Aukioloryhmä
+                Poista aukioloryhmä
               </SupplementaryButton>
             </div>
             <input
