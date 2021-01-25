@@ -28,7 +28,6 @@ export default function TimeSpans({
   return (
     <>
       <div className="form-group time-spans-group">
-        <h3 className="opening-period-section-title">Aukioloajat</h3>
         <ul
           className="opening-period-field-list"
           data-test={`time-span-list-${groupIndex}`}>
