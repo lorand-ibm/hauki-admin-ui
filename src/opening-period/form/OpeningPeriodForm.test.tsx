@@ -169,6 +169,10 @@ const renderOpeningPeriodForm = (props: OpeningPeriodFormProps): Element => {
 
 describe(`<OpeningPeriodForm />`, () => {
   describe(`TimeSpanGroups`, () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('should render time-span-groups', async () => {
       let container: Element;
 
@@ -314,6 +318,60 @@ describe(`<OpeningPeriodForm />`, () => {
         expect(
           container.querySelectorAll(`[data-test="time-span-group-1"]`).length
         ).toBe(1);
+      });
+    });
+
+    it('should remove time-span-group', async () => {
+      let container: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [timeSpanGroupA, timeSpanGroupB],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      act(() => {
+        const timeSpanGroupElementA = getElementOrThrow(
+          container,
+          `[data-test="time-span-group-${groupIdA}"]`
+        );
+
+        const removeGroupButton = getElementOrThrow(
+          timeSpanGroupElementA,
+          '[data-test="remove-time-span-group"]'
+        );
+        fireEvent.click(removeGroupButton);
+      });
+
+      await act(async () => {
+        expect(
+          container.querySelectorAll(
+            `[data-test="time-span-group-${groupIdA}"]`
+          ).length
+        ).toBe(0);
+      });
+
+      await act(async () => {
+        const saveButton = container.querySelector(
+          '[data-test="publish-opening-period-button"]'
+        );
+        if (!saveButton) {
+          throw new Error(`Element with selector ${saveButton} not found`);
+        }
+
+        fireEvent.click(saveButton);
+      });
+
+      act(() => {
+        expect(submitFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            time_span_groups: [timeSpanGroupB],
+          })
+        );
       });
     });
   });
