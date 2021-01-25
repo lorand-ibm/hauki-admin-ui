@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrayField, useFieldArray, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { IconAlertCircle, IconPlus } from 'hds-react';
+import { IconAlertCircle, IconPlus, IconTrash } from 'hds-react';
 import {
   DatePeriod,
   UiDatePeriodConfig,
@@ -106,6 +106,7 @@ export default function OpeningPeriodForm({
   const {
     fields: timeSpanGroupFields,
     append: appendTimeSpanGroup,
+    remove: removeTimeSpanGroup,
   } = useFieldArray({
     control,
     keyName: 'timeSpanGroupUiId',
@@ -202,9 +203,20 @@ export default function OpeningPeriodForm({
           index: number
         ) => (
           <section
-            key={`time-span-group-${timeSpanGroup.id || index}`}
+            key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
             data-test={`time-span-group-${timeSpanGroup.id || index}`}
             className="form-section time-span-group">
+            <div className="opening-period-action-row">
+              <h3 className="opening-period-section-title">Aukioloryhmä</h3>
+              <SupplementaryButton
+                dataTest="remove-time-span-group"
+                onClick={(): void => {
+                  removeTimeSpanGroup(index);
+                }}
+                iconLeft={<IconTrash />}>
+                Poista Aukioloryhmä
+              </SupplementaryButton>
+            </div>
             <input
               type="hidden"
               name={`${timeSpanGroupFieldName}[${index}].id`}
@@ -235,7 +247,7 @@ export default function OpeningPeriodForm({
           </section>
         )
       )}
-      <div className="opening-period-action-row">
+      <div className="opening-period-action-row opening-period-action-row-condensed">
         <SupplementaryButton
           dataTest="add-time-span-group"
           onClick={(): void => appendTimeSpanGroup(defaultTimeSpanGroup)}
