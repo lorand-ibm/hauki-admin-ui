@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrayField, Control, useFieldArray } from 'react-hook-form';
 import { SecondaryButton } from '../../components/button/Button';
 import { TimeSpanFormFormat, UiFieldConfig } from '../../common/lib/types';
@@ -24,6 +24,13 @@ export default function TimeSpans({
     keyName: 'timeSpanUiId',
     name: timeSpanNamePrefix,
   });
+
+  // If new group is appended we need to trigger nested array append manually, React-hook-form useArrayFields has their own independent scope: https://github.com/react-hook-form/react-hook-form/issues/1561#issuecomment-623398286
+  useEffect(() => {
+    if (fields.length === 0) {
+      append({});
+    }
+  }, [append, fields]);
 
   return (
     <>
