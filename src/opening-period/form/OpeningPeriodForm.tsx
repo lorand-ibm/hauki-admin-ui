@@ -8,7 +8,6 @@ import {
   Language,
   TimeSpanFormFormat,
   TimeSpanGroupFormFormat,
-  TimeSpanGroup,
 } from '../../common/lib/types';
 import { transformDateToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
