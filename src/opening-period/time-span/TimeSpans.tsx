@@ -21,7 +21,7 @@ export default function TimeSpans({
 
   const { fields, remove, append } = useFieldArray({
     control,
-    keyName: 'timeSpansUiId',
+    keyName: 'timeSpanUiId',
     name: timeSpanNamePrefix,
   });
 
@@ -39,7 +39,7 @@ export default function TimeSpans({
             ) => (
               <li
                 className="opening-period-field-list-item"
-                key={`time-span-${item.id || index}`}>
+                key={`time-span-item-${item.timeSpanUiId}`}>
                 <TimeSpan
                   namePrefix={timeSpanNamePrefix}
                   item={item}

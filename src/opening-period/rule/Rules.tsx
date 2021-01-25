@@ -23,7 +23,7 @@ export default function Rules({
   const { fields, remove, append } = useFieldArray({
     control,
     name: ruleNamePrefix,
-    keyName: 'rulesUiId',
+    keyName: 'ruleUiId',
   });
 
   return (
@@ -42,7 +42,7 @@ export default function Rules({
             ) => (
               <li
                 className="opening-period-field-list-item opening-period-rule-list-item"
-                key={`rule-${rule.id || index}`}
+                key={`time-span-item-${rule.ruleUiId}`}
                 data-test={`rule-list-item-${rule.id || index}`}>
                 <Rule
                   namePrefix={ruleNamePrefix}
