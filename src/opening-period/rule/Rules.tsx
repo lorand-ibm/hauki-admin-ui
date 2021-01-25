@@ -42,7 +42,7 @@ export default function Rules({
             ) => (
               <li
                 className="opening-period-field-list-item opening-period-rule-list-item"
-                key={`time-span-item-${rule.ruleUiId}`}
+                key={`rule-list-item-${rule.ruleUiId}`}
                 data-test={`rule-list-item-${rule.id || index}`}>
                 <Rule
                   namePrefix={ruleNamePrefix}
