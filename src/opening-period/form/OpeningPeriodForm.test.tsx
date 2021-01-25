@@ -1,6 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
+import { getElementOrThrow } from '../../../test/test-utils';
 import {
   DatePeriod,
   UiDatePeriodConfig,
@@ -174,15 +175,10 @@ describe(`<OpeningPeriodForm />`, () => {
       });
 
       act(() => {
-        const timeSpanGroupElementA = container.querySelector(
+        const timeSpanGroupElementA = getElementOrThrow(
+          container,
           `[data-test="time-span-group-${groupIdA}"]`
         );
-
-        if (!timeSpanGroupElementA) {
-          throw new Error(
-            'Something went wrong in rendering time-span-group A'
-          );
-        }
 
         // Check group A has the first time-span element
         expect(
@@ -202,15 +198,10 @@ describe(`<OpeningPeriodForm />`, () => {
             .length
         ).toBe(1);
 
-        const timeSpanGroupElementB = container.querySelector(
+        const timeSpanGroupElementB = getElementOrThrow(
+          container,
           `[data-test="time-span-group-${groupIdB}"]`
         );
-
-        if (!timeSpanGroupElementB) {
-          throw new Error(
-            'Something went wrong in rendering time-span-group B'
-          );
-        }
 
         // Check group B has only one time-span element
         expect(

@@ -1,6 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
+import { getElementOrThrow } from '../../../test/test-utils';
 import {
   DatePeriod,
   UiDatePeriodConfig,
@@ -210,22 +211,14 @@ const selectOption = async ({
 }): Promise<void> => {
   await act(async () => {
     const selectButtonSelector = `${id}-toggle-button`;
-    const selectButton = container.querySelector(selectButtonSelector);
-
-    if (!selectButton) {
-      throw new Error(`Select button ${selectButtonSelector} not found`);
-    }
+    const selectButton = getElementOrThrow(container, selectButtonSelector);
 
     fireEvent.click(selectButton);
   });
 
   await act(async () => {
     const selectDropDownSelector = `${id}-menu`;
-    const selectMenu = container.querySelector(selectDropDownSelector);
-
-    if (!selectMenu) {
-      throw new Error(`Select menu ${selectDropDownSelector} not found`);
-    }
+    const selectMenu = getElementOrThrow(container, selectDropDownSelector);
 
     const [optionToSelect] = Array.from(
       selectMenu?.querySelectorAll('li') ?? []
@@ -295,15 +288,10 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
-      const firstTimeSpan = container.querySelector(
+      const firstTimeSpan = getElementOrThrow(
+        container,
         '[data-test="time-span-list-0"] > li:first-child'
       );
-
-      if (!firstTimeSpan) {
-        throw new Error(
-          'Something went wrong in first time-span rendering of EditOpeningPeriodPage'
-        );
-      }
 
       expect(
         firstTimeSpan.querySelector(
@@ -365,15 +353,11 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
-      const lastTimeSpan = container.querySelector(
+      const lastTimeSpan = getElementOrThrow(
+        container,
         '[data-test="time-span-list-0"] > li:last-child'
       );
 
-      if (!lastTimeSpan) {
-        throw new Error(
-          'Something went wrong in last time-span rendering of EditOpeningPeriodPage'
-        );
-      }
       expect(
         lastTimeSpan.querySelector(
           '[type="checkbox"][data-test^="weekdays-monday"]'
@@ -434,15 +418,10 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
-      const periodRuleFieldset = container.querySelector(
+      const periodRuleFieldset = getElementOrThrow(
+        container,
         `[data-test="rule-list-item-${periodRuleId}"]`
       );
-
-      if (!periodRuleFieldset) {
-        throw new Error(
-          'Something went wrong in period-rule rendering of EditOpeningPeriodPage'
-        );
-      }
 
       expect(
         periodRuleFieldset.querySelector('button[id^="rule-context"]')
@@ -464,15 +443,10 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
         periodRuleFieldset.querySelector('[data-test="rule-subject-indicator"]')
       ).toHaveTextContent('Maanantai');
 
-      const monthRuleFieldset = container.querySelector(
+      const monthRuleFieldset = getElementOrThrow(
+        container,
         `[data-test="rule-list-item-${monthRuleId}"]`
       );
-
-      if (!monthRuleFieldset) {
-        throw new Error(
-          'Something went wrong in month-rule rendering of EditOpeningPeriodPage'
-        );
-      }
 
       expect(
         monthRuleFieldset.querySelector('button[id^="rule-context"]')
@@ -540,7 +514,6 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
   it('should save correct time-span data after edit', async () => {
     let container: Element;
-    let lastTimeSpan: HTMLElement | null;
 
     const patchDatePeriodSpy = jest
       .spyOn(api, 'patchDatePeriod')
@@ -548,18 +521,6 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
     await act(async () => {
       container = renderEditOpeningPeriodPage();
-    });
-
-    await act(async () => {
-      lastTimeSpan = container.querySelector(
-        '[data-test="time-span-list-0"] > li:last-child'
-      );
-
-      if (!lastTimeSpan) {
-        throw new Error(
-          'Something went wrong in rendering of EditOpeningPeriodPage'
-        );
-      }
     });
 
     await act(async () => {
@@ -633,14 +594,10 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
-      const addRuleButtonSelector = '[data-test="add-new-rule-button-0"]';
-      const addRuleButton = container.querySelector(addRuleButtonSelector);
-      if (!addRuleButton) {
-        throw new Error(
-          `Element with selector ${addRuleButtonSelector} not found`
-        );
-      }
-
+      const addRuleButton = getElementOrThrow(
+        container,
+        '[data-test="add-new-rule-button-0"]'
+      );
       fireEvent.click(addRuleButton);
     });
 
@@ -722,15 +679,10 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
 
     await act(async () => {
-      const periodRuleRemoveButton = container.querySelector(
+      const periodRuleRemoveButton = getElementOrThrow(
+        container,
         `[data-test="rule-list-item-${periodRuleId}"] [data-test^=remove-rule-button]`
       );
-
-      if (!periodRuleRemoveButton) {
-        throw new Error(
-          'Something went wrong in period-rule rendering of EditOpeningPeriodPage'
-        );
-      }
 
       fireEvent.click(periodRuleRemoveButton);
     });
