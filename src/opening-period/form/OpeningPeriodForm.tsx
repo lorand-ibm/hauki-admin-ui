@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrayField, useFieldArray, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { IconAlertCircle, IconPlus, IconTrash } from 'hds-react';
@@ -36,7 +36,7 @@ interface OpeningPeriodFormData {
 }
 
 const defaultTimeSpanGroup: TimeSpanGroupFormFormat = {
-  timeSpans: [{}],
+  timeSpans: [],
   rules: [],
 };
 
@@ -70,14 +70,6 @@ export default function OpeningPeriodForm({
     timeSpanGroup: { rule: ruleConfig },
   } = datePeriodConfig;
 
-  const initTimeSpanGroups: TimeSpanGroup[] | undefined =
-    datePeriod?.time_span_groups;
-
-  const timeSpanGroups =
-    initTimeSpanGroups && initTimeSpanGroups.length > 0
-      ? formatTimeSpanGroupsToFormFormat(initTimeSpanGroups)
-      : [defaultTimeSpanGroup];
-
   const [periodBeginDate, setPeriodBeginDate] = useState<Date | null>(
     datePeriod?.start_date ? new Date(datePeriod?.start_date) : null
   );
@@ -91,7 +83,7 @@ export default function OpeningPeriodForm({
     openingPeriodOptionalDescription: datePeriod?.description[language] || '',
     openingPeriodBeginDate: datePeriod?.start_date,
     openingPeriodEndDate: datePeriod?.end_date,
-    timeSpanGroups,
+    timeSpanGroups: [defaultTimeSpanGroup],
   };
 
   const { register, handleSubmit, errors, control, setValue } = useForm<
@@ -161,6 +153,17 @@ export default function OpeningPeriodForm({
       console.error(err); // For debug purposes
     }
   };
+
+  useEffect(() => {
+    if (datePeriod) {
+      setValue(
+        'timeSpanGroups',
+        datePeriod?.time_span_groups
+          ? formatTimeSpanGroupsToFormFormat(datePeriod?.time_span_groups)
+          : [defaultTimeSpanGroup]
+      );
+    }
+  }, [datePeriod, language, setValue]);
 
   return (
     <form
