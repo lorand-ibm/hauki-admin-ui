@@ -100,6 +100,7 @@ export default function Rule({
     id,
     context,
     subject,
+    group,
     start: startAt,
     frequency_modifier: frequencyModifier = null,
     frequency_ordinal: frequencyOrdinal = null,
@@ -209,6 +210,12 @@ export default function Rule({
         type="hidden"
         name={`${ruleNamePrefix}.id`}
         defaultValue={id}
+        ref={register()}
+      />
+      <input
+        type="hidden"
+        name={`${ruleNamePrefix}.group`}
+        defaultValue={`${group || ''}`}
         ref={register()}
       />
       <div className="opening-group-rule-remove">

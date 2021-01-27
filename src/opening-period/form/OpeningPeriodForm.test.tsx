@@ -65,6 +65,7 @@ const timeSpanGroupA = {
   rules: [
     {
       id: 1,
+      group: groupIdA,
       context: 'period',
       frequency_modifier: 'odd',
       frequency_ordinal: null,
@@ -75,6 +76,7 @@ const timeSpanGroupA = {
   time_spans: [
     {
       id: 10,
+      group: groupIdA,
       description: {
         fi: 'Pariton viikko arkiaukiolo',
         sv: null,
@@ -87,6 +89,7 @@ const timeSpanGroupA = {
     },
     {
       id: 20,
+      group: groupIdA,
       description: {
         fi: 'Pariton viikko viikonloppuaukiolo',
         sv: null,
@@ -105,6 +108,7 @@ const timeSpanGroupB = {
   rules: [
     {
       id: 2,
+      group: groupIdB,
       context: 'month',
       frequency_modifier: 'even',
       frequency_ordinal: null,
@@ -115,6 +119,7 @@ const timeSpanGroupB = {
   time_spans: [
     {
       id: 30,
+      group: groupIdB,
       description: {
         fi: 'Parillinen arki aukiolo',
         sv: null,
@@ -316,7 +321,7 @@ describe(`<OpeningPeriodForm />`, () => {
         ).toBe(1);
 
         expect(
-          container.querySelectorAll(`[data-test="time-span-group-1"]`).length
+          container.querySelectorAll(`[data-test="time-span-group-new"]`).length
         ).toBe(1);
       });
     });

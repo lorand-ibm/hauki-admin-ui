@@ -15,6 +15,7 @@ describe('opening-period form-helpers', () => {
             period: '1',
             timeSpans: [
               {
+                group: '1100',
                 description: 'description text A',
                 startTime: '10:00',
                 endTime: '18:00',
@@ -24,6 +25,7 @@ describe('opening-period form-helpers', () => {
             ],
             rules: [
               {
+                group: '1100',
                 context: 'month',
                 frequency_modifier: null,
                 frequency_ordinal: 1,
@@ -32,6 +34,7 @@ describe('opening-period form-helpers', () => {
                 start: '2',
               },
               {
+                group: '1100',
                 context: 'month',
                 frequency_modifier: null,
                 frequency_ordinal: 1,
@@ -47,6 +50,7 @@ describe('opening-period form-helpers', () => {
           period: 1,
           time_spans: [
             {
+              group: 1100,
               description: { en: null, fi: 'description text A', sv: null },
               start_time: '10:00:00',
               end_time: '18:00:00',
@@ -56,6 +60,7 @@ describe('opening-period form-helpers', () => {
           ],
           rules: [
             {
+              group: 1100,
               context: 'month',
               frequency_modifier: null,
               frequency_ordinal: 1,
@@ -64,6 +69,7 @@ describe('opening-period form-helpers', () => {
               start: 2,
             },
             {
+              group: 1100,
               context: 'month',
               frequency_modifier: null,
               frequency_ordinal: 1,
@@ -95,7 +101,7 @@ describe('opening-period form-helpers', () => {
                 created: '2020-12-16T12:21:37.255923+02:00',
                 modified: '2020-12-16T12:21:37.255923+02:00',
                 full_day: false,
-                group: 1136,
+                group: 1100,
               },
               {
                 id: 2345,
@@ -108,7 +114,7 @@ describe('opening-period form-helpers', () => {
                 created: '2020-12-16T12:21:37.255923+02:00',
                 modified: '2020-12-16T12:21:37.255923+02:00',
                 full_day: false,
-                group: 1136,
+                group: 1100,
               },
               {
                 id: 3456,
@@ -121,7 +127,7 @@ describe('opening-period form-helpers', () => {
                 created: '2020-12-16T12:21:37.255923+02:00',
                 modified: '2020-12-16T12:21:37.255923+02:00',
                 full_day: false,
-                group: 1136,
+                group: 1100,
               },
             ],
             rules: [
@@ -130,6 +136,7 @@ describe('opening-period form-helpers', () => {
                 frequency_modifier: null,
                 frequency_ordinal: 1,
                 id: 20,
+                group: 1100,
                 subject: 'week',
                 start: 2,
               },
@@ -143,6 +150,7 @@ describe('opening-period form-helpers', () => {
           timeSpans: [
             {
               id: '1234',
+              group: '1100',
               description: 'description text A',
               startTime: '10:00',
               endTime: '18:00',
@@ -151,6 +159,7 @@ describe('opening-period form-helpers', () => {
             },
             {
               id: '3456',
+              group: '1100',
               description: 'description text C',
               startTime: '12:00',
               endTime: '18:00',
@@ -159,6 +168,7 @@ describe('opening-period form-helpers', () => {
             },
             {
               id: '2345',
+              group: '1100',
               description: 'description text B',
               startTime: '10:00',
               endTime: '18:00',
@@ -172,6 +182,7 @@ describe('opening-period form-helpers', () => {
               frequency_modifier: null,
               frequency_ordinal: 1,
               id: '20',
+              group: '1100',
               subject: 'week',
               start: '2',
             },

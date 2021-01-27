@@ -58,6 +58,7 @@ export type FormWeekdays = [
 
 export type TimeSpanFormFormat = {
   id?: string;
+  group?: string;
   description: string;
   endTime: string;
   startTime: string;
@@ -145,6 +146,7 @@ export interface GroupRule extends BaseGroupRule {
 
 export interface GroupRuleFormFormat extends BaseGroupRule {
   id?: string;
+  group?: string;
   start: string;
 }
 

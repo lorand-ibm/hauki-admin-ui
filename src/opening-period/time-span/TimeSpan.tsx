@@ -43,6 +43,12 @@ export default function TimeSpan({
         defaultValue={item.id}
         ref={register()}
       />
+      <input
+        type="hidden"
+        name={`${timeSpanNamePrefix}.group`}
+        defaultValue={`${item.group || ''}`}
+        ref={register()}
+      />
       <div className="time-span-first-header-row form-control">
         <Weekdays
           namePrefix={timeSpanNamePrefix}

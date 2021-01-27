@@ -206,7 +206,7 @@ export default function OpeningPeriodForm({
         ) => (
           <section
             key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
-            data-test={`time-span-group-${timeSpanGroup.id || index}`}
+            data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
             className="form-section time-span-group">
             <div className="opening-period-action-row">
               <h3 className="opening-period-section-title">Aukioloryhmä</h3>
