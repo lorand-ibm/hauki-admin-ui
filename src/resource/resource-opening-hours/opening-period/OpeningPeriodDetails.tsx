@@ -97,7 +97,11 @@ export default function ({
               data-test="date-period-description"
               className="date-period-description">
               <div>
-                {datePeriodDescription && <p>{datePeriodDescription}</p>}
+                {datePeriodDescription && (
+                  <p data-test="date-period-description-text">
+                    {datePeriodDescription}
+                  </p>
+                )}
                 {!datePeriodDescription && (
                   <p>
                     {displayLangVersionNotFound({
@@ -113,7 +117,7 @@ export default function ({
       )}
       {nonSupportedFeatures.length > 0 && (
         <div>
-          <p>
+          <p data-test="non-supported-features-info">
             Aukiolojaksossa on tietoja joiden näyttämistä tässä näkymässä
             sovellus ei vielä tue:
           </p>
