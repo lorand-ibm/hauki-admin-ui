@@ -44,6 +44,14 @@ describe('format', () => {
       expect(weekdayString).toEqual('ma - ke, pe, su');
     });
 
+    it('should return correct string with individual days and day spans when day indexes are not sorted', () => {
+      const weekdayString = createWeekdaysStringFromIndices(
+        [2, 1, 3, 5, 7],
+        Language.FI
+      );
+      expect(weekdayString).toEqual('ma - ke, pe, su');
+    });
+
     it('should return correct string with multiple day spans', () => {
       const weekdayString = createWeekdaysStringFromIndices(
         [1, 2, 3, 5, 6, 7],

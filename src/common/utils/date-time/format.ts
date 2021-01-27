@@ -92,6 +92,8 @@ export function createWeekdaysStringFromIndices(
     return '';
   }
 
+  weekdayIndexArray.sort();
+
   const weekdaySpans: WeekdaySpan[] = [];
   let first = true;
   weekdayIndexArray.forEach((weekdayIndex) => {
