@@ -12,7 +12,7 @@
   }
 }
 
-.opening-period-row {
+.opening-period-header {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -23,7 +23,7 @@
   }
 }
 
-.opening-period-row-column {
+.opening-period-header-column {
   flex: 1;
   align-items: center;
   display: flex;
@@ -44,4 +44,12 @@
 
 .opening-period-edit-link {
   margin-left: auto;
+}
+
+.date-period-details-container {
+  padding: $spacing-xs;
+}
+
+.date-period-description {
+  margin-top: $spacing-xl;
 }

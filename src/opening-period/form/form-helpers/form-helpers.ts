@@ -7,6 +7,7 @@ import {
   TimeSpanGroup,
   TimeSpanGroupFormFormat,
 } from '../../../common/lib/types';
+import { dropMilliseconds } from '../../../common/utils/date-time/format';
 
 const filterValidTimeSpan = (value: TimeSpanFormFormat | {}): boolean =>
   Object.keys(value).length > 0;
@@ -41,7 +42,6 @@ function formatTimeSpansToApiFormat(
   );
 }
 
-const dropMilliseconds = (time: string): string => time.slice(0, -3);
 const getLowestWeekdayNumber = (timeSpan: TimeSpanApiFormat): number =>
   timeSpan && timeSpan.weekdays ? timeSpan.weekdays.sort()[0] : 0;
 

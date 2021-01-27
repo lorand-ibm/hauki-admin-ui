@@ -19,7 +19,7 @@ export enum ResourceState {
   CLOSED = 'closed',
 }
 
-enum WeekdayTypes {
+export enum WeekdayTypes {
   MONDAY = 1,
   TUESDAY = 2,
   WEDNESDAY = 3,
@@ -135,6 +135,11 @@ interface BaseGroupRule extends Frequency {
 
 export interface GroupRule extends BaseGroupRule {
   id?: number;
+  group?: number;
+  name?: LanguageStrings;
+  description?: LanguageStrings;
+  created?: string;
+  modified?: string;
   start: number;
 }
 

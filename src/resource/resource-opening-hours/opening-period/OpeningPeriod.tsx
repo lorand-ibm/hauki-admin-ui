@@ -1,7 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IconPenLine, IconTrash } from 'hds-react';
-import { DatePeriod, Language } from '../../../common/lib/types';
+import {
+  IconAngleDown,
+  IconAngleUp,
+  useAccordion,
+  IconPenLine,
+  IconTrash,
+} from 'hds-react';
+import {
+  DatePeriod,
+  Language,
+  UiDatePeriodConfig,
+} from '../../../common/lib/types';
 import { formatDateRange } from '../../../common/utils/date-time/format';
 import toast from '../../../components/notification/Toast';
 import { displayLangVersionNotFound } from '../../../components/language-select/LanguageSelect';
@@ -10,19 +20,22 @@ import {
   useModal,
 } from '../../../components/modal/ConfirmationModal';
 import './OpeningPeriod.scss';
+import OpeningPeriodDetails from './OpeningPeriodDetails';
 
 export default function OpeningPeriod({
   resourceId,
   datePeriod,
+  datePeriodConfig,
   language,
   deletePeriod,
 }: {
   resourceId: number;
   datePeriod: DatePeriod;
+  datePeriodConfig: UiDatePeriodConfig;
   language: Language;
   deletePeriod: (id: number) => Promise<void>;
 }): JSX.Element {
-  const name = datePeriod.name[language];
+  const datePeriodName = datePeriod.name[language];
   const formattedDateRange = formatDateRange({
     startDate: datePeriod.start_date,
     endDate: datePeriod.end_date,
@@ -33,7 +46,7 @@ export default function OpeningPeriod({
       <p>Olet poistamassa aukiolojakson</p>
       <p>
         <b>
-          {name}
+          {datePeriodName}
           <br />
           {formattedDateRange}
         </b>
@@ -41,18 +54,23 @@ export default function OpeningPeriod({
     </>
   );
   const { isModalOpen, openModal, closeModal } = useModal();
+  const { isOpen, toggleAccordion } = useAccordion({
+    initiallyOpen: false,
+  });
+  const AccordionIcon = (): JSX.Element =>
+    isOpen ? <IconAngleUp aria-hidden /> : <IconAngleDown aria-hidden />;
 
   return (
     <div
       className="opening-period"
       data-test={`openingPeriod-${datePeriod.id}`}>
-      <div className="opening-period-row">
-        <div className="opening-period-dates opening-period-row-column">
+      <div className="opening-period-header">
+        <div className="opening-period-dates opening-period-header-column">
           <div>{formattedDateRange}</div>
         </div>
-        <div className="opening-period-title opening-period-row-column">
-          {name ? (
-            <h4>{name}</h4>
+        <div className="opening-period-title opening-period-header-column">
+          {datePeriodName ? (
+            <h4>{datePeriodName}</h4>
           ) : (
             <h4 className="text-danger">
               {displayLangVersionNotFound({
@@ -62,14 +80,14 @@ export default function OpeningPeriod({
             </h4>
           )}
         </div>
-        <div className="opening-period-actions opening-period-row-column">
+        <div className="opening-period-actions opening-period-header-column">
           <Link
             className="opening-period-edit-link button-icon"
             data-test={`openingPeriodEditLink-${datePeriod.id}`}
             to={`/resource/${resourceId}/period/${datePeriod.id}`}>
             <IconPenLine aria-hidden="true" />
             <span className="sr-only">{`Muokkaa ${
-              name || 'nimettömän'
+              datePeriodName || 'nimettömän'
             } aukiolojakson tietoja`}</span>
           </Link>
           <button
@@ -79,7 +97,17 @@ export default function OpeningPeriod({
             onClick={(): void => openModal()}>
             <IconTrash aria-hidden="true" />
             <span className="sr-only">{`Poista ${
-              name || 'nimetön'
+              datePeriodName || 'nimetön'
+            } aukiolojakso`}</span>
+          </button>
+          <button
+            className="button-icon"
+            data-test={`openingPeriodAccordionButton-${datePeriod.id}`}
+            type="button"
+            onClick={(): void => toggleAccordion()}>
+            <AccordionIcon />
+            <span className="sr-only">{`Näytä aukioloajat jaksosta ${
+              datePeriodName || 'nimetön'
             } aukiolojakso`}</span>
           </button>
         </div>
@@ -90,7 +118,7 @@ export default function OpeningPeriod({
                 await deletePeriod(datePeriod.id);
                 toast.success({
                   label: 'Aukiolo poistettu onnistuneesti',
-                  text: `Aukiolo "${name}" poistettu onnistuneesti.`,
+                  text: `Aukiolo "${datePeriodName}" poistettu onnistuneesti.`,
                   dataTestId: 'date-period-delete-success',
                 });
               } catch (_) {
@@ -109,6 +137,13 @@ export default function OpeningPeriod({
           confirmText="Poista"
         />
       </div>
+      {isOpen && (
+        <OpeningPeriodDetails
+          datePeriod={datePeriod}
+          datePeriodConfig={datePeriodConfig}
+          language={language}
+        />
+      )}
     </div>
   );
 }
