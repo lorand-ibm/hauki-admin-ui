@@ -6,6 +6,7 @@ import Rule from './Rule';
 
 export default function Rules({
   groupIndex,
+  groupId,
   namePrefix,
   control,
   ruleConfig,
@@ -13,6 +14,7 @@ export default function Rules({
   setValue,
 }: {
   groupIndex: number;
+  groupId?: string;
   namePrefix: string;
   control: Control;
   ruleConfig: UiRuleConfig;
@@ -23,12 +25,12 @@ export default function Rules({
   const { fields, remove, append } = useFieldArray({
     control,
     name: ruleNamePrefix,
-    keyName: 'rulesUiId',
+    keyName: 'ruleUiId',
   });
 
   return (
     <>
-      <div className="form-group">
+      <div className="form-group rules-group">
         <h3 className="opening-period-section-title">
           Aukioloaikojen voimassaolo
         </h3>
@@ -42,7 +44,7 @@ export default function Rules({
             ) => (
               <li
                 className="opening-period-field-list-item opening-period-rule-list-item"
-                key={`rule-${rule.id || index}`}
+                key={`rule-list-item-${rule.ruleUiId}`}
                 data-test={`rule-list-item-${rule.id || index}`}>
                 <Rule
                   namePrefix={ruleNamePrefix}
@@ -60,10 +62,10 @@ export default function Rules({
           )}
         </ul>
       </div>
-      <div className="form-group form-button-group">
+      <div className="form-group">
         <SecondaryButton
           dataTest={`add-new-rule-button-${groupIndex}`}
-          onClick={(): void => append({})}>
+          onClick={(): void => append({ group: groupId ?? '' })}>
           + Lisää aukioloaikojen voimassaolosääntö
         </SecondaryButton>
       </div>

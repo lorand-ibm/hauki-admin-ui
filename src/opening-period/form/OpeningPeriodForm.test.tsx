@@ -1,12 +1,21 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import { getElementOrThrow } from '../../../test/test-utils';
 import {
   DatePeriod,
   UiDatePeriodConfig,
   ResourceState,
 } from '../../common/lib/types';
 import OpeningPeriodForm, { OpeningPeriodFormProps } from './OpeningPeriodForm';
+
+const mockHistoryPush = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  useHistory: (): { push: jest.Mock } => ({
+    push: mockHistoryPush,
+  }),
+}));
 
 const testDatePeriodOptions: UiDatePeriodConfig = {
   resourceState: {
@@ -48,8 +57,8 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
 
 const testResourceId = 1186;
 const testDatePeriodId = 1186;
-const groupIdA = 1;
-const groupIdB = 2;
+const groupIdA = 100;
+const groupIdB = 200;
 const timeSpanGroupA = {
   id: groupIdA,
   period: testDatePeriodId,
@@ -99,6 +108,7 @@ const timeSpanGroupB = {
   rules: [
     {
       id: 2,
+      group: groupIdB,
       context: 'month',
       frequency_modifier: 'even',
       frequency_ordinal: null,
@@ -134,11 +144,15 @@ const baseTestDatePeriod: DatePeriod = {
   time_span_groups: [timeSpanGroupA, timeSpanGroupB],
 };
 
+const submitFn = jest.fn<Promise<DatePeriod>, [DatePeriod]>(
+  (data) => new Promise<DatePeriod>((resolve) => resolve(data))
+);
+
 const defaultProps: Partial<OpeningPeriodFormProps> = {
   formId: 'test-form',
   resourceId: testResourceId,
   datePeriodConfig: testDatePeriodOptions,
-  submitFn: (data) => new Promise<DatePeriod>((resolve) => resolve(data)),
+  submitFn,
   successTextAndLabel: {
     text: 'Aukiolon tallennus onnistui',
     label: 'Tallennus onnistui',
@@ -160,6 +174,10 @@ const renderOpeningPeriodForm = (props: OpeningPeriodFormProps): Element => {
 
 describe(`<OpeningPeriodForm />`, () => {
   describe(`TimeSpanGroups`, () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('should render time-span-groups', async () => {
       let container: Element;
 
@@ -174,15 +192,10 @@ describe(`<OpeningPeriodForm />`, () => {
       });
 
       act(() => {
-        const timeSpanGroupElementA = container.querySelector(
+        const timeSpanGroupElementA = getElementOrThrow(
+          container,
           `[data-test="time-span-group-${groupIdA}"]`
         );
-
-        if (!timeSpanGroupElementA) {
-          throw new Error(
-            'Something went wrong in rendering time-span-group A'
-          );
-        }
 
         // Check group A has the first time-span element
         expect(
@@ -202,15 +215,10 @@ describe(`<OpeningPeriodForm />`, () => {
             .length
         ).toBe(1);
 
-        const timeSpanGroupElementB = container.querySelector(
+        const timeSpanGroupElementB = getElementOrThrow(
+          container,
           `[data-test="time-span-group-${groupIdB}"]`
         );
-
-        if (!timeSpanGroupElementB) {
-          throw new Error(
-            'Something went wrong in rendering time-span-group B'
-          );
-        }
 
         // Check group B has only one time-span element
         expect(
@@ -223,6 +231,152 @@ describe(`<OpeningPeriodForm />`, () => {
           timeSpanGroupElementB.querySelectorAll('[data-test="rule-1-0"]')
             .length
         ).toBe(1);
+      });
+    });
+
+    it('should save changed time-span-groups', async () => {
+      let container: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [timeSpanGroupA, timeSpanGroupB],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      act(() => {
+        const timeSpanGroupElementB = getElementOrThrow(
+          container,
+          `[data-test="time-span-group-${groupIdB}"]`
+        );
+
+        const fridayButton = getElementOrThrow(
+          timeSpanGroupElementB,
+          `[data-test=weekdays-saturday-1-0]`
+        );
+        fireEvent.click(fridayButton);
+      });
+
+      await act(async () => {
+        const saveButton = container.querySelector(
+          '[data-test="publish-opening-period-button"]'
+        );
+        if (!saveButton) {
+          throw new Error(`Element with selector ${saveButton} not found`);
+        }
+
+        fireEvent.click(saveButton);
+      });
+
+      act(() => {
+        expect(submitFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            time_span_groups: [
+              timeSpanGroupA,
+              {
+                ...timeSpanGroupB,
+                time_spans: [
+                  {
+                    ...timeSpanGroupB.time_spans[0],
+                    weekdays: [1, 2, 3, 4, 5, 6],
+                  },
+                ],
+              },
+            ],
+          })
+        );
+      });
+    });
+
+    it('should add time-span-group', async () => {
+      let container: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [timeSpanGroupA],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      act(() => {
+        const addTimeSpanGroupButton = getElementOrThrow(
+          container,
+          '[data-test="add-time-span-group"]'
+        );
+
+        fireEvent.click(addTimeSpanGroupButton);
+      });
+
+      act(() => {
+        expect(
+          container.querySelectorAll(
+            `[data-test="time-span-group-${groupIdA}"]`
+          ).length
+        ).toBe(1);
+
+        expect(
+          container.querySelectorAll(`[data-test="time-span-group-new"]`).length
+        ).toBe(1);
+      });
+    });
+
+    it('should remove time-span-group', async () => {
+      let container: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [timeSpanGroupA, timeSpanGroupB],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      act(() => {
+        const timeSpanGroupElementA = getElementOrThrow(
+          container,
+          `[data-test="time-span-group-${groupIdA}"]`
+        );
+
+        const removeGroupButton = getElementOrThrow(
+          timeSpanGroupElementA,
+          '[data-test="remove-time-span-group"]'
+        );
+        fireEvent.click(removeGroupButton);
+      });
+
+      await act(async () => {
+        expect(
+          container.querySelectorAll(
+            `[data-test="time-span-group-${groupIdA}"]`
+          ).length
+        ).toBe(0);
+      });
+
+      await act(async () => {
+        const saveButton = container.querySelector(
+          '[data-test="publish-opening-period-button"]'
+        );
+        if (!saveButton) {
+          throw new Error(`Element with selector ${saveButton} not found`);
+        }
+
+        fireEvent.click(saveButton);
+      });
+
+      act(() => {
+        expect(submitFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            time_span_groups: [timeSpanGroupB],
+          })
+        );
       });
     });
   });

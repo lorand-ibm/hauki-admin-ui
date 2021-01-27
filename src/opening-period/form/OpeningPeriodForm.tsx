@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrayField, useFieldArray, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
+import { IconAlertCircle, IconPlus, IconTrash } from 'hds-react';
 import {
   DatePeriod,
   UiDatePeriodConfig,
   Language,
   TimeSpanFormFormat,
   TimeSpanGroupFormFormat,
-  TimeSpanGroup,
 } from '../../common/lib/types';
 import { transformDateToApiFormat } from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
-import { PrimaryButton, SecondaryButton } from '../../components/button/Button';
+import {
+  PrimaryButton,
+  SecondaryButton,
+  SupplementaryButton,
+} from '../../components/button/Button';
 import toast from '../../components/notification/Toast';
 import {
   formatTimeSpanGroupsToFormFormat,
@@ -31,7 +35,7 @@ interface OpeningPeriodFormData {
 }
 
 const defaultTimeSpanGroup: TimeSpanGroupFormFormat = {
-  timeSpans: [{}],
+  timeSpans: [],
   rules: [],
 };
 
@@ -65,14 +69,6 @@ export default function OpeningPeriodForm({
     timeSpanGroup: { rule: ruleConfig },
   } = datePeriodConfig;
 
-  const initTimeSpanGroups: TimeSpanGroup[] | undefined =
-    datePeriod?.time_span_groups;
-
-  const timeSpanGroups =
-    initTimeSpanGroups && initTimeSpanGroups.length > 0
-      ? formatTimeSpanGroupsToFormFormat(initTimeSpanGroups)
-      : [defaultTimeSpanGroup];
-
   const [periodBeginDate, setPeriodBeginDate] = useState<Date | null>(
     datePeriod?.start_date ? new Date(datePeriod?.start_date) : null
   );
@@ -86,7 +82,7 @@ export default function OpeningPeriodForm({
     openingPeriodOptionalDescription: datePeriod?.description[language] || '',
     openingPeriodBeginDate: datePeriod?.start_date,
     openingPeriodEndDate: datePeriod?.end_date,
-    timeSpanGroups,
+    timeSpanGroups: [defaultTimeSpanGroup],
   };
 
   const { register, handleSubmit, errors, control, setValue } = useForm<
@@ -98,7 +94,11 @@ export default function OpeningPeriodForm({
 
   const timeSpanGroupFieldName = 'timeSpanGroups';
 
-  const { fields: timeSpanGroupFields } = useFieldArray({
+  const {
+    fields: timeSpanGroupFields,
+    append: appendTimeSpanGroup,
+    remove: removeTimeSpanGroup,
+  } = useFieldArray({
     control,
     keyName: 'timeSpanGroupUiId',
     name: timeSpanGroupFieldName,
@@ -153,6 +153,17 @@ export default function OpeningPeriodForm({
     }
   };
 
+  useEffect(() => {
+    if (datePeriod) {
+      setValue(
+        'timeSpanGroups',
+        datePeriod?.time_span_groups
+          ? formatTimeSpanGroupsToFormFormat(datePeriod.time_span_groups)
+          : [defaultTimeSpanGroup]
+      );
+    }
+  }, [datePeriod, language, setValue]);
+
   return (
     <form
       id={formId}
@@ -194,9 +205,20 @@ export default function OpeningPeriodForm({
           index: number
         ) => (
           <section
-            key={`time-span-group-${timeSpanGroup.id || index}`}
-            data-test={`time-span-group-${timeSpanGroup.id || index}`}
+            key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
+            data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
             className="form-section time-span-group">
+            <div className="opening-period-action-row">
+              <h3 className="opening-period-section-title">Aukioloryhmä</h3>
+              <SupplementaryButton
+                dataTest="remove-time-span-group"
+                onClick={(): void => {
+                  removeTimeSpanGroup(index);
+                }}
+                iconLeft={<IconTrash />}>
+                Poista aukioloryhmä
+              </SupplementaryButton>
+            </div>
             <input
               type="hidden"
               name={`${timeSpanGroupFieldName}[${index}].id`}
@@ -211,6 +233,7 @@ export default function OpeningPeriodForm({
             />
             <TimeSpans
               groupIndex={index}
+              groupId={timeSpanGroup.id}
               namePrefix={timeSpanGroupFieldName}
               control={control}
               register={register}
@@ -218,6 +241,7 @@ export default function OpeningPeriodForm({
             />
             <Rules
               groupIndex={index}
+              groupId={timeSpanGroup.id}
               namePrefix={timeSpanGroupFieldName}
               control={control}
               register={register}
@@ -227,6 +251,21 @@ export default function OpeningPeriodForm({
           </section>
         )
       )}
+      <div className="opening-period-action-row opening-period-action-row-condensed">
+        <SupplementaryButton
+          dataTest="add-time-span-group"
+          onClick={(): void => appendTimeSpanGroup(defaultTimeSpanGroup)}
+          iconLeft={<IconPlus />}>
+          Luo uusi aukioloryhmä tähän jaksoon
+        </SupplementaryButton>
+        <p className="opening-period-notification-text">
+          <IconAlertCircle />
+          <span>
+            Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
+            aukioloaikoja useammilla eri säännöillä
+          </span>
+        </p>
+      </div>
       <div className="opening-period-final-action-row-container">
         <PrimaryButton
           dataTest="publish-opening-period-button"

@@ -12,6 +12,7 @@ interface ButtonProps {
   dataTest?: string;
   className?: string;
   type?: ButtonTypeVariant;
+  iconLeft?: ReactNode;
 }
 
 export function SecondaryButton({
@@ -47,6 +48,27 @@ export function PrimaryButton({
       variant="primary"
       onClick={onClick}
       type={type}>
+      {children}
+    </HDSButton>
+  );
+}
+
+export function SupplementaryButton({
+  children,
+  dataTest,
+  onClick,
+  className = '',
+  type = 'button',
+  iconLeft,
+}: ButtonProps): JSX.Element {
+  return (
+    <HDSButton
+      type={type}
+      data-test={dataTest}
+      className={`button-common supplementary-button ${className}`}
+      variant="supplementary"
+      onClick={onClick}
+      iconLeft={iconLeft}>
       {children}
     </HDSButton>
   );

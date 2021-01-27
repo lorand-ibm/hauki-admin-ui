@@ -16,9 +16,18 @@ function formatTimeSpansToApiFormat(
   timeSpans: TimeSpanFormFormat[]
 ): TimeSpanApiFormat[] {
   return timeSpans.map(
-    ({ id, description, endTime, startTime, weekdays, resourceState }) => {
+    ({
+      id,
+      group,
+      description,
+      endTime,
+      startTime,
+      weekdays,
+      resourceState,
+    }) => {
       return {
         ...(id && id !== '' ? { id: parseInt(id, 10) } : {}),
+        ...(group && group !== '' ? { group: parseInt(group, 10) } : {}),
         description: {
           fi: description ?? '',
           sv: null,
@@ -63,6 +72,7 @@ function formatApiTimeSpansToFormFormat(
 
       return {
         id: apiTimeSpan.id ? apiTimeSpan.id.toString() : undefined,
+        group: apiTimeSpan.group ? apiTimeSpan.group.toString() : undefined,
         description: apiTimeSpan.description?.fi || '',
         startTime: apiTimeSpan.start_time
           ? dropMilliseconds(apiTimeSpan.start_time)
@@ -79,17 +89,19 @@ function formatApiTimeSpansToFormFormat(
 function formatRulesToApiFormat(
   rules: GroupRuleFormFormat[] = []
 ): GroupRule[] {
-  return rules.map(({ id, start, ...rest }) => ({
+  return rules.map(({ id, group, start, ...rest }) => ({
     ...rest,
     ...(id && id !== '' ? { id: parseInt(id, 10) } : {}),
+    ...(group && group !== '' ? { group: parseInt(group, 10) } : {}),
     start: parseInt(start, 10),
   }));
 }
 
 function formatApiRulesToFormFormat(rules: GroupRule[]): GroupRuleFormFormat[] {
-  return rules.map(({ id, start, ...rest }) => ({
+  return rules.map(({ id, group, start, ...rest }) => ({
     ...rest,
     id: id ? id.toString() : '',
+    group: group ? group.toString() : '',
     start: start.toString(),
   }));
 }
