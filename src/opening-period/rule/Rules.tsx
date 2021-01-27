@@ -6,6 +6,7 @@ import Rule from './Rule';
 
 export default function Rules({
   groupIndex,
+  groupId,
   namePrefix,
   control,
   ruleConfig,
@@ -13,6 +14,7 @@ export default function Rules({
   setValue,
 }: {
   groupIndex: number;
+  groupId?: string;
   namePrefix: string;
   control: Control;
   ruleConfig: UiRuleConfig;
@@ -63,7 +65,7 @@ export default function Rules({
       <div className="form-group">
         <SecondaryButton
           dataTest={`add-new-rule-button-${groupIndex}`}
-          onClick={(): void => append({})}>
+          onClick={(): void => append({ group: groupId ?? '' })}>
           + Lisää aukioloaikojen voimassaolosääntö
         </SecondaryButton>
       </div>

@@ -656,6 +656,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
               rules: [
                 ...rules,
                 {
+                  group: 1225,
                   context: 'period',
                   frequency_modifier: null,
                   frequency_ordinal: 2,

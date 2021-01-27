@@ -233,6 +233,7 @@ export default function OpeningPeriodForm({
             />
             <TimeSpans
               groupIndex={index}
+              groupId={timeSpanGroup.id}
               namePrefix={timeSpanGroupFieldName}
               control={control}
               register={register}
@@ -240,6 +241,7 @@ export default function OpeningPeriodForm({
             />
             <Rules
               groupIndex={index}
+              groupId={timeSpanGroup.id}
               namePrefix={timeSpanGroupFieldName}
               control={control}
               register={register}
