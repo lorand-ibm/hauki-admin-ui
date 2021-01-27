@@ -1,14 +1,11 @@
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { fireEvent, render } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { render } from '@testing-library/react';
 import {
   DatePeriod,
   Language,
   ResourceState,
   UiDatePeriodConfig,
 } from '../../../common/lib/types';
-import OpeningPeriod from './OpeningPeriod';
 import PeriodOpeningHours from './PeriodOpeningHours';
 
 const testDatePeriod: DatePeriod = {
