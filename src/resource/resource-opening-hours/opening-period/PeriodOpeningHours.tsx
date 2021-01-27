@@ -37,20 +37,22 @@ export default function PeriodOpeningHours({
       {timeSpans.map((timeSpan, index) => {
         return (
           <div data-test="time-span-row" className="time-span-row" key={index}>
-            <p>
+            <p data-test={`time-span-weekday-string-${index}`}>
               {createWeekdaysStringFromIndices(timeSpan.weekdays, language)}
             </p>
-            <p>
+            <p data-test={`time-span-start-end-times-string-${index}`}>
               {dropMilliseconds(timeSpan.start_time)} -{' '}
               {dropMilliseconds(timeSpan.end_time)}
             </p>
-            <p>
+            <p data-test={`time-span-resource-state-${index}`}>
               {findResourceStateLabelByValue(
                 timeSpan.resource_state,
                 datePeriodConfig.resourceState
               ) || 'Auki'}
             </p>
-            <p className="time-span-preview-description">
+            <p
+              data-test={`time-span-description-${index}`}
+              className="time-span-preview-description">
               {timeSpan.description?.fi || ''}
             </p>
           </div>
