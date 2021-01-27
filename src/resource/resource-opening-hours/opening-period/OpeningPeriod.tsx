@@ -9,9 +9,7 @@ import {
 } from 'hds-react';
 import {
   DatePeriod,
-  GroupRule,
   Language,
-  LanguageStrings,
   UiDatePeriodConfig,
 } from '../../../common/lib/types';
 import { formatDateRange } from '../../../common/utils/date-time/format';
@@ -22,67 +20,7 @@ import {
   useModal,
 } from '../../../components/modal/ConfirmationModal';
 import './OpeningPeriod.scss';
-import PeriodOpeningHours from './PeriodOpeningHours';
-
-function containsSpecialRules(rules: GroupRule[]): boolean {
-  return rules.some((rule) => {
-    return (
-      rule.context !== 'period' || rule.subject !== 'day' || rule.start !== 1
-    );
-  });
-}
-
-function getNonSupportedFeatures(datePeriod: DatePeriod): string[] {
-  const nonSupportedFeatures = [];
-  if (datePeriod.time_span_groups.length === 0) {
-    nonSupportedFeatures.push('Jakso ilman aukioloryhmää');
-    return nonSupportedFeatures;
-  }
-
-  if (datePeriod.time_span_groups.length > 1) {
-    nonSupportedFeatures.push('Jakso sisältää useampia aukioloryhmiä');
-    return nonSupportedFeatures;
-  }
-
-  if (
-    datePeriod.time_span_groups[0].rules.length > 0 &&
-    containsSpecialRules(datePeriod.time_span_groups[0].rules)
-  ) {
-    nonSupportedFeatures.push(
-      'Jaksossa on erikseen määriteltyjä perustapauksesta poikkeavia toistuvuussääntöjä'
-    );
-  }
-
-  if (datePeriod.time_span_groups[0].time_spans.length === 0) {
-    nonSupportedFeatures.push('Jakso ilman päiväkohtaisia aukioloja');
-  }
-
-  return nonSupportedFeatures;
-}
-
-function datePeriodDescriptionExistsInSomeLanguage(
-  datePeriodDescription: LanguageStrings
-): boolean {
-  return !!(
-    datePeriodDescription.fi ||
-    datePeriodDescription.sv ||
-    datePeriodDescription.en
-  );
-}
-
-function NonSupportedFeatures({
-  nonSupportedFeatures,
-}: {
-  nonSupportedFeatures: string[];
-}): JSX.Element {
-  return (
-    <ul>
-      {nonSupportedFeatures.map((nonSupportedFeature, index) => {
-        return <li key={index}>{nonSupportedFeature}</li>;
-      })}
-    </ul>
-  );
-}
+import OpeningPeriodDetails from './OpeningPeriodDetails';
 
 export default function OpeningPeriod({
   resourceId,
@@ -98,7 +36,6 @@ export default function OpeningPeriod({
   deletePeriod: (id: number) => Promise<void>;
 }): JSX.Element {
   const datePeriodName = datePeriod.name[language];
-  const datePeriodDescription = datePeriod.description[language];
   const formattedDateRange = formatDateRange({
     startDate: datePeriod.start_date,
     endDate: datePeriod.end_date,
@@ -122,8 +59,6 @@ export default function OpeningPeriod({
   });
   const AccordionIcon = (): JSX.Element =>
     isOpen ? <IconAngleUp aria-hidden /> : <IconAngleDown aria-hidden />;
-
-  const nonSupportedFeatures = getNonSupportedFeatures(datePeriod);
 
   return (
     <div
@@ -203,47 +138,11 @@ export default function OpeningPeriod({
         />
       </div>
       {isOpen && (
-        <div className="date-period-details-container">
-          {nonSupportedFeatures.length === 0 && (
-            <div>
-              <PeriodOpeningHours
-                datePeriod={datePeriod}
-                datePeriodConfig={datePeriodConfig}
-                language={language}
-              />
-              {datePeriodDescriptionExistsInSomeLanguage(
-                datePeriod.description
-              ) && (
-                <div
-                  data-test="date-period-description"
-                  className="date-period-description">
-                  <div>
-                    {datePeriodDescription && <p>{datePeriodDescription}</p>}
-                    {!datePeriodDescription && (
-                      <p>
-                        {displayLangVersionNotFound({
-                          language,
-                          label: 'aukiolojakson kuvaus',
-                        })}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          {nonSupportedFeatures.length > 0 && (
-            <div>
-              <p>
-                Aukiolojaksossa on tietoja joiden näyttämistä tässä näkymässä
-                sovellus ei vielä tue:
-              </p>
-              <NonSupportedFeatures
-                nonSupportedFeatures={nonSupportedFeatures}
-              />
-            </div>
-          )}
-        </div>
+        <OpeningPeriodDetails
+          datePeriod={datePeriod}
+          datePeriodConfig={datePeriodConfig}
+          language={language}
+        />
       )}
     </div>
   );
