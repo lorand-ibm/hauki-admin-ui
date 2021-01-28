@@ -35,7 +35,7 @@ export default function OpeningPeriod({
   datePeriodConfig: UiDatePeriodConfig;
   language: Language;
   deletePeriod: (id: number) => Promise<void>;
-  initiallyOpen: boolean;
+  initiallyOpen?: boolean;
 }): JSX.Element {
   const datePeriodName = datePeriod.name[language];
   const formattedDateRange = formatDateRange({
