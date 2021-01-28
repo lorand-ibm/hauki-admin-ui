@@ -61,7 +61,7 @@ export default function TimeSpan({
           dataTest={`remove-time-span-button-${groupIndex}-${index}`}
           onClick={(): void => remove(index)}
           iconLeft={<IconTrash />}>
-          Poista aukioloaika
+          Poista
         </SupplementaryButton>
       </div>
       <div className="form-control">
