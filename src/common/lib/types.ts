@@ -32,8 +32,8 @@ export enum WeekdayTypes {
 export type Weekdays = Array<WeekdayTypes>;
 
 export type TimeSpan = {
-  start_time: string;
-  end_time: string;
+  start_time: string | null;
+  end_time: string | null;
   weekdays: Weekdays | null;
   id?: number;
   created?: string;

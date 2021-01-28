@@ -21,6 +21,12 @@ function findResourceStateLabelByValue(
   )?.label;
 }
 
+function renderStartAndEndTimes(startTime: string, endTime: string): string {
+  return `${startTime ? dropMilliseconds(startTime) : ''} - ${
+    endTime ? dropMilliseconds(endTime) : ''
+  }`;
+}
+
 export default function PeriodOpeningHours({
   datePeriod,
   datePeriodConfig,
@@ -41,8 +47,7 @@ export default function PeriodOpeningHours({
               {createWeekdaysStringFromIndices(timeSpan.weekdays, language)}
             </p>
             <p data-test={`time-span-start-end-times-string-${index}`}>
-              {dropMilliseconds(timeSpan.start_time)} -{' '}
-              {dropMilliseconds(timeSpan.end_time)}
+              {renderStartAndEndTimes(timeSpan.start_time, timeSpan.end_time)}
             </p>
             <p data-test={`time-span-resource-state-${index}`}>
               {findResourceStateLabelByValue(
