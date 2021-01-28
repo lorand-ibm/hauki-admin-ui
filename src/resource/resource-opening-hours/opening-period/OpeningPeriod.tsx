@@ -28,12 +28,14 @@ export default function OpeningPeriod({
   datePeriodConfig,
   language,
   deletePeriod,
+  initiallyOpen = false,
 }: {
   resourceId: number;
   datePeriod: DatePeriod;
   datePeriodConfig: UiDatePeriodConfig;
   language: Language;
   deletePeriod: (id: number) => Promise<void>;
+  initiallyOpen: boolean;
 }): JSX.Element {
   const datePeriodName = datePeriod.name[language];
   const formattedDateRange = formatDateRange({
@@ -55,7 +57,7 @@ export default function OpeningPeriod({
   );
   const { isModalOpen, openModal, closeModal } = useModal();
   const { isOpen, toggleAccordion } = useAccordion({
-    initiallyOpen: false,
+    initiallyOpen,
   });
   const AccordionIcon = (): JSX.Element =>
     isOpen ? <IconAngleUp aria-hidden /> : <IconAngleDown aria-hidden />;
