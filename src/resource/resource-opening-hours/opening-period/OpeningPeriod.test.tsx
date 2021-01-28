@@ -188,6 +188,7 @@ describe(`<OpeningPeriod />`, () => {
     const { container } = render(
       <Router>
         <OpeningPeriod
+          initiallyOpen={false}
           resourceId={1}
           datePeriod={testDatePeriod}
           language={Language.FI}
@@ -206,6 +207,7 @@ describe(`<OpeningPeriod />`, () => {
     const { container } = render(
       <Router>
         <OpeningPeriod
+          initiallyOpen={false}
           resourceId={1}
           datePeriod={testDatePeriod}
           language={Language.FI}
@@ -241,6 +243,7 @@ describe(`<OpeningPeriod />`, () => {
     const { container } = render(
       <Router>
         <OpeningPeriod
+          initiallyOpen={false}
           resourceId={1}
           datePeriod={testDatePeriod}
           language={Language.FI}
