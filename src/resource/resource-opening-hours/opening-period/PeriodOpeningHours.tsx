@@ -21,7 +21,10 @@ function findResourceStateLabelByValue(
   )?.label;
 }
 
-function renderStartAndEndTimes(startTime: string, endTime: string): string {
+function renderStartAndEndTimes(
+  startTime: string | null,
+  endTime: string | null
+): string {
   return `${startTime ? dropMilliseconds(startTime) : ''} - ${
     endTime ? dropMilliseconds(endTime) : ''
   }`;
