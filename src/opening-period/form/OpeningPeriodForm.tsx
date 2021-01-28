@@ -208,7 +208,7 @@ export default function OpeningPeriodForm({
             key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
             data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
             className="form-section time-span-group">
-            <div className="opening-period-action-row">
+            <div className="form-actions-row">
               <h3 className="opening-period-section-title">Aukioloryhmä</h3>
               <SupplementaryButton
                 dataTest="remove-time-span-group"
@@ -251,7 +251,7 @@ export default function OpeningPeriodForm({
           </section>
         )
       )}
-      <div className="opening-period-action-row opening-period-action-row-condensed">
+      <div className="form-actions-row form-actions-row-condensed">
         <SupplementaryButton
           dataTest="add-time-span-group"
           onClick={(): void => appendTimeSpanGroup(defaultTimeSpanGroup)}

@@ -1,15 +1,59 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
 .opening-period-form {
-  .form-control {
-    margin-top: $spacing-m;
-  }
+  margin-top: $spacing-layout-s;
 
   input[type="text"] {
     display: block;
   }
+}
 
-  margin-top: $spacing-xl;
+.form-section {
+  background-color: white;
+  margin-bottom: $spacing-layout-xs;
+  padding: $spacing-layout-s $spacing-layout-s $spacing-layout-m;
+}
+
+.form-group {
+  & + & {
+    margin-top: $spacing-layout-s;
+  }
+
+  &.rules-group {
+    border-top: var(--spacing-4-xs) solid var(--primary-color);
+    margin-top: $spacing-layout-m;
+    padding-top: $spacing-layout-s;
+  }
+}
+
+.form-actions-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-actions-row-condensed {
+  padding: 0 $spacing-l;
+}
+
+.form-control {
+  margin-top: $spacing-m;
+
+  .opening-period-field-list-item &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.form-control-header {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.opening-period-section-title {
+  margin: 0;
 }
 
 .opening-period-time-period {
@@ -20,17 +64,6 @@
 .dash-between-begin-and-end-date {
   font-family: HelsinkiGrotesk-Bold, Arial, sans-serif;
   margin: 2rem 10px 0;
-}
-
-.opening-period-action-row {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.opening-period-action-row-condensed {
-  padding: 0 $spacing-l;
 }
 
 .opening-period-notification-text {
@@ -49,26 +82,6 @@
   margin-right: $spacing-m;
 }
 
-.form-section {
-  padding: $spacing-layout-xs;
-  background-color: white;
-  margin-bottom: $spacing-layout-xs;
-}
-
-.form-group {
-  margin-bottom: $spacing-layout-s;
-
-  & + & {
-    border-top: 1px solid var(--hauki-content-border-color);
-    padding: $spacing-layout-s 0 0;
-  }
-
-  &.time-spans-group,
-  &.rules-group {
-    margin-bottom: 0;
-  }
-}
-
 .opening-period-field-list {
   margin: 0;
   padding: 0;
@@ -76,27 +89,13 @@
 }
 
 .opening-period-field-list-item {
+  background-color: var(--hauki-content-background-color);
   list-style: none;
-  margin: 0;
-  padding: 0 0 $spacing-layout-s;
+  margin: $spacing-l 0 0;
+  padding: $spacing-l;
 
-  &:not(:first-child) {
-    border-top: var(--spacing-4-xs) solid var(--primary-color);
-  }
-}
-
-.opening-period-rule-list-item {
-  padding-bottom: $spacing-layout-2-xs;
-}
-
-.opening-period-section-title {
-  margin-top: 0;
-  margin-bottom: $spacing-l;
-}
-
-.opening-period-rule-list:not(:empty) {
-  @media screen and (min-width: $breakpoint-m) {
-    margin-top: (-1 * $spacing-5-xl); // A hacky way to inline the first remove button with the section title
+  &.opening-period-rule-list-item {
+    padding-top: $spacing-s;
   }
 }
 
