@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrayField, Control, useFieldArray } from 'react-hook-form';
+import { IconCalendarPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
 import { GroupRuleFormFormat, UiRuleConfig } from '../../common/lib/types';
 import Rule from './Rule';
@@ -65,8 +66,9 @@ export default function Rules({
       <div className="form-group">
         <SecondaryButton
           dataTest={`add-new-rule-button-${groupIndex}`}
-          onClick={(): void => append({ group: groupId ?? '' })}>
-          + Lisää aukioloaikojen voimassaolosääntö
+          onClick={(): void => append({ group: groupId ?? '' })}
+          iconLeft={<IconCalendarPlus />}>
+          Lisää aukioloaikojen voimassaolosääntö
         </SecondaryButton>
       </div>
     </>

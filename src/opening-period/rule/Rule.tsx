@@ -218,12 +218,13 @@ export default function Rule({
         defaultValue={`${group || ''}`}
         ref={register()}
       />
-      <div className="opening-group-rule-remove">
+      <div className="form-control-header">
+        <h4 className="opening-period-section-title">Voimassaolosääntö</h4>
         <SupplementaryButton
           dataTest={`remove-rule-button-${groupIndex}-${index}`}
           onClick={(): void => remove(index)}
           iconLeft={<IconTrash />}>
-          Poista aukioloaikojen voimassaolosääntö
+          Poista
         </SupplementaryButton>
       </div>
       <div className="opening-group-rule-fieldset">
