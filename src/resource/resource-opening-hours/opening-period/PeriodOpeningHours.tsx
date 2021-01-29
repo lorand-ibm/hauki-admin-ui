@@ -22,9 +22,18 @@ function findResourceStateLabelByValue(
 }
 
 function renderStartAndEndTimes(
-  startTime: string | null,
-  endTime: string | null
+  startTime?: string | null,
+  endTime?: string | null,
+  fullDay?: boolean,
+  resourceState?: ResourceState
 ): string {
+  if (fullDay) {
+    if (resourceState === ResourceState.CLOSED) {
+      return '';
+    }
+    return '24h';
+  }
+
   return `${startTime ? dropMilliseconds(startTime) : ''} - ${
     endTime ? dropMilliseconds(endTime) : ''
   }`;
@@ -50,7 +59,12 @@ export default function PeriodOpeningHours({
               {createWeekdaysStringFromIndices(timeSpan.weekdays, language)}
             </p>
             <p data-test={`time-span-start-end-times-string-${index}`}>
-              {renderStartAndEndTimes(timeSpan.start_time, timeSpan.end_time)}
+              {renderStartAndEndTimes(
+                timeSpan.start_time,
+                timeSpan.end_time,
+                timeSpan.full_day,
+                timeSpan.resource_state
+              )}
             </p>
             <p data-test={`time-span-resource-state-${index}`}>
               {findResourceStateLabelByValue(
