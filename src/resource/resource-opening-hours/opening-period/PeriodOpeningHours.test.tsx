@@ -95,6 +95,22 @@ const testDatePeriod: DatePeriod = {
   ],
 };
 
+const testDatePeriodWithMissingStartAndEndTimes: DatePeriod = {
+  ...testDatePeriod,
+  time_span_groups: [
+    {
+      ...testDatePeriod.time_span_groups[0],
+      time_spans: [
+        {
+          ...testDatePeriod.time_span_groups[0].time_spans[0],
+          start_time: null,
+          end_time: null,
+        },
+      ],
+    },
+  ],
+};
+
 const closedResourceState = {
   value: 'closed',
   label: 'Suljettu',
@@ -198,5 +214,21 @@ describe(`<PeriodOpeningHours />`, () => {
         'p[data-test="time-span-weekday-string-1"]'
       )?.textContent
     ).toEqual('ti, to');
+  });
+
+  it('should not crash when start and end times are missing', async () => {
+    const { container } = render(
+      <PeriodOpeningHours
+        datePeriod={testDatePeriodWithMissingStartAndEndTimes}
+        datePeriodConfig={testDatePeriodOptions}
+        language={Language.FI}
+      />
+    );
+
+    expect(
+      await container?.querySelector(
+        'p[data-test="time-span-start-end-times-string-0"]'
+      )?.textContent
+    ).toEqual(' - ');
   });
 });
