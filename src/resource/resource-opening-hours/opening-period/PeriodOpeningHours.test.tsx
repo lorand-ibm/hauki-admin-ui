@@ -111,6 +111,42 @@ const testDatePeriodWithMissingStartAndEndTimes: DatePeriod = {
   ],
 };
 
+const testDatePeriodFullDayOpen: DatePeriod = {
+  ...testDatePeriod,
+  time_span_groups: [
+    {
+      ...testDatePeriod.time_span_groups[0],
+      time_spans: [
+        {
+          ...testDatePeriod.time_span_groups[0].time_spans[0],
+          start_time: null,
+          end_time: null,
+          full_day: true,
+          resource_state: ResourceState.OPEN,
+        },
+      ],
+    },
+  ],
+};
+
+const testDatePeriodFullDayClosed: DatePeriod = {
+  ...testDatePeriod,
+  time_span_groups: [
+    {
+      ...testDatePeriod.time_span_groups[0],
+      time_spans: [
+        {
+          ...testDatePeriod.time_span_groups[0].time_spans[0],
+          start_time: null,
+          end_time: null,
+          full_day: true,
+          resource_state: ResourceState.CLOSED,
+        },
+      ],
+    },
+  ],
+};
+
 const closedResourceState = {
   value: 'closed',
   label: 'Suljettu',
@@ -230,5 +266,37 @@ describe(`<PeriodOpeningHours />`, () => {
         'p[data-test="time-span-start-end-times-string-0"]'
       )?.textContent
     ).toEqual(' - ');
+  });
+
+  it('should show time span 24h when full-day setting is on and the resource is open', async () => {
+    const { container } = render(
+      <PeriodOpeningHours
+        datePeriod={testDatePeriodFullDayOpen}
+        datePeriodConfig={testDatePeriodOptions}
+        language={Language.FI}
+      />
+    );
+
+    expect(
+      await container?.querySelector(
+        'p[data-test="time-span-start-end-times-string-0"]'
+      )?.textContent
+    ).toEqual('24h');
+  });
+
+  it('should show nothing in time column when full-day setting is on and the resource is closed', async () => {
+    const { container } = render(
+      <PeriodOpeningHours
+        datePeriod={testDatePeriodFullDayClosed}
+        datePeriodConfig={testDatePeriodOptions}
+        language={Language.FI}
+      />
+    );
+
+    expect(
+      await container?.querySelector(
+        'p[data-test="time-span-start-end-times-string-0"]'
+      )?.textContent
+    ).toEqual('');
   });
 });
