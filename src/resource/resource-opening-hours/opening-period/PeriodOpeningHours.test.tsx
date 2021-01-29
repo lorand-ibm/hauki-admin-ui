@@ -125,7 +125,7 @@ const testDatePeriodWithMissingStartAndEndTimes: DatePeriod = {
             sv: null,
             en: null,
           },
-          start_time: '',
+          start_time: null,
           end_time: null,
           full_day: false,
           weekdays: [1, 3],
