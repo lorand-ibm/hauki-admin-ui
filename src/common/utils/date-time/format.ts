@@ -16,12 +16,16 @@ export const formatDateRange = ({
   startDate?: string;
   endDate?: string;
 }): string => {
-  if (!startDate || (!startDate && !endDate)) {
-    return '';
+  if (!startDate && !endDate) {
+    return 'Voimassa toistaiseksi';
   }
 
   if (!endDate) {
-    return formatDate(startDate);
+    return `${formatDate(startDate as string)} alkaen`;
+  }
+
+  if (!startDate) {
+    return `${formatDate(endDate)} asti`;
   }
 
   return `${formatDate(startDate)} - ${formatDate(endDate)}`;
