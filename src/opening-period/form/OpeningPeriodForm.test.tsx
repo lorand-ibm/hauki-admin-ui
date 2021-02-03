@@ -289,7 +289,7 @@ describe(`<OpeningPeriodForm />`, () => {
 
       await act(async () => {
         const contextRequiredIndicator = await screen.findByText(
-          'Säännön yksikkö on pakollinen kenttä.'
+          'Säännön aikaväli on pakollinen kenttä.'
         );
         expect(contextRequiredIndicator).toBeInTheDocument();
 
