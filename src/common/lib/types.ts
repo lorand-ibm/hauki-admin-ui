@@ -112,19 +112,19 @@ export type DatePeriodOptions = {
   };
 };
 
-export type UiFieldConfig = {
+export type UiOptionsFieldConfig = {
   options: InputOption[];
 };
 
 export type UiRuleConfig = {
-  context: UiFieldConfig;
-  subject: UiFieldConfig;
-  frequencyModifier: UiFieldConfig;
+  context: UiOptionsFieldConfig;
+  subject: UiOptionsFieldConfig;
+  frequencyModifier: UiOptionsFieldConfig;
 };
 
 export type UiDatePeriodConfig = {
   name: TextFieldConfig;
-  resourceState: UiFieldConfig;
+  resourceState: UiOptionsFieldConfig;
   timeSpanGroup: {
     rule: UiRuleConfig;
   };

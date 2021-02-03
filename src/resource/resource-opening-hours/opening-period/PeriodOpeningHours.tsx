@@ -4,7 +4,7 @@ import {
   Language,
   ResourceState,
   UiDatePeriodConfig,
-  UiFieldConfig,
+  UiOptionsFieldConfig,
 } from '../../../common/lib/types';
 import {
   createWeekdaysStringFromIndices,
@@ -14,7 +14,7 @@ import './PeriodOpeningHours.scss';
 
 function findResourceStateLabelByValue(
   value: ResourceState | undefined,
-  resourceState: UiFieldConfig
+  resourceState: UiOptionsFieldConfig
 ): string | undefined {
   return resourceState.options.find(
     (resourceStateOption) => resourceStateOption.value === value
