@@ -19,6 +19,7 @@ const testTokens: AuthTokens = {
   hsa_organization: 'abcdefg',
   hsa_signature: '1234567',
   hsa_source: 'tprek',
+  hsa_has_organization_rights: 'true',
 };
 
 const renderRoutesWithPrivateRoute = (): ReactWrapper => {

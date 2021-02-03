@@ -10,6 +10,7 @@ export enum TokenKeys {
   validUntilKey = 'hsa_valid_until',
   createdAtKey = 'hsa_created_at',
   sourceKey = 'hsa_source',
+  hasOrganizationRights = 'hsa_has_organization_rights',
 }
 
 export interface AuthTokens {
@@ -20,6 +21,8 @@ export interface AuthTokens {
   [TokenKeys.validUntilKey]: string;
   [TokenKeys.createdAtKey]: string;
   [TokenKeys.sourceKey]: string;
+  [TokenKeys.sourceKey]: string;
+  [TokenKeys.hasOrganizationRights]: string;
 }
 
 const authKeys = [
@@ -30,6 +33,7 @@ const authKeys = [
   TokenKeys.resourceKey,
   TokenKeys.organizationKey,
   TokenKeys.sourceKey,
+  TokenKeys.hasOrganizationRights,
 ];
 
 const tokenStorageKey: 'tokens' = 'tokens';
