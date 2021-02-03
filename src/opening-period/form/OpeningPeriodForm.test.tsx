@@ -204,7 +204,7 @@ describe(`<OpeningPeriodForm />`, () => {
       });
     });
 
-    it('Should show required indicator when title is not set', async () => {
+    it('Should show error text when date-range is invalid', async () => {
       let container: Element;
 
       await act(async () => {
