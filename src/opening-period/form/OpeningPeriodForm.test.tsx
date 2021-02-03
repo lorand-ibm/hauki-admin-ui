@@ -228,10 +228,10 @@ describe(`<OpeningPeriodForm />`, () => {
       });
 
       await act(async () => {
-        const requiredIndicator = await screen.findByText(
+        const invalidDateRangeIndicator = await screen.findByText(
           'Aukiolojakson alkupäivämäärä ei voi olla loppupäivämäärän jälkeen.'
         );
-        expect(requiredIndicator).toBeInTheDocument();
+        expect(invalidDateRangeIndicator).toBeInTheDocument();
       });
     });
   });
