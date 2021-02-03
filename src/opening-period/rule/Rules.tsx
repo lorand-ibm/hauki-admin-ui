@@ -1,8 +1,18 @@
 import React from 'react';
-import { ArrayField, Control, useFieldArray } from 'react-hook-form';
+import {
+  ArrayField,
+  Control,
+  DeepMap,
+  FieldError,
+  useFieldArray,
+} from 'react-hook-form';
 import { IconCalendarPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
-import { GroupRuleFormFormat, UiFormRuleConfig } from '../../common/lib/types';
+import {
+  GroupRuleFormFormat,
+  TimeSpanGroupFormFormat,
+  UiFormRuleConfig,
+} from '../../common/lib/types';
 import Rule from './Rule';
 
 export default function Rules({
@@ -13,6 +23,7 @@ export default function Rules({
   ruleConfig,
   register,
   setValue,
+  errors,
 }: {
   groupIndex: number;
   groupId?: string;
@@ -21,6 +32,9 @@ export default function Rules({
   ruleConfig: UiFormRuleConfig;
   register: Function;
   setValue: Function;
+  errors:
+    | (DeepMap<TimeSpanGroupFormFormat, FieldError> | undefined)[]
+    | undefined;
 }): JSX.Element {
   const ruleNamePrefix = `${namePrefix}[${groupIndex}].rules`;
   const { fields, remove, append } = useFieldArray({
@@ -57,6 +71,7 @@ export default function Rules({
                   remove={remove}
                   register={register}
                   ruleConfig={ruleConfig}
+                  errors={errors ? errors[groupIndex]?.rules : undefined}
                 />
               </li>
             )

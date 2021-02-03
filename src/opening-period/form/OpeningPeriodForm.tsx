@@ -9,6 +9,7 @@ import {
   TimeSpanFormFormat,
   TimeSpanGroupFormFormat,
   UiFieldConfig,
+  UiFormRuleConfig,
 } from '../../common/lib/types';
 import { isDateBefore } from '../../common/utils/date-time/compare';
 import {
@@ -96,8 +97,9 @@ export default function OpeningPeriodForm({
     ),
   };
 
-  const ruleConfig = {
+  const ruleConfig: UiFormRuleConfig = {
     context: {
+      required: datePeriodConfig.timeSpanGroup.rule.context.required,
       options: datePeriodConfig.timeSpanGroup.rule.context.options.map(
         (translatedApiChoice) => ({
           value: translatedApiChoice.value,
@@ -106,6 +108,7 @@ export default function OpeningPeriodForm({
       ),
     },
     subject: {
+      required: datePeriodConfig.timeSpanGroup.rule.subject.required,
       options: datePeriodConfig.timeSpanGroup.rule.subject.options.map(
         (translatedApiChoice) => ({
           value: translatedApiChoice.value,
@@ -114,12 +117,16 @@ export default function OpeningPeriodForm({
       ),
     },
     frequencyModifier: {
+      required: datePeriodConfig.timeSpanGroup.rule.frequencyModifier.required,
       options: datePeriodConfig.timeSpanGroup.rule.frequencyModifier.options.map(
         (translatedApiChoice) => ({
           value: translatedApiChoice.value,
           label: translatedApiChoice.label[language] as string,
         })
       ),
+    },
+    start: {
+      required: datePeriodConfig.timeSpanGroup.rule.start.required,
     },
   };
 
@@ -313,6 +320,7 @@ export default function OpeningPeriodForm({
               register={register}
               setValue={setValue}
               ruleConfig={ruleConfig}
+              errors={errors.timeSpanGroups}
             />
           </section>
         )

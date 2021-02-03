@@ -123,29 +123,17 @@ type BaseFieldConfig = {
   required: boolean;
 };
 
-export type UiFieldConfig = {
-  options: InputOption[];
-};
-
 export type UiOptionsFieldConfig = {
   options: TranslatedApiChoice[];
 };
 
-type RuleFieldConfig = BaseFieldConfig & UiOptionsFieldConfig;
+type UiRuleFieldConfig = BaseFieldConfig & UiOptionsFieldConfig;
 
 export type UiRuleConfig = {
-  context: RuleFieldConfig;
-  subject: RuleFieldConfig;
-  frequencyModifier: RuleFieldConfig;
-  start: {
-    required: boolean;
-  };
-};
-
-export type UiFormRuleConfig = {
-  context: UiFieldConfig;
-  subject: UiFieldConfig;
-  frequencyModifier: UiFieldConfig;
+  context: UiRuleFieldConfig;
+  subject: UiRuleFieldConfig;
+  frequencyModifier: UiRuleFieldConfig;
+  start: BaseFieldConfig;
 };
 
 export type UiDatePeriodConfig = {
@@ -154,6 +142,19 @@ export type UiDatePeriodConfig = {
   timeSpanGroup: {
     rule: UiRuleConfig;
   };
+};
+
+export type UiFieldConfig = {
+  options: InputOption[];
+};
+
+type UiFormRuleFieldConfig = BaseFieldConfig & UiFieldConfig;
+
+export type UiFormRuleConfig = {
+  context: UiFormRuleFieldConfig;
+  subject: UiFormRuleFieldConfig;
+  frequencyModifier: UiFormRuleFieldConfig;
+  start: BaseFieldConfig;
 };
 
 export type Frequency = {
