@@ -102,7 +102,7 @@ function formatApiRulesToFormFormat(rules: GroupRule[]): GroupRuleFormFormat[] {
     ...rest,
     id: id ? id.toString() : '',
     group: group ? group.toString() : '',
-    start: start.toString(),
+    start: start ? start.toString() : '',
   }));
 }
 
