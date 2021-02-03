@@ -2,6 +2,9 @@ import { UiDatePeriodConfig as DatePeriodConfig } from '../../src/common/lib/typ
 
 // eslint-disable-next-line import/prefer-default-export
 export const datePeriodOptions: DatePeriodConfig = {
+  name: {
+    max_length: 255,
+  },
   resourceState: {
     options: [
       {
