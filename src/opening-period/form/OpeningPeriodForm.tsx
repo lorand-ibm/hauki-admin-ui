@@ -21,6 +21,7 @@ import {
   SecondaryButton,
   SupplementaryButton,
 } from '../../components/button/Button';
+import ErrorText from '../../components/icon-text/ErrorText';
 import toast from '../../components/notification/Toast';
 import {
   formatTimeSpanGroupsToFormFormat,
@@ -256,16 +257,10 @@ export default function OpeningPeriodForm({
               }}
             />
           </section>
-          {errors.openingPeriodEndDate?.type === 'dateRange' && (
-            <div className="hds-text-input__helper-text opening-period-error-text">
-              <span className="text-danger">
-                <IconAlertCircle />
-              </span>
-              <span className="text-danger">
-                {errors.openingPeriodEndDate?.message}
-              </span>
-            </div>
-          )}
+          {errors.openingPeriodEndDate?.type === 'dateRange' &&
+            errors.openingPeriodEndDate?.message && (
+              <ErrorText message={errors.openingPeriodEndDate.message} />
+            )}
         </div>
       </section>
       {timeSpanGroupFields.map(
