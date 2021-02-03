@@ -27,6 +27,7 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
   timeSpanGroup: {
     rule: {
       context: {
+        required: true,
         options: [
           {
             value: 'period',
@@ -39,6 +40,7 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
         ],
       },
       subject: {
+        required: true,
         options: [
           {
             value: 'week',
@@ -51,6 +53,7 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
         ],
       },
       frequencyModifier: {
+        required: false,
         options: [
           {
             value: 'odd',
@@ -69,6 +72,9 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
             },
           },
         ],
+      },
+      start: {
+        required: false,
       },
     },
   },

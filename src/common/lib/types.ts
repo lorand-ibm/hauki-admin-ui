@@ -85,6 +85,11 @@ export type TextFieldConfig = {
   max_length?: number;
 };
 
+type RuleOptionsFieldConfig = {
+  choices: ApiChoice[];
+  required: boolean;
+};
+
 export type DatePeriodOptions = {
   actions: {
     POST: {
@@ -98,14 +103,11 @@ export type DatePeriodOptions = {
             rules: {
               child: {
                 children: {
-                  context: {
-                    choices: ApiChoice[];
-                  };
-                  frequency_modifier: {
-                    choices: ApiChoice[];
-                  };
-                  subject: {
-                    choices: ApiChoice[];
+                  context: RuleOptionsFieldConfig;
+                  frequency_modifier: RuleOptionsFieldConfig;
+                  subject: RuleOptionsFieldConfig;
+                  start: {
+                    required: boolean;
                   };
                 };
               };
@@ -117,6 +119,10 @@ export type DatePeriodOptions = {
   };
 };
 
+type BaseFieldConfig = {
+  required: boolean;
+};
+
 export type UiFieldConfig = {
   options: InputOption[];
 };
@@ -125,10 +131,15 @@ export type UiOptionsFieldConfig = {
   options: TranslatedApiChoice[];
 };
 
+type RuleFieldConfig = BaseFieldConfig & UiOptionsFieldConfig;
+
 export type UiRuleConfig = {
-  context: UiOptionsFieldConfig;
-  subject: UiOptionsFieldConfig;
-  frequencyModifier: UiOptionsFieldConfig;
+  context: RuleFieldConfig;
+  subject: RuleFieldConfig;
+  frequencyModifier: RuleFieldConfig;
+  start: {
+    required: boolean;
+  };
 };
 
 export type UiFormRuleConfig = {

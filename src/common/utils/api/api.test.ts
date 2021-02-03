@@ -147,6 +147,7 @@ describe('apiRequest', () => {
       const datePeriodOptions = {
         actions: {
           POST: {
+            name: { max_length: 255 },
             resource_state: {
               choices: [
                 {
@@ -166,6 +167,7 @@ describe('apiRequest', () => {
                     child: {
                       children: {
                         context: {
+                          required: true,
                           choices: [
                             {
                               display_name: {
@@ -178,6 +180,7 @@ describe('apiRequest', () => {
                           ],
                         },
                         frequency_modifier: {
+                          required: false,
                           choices: [
                             {
                               display_name: {
@@ -198,7 +201,11 @@ describe('apiRequest', () => {
                           ],
                         },
                         subject: {
+                          required: true,
                           choices: [],
+                        },
+                        start: {
+                          required: false,
                         },
                       },
                     },
@@ -213,6 +220,7 @@ describe('apiRequest', () => {
       mockedAxios.request.mockResolvedValue({ data: datePeriodOptions });
       const response = await api.getDatePeriodFormConfig();
       expect(response).toEqual({
+        name: { max_length: 255 },
         resourceState: {
           options: [
             {
@@ -236,6 +244,7 @@ describe('apiRequest', () => {
         timeSpanGroup: {
           rule: {
             context: {
+              required: true,
               options: [
                 {
                   label: {
@@ -248,9 +257,11 @@ describe('apiRequest', () => {
               ],
             },
             subject: {
+              required: true,
               options: [],
             },
             frequencyModifier: {
+              required: false,
               options: [
                 {
                   label: {
@@ -269,6 +280,9 @@ describe('apiRequest', () => {
                   value: 'odd',
                 },
               ],
+            },
+            start: {
+              required: false,
             },
           },
         },
