@@ -13,11 +13,10 @@ const createdAt = now.toJSON();
 const validUntil =
   process.env.HAUKI_VALID_UNTIL ||
   new Date(now.setDate(now.getDate() + 7)).toJSON();
-// const hasOrganizationRights =
-//  process.env.HAUKI_HAS_ORGANIZATION_RIGHTS || 'true';
+const hasOrganizationRights =
+  process.env.HAUKI_HAS_ORGANIZATION_RIGHTS || 'true';
 
-// const signatureStr = `${source}${username}${createdAt}${validUntil}${organization}${resource}${hasOrganizationRights}`;
-const signatureStr = `${source}${username}${createdAt}${validUntil}${organization}${resource}`;
+const signatureStr = `${source}${username}${createdAt}${validUntil}${organization}${resource}${hasOrganizationRights}`;
 
 const signature = crypto
   .createHmac('sha256', Buffer.from(key, 'utf-8'))
@@ -31,7 +30,7 @@ const queryParameters = [
   `hsa_valid_until=${encodeURIComponent(validUntil)}`,
   `hsa_resource=${encodeURIComponent(resource)}`,
   `hsa_organization=${encodeURIComponent(organization)}`,
-  //  `hsa_has_organization_rights=${encodeURIComponent(hasOrganizationRights)}`,
+  `hsa_has_organization_rights=${encodeURIComponent(hasOrganizationRights)}`,
   `hsa_signature=${signature}`,
 ].join('&');
 
