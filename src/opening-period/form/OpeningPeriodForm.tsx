@@ -58,15 +58,15 @@ export type OpeningPeriodFormProps = {
   errorTextAndLabel: NotificationTexts;
 };
 
-const validateStartInputWithEndDate = (end: Date | null) => (
-  start: string | null
+const validateEndInputWithStartDate = (start: Date | null) => (
+  end: string | null
 ): boolean | string => {
   if (!start || !end) {
     return true;
   }
 
-  if (!isDateBefore(parseFormDate(start), end)) {
-    return 'Aukiolojakson alkupäivämäärä ei voi olla loppupäivämäärän jälkeen.';
+  if (isDateBefore(parseFormDate(end), start)) {
+    return 'Aukiolojakson loppupäivämäärä ei voi olla ennen alkupäivämäärää.';
   }
 
   return true;
@@ -208,9 +208,6 @@ export default function OpeningPeriodForm({
               value={periodBeginDate}
               error={errors.openingPeriodBeginDate}
               registerFn={register}
-              customValidations={{
-                dateRange: validateStartInputWithEndDate(periodEndDate),
-              }}
             />
             <p className="dash-between-begin-and-end-date">—</p>
             <Datepicker
@@ -220,15 +217,18 @@ export default function OpeningPeriodForm({
               onChange={(value): void => setPeriodEndDate(value || null)}
               value={periodEndDate}
               registerFn={register}
+              customValidations={{
+                dateRange: validateEndInputWithStartDate(periodBeginDate),
+              }}
             />
           </section>
-          {errors.openingPeriodBeginDate?.type === 'dateRange' && (
+          {errors.openingPeriodEndDate?.type === 'dateRange' && (
             <div className="hds-text-input__helper-text opening-period-error-text">
               <span className="text-danger">
                 <IconAlertCircle />
               </span>
               <span className="text-danger">
-                {errors.openingPeriodBeginDate.message}
+                {errors.openingPeriodEndDate?.message}
               </span>
             </div>
           )}
