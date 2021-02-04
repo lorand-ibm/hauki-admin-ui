@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { datePeriodOptions } from '../../../../test/fixtures/api-options';
 import {
   DatePeriod,
   Language,
@@ -147,70 +148,7 @@ const testDatePeriodFullDayClosed: DatePeriod = {
   ],
 };
 
-const closedResourceState = {
-  value: 'closed',
-  label: 'Suljettu',
-};
-
-const testDatePeriodOptions: UiDatePeriodConfig = {
-  resourceState: {
-    options: [
-      {
-        value: 'open',
-        label: 'Auki',
-      },
-      { ...closedResourceState },
-      {
-        value: 'self_service',
-        label: 'Itsepalvelu',
-      },
-    ],
-  },
-  timeSpanGroup: {
-    rule: {
-      context: {
-        options: [
-          {
-            value: 'period',
-            label: 'Jakso',
-          },
-          {
-            value: 'month',
-            label: 'Kuukausi',
-          },
-        ],
-      },
-      subject: {
-        options: [
-          {
-            value: 'week',
-            label: 'Viikko',
-          },
-          {
-            value: 'month',
-            label: 'Kuukausi',
-          },
-          {
-            value: 'mon',
-            label: 'Maanantai',
-          },
-        ],
-      },
-      frequencyModifier: {
-        options: [
-          {
-            value: 'odd',
-            label: 'Pariton',
-          },
-          {
-            value: 'even',
-            label: 'Parillinen',
-          },
-        ],
-      },
-    },
-  },
-};
+const testDatePeriodOptions: UiDatePeriodConfig = datePeriodOptions;
 
 describe(`<PeriodOpeningHours />`, () => {
   it('should show period opening hours', async () => {
