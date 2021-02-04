@@ -30,7 +30,7 @@ const queryParameters = [
   `hsa_valid_until=${encodeURIComponent(validUntil)}`,
   `hsa_resource=${encodeURIComponent(resource)}`,
   `hsa_organization=${encodeURIComponent(organization)}`,
-  //  `hsa_has_organization_rights=${encodeURIComponent(hasOrganizationRights)}`,
+  `hsa_has_organization_rights=${encodeURIComponent(hasOrganizationRights)}`,
   `hsa_signature=${signature}`,
 ].join('&');
 
