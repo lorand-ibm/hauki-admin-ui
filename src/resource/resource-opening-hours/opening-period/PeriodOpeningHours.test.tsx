@@ -295,6 +295,33 @@ describe(`<PeriodOpeningHours />`, () => {
     ).toEqual('ti, to');
   });
 
+  it('should show weekdays, resource state and description in swedish', async () => {
+    const { container } = render(
+      <PeriodOpeningHours
+        datePeriod={testDatePeriod}
+        datePeriodConfig={testDatePeriodOptions}
+        language={Language.SV}
+      />
+    );
+
+    expect(
+      await container?.querySelector(
+        'p[data-test="time-span-weekday-string-0"]'
+      )?.textContent
+    ).toEqual('Mån, Ons');
+
+    expect(
+      await container?.querySelector(
+        'p[data-test="time-span-resource-state-0"]'
+      )?.textContent
+    ).toEqual('Öppen');
+
+    expect(
+      await container?.querySelector('p[data-test="time-span-description-0"]')
+        ?.textContent
+    ).toEqual('Öppnande testbeskrivning');
+  });
+
   it('should not crash when start and end times are missing', async () => {
     const { container } = render(
       <PeriodOpeningHours
