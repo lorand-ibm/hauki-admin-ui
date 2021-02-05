@@ -71,6 +71,11 @@ export type ApiChoice = {
   display_name: string | LanguageStrings;
 };
 
+export type TranslatedApiChoice = {
+  label: LanguageStrings;
+  value: string;
+};
+
 export type InputOption = {
   label: string;
   value: string;
@@ -112,8 +117,12 @@ export type DatePeriodOptions = {
   };
 };
 
-export type UiOptionsFieldConfig = {
+export type UiFieldConfig = {
   options: InputOption[];
+};
+
+export type UiOptionsFieldConfig = {
+  options: TranslatedApiChoice[];
 };
 
 export type UiRuleConfig = {

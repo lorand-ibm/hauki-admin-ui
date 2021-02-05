@@ -2,6 +2,7 @@ import React from 'react';
 import {
   DatePeriod,
   Language,
+  LanguageStrings,
   ResourceState,
   UiDatePeriodConfig,
   UiOptionsFieldConfig,
@@ -11,14 +12,18 @@ import {
   dropMilliseconds,
 } from '../../../common/utils/date-time/format';
 import './PeriodOpeningHours.scss';
+import { displayLangVersionNotFound } from '../../../components/language-select/LanguageSelect';
 
-function findResourceStateLabelByValue(
+function findResourceStateLabelByValueAndLang(
   value: ResourceState | undefined,
-  resourceState: UiOptionsFieldConfig
-): string | undefined {
-  return resourceState.options.find(
+  resourceState: UiOptionsFieldConfig,
+  language: Language
+): string | null {
+  const resourceStateObj = resourceState.options.find(
     (resourceStateOption) => resourceStateOption.value === value
   )?.label;
+
+  return resourceStateObj ? resourceStateObj[language] : null;
 }
 
 function renderStartAndEndTimes(
@@ -37,6 +42,40 @@ function renderStartAndEndTimes(
   return `${startTime ? dropMilliseconds(startTime) : ''} - ${
     endTime ? dropMilliseconds(endTime) : ''
   }`;
+}
+
+function timeSpanDescriptionExistsInSomeLanguage(
+  timeSpanDescriptionObj: LanguageStrings | undefined
+): boolean {
+  if (!timeSpanDescriptionObj) {
+    return false;
+  }
+  return !!(
+    timeSpanDescriptionObj.fi ||
+    timeSpanDescriptionObj.sv ||
+    timeSpanDescriptionObj.en
+  );
+}
+
+function renderTimeSpanDescription(
+  timeSpanDescriptionObj: LanguageStrings | undefined,
+  language: Language
+): string {
+  if (!timeSpanDescriptionObj) {
+    return '';
+  }
+
+  if (timeSpanDescriptionExistsInSomeLanguage(timeSpanDescriptionObj)) {
+    if (!timeSpanDescriptionObj[language]) {
+      return displayLangVersionNotFound({
+        language,
+        label: 'aukiolon kuvaus',
+      });
+    }
+    return timeSpanDescriptionObj[language] || '';
+  }
+
+  return '';
 }
 
 export default function PeriodOpeningHours({
@@ -67,15 +106,16 @@ export default function PeriodOpeningHours({
               )}
             </p>
             <p data-test={`time-span-resource-state-${index}`}>
-              {findResourceStateLabelByValue(
+              {findResourceStateLabelByValueAndLang(
                 timeSpan.resource_state,
-                datePeriodConfig.resourceState
+                datePeriodConfig.resourceState,
+                language
               ) || 'Auki'}
             </p>
             <p
               data-test={`time-span-description-${index}`}
               className="time-span-preview-description">
-              {timeSpan.description?.fi || ''}
+              {renderTimeSpanDescription(timeSpan.description, language)}
             </p>
           </div>
         );

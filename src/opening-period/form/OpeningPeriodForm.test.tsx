@@ -30,7 +30,11 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
         options: [
           {
             value: 'period',
-            label: 'Jakso',
+            label: {
+              fi: 'Jakso',
+              sv: null,
+              en: null,
+            },
           },
         ],
       },
@@ -38,7 +42,11 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
         options: [
           {
             value: 'week',
-            label: 'Viikko',
+            label: {
+              fi: 'Viikko',
+              sv: null,
+              en: null,
+            },
           },
         ],
       },
@@ -46,11 +54,19 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
         options: [
           {
             value: 'odd',
-            label: 'Pariton',
+            label: {
+              fi: 'Pariton',
+              sv: null,
+              en: null,
+            },
           },
           {
             value: 'even',
-            label: 'Parillinen',
+            label: {
+              fi: 'Parillinen',
+              sv: null,
+              en: null,
+            },
           },
         ],
       },

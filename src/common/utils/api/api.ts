@@ -6,11 +6,11 @@ import {
   DatePeriod,
   UiDatePeriodConfig,
   DatePeriodOptions,
-  InputOption,
   LanguageStrings,
   Resource,
   ResourceState,
   TimeSpanGroup,
+  TranslatedApiChoice,
 } from '../../lib/types';
 import { AuthTokens, getTokens } from '../../../auth/auth-context';
 
@@ -66,14 +66,28 @@ interface ApiParameters extends RequestParameters {
   format: ApiResponseFormat;
 }
 
-const convertApiChoiceToInputOption = (apiChoice: ApiChoice): InputOption => ({
-  value: apiChoice.value,
-  label: `${
-    typeof apiChoice.display_name === 'string'
-      ? apiChoice.display_name
-      : apiChoice.display_name.fi
-  }`,
-});
+const convertApiChoiceToTranslatedApiChoice = (
+  apiChoice: ApiChoice
+): TranslatedApiChoice => {
+  if (typeof apiChoice.display_name === 'string') {
+    return {
+      value: apiChoice.value,
+      label: {
+        fi: apiChoice.display_name,
+        sv: null,
+        en: null,
+      },
+    };
+  }
+  return {
+    value: apiChoice.value,
+    label: {
+      fi: apiChoice.display_name.fi,
+      sv: apiChoice.display_name.sv,
+      en: apiChoice.display_name.en,
+    },
+  };
+};
 
 const addTokensToRequestConfig = (
   authTokens: AuthTokens,
@@ -236,23 +250,23 @@ export default {
 
     const resourceStateChoices = configResponse.resource_state.choices;
 
-    const resourceStateOptions: InputOption[] = resourceStateChoices.map(
-      convertApiChoiceToInputOption
+    const resourceStateOptions: TranslatedApiChoice[] = resourceStateChoices.map(
+      convertApiChoiceToTranslatedApiChoice
     );
 
     const timeSpanGroupOptions =
       configResponse.time_span_groups.child.children.rules.child.children;
 
-    const ruleContextOptions: InputOption[] = timeSpanGroupOptions.context.choices.map(
-      convertApiChoiceToInputOption
+    const ruleContextOptions: TranslatedApiChoice[] = timeSpanGroupOptions.context.choices.map(
+      convertApiChoiceToTranslatedApiChoice
     );
 
-    const ruleSubjectOptions: InputOption[] = timeSpanGroupOptions.subject.choices.map(
-      convertApiChoiceToInputOption
+    const ruleSubjectOptions: TranslatedApiChoice[] = timeSpanGroupOptions.subject.choices.map(
+      convertApiChoiceToTranslatedApiChoice
     );
 
-    const ruleFrequencyModifierOptions: InputOption[] = timeSpanGroupOptions.frequency_modifier.choices.map(
-      convertApiChoiceToInputOption
+    const ruleFrequencyModifierOptions: TranslatedApiChoice[] = timeSpanGroupOptions.frequency_modifier.choices.map(
+      convertApiChoiceToTranslatedApiChoice
     );
 
     return {

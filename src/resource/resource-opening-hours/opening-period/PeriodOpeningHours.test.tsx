@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { datePeriodOptions } from '../../../../test/fixtures/api-options';
 import {
   DatePeriod,
   Language,
@@ -36,7 +35,7 @@ const testDatePeriod: DatePeriod = {
           },
           description: {
             fi: 'Aukiolon testikuvaus',
-            sv: null,
+            sv: 'Öppnande testbeskrivning',
             en: null,
           },
           start_time: '08:00:00',
@@ -148,7 +147,113 @@ const testDatePeriodFullDayClosed: DatePeriod = {
   ],
 };
 
-const testDatePeriodOptions: UiDatePeriodConfig = datePeriodOptions;
+const closedResourceState = {
+  value: 'closed',
+  label: {
+    fi: 'Suljettu',
+    sv: null,
+    en: null,
+  },
+};
+
+const testDatePeriodOptions: UiDatePeriodConfig = {
+  name: {
+    max_length: 255,
+  },
+  resourceState: {
+    options: [
+      {
+        value: 'open',
+        label: {
+          fi: 'Auki',
+          sv: 'Öppen',
+          en: null,
+        },
+      },
+      { ...closedResourceState },
+      {
+        value: 'self_service',
+        label: {
+          fi: 'Itsepalvelu',
+          sv: null,
+          en: null,
+        },
+      },
+    ],
+  },
+  timeSpanGroup: {
+    rule: {
+      context: {
+        options: [
+          {
+            value: 'period',
+            label: {
+              fi: 'Jakso',
+              sv: null,
+              en: null,
+            },
+          },
+          {
+            value: 'month',
+            label: {
+              fi: 'Kuukausi',
+              sv: null,
+              en: null,
+            },
+          },
+        ],
+      },
+      subject: {
+        options: [
+          {
+            value: 'week',
+            label: {
+              fi: 'Viikko',
+              sv: null,
+              en: null,
+            },
+          },
+          {
+            value: 'month',
+            label: {
+              fi: 'Kuukausi',
+              sv: null,
+              en: null,
+            },
+          },
+          {
+            value: 'mon',
+            label: {
+              fi: 'Maanantai',
+              sv: null,
+              en: null,
+            },
+          },
+        ],
+      },
+      frequencyModifier: {
+        options: [
+          {
+            value: 'odd',
+            label: {
+              fi: 'Pariton',
+              sv: null,
+              en: null,
+            },
+          },
+          {
+            value: 'even',
+            label: {
+              fi: 'Parillinen',
+              sv: null,
+              en: null,
+            },
+          },
+        ],
+      },
+    },
+  },
+};
 
 describe(`<PeriodOpeningHours />`, () => {
   it('should show period opening hours', async () => {

@@ -6,9 +6,9 @@ import Weekdays from './Weekdays';
 import './TimeSpan.scss';
 import TimeInput from './TimeInput';
 import {
-  UiOptionsFieldConfig,
   TimeSpanFormFormat,
   InputOption,
+  UiFieldConfig,
 } from '../../common/lib/types';
 
 export default function TimeSpan({
@@ -28,7 +28,7 @@ export default function TimeSpan({
   remove: Function;
   register: Function;
   control: Control;
-  resourceStateConfig: UiOptionsFieldConfig;
+  resourceStateConfig: UiFieldConfig;
 }): JSX.Element {
   const timeSpanNamePrefix = `${namePrefix}[${index}]`;
   const { options: resourceStateOptions } = resourceStateConfig;

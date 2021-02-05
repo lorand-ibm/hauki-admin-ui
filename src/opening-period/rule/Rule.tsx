@@ -5,8 +5,8 @@ import { SupplementaryButton } from '../../components/button/Button';
 import {
   InputOption,
   Frequency,
-  UiRuleConfig,
   GroupRuleFormFormat,
+  UiFormRuleConfig,
 } from '../../common/lib/types';
 import './Rule.scss';
 
@@ -92,7 +92,7 @@ export default function Rule({
   register: Function;
   index: number;
   groupIndex: number;
-  ruleConfig: UiRuleConfig;
+  ruleConfig: UiFormRuleConfig;
 }): JSX.Element {
   const ruleNamePrefix = `${namePrefix}[${index}]`;
 
