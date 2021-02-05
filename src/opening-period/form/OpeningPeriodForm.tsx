@@ -9,7 +9,11 @@ import {
   TimeSpanFormFormat,
   TimeSpanGroupFormFormat,
 } from '../../common/lib/types';
-import { transformDateToApiFormat } from '../../common/utils/date-time/format';
+import { isDateBefore } from '../../common/utils/date-time/compare';
+import {
+  parseFormDate,
+  transformDateToApiFormat,
+} from '../../common/utils/date-time/format';
 import Datepicker from '../../components/datepicker/Datepicker';
 import {
   PrimaryButton,
@@ -54,6 +58,20 @@ export type OpeningPeriodFormProps = {
   errorTextAndLabel: NotificationTexts;
 };
 
+const validateEndInputWithStartDate = (start: Date | null) => (
+  end: string | null
+): boolean | string => {
+  if (!start || !end) {
+    return true;
+  }
+
+  if (isDateBefore(parseFormDate(end), start)) {
+    return 'Aukiolojakson loppupäivämäärä ei voi olla ennen alkupäivämäärää.';
+  }
+
+  return true;
+};
+
 export default function OpeningPeriodForm({
   formId,
   datePeriod,
@@ -65,6 +83,7 @@ export default function OpeningPeriodForm({
 }: OpeningPeriodFormProps): JSX.Element {
   const language = Language.FI;
   const {
+    name: nameFieldConfig,
     resourceState: resourceStateConfig,
     timeSpanGroup: { rule: ruleConfig },
   } = datePeriodConfig;
@@ -171,7 +190,11 @@ export default function OpeningPeriodForm({
       className="opening-period-form"
       onSubmit={handleSubmit(onSubmit)}>
       <section className="form-section">
-        <OpeningPeriodDescription register={register} errors={errors} />
+        <OpeningPeriodDescription
+          register={register}
+          errors={errors}
+          nameFieldConfig={nameFieldConfig}
+        />
       </section>
       <section className="form-section">
         <h3 className="opening-period-section-title">Ajanjakso</h3>
@@ -183,6 +206,7 @@ export default function OpeningPeriodForm({
               labelText="Alkaa"
               onChange={(value): void => setPeriodBeginDate(value || null)}
               value={periodBeginDate}
+              error={errors.openingPeriodBeginDate}
               registerFn={register}
             />
             <p className="dash-between-begin-and-end-date">—</p>
@@ -193,8 +217,21 @@ export default function OpeningPeriodForm({
               onChange={(value): void => setPeriodEndDate(value || null)}
               value={periodEndDate}
               registerFn={register}
+              customValidations={{
+                dateRange: validateEndInputWithStartDate(periodBeginDate),
+              }}
             />
           </section>
+          {errors.openingPeriodEndDate?.type === 'dateRange' && (
+            <div className="hds-text-input__helper-text opening-period-error-text">
+              <span className="text-danger">
+                <IconAlertCircle />
+              </span>
+              <span className="text-danger">
+                {errors.openingPeriodEndDate?.message}
+              </span>
+            </div>
+          )}
         </div>
       </section>
       {timeSpanGroupFields.map(

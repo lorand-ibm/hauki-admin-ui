@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { getElementOrThrow } from '../../../test/test-utils';
 import {
   DatePeriod,
@@ -18,6 +18,9 @@ jest.mock('react-router-dom', () => ({
 }));
 
 const testDatePeriodOptions: UiDatePeriodConfig = {
+  name: {
+    max_length: 255,
+  },
   resourceState: {
     options: [],
   },
@@ -173,7 +176,67 @@ const renderOpeningPeriodForm = (props: OpeningPeriodFormProps): Element => {
 };
 
 describe(`<OpeningPeriodForm />`, () => {
-  describe(`TimeSpanGroups`, () => {
+  describe('Validations', () => {
+    it('Should show required indicator when title is not set', async () => {
+      let container: Element;
+
+      await act(async () => {
+        container = renderOpeningPeriodForm(
+          defaultProps as OpeningPeriodFormProps
+        );
+      });
+
+      // try submit form without any input data:
+      await act(async () => {
+        // Try submit form
+        const submitFormButton = getElementOrThrow(
+          container,
+          '[data-test="publish-opening-period-button"]'
+        );
+        fireEvent.submit(submitFormButton);
+      });
+
+      await act(async () => {
+        const requiredIndicator = await screen.findByText(
+          'Aukiolojakson otsikko on pakollinen'
+        );
+        expect(requiredIndicator).toBeInTheDocument();
+      });
+    });
+
+    it('Should show error text when date-range is invalid', async () => {
+      let container: Element;
+
+      await act(async () => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            start_date: '2021-2-2',
+            end_date: '2021-2-1',
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      // try submit form with invalid date range:
+      await act(async () => {
+        const submitFormButton = getElementOrThrow(
+          container,
+          '[data-test="publish-opening-period-button"]'
+        );
+        fireEvent.submit(submitFormButton);
+      });
+
+      await act(async () => {
+        const invalidDateRangeIndicator = await screen.findByText(
+          'Aukiolojakson loppupäivämäärä ei voi olla ennen alkupäivämäärää.'
+        );
+        expect(invalidDateRangeIndicator).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('TimeSpanGroups', () => {
     afterEach(() => {
       jest.clearAllMocks();
     });

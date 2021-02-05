@@ -203,7 +203,6 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       is_removed: false,
       name: { fi: '', sv: '', en: '' },
       description: { fi: '', sv: '', en: '' },
-      start_date: '',
       end_date: '2020-11-21',
       resource_state: ResourceState.OPEN,
       override: false,
@@ -216,7 +215,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       .mockImplementation(() => Promise.resolve(testResource));
 
     jest
-      .spyOn(api, 'getDatePeriodFormOptions')
+      .spyOn(api, 'getDatePeriodFormConfig')
       .mockImplementation(() => Promise.resolve(testDatePeriodConfig));
 
     jest
@@ -245,7 +244,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
   });
 
   it('should show loading indicator while loading date period form options', async () => {
-    jest.spyOn(api, 'getDatePeriodFormOptions').mockImplementation(() => {
+    jest.spyOn(api, 'getDatePeriodFormConfig').mockImplementation(() => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       return new Promise(() => {});
     });
@@ -293,7 +292,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       .mockImplementationOnce((e) => e);
 
     jest
-      .spyOn(api, 'getDatePeriodFormOptions')
+      .spyOn(api, 'getDatePeriodFormConfig')
       .mockImplementation(() => Promise.reject(error));
 
     render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />);
@@ -540,38 +539,6 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       expect(() =>
         getElementOrThrow(container, '[data-test="time-span-0-1"]')
       ).toThrow();
-    });
-  });
-
-  it('Should show required indicator when title is not set', async () => {
-    let container: Element;
-
-    await act(async () => {
-      container = render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />)
-        .container;
-
-      if (!container) {
-        throw new Error(
-          'Something went wrong in rendering of CreateNewOpeningPeriodPage'
-        );
-      }
-    });
-
-    // try submit form without any input data:
-    await act(async () => {
-      // Try submit form
-      const submitFormButton = getElementOrThrow(
-        container,
-        '[data-test="publish-opening-period-button"]'
-      );
-      fireEvent.submit(submitFormButton);
-    });
-
-    await act(async () => {
-      const requiredIndicator = await screen.findByText(
-        'Aukiolojakson otsikko on pakollinen'
-      );
-      expect(requiredIndicator).toBeInTheDocument();
     });
   });
 });

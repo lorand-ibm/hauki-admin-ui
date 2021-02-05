@@ -115,7 +115,7 @@ describe(`<ResourcePage />`, () => {
       .mockImplementation(() => Promise.resolve([testDatePeriod]));
 
     jest
-      .spyOn(api, 'getDatePeriodFormOptions')
+      .spyOn(api, 'getDatePeriodFormConfig')
       .mockImplementation(() => Promise.resolve(testDatePeriodOptions));
 
     jest

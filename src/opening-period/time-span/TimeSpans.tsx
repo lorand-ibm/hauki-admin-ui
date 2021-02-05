@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { ArrayField, Control, useFieldArray } from 'react-hook-form';
 import { IconClockPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
-import { TimeSpanFormFormat, UiFieldConfig } from '../../common/lib/types';
+import {
+  TimeSpanFormFormat,
+  UiOptionsFieldConfig,
+} from '../../common/lib/types';
 import TimeSpan from './TimeSpan';
 
 export default function TimeSpans({
@@ -17,7 +20,7 @@ export default function TimeSpans({
   groupId?: string;
   namePrefix: string;
   control: Control;
-  resourceStateConfig: UiFieldConfig;
+  resourceStateConfig: UiOptionsFieldConfig;
   register: Function;
 }): JSX.Element {
   const initTimeSpan: Partial<TimeSpanFormFormat> = { group: groupId ?? '' };
