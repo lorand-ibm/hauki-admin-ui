@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrayField, Controller, Control } from 'react-hook-form';
+import { ArrayField, Controller, useFormContext } from 'react-hook-form';
 import { IconTrash, Select, TextInput } from 'hds-react';
 import { SupplementaryButton } from '../../components/button/Button';
 import Weekdays from './Weekdays';
@@ -17,8 +17,6 @@ export default function TimeSpan({
   index,
   groupIndex,
   remove,
-  register,
-  control,
   resourceStateConfig,
 }: {
   item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
@@ -26,10 +24,9 @@ export default function TimeSpan({
   index: number;
   groupIndex: number;
   remove: Function;
-  register: Function;
-  control: Control;
   resourceStateConfig: UiFieldConfig;
 }): JSX.Element {
+  const { control, register } = useFormContext();
   const timeSpanNamePrefix = `${namePrefix}[${index}]`;
   const { options: resourceStateOptions } = resourceStateConfig;
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   ArrayField,
-  Control,
   DeepMap,
   FieldError,
   useFieldArray,
+  useFormContext,
 } from 'react-hook-form';
 import { IconCalendarPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
@@ -19,23 +19,18 @@ export default function Rules({
   groupIndex,
   groupId,
   namePrefix,
-  control,
   ruleConfig,
-  register,
-  setValue,
   errors,
 }: {
   groupIndex: number;
   groupId?: string;
   namePrefix: string;
-  control: Control;
   ruleConfig: UiFormRuleConfig;
-  register: Function;
-  setValue: Function;
   errors:
     | (DeepMap<TimeSpanGroupFormFormat, FieldError> | undefined)[]
     | undefined;
 }): JSX.Element {
+  const { control } = useFormContext();
   const ruleNamePrefix = `${namePrefix}[${groupIndex}].rules`;
   const { fields, remove, append } = useFieldArray({
     control,
@@ -66,10 +61,7 @@ export default function Rules({
                   index={index}
                   groupIndex={groupIndex}
                   rule={rule}
-                  control={control}
-                  setValue={setValue}
                   remove={remove}
-                  register={register}
                   ruleConfig={ruleConfig}
                   errors={errors ? errors[groupIndex]?.rules : undefined}
                 />

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { IconTrash, Select } from 'hds-react';
 import {
   ArrayField,
-  Control,
   Controller,
   DeepMap,
   FieldError,
+  useFormContext,
 } from 'react-hook-form';
 import { SupplementaryButton } from '../../components/button/Button';
 import ErrorText from '../../components/icon-text/ErrorText';
@@ -92,10 +92,7 @@ const startAtOptions: InputOption[] = Array.from({ length: 10 }).map(
 export default function Rule({
   namePrefix,
   rule,
-  control,
-  setValue,
   remove,
-  register,
   index,
   groupIndex,
   ruleConfig,
@@ -103,15 +100,13 @@ export default function Rule({
 }: {
   namePrefix: string;
   rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>;
-  control: Control;
-  setValue: Function;
   remove: Function;
-  register: Function;
   index: number;
   groupIndex: number;
   ruleConfig: UiFormRuleConfig;
   errors: (DeepMap<GroupRuleFormFormat, FieldError> | undefined)[] | undefined;
 }): JSX.Element {
+  const { control, register, setValue } = useFormContext();
   const ruleNamePrefix = `${namePrefix}[${index}]`;
 
   const {
