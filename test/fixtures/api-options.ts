@@ -9,11 +9,19 @@ export const datePeriodOptions: DatePeriodConfig = {
     options: [
       {
         value: 'open',
-        label: 'Auki',
+        label: {
+          fi: 'Auki',
+          sv: null,
+          en: null,
+        },
       },
       {
         value: 'self_service',
-        label: 'Itsepalvelu',
+        label: {
+          fi: 'Itsepalvelu',
+          sv: null,
+          en: null,
+        },
       },
     ],
   },
@@ -23,11 +31,19 @@ export const datePeriodOptions: DatePeriodConfig = {
         options: [
           {
             value: 'period',
-            label: 'Jakso',
+            label: {
+              fi: 'Jakso',
+              sv: null,
+              en: null,
+            },
           },
           {
             value: 'month',
-            label: 'Kuukausi',
+            label: {
+              fi: 'Kuukausi',
+              sv: null,
+              en: null,
+            },
           },
         ],
       },
@@ -35,15 +51,27 @@ export const datePeriodOptions: DatePeriodConfig = {
         options: [
           {
             value: 'week',
-            label: 'Viikko',
+            label: {
+              fi: 'Viikko',
+              sv: null,
+              en: null,
+            },
           },
           {
             value: 'month',
-            label: 'Kuukausi',
+            label: {
+              fi: 'Kuukausi',
+              sv: null,
+              en: null,
+            },
           },
           {
             value: 'mon',
-            label: 'Maanantai',
+            label: {
+              fi: 'Maanantai',
+              sv: null,
+              en: null,
+            },
           },
         ],
       },
@@ -51,11 +79,19 @@ export const datePeriodOptions: DatePeriodConfig = {
         options: [
           {
             value: 'odd',
-            label: 'Pariton',
+            label: {
+              fi: 'Pariton',
+              sv: null,
+              en: null,
+            },
           },
           {
             value: 'even',
-            label: 'Parillinen',
+            label: {
+              fi: 'Parillinen',
+              sv: null,
+              en: null,
+            },
           },
         ],
       },
