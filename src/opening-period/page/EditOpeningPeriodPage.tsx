@@ -95,6 +95,7 @@ export default function EditOpeningPeriodPage({
       </ResourceInfo>
       {resource && datePeriod && datePeriodConfig && (
         <OpeningPeriodForm
+          forceException={false}
           formId="edit-opening-period-form"
           datePeriod={datePeriod}
           resourceId={resource.id}

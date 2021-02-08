@@ -19,6 +19,7 @@ enum PeriodsListTheme {
 
 const OpeningPeriodsList = ({
   id,
+  exception,
   addNewOpeningPeriodButtonDataTest,
   resourceId,
   title,
@@ -29,6 +30,7 @@ const OpeningPeriodsList = ({
   deletePeriod,
 }: {
   id: string;
+  exception: boolean;
   addNewOpeningPeriodButtonDataTest?: string;
   resourceId: number;
   title: string;
@@ -69,9 +71,13 @@ const OpeningPeriodsList = ({
             data-test={addNewOpeningPeriodButtonDataTest}
             size="small"
             className="opening-period-header-button"
-            onClick={(): void =>
-              history.push(`/resource/${resourceId}/period/new`)
-            }
+            onClick={(): void => {
+              if (exception) {
+                history.push(`/resource/${resourceId}/period/new-exception`);
+              } else {
+                history.push(`/resource/${resourceId}/period/new`);
+              }
+            }}
             variant="secondary">
             Lisää uusi +
           </Button>
@@ -180,6 +186,7 @@ export default function ResourceOpeningHours({
       </p>
       <OpeningPeriodsList
         id="resource-opening-periods-list"
+        exception={false}
         addNewOpeningPeriodButtonDataTest="add-new-opening-period-button"
         resourceId={resourceId}
         title="Aukiolojaksot"
@@ -191,6 +198,7 @@ export default function ResourceOpeningHours({
       />
       <OpeningPeriodsList
         id="resource-exception-opening-periods-list"
+        exception
         resourceId={resourceId}
         title="Poikkeusaukiolojaksot"
         datePeriods={exceptionPeriods}
