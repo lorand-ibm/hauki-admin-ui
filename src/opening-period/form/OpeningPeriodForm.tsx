@@ -156,7 +156,15 @@ export default function OpeningPeriodForm({
     defaultValues: formValues,
   });
 
-  const { register, handleSubmit, errors, control, setValue } = formMethods;
+  const {
+    register,
+    handleSubmit,
+    errors,
+    control,
+    setValue,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getValues,
+  } = formMethods;
 
   const timeSpanGroupFieldName = 'timeSpanGroups';
 

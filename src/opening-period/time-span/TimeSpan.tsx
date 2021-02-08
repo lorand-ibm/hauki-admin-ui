@@ -1,7 +1,14 @@
 import React from 'react';
-import { ArrayField, Controller, useFormContext } from 'react-hook-form';
+import {
+  ArrayField,
+  Controller,
+  DeepMap,
+  FieldError,
+  useFormContext,
+} from 'react-hook-form';
 import { IconTrash, Select, TextInput } from 'hds-react';
 import { SupplementaryButton } from '../../components/button/Button';
+import ErrorText from '../../components/icon-text/ErrorText';
 import Weekdays from './Weekdays';
 import './TimeSpan.scss';
 import TimeInput from './TimeInput';
@@ -18,6 +25,7 @@ export default function TimeSpan({
   groupIndex,
   remove,
   resourceStateConfig,
+  errors,
 }: {
   item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
   namePrefix: string;
@@ -25,10 +33,15 @@ export default function TimeSpan({
   groupIndex: number;
   remove: Function;
   resourceStateConfig: UiFieldConfig;
+  errors: (DeepMap<TimeSpanFormFormat, FieldError> | undefined)[] | undefined;
 }): JSX.Element {
-  const { control, register } = useFormContext();
+  const { control, register, getValues } = useFormContext();
   const timeSpanNamePrefix = `${namePrefix}[${index}]`;
   const { options: resourceStateOptions } = resourceStateConfig;
+  const timeSpanErrors = errors && errors[index];
+
+  const validateTimeRange = (startTime: string, endTime: string): boolean =>
+    !!startTime || !!endTime;
 
   return (
     <div
@@ -72,9 +85,17 @@ export default function TimeSpan({
             <TimeInput
               ariaLabel="Aukiolon alkukellonaika"
               dataTest={`time-span-start-time-${groupIndex}-${index}`}
-              register={register}
+              registerFn={(ref): void =>
+                register(ref, {
+                  validate: (startTime): boolean =>
+                    validateTimeRange(
+                      startTime,
+                      getValues(`${timeSpanNamePrefix}.endTime`)
+                    ),
+                })
+              }
               defaultValue={`${item.startTime}`}
-              required
+              error={timeSpanErrors?.startTime?.message}
               id={`time-span-${groupIndex}-${index}-start-time`}
               name={`${timeSpanNamePrefix}.startTime`}
               placeholder="--.--"
@@ -86,14 +107,25 @@ export default function TimeSpan({
           <TimeInput
             ariaLabel="Aukiolon loppukellonaika"
             dataTest={`time-span-end-time-${groupIndex}-${index}`}
-            register={register}
+            registerFn={(ref): void =>
+              register(ref, {
+                validate: (endTime): boolean =>
+                  validateTimeRange(
+                    getValues(`${timeSpanNamePrefix}.startTime`),
+                    endTime
+                  ),
+              })
+            }
             defaultValue={`${item.endTime}`}
-            required
             id={`time-span-end-time-${groupIndex}-${index}`}
             name={`${timeSpanNamePrefix}.endTime`}
             placeholder="--.--"
           />
         </div>
+        {timeSpanErrors &&
+          (timeSpanErrors?.startTime || timeSpanErrors?.endTime) && (
+            <ErrorText message="Aukiololla on oltava vähintään alku tai loppuaika." />
+          )}
       </div>
       <div className="form-control">
         <div className="time-span-state-container">

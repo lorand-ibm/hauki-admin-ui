@@ -1,8 +1,18 @@
 import React, { useEffect } from 'react';
-import { ArrayField, useFieldArray, useFormContext } from 'react-hook-form';
+import {
+  ArrayField,
+  DeepMap,
+  FieldError,
+  useFieldArray,
+  useFormContext,
+} from 'react-hook-form';
 import { IconClockPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
-import { TimeSpanFormFormat, UiFieldConfig } from '../../common/lib/types';
+import {
+  TimeSpanFormFormat,
+  TimeSpanGroupFormFormat,
+  UiFieldConfig,
+} from '../../common/lib/types';
 import TimeSpan from './TimeSpan';
 
 export default function TimeSpans({
@@ -10,11 +20,15 @@ export default function TimeSpans({
   groupId,
   namePrefix,
   resourceStateConfig,
+  errors,
 }: {
   groupIndex: number;
   groupId?: string;
   namePrefix: string;
   resourceStateConfig: UiFieldConfig;
+  errors:
+    | (DeepMap<TimeSpanGroupFormFormat, FieldError> | undefined)[]
+    | undefined;
 }): JSX.Element {
   const { control } = useFormContext();
   const initTimeSpan: Partial<TimeSpanFormFormat> = { group: groupId ?? '' };
@@ -53,6 +67,7 @@ export default function TimeSpans({
                   index={index}
                   groupIndex={groupIndex}
                   remove={remove}
+                  errors={errors ? errors[groupIndex]?.timeSpans : undefined}
                 />
               </li>
             )

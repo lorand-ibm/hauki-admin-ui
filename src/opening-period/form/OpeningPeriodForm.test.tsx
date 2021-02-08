@@ -300,6 +300,47 @@ describe(`<OpeningPeriodForm />`, () => {
         expect(subjectRequired).toBeInTheDocument();
       });
     });
+
+    it('Should show error messages when a timespan is missing both of the time-fields', async () => {
+      let container: Element;
+
+      await act(async () => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [
+              {
+                ...timeSpanGroupA,
+                time_spans: [
+                  {
+                    ...timeSpanGroupA.time_spans[0],
+                    end_time: null,
+                    start_time: null,
+                  },
+                ],
+              },
+            ],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      // try submit form with invalid timespan:
+      await act(async () => {
+        const submitFormButton = getElementOrThrow(
+          container,
+          '[data-test="publish-opening-period-button"]'
+        );
+        fireEvent.submit(submitFormButton);
+      });
+
+      await act(async () => {
+        const timeFieldRequiredIndicator = await screen.findByText(
+          'Aukiololla on oltava vähintään alku tai loppuaika.'
+        );
+        expect(timeFieldRequiredIndicator).toBeInTheDocument();
+      });
+    });
   });
 
   describe('TimeSpanGroups', () => {
