@@ -131,6 +131,12 @@ export type UiRuleConfig = {
   frequencyModifier: UiOptionsFieldConfig;
 };
 
+export type UiFormRuleConfig = {
+  context: UiFieldConfig;
+  subject: UiFieldConfig;
+  frequencyModifier: UiFieldConfig;
+};
+
 export type UiDatePeriodConfig = {
   name: TextFieldConfig;
   resourceState: UiOptionsFieldConfig;
