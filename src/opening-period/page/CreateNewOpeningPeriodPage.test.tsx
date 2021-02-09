@@ -1,6 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { datePeriodOptions } from '../../../test/fixtures/api-options';
 import { getElementOrThrow } from '../../../test/test-utils';
 import {
   DatePeriod,
@@ -166,36 +167,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
   let testDatePeriod: DatePeriod;
 
   beforeEach(() => {
-    testDatePeriodConfig = {
-      name: {
-        max_length: 255,
-      },
-      resourceState: {
-        options: [
-          {
-            label: {
-              fi: 'Open',
-              sv: null,
-              en: null,
-            },
-            value: 'open',
-          },
-        ],
-      },
-      timeSpanGroup: {
-        rule: {
-          context: {
-            options: [],
-          },
-          subject: {
-            options: [],
-          },
-          frequencyModifier: {
-            options: [],
-          },
-        },
-      },
-    };
+    testDatePeriodConfig = datePeriodOptions;
 
     testResource = {
       id: 1186,
