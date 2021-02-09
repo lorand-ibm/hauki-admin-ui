@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { datePeriodOptions } from '../../../../test/fixtures/api-options';
 import { datePeriod } from '../../../../test/fixtures/api-date-period';
 import {
   DatePeriod,
@@ -75,104 +76,7 @@ const closedResourceState = {
   },
 };
 
-const testDatePeriodOptions: UiDatePeriodConfig = {
-  name: {
-    max_length: 255,
-  },
-  resourceState: {
-    options: [
-      {
-        value: 'open',
-        label: {
-          fi: 'Auki',
-          sv: null,
-          en: null,
-        },
-      },
-      { ...closedResourceState },
-      {
-        value: 'self_service',
-        label: {
-          fi: 'Itsepalvelu',
-          sv: null,
-          en: null,
-        },
-      },
-    ],
-  },
-  timeSpanGroup: {
-    rule: {
-      context: {
-        options: [
-          {
-            value: 'period',
-            label: {
-              fi: 'Jakso',
-              sv: null,
-              en: null,
-            },
-          },
-          {
-            value: 'month',
-            label: {
-              fi: 'Kuukausi',
-              sv: null,
-              en: null,
-            },
-          },
-        ],
-      },
-      subject: {
-        options: [
-          {
-            value: 'week',
-            label: {
-              fi: 'Viikko',
-              sv: null,
-              en: null,
-            },
-          },
-          {
-            value: 'month',
-            label: {
-              fi: 'Kuukausi',
-              sv: null,
-              en: null,
-            },
-          },
-          {
-            value: 'mon',
-            label: {
-              fi: 'Maanantai',
-              sv: null,
-              en: null,
-            },
-          },
-        ],
-      },
-      frequencyModifier: {
-        options: [
-          {
-            value: 'odd',
-            label: {
-              fi: 'Pariton',
-              sv: null,
-              en: null,
-            },
-          },
-          {
-            value: 'even',
-            label: {
-              fi: 'Parillinen',
-              sv: null,
-              en: null,
-            },
-          },
-        ],
-      },
-    },
-  },
-};
+const testDatePeriodOptions: UiDatePeriodConfig = datePeriodOptions;
 
 describe(`<OpeningPeriodDetails />`, () => {
   it('should show opening hours and description of opening period', async () => {
