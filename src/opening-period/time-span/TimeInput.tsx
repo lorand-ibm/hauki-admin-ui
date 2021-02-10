@@ -8,8 +8,7 @@ type TimeInputProps = {
   dataTest?: string;
   name: string;
   placeholder: string;
-  register: Function;
-  required?: boolean;
+  registerFn: (instance: HTMLInputElement | null) => void;
   error?: string;
 };
 export default function TimeInput({
@@ -19,8 +18,7 @@ export default function TimeInput({
   dataTest,
   name,
   placeholder,
-  register,
-  required,
+  registerFn,
   error,
 }: TimeInputProps): JSX.Element {
   return (
@@ -31,7 +29,7 @@ export default function TimeInput({
       <input
         aria-label={ariaLabel}
         data-test={dataTest}
-        ref={register({ required })}
+        ref={registerFn}
         id={id}
         type="time"
         pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
@@ -40,7 +38,6 @@ export default function TimeInput({
         defaultValue={`${defaultValue || ''}`}
         className="custom-time-input hds-text-input__input"
       />
-      {error && <div className="hds-text-input__helper-text">error</div>}
     </div>
   );
 }

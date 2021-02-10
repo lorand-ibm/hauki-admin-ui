@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { IconTrash, Select } from 'hds-react';
-import { ArrayField, Control, Controller } from 'react-hook-form';
+import {
+  ArrayField,
+  Controller,
+  DeepMap,
+  FieldError,
+  useFormContext,
+} from 'react-hook-form';
 import { SupplementaryButton } from '../../components/button/Button';
+import ErrorText from '../../components/icon-text/ErrorText';
 import {
   InputOption,
   Frequency,
@@ -13,6 +20,15 @@ import './Rule.scss';
 type FrequencyOption = {
   label: string;
   value: Frequency;
+};
+
+type SelectControllerProps = {
+  onChange: (s: string) => void;
+  value: string;
+};
+
+type SelectControllerState = {
+  invalid: boolean;
 };
 
 const hardCodedFrequencyOptions: FrequencyOption[] = [
@@ -76,24 +92,21 @@ const startAtOptions: InputOption[] = Array.from({ length: 10 }).map(
 export default function Rule({
   namePrefix,
   rule,
-  control,
-  setValue,
   remove,
-  register,
   index,
   groupIndex,
   ruleConfig,
+  errors,
 }: {
   namePrefix: string;
   rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>;
-  control: Control;
-  setValue: Function;
   remove: Function;
-  register: Function;
   index: number;
   groupIndex: number;
   ruleConfig: UiFormRuleConfig;
+  errors: (DeepMap<GroupRuleFormFormat, FieldError> | undefined)[] | undefined;
 }): JSX.Element {
+  const { control, register, setValue } = useFormContext();
   const ruleNamePrefix = `${namePrefix}[${index}]`;
 
   const {
@@ -107,10 +120,13 @@ export default function Rule({
   } = rule;
 
   const {
-    context: { options: contextOptions },
-    subject: { options: subjectOptions },
+    context: { options: contextOptions, required: contextRequired },
+    subject: { options: subjectOptions, required: subjectRequired },
     frequencyModifier: { options: frequencyModifierOptions },
+    start: { required: startRequired },
   } = ruleConfig;
+
+  const ruleErrors = errors && errors[index];
 
   const selectedSubject = subjectOptions.find(
     ({ value }: InputOption) => value === `${subject}`
@@ -233,7 +249,16 @@ export default function Rule({
           name={`${ruleNamePrefix}.context`}
           control={control}
           defaultValue={`${context || ''}`}
-          render={({ onChange, value }): JSX.Element => (
+          rules={{
+            required: {
+              value: contextRequired,
+              message: 'Säännön aikaväli on pakollinen kenttä.',
+            },
+          }}
+          render={(
+            { onChange, value }: SelectControllerProps,
+            { invalid }: SelectControllerState
+          ): JSX.Element => (
             <Select
               id={`rule-context-${groupIndex}-${index}`}
               className="opening-group-rule-column opening-group-rule-select"
@@ -244,6 +269,7 @@ export default function Rule({
               defaultValue={contextOptions.find(
                 (option: InputOption): boolean => option.value === value
               )}
+              invalid={invalid}
               label="Valitse aika"
               placeholder="Aikaväli"
             />
@@ -268,7 +294,16 @@ export default function Rule({
           name={`${ruleNamePrefix}.subject`}
           control={control}
           defaultValue={`${subject || ''}`}
-          render={({ onChange, value }): JSX.Element => (
+          rules={{
+            required: {
+              value: subjectRequired,
+              message: 'Säännön yksikkö on pakollinen kenttä.',
+            },
+          }}
+          render={(
+            { onChange, value }: SelectControllerProps,
+            { invalid }: SelectControllerState
+          ): JSX.Element => (
             <Select
               id={`rule-subject-${groupIndex}-${index}`}
               className="opening-group-rule-column opening-group-rule-select"
@@ -280,6 +315,7 @@ export default function Rule({
                 setSubjectLabel(selected.label);
               }}
               options={subjectOptions}
+              invalid={invalid}
               label="Valitse ajan yksikkö"
               placeholder="päivä tai aikaväli"
             />
@@ -292,7 +328,16 @@ export default function Rule({
             name={`${ruleNamePrefix}.start`}
             control={control}
             defaultValue={`${startAt || ''}`}
-            render={({ onChange, value }): JSX.Element => (
+            rules={{
+              required: {
+                value: startRequired,
+                message: 'Säännön alkaen on on pakollinen kenttä.',
+              },
+            }}
+            render={(
+              { onChange, value }: SelectControllerProps,
+              { invalid }: SelectControllerState
+            ): JSX.Element => (
               <Select
                 id={`rule-start-${groupIndex}-${index}`}
                 className="opening-group-rule-select"
@@ -303,6 +348,7 @@ export default function Rule({
                   onChange(selected.value)
                 }
                 options={startAtOptions}
+                invalid={invalid}
                 label={`Valitse monesko ${subjectLabel.toLowerCase() || ''}`}
                 placeholder="Alkaen voimassa"
               />
@@ -315,6 +361,21 @@ export default function Rule({
             {subjectLabel || ''}
           </p>
         </div>
+      </div>
+      <div>
+        {ruleErrors && (
+          <>
+            {ruleErrors?.context?.message && (
+              <ErrorText message={ruleErrors?.context?.message} />
+            )}
+            {ruleErrors?.subject?.message && (
+              <ErrorText message={ruleErrors?.subject?.message} />
+            )}
+            {ruleErrors?.start?.message && (
+              <ErrorText message={ruleErrors?.start?.message} />
+            )}
+          </>
+        )}
       </div>
     </div>
   );

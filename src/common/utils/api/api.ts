@@ -278,12 +278,18 @@ export default {
         rule: {
           context: {
             options: ruleContextOptions,
+            required: timeSpanGroupOptions.context.required,
           },
           subject: {
             options: ruleSubjectOptions,
+            required: timeSpanGroupOptions.subject.required,
           },
           frequencyModifier: {
             options: ruleFrequencyModifierOptions,
+            required: timeSpanGroupOptions.frequency_modifier.required,
+          },
+          start: {
+            required: timeSpanGroupOptions.start.required,
           },
         },
       },

@@ -1,29 +1,38 @@
 import React, { useEffect } from 'react';
-import { ArrayField, Control, useFieldArray } from 'react-hook-form';
+import {
+  ArrayField,
+  DeepMap,
+  FieldError,
+  useFieldArray,
+  useFormContext,
+} from 'react-hook-form';
 import { IconClockPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
-import { TimeSpanFormFormat, UiFieldConfig } from '../../common/lib/types';
+import {
+  TimeSpanFormFormat,
+  TimeSpanGroupFormFormat,
+  UiFieldConfig,
+} from '../../common/lib/types';
 import TimeSpan from './TimeSpan';
 
 export default function TimeSpans({
   groupIndex,
   groupId,
   namePrefix,
-  control,
   resourceStateConfig,
-  register,
+  errors,
 }: {
   groupIndex: number;
   groupId?: string;
   namePrefix: string;
-  control: Control;
   resourceStateConfig: UiFieldConfig;
-  register: Function;
+  errors:
+    | (DeepMap<TimeSpanGroupFormFormat, FieldError> | undefined)[]
+    | undefined;
 }): JSX.Element {
+  const { control } = useFormContext();
   const initTimeSpan: Partial<TimeSpanFormFormat> = { group: groupId ?? '' };
-
   const timeSpanNamePrefix = `${namePrefix}[${groupIndex}].timeSpans`;
-
   const { fields, remove, append } = useFieldArray({
     control,
     keyName: 'timeSpanUiId',
@@ -55,11 +64,10 @@ export default function TimeSpans({
                   namePrefix={timeSpanNamePrefix}
                   item={item}
                   resourceStateConfig={resourceStateConfig}
-                  control={control}
-                  register={register}
                   index={index}
                   groupIndex={groupIndex}
                   remove={remove}
+                  errors={errors ? errors[groupIndex]?.timeSpans : undefined}
                 />
               </li>
             )

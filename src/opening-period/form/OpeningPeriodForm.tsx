@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ArrayField, useFieldArray, useForm } from 'react-hook-form';
+import {
+  ArrayField,
+  FormProvider,
+  useFieldArray,
+  useForm,
+} from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { IconAlertCircle, IconPlus, IconTrash } from 'hds-react';
 import {
@@ -9,6 +14,7 @@ import {
   TimeSpanFormFormat,
   TimeSpanGroupFormFormat,
   UiFieldConfig,
+  UiFormRuleConfig,
 } from '../../common/lib/types';
 import { isDateBefore } from '../../common/utils/date-time/compare';
 import {
@@ -21,6 +27,7 @@ import {
   SecondaryButton,
   SupplementaryButton,
 } from '../../components/button/Button';
+import ErrorText from '../../components/icon-text/ErrorText';
 import toast from '../../components/notification/Toast';
 import {
   formatTimeSpanGroupsToFormFormat,
@@ -95,8 +102,9 @@ export default function OpeningPeriodForm({
     ),
   };
 
-  const ruleConfig = {
+  const ruleConfig: UiFormRuleConfig = {
     context: {
+      required: datePeriodConfig.timeSpanGroup.rule.context.required,
       options: datePeriodConfig.timeSpanGroup.rule.context.options.map(
         (translatedApiChoice) => ({
           value: translatedApiChoice.value,
@@ -105,6 +113,7 @@ export default function OpeningPeriodForm({
       ),
     },
     subject: {
+      required: datePeriodConfig.timeSpanGroup.rule.subject.required,
       options: datePeriodConfig.timeSpanGroup.rule.subject.options.map(
         (translatedApiChoice) => ({
           value: translatedApiChoice.value,
@@ -113,12 +122,16 @@ export default function OpeningPeriodForm({
       ),
     },
     frequencyModifier: {
+      required: datePeriodConfig.timeSpanGroup.rule.frequencyModifier.required,
       options: datePeriodConfig.timeSpanGroup.rule.frequencyModifier.options.map(
         (translatedApiChoice) => ({
           value: translatedApiChoice.value,
           label: translatedApiChoice.label[language] as string,
         })
       ),
+    },
+    start: {
+      required: datePeriodConfig.timeSpanGroup.rule.start.required,
     },
   };
 
@@ -138,12 +151,20 @@ export default function OpeningPeriodForm({
     timeSpanGroups: [defaultTimeSpanGroup],
   };
 
-  const { register, handleSubmit, errors, control, setValue } = useForm<
-    OpeningPeriodFormData
-  >({
+  const formMethods = useForm<OpeningPeriodFormData>({
     mode: 'all',
     defaultValues: formValues,
   });
+
+  const {
+    register,
+    handleSubmit,
+    errors,
+    control,
+    setValue,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getValues,
+  } = formMethods;
 
   const timeSpanGroupFieldName = 'timeSpanGroups';
 
@@ -218,138 +239,131 @@ export default function OpeningPeriodForm({
   }, [datePeriod, language, setValue]);
 
   return (
-    <form
-      id={formId}
-      data-test={formId}
-      className="opening-period-form"
-      onSubmit={handleSubmit(onSubmit)}>
-      <section className="form-section">
-        <OpeningPeriodDescription
-          register={register}
-          errors={errors}
-          nameFieldConfig={nameFieldConfig}
-        />
-      </section>
-      <section className="form-section">
-        <h3 className="opening-period-section-title">Ajanjakso</h3>
-        <div className="form-control">
-          <section className="opening-period-time-period">
-            <Datepicker
-              id="openingPeriodBeginDate"
-              dataTest="openingPeriodBeginDate"
-              labelText="Alkaa"
-              onChange={(value): void => setPeriodBeginDate(value || null)}
-              value={periodBeginDate}
-              error={errors.openingPeriodBeginDate}
-              registerFn={register}
-            />
-            <p className="dash-between-begin-and-end-date">—</p>
-            <Datepicker
-              id="openingPeriodEndDate"
-              dataTest="openingPeriodEndDate"
-              labelText="Päättyy"
-              onChange={(value): void => setPeriodEndDate(value || null)}
-              value={periodEndDate}
-              registerFn={register}
-              customValidations={{
-                dateRange: validateEndInputWithStartDate(periodBeginDate),
-              }}
-            />
-          </section>
-          {errors.openingPeriodEndDate?.type === 'dateRange' && (
-            <div className="hds-text-input__helper-text opening-period-error-text">
-              <span className="text-danger">
-                <IconAlertCircle />
-              </span>
-              <span className="text-danger">
-                {errors.openingPeriodEndDate?.message}
-              </span>
-            </div>
-          )}
-        </div>
-      </section>
-      {timeSpanGroupFields.map(
-        (
-          timeSpanGroup: Partial<
-            ArrayField<Record<string, TimeSpanFormFormat>>
-          >,
-          index: number
-        ) => (
-          <section
-            key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
-            data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
-            className="form-section time-span-group">
-            <div className="form-actions-row">
-              <h3 className="opening-period-section-title">Aukioloryhmä</h3>
-              <SupplementaryButton
-                dataTest="remove-time-span-group"
-                onClick={(): void => {
-                  removeTimeSpanGroup(index);
+    <FormProvider {...formMethods}>
+      <form
+        id={formId}
+        data-test={formId}
+        className="opening-period-form"
+        onSubmit={handleSubmit(onSubmit)}>
+        <section className="form-section">
+          <OpeningPeriodDescription
+            register={register}
+            errors={errors}
+            nameFieldConfig={nameFieldConfig}
+          />
+        </section>
+        <section className="form-section">
+          <h3 className="opening-period-section-title">Ajanjakso</h3>
+          <div className="form-control">
+            <section className="opening-period-time-period">
+              <Datepicker
+                id="openingPeriodBeginDate"
+                dataTest="openingPeriodBeginDate"
+                labelText="Alkaa"
+                onChange={(value): void => setPeriodBeginDate(value || null)}
+                value={periodBeginDate}
+                error={errors.openingPeriodBeginDate}
+                registerFn={register}
+              />
+              <p className="dash-between-begin-and-end-date">—</p>
+              <Datepicker
+                id="openingPeriodEndDate"
+                dataTest="openingPeriodEndDate"
+                labelText="Päättyy"
+                onChange={(value): void => setPeriodEndDate(value || null)}
+                value={periodEndDate}
+                registerFn={register}
+                customValidations={{
+                  dateRange: validateEndInputWithStartDate(periodBeginDate),
                 }}
-                iconLeft={<IconTrash />}>
-                Poista aukioloryhmä
-              </SupplementaryButton>
-            </div>
-            <input
-              type="hidden"
-              name={`${timeSpanGroupFieldName}[${index}].id`}
-              defaultValue={`${timeSpanGroup.id || ''}`}
-              ref={register()}
-            />
-            <input
-              type="hidden"
-              name={`${timeSpanGroupFieldName}[${index}].period`}
-              defaultValue={`${timeSpanGroup.period || ''}`}
-              ref={register()}
-            />
-            <TimeSpans
-              groupIndex={index}
-              groupId={timeSpanGroup.id}
-              namePrefix={timeSpanGroupFieldName}
-              control={control}
-              register={register}
-              resourceStateConfig={resourceStateConfig}
-            />
-            <Rules
-              groupIndex={index}
-              groupId={timeSpanGroup.id}
-              namePrefix={timeSpanGroupFieldName}
-              control={control}
-              register={register}
-              setValue={setValue}
-              ruleConfig={ruleConfig}
-            />
-          </section>
-        )
-      )}
-      <div className="form-actions-row form-actions-row-condensed">
-        <SupplementaryButton
-          dataTest="add-time-span-group"
-          onClick={(): void => appendTimeSpanGroup(defaultTimeSpanGroup)}
-          iconLeft={<IconPlus />}>
-          Luo uusi aukioloryhmä tähän jaksoon
-        </SupplementaryButton>
-        <p className="opening-period-notification-text">
-          <IconAlertCircle />
-          <span>
-            Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
-            aukioloaikoja useammilla eri säännöillä
-          </span>
-        </p>
-      </div>
-      <div className="opening-period-final-action-row-container">
-        <PrimaryButton
-          dataTest="publish-opening-period-button"
-          className="opening-period-final-action-button"
-          type="submit">
-          Julkaise
-        </PrimaryButton>
-        <SecondaryButton
-          className="opening-period-final-action-button"
-          onClick={(): void => returnToResourcePage()}>
-          Peruuta ja palaa
-        </SecondaryButton>
-      </div>
-    </form>
+              />
+            </section>
+            {errors.openingPeriodEndDate?.type === 'dateRange' &&
+              errors.openingPeriodEndDate?.message && (
+                <ErrorText message={errors.openingPeriodEndDate.message} />
+              )}
+          </div>
+        </section>
+        {timeSpanGroupFields.map(
+          (
+            timeSpanGroup: Partial<
+              ArrayField<Record<string, TimeSpanFormFormat>>
+            >,
+            index: number
+          ) => (
+            <section
+              key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
+              data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
+              className="form-section time-span-group">
+              <div className="form-actions-row">
+                <h3 className="opening-period-section-title">Aukioloryhmä</h3>
+                <SupplementaryButton
+                  dataTest="remove-time-span-group"
+                  onClick={(): void => {
+                    removeTimeSpanGroup(index);
+                  }}
+                  iconLeft={<IconTrash />}>
+                  Poista aukioloryhmä
+                </SupplementaryButton>
+              </div>
+              <input
+                type="hidden"
+                name={`${timeSpanGroupFieldName}[${index}].id`}
+                defaultValue={`${timeSpanGroup.id || ''}`}
+                ref={register()}
+              />
+              <input
+                type="hidden"
+                name={`${timeSpanGroupFieldName}[${index}].period`}
+                defaultValue={`${timeSpanGroup.period || ''}`}
+                ref={register()}
+              />
+              <TimeSpans
+                groupIndex={index}
+                groupId={timeSpanGroup.id}
+                namePrefix={timeSpanGroupFieldName}
+                resourceStateConfig={resourceStateConfig}
+                errors={errors.timeSpanGroups}
+              />
+              <Rules
+                groupIndex={index}
+                groupId={timeSpanGroup.id}
+                namePrefix={timeSpanGroupFieldName}
+                ruleConfig={ruleConfig}
+                errors={errors.timeSpanGroups}
+              />
+            </section>
+          )
+        )}
+        <div className="form-actions-row form-actions-row-condensed">
+          <SupplementaryButton
+            dataTest="add-time-span-group"
+            onClick={(): void => appendTimeSpanGroup(defaultTimeSpanGroup)}
+            iconLeft={<IconPlus />}>
+            Luo uusi aukioloryhmä tähän jaksoon
+          </SupplementaryButton>
+          <p className="opening-period-notification-text">
+            <IconAlertCircle />
+            <span>
+              Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
+              aukioloaikoja useammilla eri säännöillä
+            </span>
+          </p>
+        </div>
+        <div className="opening-period-final-action-row-container">
+          <PrimaryButton
+            dataTest="publish-opening-period-button"
+            className="opening-period-final-action-button"
+            type="submit">
+            Julkaise
+          </PrimaryButton>
+          <SecondaryButton
+            className="opening-period-final-action-button"
+            onClick={(): void => returnToResourcePage()}>
+            Peruuta ja palaa
+          </SecondaryButton>
+        </div>
+      </form>
+    </FormProvider>
   );
 }

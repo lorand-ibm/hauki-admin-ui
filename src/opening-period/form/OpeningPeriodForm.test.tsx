@@ -27,6 +27,7 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
   timeSpanGroup: {
     rule: {
       context: {
+        required: true,
         options: [
           {
             value: 'period',
@@ -39,6 +40,7 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
         ],
       },
       subject: {
+        required: true,
         options: [
           {
             value: 'week',
@@ -51,6 +53,7 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
         ],
       },
       frequencyModifier: {
+        required: false,
         options: [
           {
             value: 'odd',
@@ -69,6 +72,9 @@ const testDatePeriodOptions: UiDatePeriodConfig = {
             },
           },
         ],
+      },
+      start: {
+        required: false,
       },
     },
   },
@@ -248,6 +254,91 @@ describe(`<OpeningPeriodForm />`, () => {
           'Aukiolojakson loppupäivämäärä ei voi olla ennen alkupäivämäärää.'
         );
         expect(invalidDateRangeIndicator).toBeInTheDocument();
+      });
+    });
+
+    it('Should show error messages when a rule is missing required fields', async () => {
+      let container: Element;
+
+      await act(async () => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [timeSpanGroupA],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      await act(async () => {
+        const addRuleButton = getElementOrThrow(
+          container,
+          '[data-test="add-new-rule-button-0"]'
+        );
+        fireEvent.click(addRuleButton);
+      });
+
+      // try submit form with invalid date range:
+      await act(async () => {
+        const submitFormButton = getElementOrThrow(
+          container,
+          '[data-test="publish-opening-period-button"]'
+        );
+        fireEvent.submit(submitFormButton);
+      });
+
+      await act(async () => {
+        const contextRequiredIndicator = await screen.findByText(
+          'Säännön aikaväli on pakollinen kenttä.'
+        );
+        expect(contextRequiredIndicator).toBeInTheDocument();
+
+        const subjectRequired = await screen.findByText(
+          'Säännön yksikkö on pakollinen kenttä.'
+        );
+
+        expect(subjectRequired).toBeInTheDocument();
+      });
+    });
+
+    it('Should show error messages when a timespan is missing both of the time-fields', async () => {
+      let container: Element;
+
+      await act(async () => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [
+              {
+                ...timeSpanGroupA,
+                time_spans: [
+                  {
+                    ...timeSpanGroupA.time_spans[0],
+                    end_time: null,
+                    start_time: null,
+                  },
+                ],
+              },
+            ],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      // try submit form with invalid timespan:
+      await act(async () => {
+        const submitFormButton = getElementOrThrow(
+          container,
+          '[data-test="publish-opening-period-button"]'
+        );
+        fireEvent.submit(submitFormButton);
+      });
+
+      await act(async () => {
+        const timeFieldRequiredIndicator = await screen.findByText(
+          'Aukiololla on oltava vähintään alku tai loppuaika.'
+        );
+        expect(timeFieldRequiredIndicator).toBeInTheDocument();
       });
     });
   });

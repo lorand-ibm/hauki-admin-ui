@@ -85,6 +85,11 @@ export type TextFieldConfig = {
   max_length?: number;
 };
 
+type RuleOptionsFieldConfig = {
+  choices: ApiChoice[];
+  required: boolean;
+};
+
 export type DatePeriodOptions = {
   actions: {
     POST: {
@@ -98,14 +103,11 @@ export type DatePeriodOptions = {
             rules: {
               child: {
                 children: {
-                  context: {
-                    choices: ApiChoice[];
-                  };
-                  frequency_modifier: {
-                    choices: ApiChoice[];
-                  };
-                  subject: {
-                    choices: ApiChoice[];
+                  context: RuleOptionsFieldConfig;
+                  frequency_modifier: RuleOptionsFieldConfig;
+                  subject: RuleOptionsFieldConfig;
+                  start: {
+                    required: boolean;
                   };
                 };
               };
@@ -117,32 +119,43 @@ export type DatePeriodOptions = {
   };
 };
 
-export type UiFieldConfig = {
-  options: InputOption[];
+type BaseFieldConfig = {
+  required: boolean;
 };
 
 export type UiOptionsFieldConfig = {
   options: TranslatedApiChoice[];
 };
 
-export type UiRuleConfig = {
-  context: UiOptionsFieldConfig;
-  subject: UiOptionsFieldConfig;
-  frequencyModifier: UiOptionsFieldConfig;
-};
+type RuleFieldConfigWithTranslatedOptions = BaseFieldConfig &
+  UiOptionsFieldConfig;
 
-export type UiFormRuleConfig = {
-  context: UiFieldConfig;
-  subject: UiFieldConfig;
-  frequencyModifier: UiFieldConfig;
+type RuleConfigWithTranslatedOptions = {
+  context: RuleFieldConfigWithTranslatedOptions;
+  subject: RuleFieldConfigWithTranslatedOptions;
+  frequencyModifier: RuleFieldConfigWithTranslatedOptions;
+  start: BaseFieldConfig;
 };
 
 export type UiDatePeriodConfig = {
   name: TextFieldConfig;
   resourceState: UiOptionsFieldConfig;
   timeSpanGroup: {
-    rule: UiRuleConfig;
+    rule: RuleConfigWithTranslatedOptions;
   };
+};
+
+export type UiFieldConfig = {
+  options: InputOption[];
+};
+
+type UiFormRuleFieldConfig = BaseFieldConfig & UiFieldConfig;
+
+export type UiFormRuleConfig = {
+  context: UiFormRuleFieldConfig;
+  subject: UiFormRuleFieldConfig;
+  frequencyModifier: UiFormRuleFieldConfig;
+  start: BaseFieldConfig;
 };
 
 export type Frequency = {

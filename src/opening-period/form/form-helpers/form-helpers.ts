@@ -33,8 +33,8 @@ function formatTimeSpansToApiFormat(
           sv: null,
           en: null,
         },
-        end_time: `${endTime}:00`,
-        start_time: `${startTime}:00`,
+        end_time: endTime ? `${endTime}:00` : null,
+        start_time: startTime ? `${startTime}:00` : null,
         resource_state: resourceState,
         weekdays: weekdays.reduce(
           (acc: Array<number>, currentValue: boolean, currentIndex: number) => {
@@ -102,7 +102,7 @@ function formatApiRulesToFormFormat(rules: GroupRule[]): GroupRuleFormFormat[] {
     ...rest,
     id: id ? id.toString() : '',
     group: group ? group.toString() : '',
-    start: start.toString(),
+    start: start ? start.toString() : '',
   }));
 }
 

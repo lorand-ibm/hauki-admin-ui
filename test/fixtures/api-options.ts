@@ -28,6 +28,7 @@ export const datePeriodOptions: DatePeriodConfig = {
   timeSpanGroup: {
     rule: {
       context: {
+        required: true,
         options: [
           {
             value: 'period',
@@ -48,6 +49,7 @@ export const datePeriodOptions: DatePeriodConfig = {
         ],
       },
       subject: {
+        required: true,
         options: [
           {
             value: 'week',
@@ -76,6 +78,7 @@ export const datePeriodOptions: DatePeriodConfig = {
         ],
       },
       frequencyModifier: {
+        required: false,
         options: [
           {
             value: 'odd',
@@ -94,6 +97,9 @@ export const datePeriodOptions: DatePeriodConfig = {
             },
           },
         ],
+      },
+      start: {
+        required: false,
       },
     },
   },
