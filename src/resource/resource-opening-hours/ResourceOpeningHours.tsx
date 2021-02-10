@@ -88,7 +88,7 @@ const OpeningPeriodsList = ({
                   resourceId={resourceId}
                   language={language}
                   deletePeriod={deletePeriod}
-                  initiallyOpen={index === 0}
+                  initiallyOpen={index <= 10}
                 />
               </li>
             ))
