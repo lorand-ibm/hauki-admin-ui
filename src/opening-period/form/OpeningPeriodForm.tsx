@@ -90,7 +90,7 @@ export default function OpeningPeriodForm({
     options: datePeriodConfig.resourceState.options.map(
       (translatedApiChoice) => ({
         value: translatedApiChoice.value,
-        label: translatedApiChoice.label.fi as string,
+        label: translatedApiChoice.label[language] as string,
       })
     ),
   };
@@ -100,7 +100,7 @@ export default function OpeningPeriodForm({
       options: datePeriodConfig.timeSpanGroup.rule.context.options.map(
         (translatedApiChoice) => ({
           value: translatedApiChoice.value,
-          label: translatedApiChoice.label.fi as string,
+          label: translatedApiChoice.label[language] as string,
         })
       ),
     },
@@ -108,7 +108,7 @@ export default function OpeningPeriodForm({
       options: datePeriodConfig.timeSpanGroup.rule.subject.options.map(
         (translatedApiChoice) => ({
           value: translatedApiChoice.value,
-          label: translatedApiChoice.label.fi as string,
+          label: translatedApiChoice.label[language] as string,
         })
       ),
     },
@@ -116,7 +116,7 @@ export default function OpeningPeriodForm({
       options: datePeriodConfig.timeSpanGroup.rule.frequencyModifier.options.map(
         (translatedApiChoice) => ({
           value: translatedApiChoice.value,
-          label: translatedApiChoice.label.fi as string,
+          label: translatedApiChoice.label[language] as string,
         })
       ),
     },
