@@ -137,7 +137,6 @@ export default function Rule({
   } as Frequency;
 
   const knownFrequencyValues: FrequencyOption[] = [
-    ...hardCodedFrequencyOptions,
     ...frequencyModifierOptions.map(
       (modifierOption: InputOption): FrequencyOption => ({
         label: modifierOption.label,
@@ -147,6 +146,7 @@ export default function Rule({
         },
       })
     ),
+    ...hardCodedFrequencyOptions,
   ];
 
   const isKnownFrequencySelected = knownFrequencyValues.find(
