@@ -59,6 +59,7 @@ type NotificationTexts = {
 export type OpeningPeriodFormProps = {
   formId: string;
   datePeriod?: DatePeriod;
+  forceException?: boolean;
   resourceId: number;
   datePeriodConfig: UiDatePeriodConfig;
   submitFn: (datePeriod: DatePeriod) => Promise<DatePeriod>;
@@ -83,6 +84,7 @@ const validateEndInputWithStartDate = (start: Date | null) => (
 export default function OpeningPeriodForm({
   formId,
   datePeriod,
+  forceException = false,
   resourceId,
   datePeriodConfig,
   submitFn,
@@ -204,7 +206,7 @@ export default function OpeningPeriodForm({
         end_date: data.openingPeriodEndDate
           ? transformDateToApiFormat(data.openingPeriodEndDate)
           : undefined,
-        override: datePeriod?.override || false,
+        override: forceException || datePeriod?.override || false,
         time_span_groups: formatTimeSpanGroupsToApiFormat(data.timeSpanGroups),
       };
       const updatedPeriod = await submitFn(dataAsDatePeriod);

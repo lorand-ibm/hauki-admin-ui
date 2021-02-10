@@ -233,7 +233,9 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       return new Promise(() => {});
     });
 
-    render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />);
+    render(
+      <CreateNewOpeningPeriodPage exception={false} resourceId="tprek:8100" />
+    );
 
     await act(async () => {
       expect(await screen.getByRole('heading', { level: 1 })).toHaveTextContent(
@@ -249,7 +251,9 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       return new Promise(() => {});
     });
 
-    render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />);
+    render(
+      <CreateNewOpeningPeriodPage exception={false} resourceId="tprek:8100" />
+    );
 
     await act(async () => {
       expect(await screen.getByRole('heading', { level: 1 })).toHaveTextContent(
@@ -269,7 +273,9 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       .spyOn(api, 'getResource')
       .mockImplementation(() => Promise.reject(error));
 
-    render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />);
+    render(
+      <CreateNewOpeningPeriodPage exception={false} resourceId="tprek:8100" />
+    );
 
     await act(async () => {
       const errorHeading = await screen.getByRole('heading', { level: 1 });
@@ -295,7 +301,9 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       .spyOn(api, 'getDatePeriodFormConfig')
       .mockImplementation(() => Promise.reject(error));
 
-    render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />);
+    render(
+      <CreateNewOpeningPeriodPage exception={false} resourceId="tprek:8100" />
+    );
 
     await act(async () => {
       const errorHeading = await screen.getByRole('heading', { level: 1 });
@@ -324,7 +332,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       );
 
     const { container } = render(
-      <CreateNewOpeningPeriodPage resourceId="tprek:8100" />
+      <CreateNewOpeningPeriodPage exception={false} resourceId="tprek:8100" />
     );
 
     if (!container) {
@@ -382,7 +390,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
 
   it('should show success notification on successful form submit', async () => {
     const { container } = render(
-      <CreateNewOpeningPeriodPage resourceId="tprek:8100" />
+      <CreateNewOpeningPeriodPage exception={false} resourceId="tprek:8100" />
     );
 
     if (!container) {
@@ -425,7 +433,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
 
   it('should show success notification when form is submitted with multiple time spans', async () => {
     const { container } = render(
-      <CreateNewOpeningPeriodPage resourceId="tprek:8100" />
+      <CreateNewOpeningPeriodPage exception={false} resourceId="tprek:8100" />
     );
 
     if (!container) {
@@ -485,8 +493,9 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
     let container: Element;
     // Have to wrap inside act this time, otherwise time-span elements not found
     await act(async () => {
-      container = render(<CreateNewOpeningPeriodPage resourceId="tprek:8100" />)
-        .container;
+      container = render(
+        <CreateNewOpeningPeriodPage exception={false} resourceId="tprek:8100" />
+      ).container;
 
       if (!container) {
         throw new Error(

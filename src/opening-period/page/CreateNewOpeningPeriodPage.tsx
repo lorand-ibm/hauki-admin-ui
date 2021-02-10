@@ -16,8 +16,10 @@ import OpeningPeriodForm from '../form/OpeningPeriodForm';
 
 export default function CreateNewOpeningPeriodPage({
   resourceId,
+  exception,
 }: {
   resourceId: string;
+  exception: boolean;
 }): JSX.Element {
   const [resource, setResource] = useState<Resource>();
   const [datePeriodConfig, setDatePeriodConfig] = useState<
@@ -86,6 +88,7 @@ export default function CreateNewOpeningPeriodPage({
       </ResourceInfo>
       {resource && datePeriodConfig && (
         <OpeningPeriodForm
+          forceException={exception}
           formId="add-new-opening-period-form"
           resourceId={resource.id}
           datePeriodConfig={datePeriodConfig}

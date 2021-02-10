@@ -175,6 +175,7 @@ const submitFn = jest.fn<Promise<DatePeriod>, [DatePeriod]>(
 
 const defaultProps: Partial<OpeningPeriodFormProps> = {
   formId: 'test-form',
+  forceException: false,
   resourceId: testResourceId,
   datePeriodConfig: testDatePeriodOptions,
   submitFn,
@@ -456,6 +457,39 @@ describe(`<OpeningPeriodForm />`, () => {
                 ],
               },
             ],
+          })
+        );
+      });
+    });
+
+    it('should submit opening period as an exception period', async () => {
+      let container: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+          },
+          forceException: true,
+        } as OpeningPeriodFormProps);
+      });
+
+      await act(async () => {
+        const saveButton = container.querySelector(
+          '[data-test="publish-opening-period-button"]'
+        );
+        if (!saveButton) {
+          throw new Error(`Element with selector ${saveButton} not found`);
+        }
+
+        fireEvent.click(saveButton);
+      });
+
+      act(() => {
+        expect(submitFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            override: true,
           })
         );
       });

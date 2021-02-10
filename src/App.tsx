@@ -89,7 +89,25 @@ export default function App(): JSX.Element {
                   }: RouteComponentProps<{
                     id: string;
                   }>): ReactElement => (
-                    <CreateNewOpeningPeriodPage resourceId={match.params.id} />
+                    <CreateNewOpeningPeriodPage
+                      exception={false}
+                      resourceId={match.params.id}
+                    />
+                  )}
+                />
+                <PrivateResourceRoute
+                  id="create-new-opening-period-route"
+                  exact
+                  path="/resource/:id/period/new-exception"
+                  render={({
+                    match,
+                  }: RouteComponentProps<{
+                    id: string;
+                  }>): ReactElement => (
+                    <CreateNewOpeningPeriodPage
+                      exception
+                      resourceId={match.params.id}
+                    />
                   )}
                 />
                 <PrivateResourceRoute
