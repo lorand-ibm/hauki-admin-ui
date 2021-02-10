@@ -52,7 +52,7 @@ type NotificationTexts = {
 export type OpeningPeriodFormProps = {
   formId: string;
   datePeriod?: DatePeriod;
-  forceException: boolean;
+  forceException?: boolean;
   resourceId: number;
   datePeriodConfig: UiDatePeriodConfig;
   submitFn: (datePeriod: DatePeriod) => Promise<DatePeriod>;
@@ -77,7 +77,7 @@ const validateEndInputWithStartDate = (start: Date | null) => (
 export default function OpeningPeriodForm({
   formId,
   datePeriod,
-  forceException,
+  forceException = false,
   resourceId,
   datePeriodConfig,
   submitFn,
