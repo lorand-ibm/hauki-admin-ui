@@ -54,9 +54,6 @@ const hardCodedFrequencyOptions: FrequencyOption[] = [
   },
 ];
 
-const frequencyToString = (frequency: Frequency): string =>
-  `${frequency.frequency_ordinal} ${frequency.frequency_modifier} `;
-
 const generateUnknownFrequencyLabel = (
   ordinal: number | null,
   modifierLabel?: string | null
@@ -66,17 +63,6 @@ const generateUnknownFrequencyLabel = (
 
   return [optionalOrdinalLabel, modifierLabel].join(' ');
 };
-
-const convertFrequencyToInputOption = ({
-  value,
-  label,
-}: {
-  value: Frequency;
-  label: string;
-}): InputOption => ({
-  label,
-  value: frequencyToString(value),
-});
 
 const startAtOptions: InputOption[] = Array.from({ length: 10 }).map(
   (num, index) => ({
@@ -127,6 +113,7 @@ export default function Rule({
   const selectedSubject = subjectOptions.find(
     ({ value }: InputOption) => value === `${subject}`
   );
+
   const [subjectLabel, setSubjectLabel] = useState<string>(
     selectedSubject?.label ?? ''
   );
@@ -135,6 +122,21 @@ export default function Rule({
     frequency_modifier: frequencyModifier,
     frequency_ordinal: frequencyOrdinal,
   } as Frequency;
+
+  const currentFrequencyAsOption: FrequencyOption = {
+    label: generateUnknownFrequencyLabel(
+      currentFrequency.frequency_ordinal,
+      frequencyModifierOptions.find(
+        (modifierOption: InputOption) =>
+          modifierOption.value === currentFrequency.frequency_modifier
+      )?.label
+    ),
+    value: currentFrequency,
+  };
+
+  const [selectedFrequency, setSelectedFrequency] = useState<FrequencyOption>(
+    currentFrequencyAsOption
+  );
 
   const knownFrequencyValues: FrequencyOption[] = [
     ...frequencyModifierOptions.map(
@@ -149,40 +151,22 @@ export default function Rule({
     ...hardCodedFrequencyOptions,
   ];
 
-  const isKnownFrequencySelected = knownFrequencyValues.find(
-    ({ value }) =>
-      value.frequency_modifier === currentFrequency.frequency_modifier &&
-      value.frequency_ordinal === currentFrequency.frequency_ordinal
+  const isFrequencySelected = (value: Frequency): boolean =>
+    value.frequency_modifier === selectedFrequency.value.frequency_modifier &&
+    value.frequency_ordinal === selectedFrequency.value.frequency_ordinal;
+
+  const isKnownFrequencySelected = knownFrequencyValues.find(({ value }) =>
+    isFrequencySelected(value)
   );
 
   const allFrequencyValues: FrequencyOption[] = isKnownFrequencySelected
     ? knownFrequencyValues
-    : [
-        ...knownFrequencyValues,
-        {
-          label: generateUnknownFrequencyLabel(
-            currentFrequency.frequency_ordinal,
-            frequencyModifierOptions.find(
-              (modifierOption: InputOption) =>
-                modifierOption.value === currentFrequency.frequency_modifier
-            )?.label
-          ),
-          value: currentFrequency,
-        },
-      ];
-
-  const frequencyOptions: InputOption[] = allFrequencyValues.map(
-    convertFrequencyToInputOption
-  );
+    : [...knownFrequencyValues, currentFrequencyAsOption];
 
   const frequencyModifierField = `${ruleNamePrefix}.frequency_modifier`;
   const frequencyOrdinalField = `${ruleNamePrefix}.frequency_ordinal`;
 
-  const onFrequencyChange = (selected: InputOption): void => {
-    const selectedFrequency = allFrequencyValues.find(
-      ({ label }) => label === selected.label
-    );
-
+  useEffect(() => {
     setValue(
       frequencyModifierField,
       selectedFrequency?.value.frequency_modifier || null
@@ -191,7 +175,12 @@ export default function Rule({
       frequencyOrdinalField,
       selectedFrequency?.value.frequency_ordinal || null
     );
-  };
+  }, [
+    frequencyModifierField,
+    frequencyOrdinalField,
+    selectedFrequency,
+    setValue,
+  ]);
 
   useEffect(() => {
     register({ name: frequencyModifierField });
@@ -271,17 +260,15 @@ export default function Rule({
             />
           )}
         />
-        <Select
+        <Select<FrequencyOption>
           key={`rule-frequency-${groupIndex}-${index}`}
           id={`rule-frequency-${groupIndex}-${index}`}
           className="opening-group-rule-column opening-group-rule-select"
-          defaultValue={frequencyOptions.find(
-            ({ value }) => value === frequencyToString(currentFrequency)
+          defaultValue={allFrequencyValues.find(({ value }) =>
+            isFrequencySelected(value)
           )}
-          onChange={(selected: InputOption): void =>
-            onFrequencyChange(selected)
-          }
-          options={frequencyOptions}
+          onChange={setSelectedFrequency}
+          options={allFrequencyValues}
           label="Valitse monesko"
           placeholder="Tapahtumatiheys"
         />
