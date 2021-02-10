@@ -67,15 +67,6 @@ const testPeriodWithNonSupportedFeatures: DatePeriod = {
   ],
 };
 
-const closedResourceState = {
-  value: 'closed',
-  label: {
-    fi: 'Suljettu',
-    sv: null,
-    en: null,
-  },
-};
-
 const testDatePeriodOptions: UiDatePeriodConfig = datePeriodOptions;
 
 describe(`<OpeningPeriodDetails />`, () => {
