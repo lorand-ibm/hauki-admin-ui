@@ -33,12 +33,8 @@ type SelectControllerState = {
 
 const hardCodedFrequencyOptions: FrequencyOption[] = [
   {
-    label: '--',
-    value: { frequency_ordinal: null, frequency_modifier: null },
-  },
-  {
     label: 'Jokainen',
-    value: { frequency_ordinal: 1, frequency_modifier: null },
+    value: { frequency_ordinal: null, frequency_modifier: null },
   },
   {
     label: 'Joka toinen',
