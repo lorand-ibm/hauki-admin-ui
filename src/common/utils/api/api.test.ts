@@ -216,11 +216,19 @@ describe('apiRequest', () => {
         resourceState: {
           options: [
             {
-              label: 'Auki',
+              label: {
+                fi: 'Auki',
+                sv: 'Auki',
+                en: 'Open',
+              },
               value: 'open',
             },
             {
-              label: 'Kiinni',
+              label: {
+                fi: 'Kiinni',
+                sv: null,
+                en: null,
+              },
               value: 'closed',
             },
           ],
@@ -230,7 +238,11 @@ describe('apiRequest', () => {
             context: {
               options: [
                 {
-                  label: 'Jakso',
+                  label: {
+                    fi: 'Jakso',
+                    sv: 'Jakso',
+                    en: 'Period',
+                  },
                   value: 'period',
                 },
               ],
@@ -241,11 +253,19 @@ describe('apiRequest', () => {
             frequencyModifier: {
               options: [
                 {
-                  label: 'Parillinen',
+                  label: {
+                    fi: 'Parillinen',
+                    sv: 'Parillinen',
+                    en: 'Even',
+                  },
                   value: 'even',
                 },
                 {
-                  label: 'Pariton',
+                  label: {
+                    fi: 'Pariton',
+                    sv: 'Pariton',
+                    en: 'Odd',
+                  },
                   value: 'odd',
                 },
               ],

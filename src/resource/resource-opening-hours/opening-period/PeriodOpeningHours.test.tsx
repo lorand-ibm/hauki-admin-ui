@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { datePeriodOptions } from '../../../../test/fixtures/api-options';
 import {
   DatePeriod,
   Language,
   ResourceState,
   UiDatePeriodConfig,
 } from '../../../common/lib/types';
+import { datePeriodOptions } from '../../../../test/fixtures/api-options';
 import PeriodOpeningHours from './PeriodOpeningHours';
 
 const testDatePeriod: DatePeriod = {
@@ -36,7 +36,7 @@ const testDatePeriod: DatePeriod = {
           },
           description: {
             fi: 'Aukiolon testikuvaus',
-            sv: null,
+            sv: 'Öppnande testbeskrivning',
             en: null,
           },
           start_time: '08:00:00',
@@ -188,6 +188,33 @@ describe(`<PeriodOpeningHours />`, () => {
         'p[data-test="time-span-weekday-string-1"]'
       )?.textContent
     ).toEqual('ti, to');
+  });
+
+  it('should show weekdays, resource state and description in swedish', async () => {
+    const { container } = render(
+      <PeriodOpeningHours
+        datePeriod={testDatePeriod}
+        datePeriodConfig={testDatePeriodOptions}
+        language={Language.SV}
+      />
+    );
+
+    expect(
+      await container?.querySelector(
+        'p[data-test="time-span-weekday-string-0"]'
+      )?.textContent
+    ).toEqual('Mån, Ons');
+
+    expect(
+      await container?.querySelector(
+        'p[data-test="time-span-resource-state-0"]'
+      )?.textContent
+    ).toEqual('Öppen');
+
+    expect(
+      await container?.querySelector('p[data-test="time-span-description-0"]')
+        ?.textContent
+    ).toEqual('Öppnande testbeskrivning');
   });
 
   it('should not crash when start and end times are missing', async () => {

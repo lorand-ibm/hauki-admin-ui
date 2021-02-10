@@ -22,7 +22,11 @@ jest.mock('react-router-dom', () => ({
 
 const closedResourceState = {
   value: 'closed',
-  label: 'Suljettu',
+  label: {
+    fi: 'Suljettu',
+    sv: null,
+    en: null,
+  },
 };
 
 const testDatePeriodOptions: UiDatePeriodConfig = {

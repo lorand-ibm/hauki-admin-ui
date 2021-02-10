@@ -8,6 +8,7 @@ import {
   Language,
   TimeSpanFormFormat,
   TimeSpanGroupFormFormat,
+  UiFieldConfig,
 } from '../../common/lib/types';
 import { isDateBefore } from '../../common/utils/date-time/compare';
 import {
@@ -82,11 +83,44 @@ export default function OpeningPeriodForm({
   errorTextAndLabel,
 }: OpeningPeriodFormProps): JSX.Element {
   const language = Language.FI;
-  const {
-    name: nameFieldConfig,
-    resourceState: resourceStateConfig,
-    timeSpanGroup: { rule: ruleConfig },
-  } = datePeriodConfig;
+
+  const nameFieldConfig = datePeriodConfig.name;
+
+  const resourceStateConfig: UiFieldConfig = {
+    options: datePeriodConfig.resourceState.options.map(
+      (translatedApiChoice) => ({
+        value: translatedApiChoice.value,
+        label: translatedApiChoice.label[language] as string,
+      })
+    ),
+  };
+
+  const ruleConfig = {
+    context: {
+      options: datePeriodConfig.timeSpanGroup.rule.context.options.map(
+        (translatedApiChoice) => ({
+          value: translatedApiChoice.value,
+          label: translatedApiChoice.label[language] as string,
+        })
+      ),
+    },
+    subject: {
+      options: datePeriodConfig.timeSpanGroup.rule.subject.options.map(
+        (translatedApiChoice) => ({
+          value: translatedApiChoice.value,
+          label: translatedApiChoice.label[language] as string,
+        })
+      ),
+    },
+    frequencyModifier: {
+      options: datePeriodConfig.timeSpanGroup.rule.frequencyModifier.options.map(
+        (translatedApiChoice) => ({
+          value: translatedApiChoice.value,
+          label: translatedApiChoice.label[language] as string,
+        })
+      ),
+    },
+  };
 
   const [periodBeginDate, setPeriodBeginDate] = useState<Date | null>(
     datePeriod?.start_date ? new Date(datePeriod?.start_date) : null

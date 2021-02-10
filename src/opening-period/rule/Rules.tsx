@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrayField, Control, useFieldArray } from 'react-hook-form';
 import { IconCalendarPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
-import { GroupRuleFormFormat, UiRuleConfig } from '../../common/lib/types';
+import { GroupRuleFormFormat, UiFormRuleConfig } from '../../common/lib/types';
 import Rule from './Rule';
 
 export default function Rules({
@@ -18,7 +18,7 @@ export default function Rules({
   groupId?: string;
   namePrefix: string;
   control: Control;
-  ruleConfig: UiRuleConfig;
+  ruleConfig: UiFormRuleConfig;
   register: Function;
   setValue: Function;
 }): JSX.Element {
