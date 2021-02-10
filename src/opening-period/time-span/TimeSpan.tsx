@@ -16,6 +16,7 @@ import {
   TimeSpanFormFormat,
   InputOption,
   UiFieldConfig,
+  ResourceState,
 } from '../../common/lib/types';
 
 export default function TimeSpan({
@@ -132,7 +133,7 @@ export default function TimeSpan({
           <Controller
             control={control}
             name={`${timeSpanNamePrefix}.resourceState`}
-            defaultValue={`${item.resourceState || ''}`}
+            defaultValue={`${item.resourceState || ResourceState.OPEN}`}
             render={({ onChange, value }): JSX.Element => (
               <Select
                 id={`time-span-state-id-${groupIndex}-${index}`}

@@ -127,12 +127,13 @@ export type UiOptionsFieldConfig = {
   options: TranslatedApiChoice[];
 };
 
-type UiRuleFieldConfig = BaseFieldConfig & UiOptionsFieldConfig;
+type RuleFieldConfigWithTranslatedOptions = BaseFieldConfig &
+  UiOptionsFieldConfig;
 
-export type UiRuleConfig = {
-  context: UiRuleFieldConfig;
-  subject: UiRuleFieldConfig;
-  frequencyModifier: UiRuleFieldConfig;
+type RuleConfigWithTranslatedOptions = {
+  context: RuleFieldConfigWithTranslatedOptions;
+  subject: RuleFieldConfigWithTranslatedOptions;
+  frequencyModifier: RuleFieldConfigWithTranslatedOptions;
   start: BaseFieldConfig;
 };
 
@@ -140,7 +141,7 @@ export type UiDatePeriodConfig = {
   name: TextFieldConfig;
   resourceState: UiOptionsFieldConfig;
   timeSpanGroup: {
-    rule: UiRuleConfig;
+    rule: RuleConfigWithTranslatedOptions;
   };
 };
 
