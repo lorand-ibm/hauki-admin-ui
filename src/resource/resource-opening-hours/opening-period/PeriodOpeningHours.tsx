@@ -58,21 +58,21 @@ function timeSpanDescriptionExistsInSomeLanguage(
 }
 
 function renderTimeSpanDescription(
-  timeSpanDescriptionObj: LanguageStrings | undefined,
+  descriptionObj: LanguageStrings | undefined,
   language: Language
 ): string {
-  if (!timeSpanDescriptionObj) {
+  if (!descriptionObj) {
     return '';
   }
 
-  if (timeSpanDescriptionExistsInSomeLanguage(timeSpanDescriptionObj)) {
-    if (!timeSpanDescriptionObj[language]) {
+  if (timeSpanDescriptionExistsInSomeLanguage(descriptionObj)) {
+    if (!descriptionObj[language]) {
       return displayLangVersionNotFound({
         language,
         label: 'aukiolon kuvaus',
       });
     }
-    return timeSpanDescriptionObj[language] || '';
+    return descriptionObj[language] || '';
   }
 
   return '';
