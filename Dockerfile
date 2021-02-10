@@ -31,11 +31,16 @@ COPY --chown=appuser:appuser . .
 RUN yarn build
 
 # =============================
-FROM nginx:1.19 as production
+FROM registry.access.redhat.com/ubi8/nginx-118 as production
 # =============================
 
+USER root
+
+RUN chgrp -R 0 /usr/share/nginx/html && \
+    chmod -R g=u /usr/share/nginx/html
+
 # Copy static build
-COPY --from=staticbuilder --chown=nginx:nginx /app/build /usr/share/nginx/html
+COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
 # Copy nginx config
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
@@ -45,14 +50,10 @@ WORKDIR /usr/share/nginx/html
 COPY ./scripts/env.sh .
 COPY .env .
 
-# Add bash
-RUN apt-get update
-RUN apt-get install bash
-
 # Make script executable
 RUN chmod +x env.sh
 
-USER nginx
+USER 1001
 
 CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
 
