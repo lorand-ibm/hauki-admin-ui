@@ -11,7 +11,7 @@ export const datePeriodOptions: DatePeriodConfig = {
         value: 'open',
         label: {
           fi: 'Auki',
-          sv: null,
+          sv: 'Öppen',
           en: null,
         },
       },
