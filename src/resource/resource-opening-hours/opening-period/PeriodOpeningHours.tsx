@@ -44,7 +44,7 @@ function renderStartAndEndTimes(
   }`;
 }
 
-function timeSpanDescriptionExistsInSomeLanguage(
+function timeSpanHasDescription(
   timeSpanDescriptionObj: LanguageStrings | undefined
 ): boolean {
   if (!timeSpanDescriptionObj) {
@@ -65,17 +65,17 @@ function renderTimeSpanDescription(
     return '';
   }
 
-  if (timeSpanDescriptionExistsInSomeLanguage(descriptionObj)) {
-    if (!descriptionObj[language]) {
-      return displayLangVersionNotFound({
-        language,
-        label: 'aukiolon kuvaus',
-      });
-    }
-    return descriptionObj[language] || '';
+  if (!timeSpanHasDescription(descriptionObj)) {
+    return '';
   }
 
-  return '';
+  if (!descriptionObj[language]) {
+    return displayLangVersionNotFound({
+      language,
+      label: 'aukiolon kuvaus',
+    });
+  }
+  return descriptionObj[language] || '';
 }
 
 export default function PeriodOpeningHours({
