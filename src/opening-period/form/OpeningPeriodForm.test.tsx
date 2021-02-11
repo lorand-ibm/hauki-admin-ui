@@ -95,7 +95,7 @@ const timeSpanGroupA = {
       frequency_modifier: 'odd',
       frequency_ordinal: null,
       subject: 'week',
-      start: 1,
+      start: undefined,
     },
   ],
   time_spans: [
@@ -138,7 +138,7 @@ const timeSpanGroupB = {
       frequency_modifier: 'even',
       frequency_ordinal: null,
       subject: 'week',
-      start: 1,
+      start: undefined,
     },
   ],
   time_spans: [

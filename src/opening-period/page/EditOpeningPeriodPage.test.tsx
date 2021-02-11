@@ -93,14 +93,14 @@ const testDatePeriod: DatePeriod = {
           frequency_modifier: 'even',
           frequency_ordinal: 3,
           subject: 'mon',
-          start: 1,
+          start: undefined,
         },
         {
           id: monthRuleId,
           group: 1225,
           context: 'month',
           frequency_modifier: null,
-          frequency_ordinal: 1,
+          frequency_ordinal: null,
           subject: 'week',
           start: 2,
         },
@@ -397,11 +397,11 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
       expect(
         periodRuleFieldset.querySelector('button[id^="rule-start"]')
-      ).toHaveTextContent('1.');
+      ).toHaveTextContent('--');
 
       expect(
         periodRuleFieldset.querySelector('[data-test="rule-subject-indicator"]')
-      ).toHaveTextContent('Maanantai');
+      ).toHaveTextContent('');
 
       const monthRuleFieldset = getElementOrThrow(
         container,
@@ -508,26 +508,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
             {
               id: 1225,
               period: 1,
-              rules: [
-                {
-                  context: 'period',
-                  frequency_modifier: 'even',
-                  frequency_ordinal: 3,
-                  id: 10,
-                  group: 1225,
-                  subject: 'mon',
-                  start: 1,
-                },
-                {
-                  context: 'month',
-                  frequency_modifier: null,
-                  frequency_ordinal: 1,
-                  id: 20,
-                  group: 1225,
-                  subject: 'week',
-                  start: 2,
-                },
-              ],
+              rules: testDatePeriod.time_span_groups[0].rules,
               time_spans: [
                 ...rest,
                 {
@@ -685,6 +666,72 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       );
 
       expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
+    });
+  });
+
+  it('should disable rule start when "Parillinen" frequency is selected', async () => {
+    let container: Element;
+
+    await act(async () => {
+      container = renderEditOpeningPeriodPage();
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-frequency-0-1',
+        value: 'Parillinen',
+      });
+    });
+
+    await act(async () => {
+      const ruleItem = getElementOrThrow(
+        container,
+        `[data-test="rule-list-item-${testDatePeriod.time_span_groups[0].rules[1].id}"`
+      );
+
+      const startSelect = getElementOrThrow(
+        ruleItem,
+        '[data-test="rule-start-0-0-toggle-button)'
+      );
+
+      expect(startSelect).toBeDisabled();
+
+      const startUnitIndicator = getElementOrThrow(
+        ruleItem,
+        '[data-test="rule-subject-indicator"]'
+      );
+      expect(startUnitIndicator).toBeEmptyDOMElement();
+    });
+  });
+
+  it('should enable rule start when "Parillinen" frequency is changed to "Jokainen"', async () => {
+    let container: Element;
+
+    await act(async () => {
+      container = renderEditOpeningPeriodPage();
+    });
+
+    await act(async () => {
+      await selectOption({
+        container,
+        id: '#rule-frequency-0-0',
+        value: 'Jokainen',
+      });
+    });
+
+    await act(async () => {
+      const ruleItem = getElementOrThrow(
+        container,
+        `[data-test="rule-list-item-${testDatePeriod.time_span_groups[0].rules[0].id}"`
+      );
+
+      const startSelect = getElementOrThrow(
+        ruleItem,
+        '[data-test="rule-start-0-0-toggle-button)'
+      );
+
+      expect(startSelect).toBeEnabled();
     });
   });
 });
