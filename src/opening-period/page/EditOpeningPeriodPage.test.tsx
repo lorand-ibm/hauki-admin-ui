@@ -648,17 +648,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
             {
               id: 1225,
               period: 1,
-              rules: [
-                {
-                  context: 'month',
-                  frequency_modifier: null,
-                  frequency_ordinal: 1,
-                  id: 20,
-                  group: 1225,
-                  subject: 'week',
-                  start: 2,
-                },
-              ],
+              rules: [testDatePeriod.time_span_groups[0].rules[1]],
               time_spans: testDatePeriod.time_span_groups[0].time_spans,
             },
           ],
@@ -671,28 +661,31 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
   it('should disable rule start when "Parillinen" frequency is selected', async () => {
     let container: Element;
+    let ruleItem: Element;
 
     await act(async () => {
       container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
-      await selectOption({
+      ruleItem = getElementOrThrow(
         container,
+        `[data-test="rule-list-item-${testDatePeriod.time_span_groups[0].rules[1].id}"`
+      );
+    });
+
+    await act(async () => {
+      await selectOption({
+        container: ruleItem,
         id: '#rule-frequency-0-1',
         value: 'Parillinen',
       });
     });
 
     await act(async () => {
-      const ruleItem = getElementOrThrow(
-        container,
-        `[data-test="rule-list-item-${testDatePeriod.time_span_groups[0].rules[1].id}"`
-      );
-
       const startSelect = getElementOrThrow(
         ruleItem,
-        '[data-test="rule-start-0-0-toggle-button)'
+        '#rule-start-0-1-toggle-button'
       );
 
       expect(startSelect).toBeDisabled();
@@ -707,28 +700,31 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
 
   it('should enable rule start when "Parillinen" frequency is changed to "Jokainen"', async () => {
     let container: Element;
+    let ruleItem: Element;
 
     await act(async () => {
       container = renderEditOpeningPeriodPage();
     });
 
     await act(async () => {
-      await selectOption({
+      ruleItem = getElementOrThrow(
         container,
+        `[data-test="rule-list-item-${testDatePeriod.time_span_groups[0].rules[0].id}"`
+      );
+    });
+
+    await act(async () => {
+      await selectOption({
+        container: ruleItem,
         id: '#rule-frequency-0-0',
         value: 'Jokainen',
       });
     });
 
     await act(async () => {
-      const ruleItem = getElementOrThrow(
-        container,
-        `[data-test="rule-list-item-${testDatePeriod.time_span_groups[0].rules[0].id}"`
-      );
-
       const startSelect = getElementOrThrow(
         ruleItem,
-        '[data-test="rule-start-0-0-toggle-button)'
+        '#rule-start-0-0-toggle-button'
       );
 
       expect(startSelect).toBeEnabled();
