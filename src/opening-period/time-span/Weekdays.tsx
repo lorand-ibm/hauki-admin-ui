@@ -51,7 +51,7 @@ export default function Weekdays({
   const weekdaysNamePrefix = `${namePrefix}.weekdays`;
 
   return (
-    <fieldset>
+    <fieldset className="weekdays">
       <legend>Päivät *</legend>
       <DayCheckbox
         weekdays={item.weekdays}
