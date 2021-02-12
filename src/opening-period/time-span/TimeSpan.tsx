@@ -17,7 +17,21 @@ import {
   InputOption,
   UiFieldConfig,
   ResourceState,
+  LanguageStrings,
+  Language,
 } from '../../common/lib/types';
+
+const descriptionLabelTexts: LanguageStrings = {
+  fi: 'Valinnainen kuvaus suomeksi',
+  sv: 'Valinnainen kuvaus ruotsiksi',
+  en: 'Valinnainen kuvaus englanniksi',
+};
+
+const descriptionPlaceholderTexts: LanguageStrings = {
+  fi: 'Esim. naisten vuoro',
+  sv: 'Esim. för kvinnorna',
+  en: 'Esim. for women only',
+};
 
 export default function TimeSpan({
   item,
@@ -45,6 +59,13 @@ export default function TimeSpan({
 
   const validateTimeRange = (startTime: string, endTime: string): boolean =>
     !!startTime || !!endTime;
+
+  const getDescriptionValueByLanguage = (language: Language): string => {
+    const description = item.description
+      ? ((item.description as unknown) as LanguageStrings)[language]
+      : null;
+    return description || '';
+  };
 
   return (
     <div
@@ -176,16 +197,22 @@ export default function TimeSpan({
         </div>
       </div>
       <div className="form-control">
-        <div className="time-span-description-container">
-          <TextInput
-            ref={register()}
-            id={`time-span-description-${groupIndex}-${index}`}
-            name={`${timeSpanNamePrefix}.description`}
-            className="time-span-description"
-            defaultValue={item.description || ''}
-            label="Kuvaus"
-            placeholder="Valinnainen lyhyt kuvaus esim. naisten vuoro"
-          />
+        <div className="opening-period-text-group">
+          {Object.values(Language).map((languageKey: Language) => (
+            <div
+              className="opening-period-text-group-field"
+              key={`time-span-description-${groupIndex}-${index}-${languageKey}`}>
+              <TextInput
+                ref={register()}
+                id={`time-span-description-${groupIndex}-${index}-${languageKey}`}
+                name={`${timeSpanNamePrefix}.description[${languageKey}]`}
+                className="opening-period-text-group-input"
+                defaultValue={getDescriptionValueByLanguage(languageKey)}
+                label={descriptionLabelTexts[languageKey]}
+                placeholder={descriptionPlaceholderTexts[languageKey] || ''}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>

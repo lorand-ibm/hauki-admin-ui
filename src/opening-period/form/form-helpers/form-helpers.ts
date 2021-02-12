@@ -86,7 +86,7 @@ function formatApiTimeSpansToFormFormat(
       return {
         id: apiTimeSpan.id ? apiTimeSpan.id.toString() : undefined,
         group: apiTimeSpan.group ? apiTimeSpan.group.toString() : undefined,
-        description: apiTimeSpan.description?.fi || '',
+        description: apiTimeSpan.description,
         startTime: apiTimeSpan.start_time
           ? dropMilliseconds(apiTimeSpan.start_time)
           : '',
