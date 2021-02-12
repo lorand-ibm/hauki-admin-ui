@@ -170,11 +170,11 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     await act(async () => {
       // Check info data
       expect(
-        container.querySelector('[data-test="openingPeriodTitle"]')
+        container.querySelector('[data-test="openingPeriodTitle-fi"]')
       ).toHaveValue(testDatePeriod.name.fi);
 
       expect(
-        container.querySelector('#openingPeriodOptionalDescription')
+        container.querySelector('#openingPeriodOptionalDescription-fi')
       ).toHaveValue(testDatePeriod.description.fi);
 
       expect(container.querySelector('#openingPeriodBeginDate')).toHaveValue(
@@ -246,7 +246,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       ).toHaveTextContent('Auki');
 
       expect(
-        firstTimeSpan.querySelector('#time-span-description-0-0')
+        firstTimeSpan.querySelector('#time-span-description-0-0-fi')
       ).toHaveValue('Arkena ovet menevät kiinni puolta tuntia aiemmin');
     });
   });
@@ -311,7 +311,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       ).toHaveTextContent('Itsepalvelu');
 
       expect(
-        lastTimeSpan.querySelector('#time-span-description-0-1')
+        lastTimeSpan.querySelector('#time-span-description-0-1-fi')
       ).toHaveValue('Viikonloppuna ovet menevät kiinni tuntia aiemmin');
     });
   });

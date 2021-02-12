@@ -30,8 +30,8 @@ import {
 import { ErrorText } from '../../components/icon-text/IconText';
 import toast from '../../components/notification/Toast';
 import {
-  formatTimeSpanGroupsToFormFormat,
   formatTimeSpanGroupsToApiFormat,
+  formatTimeSpanGroupsToFormFormat,
 } from './form-helpers/form-helpers';
 import OpeningPeriodDescription from '../description/OpeningPeriodDescription';
 import TimeSpans from '../time-span/TimeSpans';

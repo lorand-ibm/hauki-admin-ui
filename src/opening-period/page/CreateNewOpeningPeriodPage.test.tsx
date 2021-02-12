@@ -25,7 +25,7 @@ async function fillCompulsoryPeriodDescriptionFields(
 ): Promise<void> {
   // Enter title:
   const titleInput = await screen.findByRole('textbox', {
-    name: 'Aukiolojakson otsikko *',
+    name: 'Otsikko suomeksi',
   });
   fireEvent.input(titleInput, {
     target: {
