@@ -26,7 +26,11 @@
 
 /// <reference path="../../src/globals.d.ts" />
 
-import { GroupRule, TimeSpan } from '../../src/common/lib/types';
+import {
+  GroupRule,
+  LanguageStrings,
+  TimeSpan,
+} from '../../src/common/lib/types';
 import Chainable = Cypress.Chainable;
 import PrevSubject = Cypress.PrevSubject;
 
@@ -77,7 +81,7 @@ Cypress.Commands.add(
     timeSpans = [],
     rules = [],
   }: {
-    name: string;
+    name: LanguageStrings;
     startDate: Date;
     endDate: Date;
     resourceId: string;
@@ -105,11 +109,7 @@ Cypress.Commands.add(
               .then((resourceResponse) => {
                 const data = {
                   resource: resourceResponse?.body?.id,
-                  name: {
-                    fi: name,
-                    sv: null,
-                    en: null,
-                  },
+                  name,
                   description: {
                     fi: null,
                     sv: null,

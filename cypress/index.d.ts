@@ -13,7 +13,7 @@ declare namespace Cypress {
       timeSpans,
       rules,
     }: {
-      name: string;
+      name: LanguageStrings;
       startDate: Date;
       endDate: Date;
       resourceId: string;
