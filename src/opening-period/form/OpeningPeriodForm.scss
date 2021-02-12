@@ -56,6 +56,21 @@
   margin: 0;
 }
 
+.opening-period-text-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 ($spacing-2-xs * -1);
+}
+
+.opening-period-text-group-field {
+  flex: 0 1 345px;
+  margin: 0 $spacing-2-xs 0;
+}
+
+.opening-period-text-group-input {
+  margin: $spacing-xs 0;
+}
+
 .opening-period-time-period {
   display: flex;
 }

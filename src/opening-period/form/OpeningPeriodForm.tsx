@@ -9,11 +9,12 @@ import { useHistory } from 'react-router-dom';
 import { IconAlertCircle, IconPlus, IconTrash } from 'hds-react';
 import {
   DatePeriod,
-  UiDatePeriodConfig,
   Language,
+  LanguageStrings,
   TimeSpanGroupFormFormat,
   UiFieldConfig,
   UiFormRuleConfig,
+  UiDatePeriodConfig,
 } from '../../common/lib/types';
 import { isDateBefore } from '../../common/utils/date-time/compare';
 import {
@@ -38,8 +39,8 @@ import Rules from '../rule/Rules';
 import './OpeningPeriodForm.scss';
 
 interface OpeningPeriodFormData {
-  openingPeriodTitle: string;
-  openingPeriodOptionalDescription: string;
+  openingPeriodTitle: LanguageStrings;
+  openingPeriodOptionalDescription: LanguageStrings;
   openingPeriodBeginDate: string | undefined;
   openingPeriodEndDate: string | undefined;
   timeSpanGroups: TimeSpanGroupFormFormat[];
@@ -78,6 +79,12 @@ const validateEndInputWithStartDate = (start: Date | null) => (
   }
 
   return true;
+};
+
+const emptyLanguages: LanguageStrings = {
+  fi: null,
+  sv: null,
+  en: null,
 };
 
 export default function OpeningPeriodForm({
@@ -145,8 +152,8 @@ export default function OpeningPeriodForm({
   );
 
   const formValues: OpeningPeriodFormData = {
-    openingPeriodTitle: datePeriod?.name[language] || '',
-    openingPeriodOptionalDescription: datePeriod?.description[language] || '',
+    openingPeriodTitle: datePeriod?.name || emptyLanguages,
+    openingPeriodOptionalDescription: datePeriod?.description || emptyLanguages,
     openingPeriodBeginDate: datePeriod?.start_date,
     openingPeriodEndDate: datePeriod?.end_date,
     timeSpanGroups: [defaultTimeSpanGroup],
@@ -161,6 +168,7 @@ export default function OpeningPeriodForm({
     register,
     handleSubmit,
     errors,
+    clearErrors,
     control,
     setValue,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -189,16 +197,8 @@ export default function OpeningPeriodForm({
       const dataAsDatePeriod: DatePeriod = {
         ...(datePeriod?.id ? { id: datePeriod.id } : {}),
         resource: resourceId,
-        name: {
-          fi: data.openingPeriodTitle,
-          sv: null,
-          en: null,
-        },
-        description: {
-          fi: data.openingPeriodOptionalDescription,
-          sv: null,
-          en: null,
-        },
+        name: data.openingPeriodTitle,
+        description: data.openingPeriodOptionalDescription,
         start_date: data.openingPeriodBeginDate
           ? transformDateToApiFormat(data.openingPeriodBeginDate)
           : undefined,
@@ -250,6 +250,8 @@ export default function OpeningPeriodForm({
           <OpeningPeriodDescription
             register={register}
             errors={errors}
+            getValues={getValues}
+            clearErrors={clearErrors}
             nameFieldConfig={nameFieldConfig}
           />
         </section>
