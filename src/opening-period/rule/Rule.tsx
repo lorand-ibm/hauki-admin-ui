@@ -8,7 +8,7 @@ import {
   useFormContext,
 } from 'react-hook-form';
 import { SupplementaryButton } from '../../components/button/Button';
-import ErrorText from '../../components/icon-text/ErrorText';
+import { ErrorText } from '../../components/icon-text/IconText';
 import {
   InputOption,
   Frequency,

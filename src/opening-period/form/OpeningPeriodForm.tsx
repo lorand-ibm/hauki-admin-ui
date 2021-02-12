@@ -26,7 +26,7 @@ import {
   SecondaryButton,
   SupplementaryButton,
 } from '../../components/button/Button';
-import ErrorText from '../../components/icon-text/ErrorText';
+import { ErrorText } from '../../components/icon-text/IconText';
 import toast from '../../components/notification/Toast';
 import {
   formatTimeSpanGroupsToFormFormat,

@@ -8,7 +8,7 @@ import {
 } from 'react-hook-form';
 import { Checkbox, IconTrash, Select, TextInput } from 'hds-react';
 import { SupplementaryButton } from '../../components/button/Button';
-import ErrorText from '../../components/icon-text/ErrorText';
+import { ErrorText } from '../../components/icon-text/IconText';
 import Weekdays from './Weekdays';
 import './TimeSpan.scss';
 import TimeInput from './TimeInput';
