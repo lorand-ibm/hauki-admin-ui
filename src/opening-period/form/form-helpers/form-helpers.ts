@@ -24,6 +24,7 @@ function formatTimeSpansToApiFormat(
       startTime,
       weekdays,
       resourceState,
+      fullDay,
     }) => {
       return {
         ...(id && id !== '' ? { id: parseInt(id, 10) } : {}),
@@ -36,6 +37,7 @@ function formatTimeSpansToApiFormat(
         end_time: endTime ? `${endTime}:00` : null,
         start_time: startTime ? `${startTime}:00` : null,
         resource_state: resourceState,
+        full_day: fullDay,
         weekdays: weekdays.reduce(
           (acc: Array<number>, currentValue: boolean, currentIndex: number) => {
             if (currentValue) {
@@ -82,6 +84,7 @@ function formatApiTimeSpansToFormFormat(
           : '',
         resourceState: apiTimeSpan?.resource_state,
         weekdays: weekdays as FormWeekdays,
+        fullDay: apiTimeSpan.full_day ? apiTimeSpan.full_day : false,
       };
     });
 }

@@ -10,6 +10,8 @@ type TimeInputProps = {
   placeholder: string;
   registerFn: (instance: HTMLInputElement | null) => void;
   error?: string;
+  wrapperClassName?: string;
+  disabled?: boolean;
 };
 export default function TimeInput({
   id,
@@ -20,12 +22,14 @@ export default function TimeInput({
   placeholder,
   registerFn,
   error,
+  wrapperClassName,
+  disabled = false,
 }: TimeInputProps): JSX.Element {
   return (
     <div
       className={`custom-time-input-wrapper hds-text-input hds-text-input__input-wrapper ${
-        error ? 'hds-text-input--invalid' : ''
-      }`}>
+        wrapperClassName || ''
+      } ${error ? 'hds-text-input--invalid' : ''}`}>
       <input
         aria-label={ariaLabel}
         data-test={dataTest}
@@ -37,6 +41,7 @@ export default function TimeInput({
         placeholder={placeholder}
         defaultValue={`${defaultValue || ''}`}
         className="custom-time-input hds-text-input__input"
+        disabled={disabled}
       />
     </div>
   );
