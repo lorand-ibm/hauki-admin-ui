@@ -1,7 +1,8 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { getElementOrThrow } from '../../../test/test-utils';
+import { getElementOrThrow, selectOption } from '../../../test/test-utils';
+import { datePeriodOptions } from '../../../test/fixtures/api-options';
 import {
   DatePeriod,
   UiDatePeriodConfig,
@@ -17,69 +18,7 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-const testDatePeriodOptions: UiDatePeriodConfig = {
-  name: {
-    max_length: 255,
-  },
-  resourceState: {
-    options: [],
-  },
-  timeSpanGroup: {
-    rule: {
-      context: {
-        required: true,
-        options: [
-          {
-            value: 'period',
-            label: {
-              fi: 'Jakso',
-              sv: null,
-              en: null,
-            },
-          },
-        ],
-      },
-      subject: {
-        required: true,
-        options: [
-          {
-            value: 'week',
-            label: {
-              fi: 'Viikko',
-              sv: null,
-              en: null,
-            },
-          },
-        ],
-      },
-      frequencyModifier: {
-        required: false,
-        options: [
-          {
-            value: 'odd',
-            label: {
-              fi: 'Pariton',
-              sv: null,
-              en: null,
-            },
-          },
-          {
-            value: 'even',
-            label: {
-              fi: 'Parillinen',
-              sv: null,
-              en: null,
-            },
-          },
-        ],
-      },
-      start: {
-        required: false,
-      },
-    },
-  },
-};
-
+const testDatePeriodOptions: UiDatePeriodConfig = datePeriodOptions;
 const testResourceId = 1186;
 const testDatePeriodId = 1186;
 const groupIdA = 100;
@@ -547,6 +486,324 @@ describe(`<OpeningPeriodForm />`, () => {
             time_span_groups: [timeSpanGroupB],
           })
         );
+      });
+    });
+  });
+
+  describe('Rules', () => {
+    it('should render correct time-span-group rules', async () => {
+      let container: Element;
+      let periodRuleFieldset: Element;
+      const periodRuleId = 10;
+      const monthRuleId = 20;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [
+              {
+                ...timeSpanGroupA,
+                rules: [
+                  {
+                    id: periodRuleId,
+                    group: timeSpanGroupA.id,
+                    context: 'period',
+                    frequency_modifier: 'even',
+                    frequency_ordinal: 3,
+                    subject: 'mon',
+                    start: undefined,
+                  },
+                  {
+                    id: monthRuleId,
+                    group: timeSpanGroupA.id,
+                    context: 'month',
+                    frequency_modifier: null,
+                    frequency_ordinal: null,
+                    subject: 'week',
+                    start: 2,
+                  },
+                ],
+              },
+            ],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      await act(async () => {
+        periodRuleFieldset = getElementOrThrow(
+          container,
+          `[data-test="rule-list-item-${periodRuleId}"]`
+        );
+
+        expect(
+          periodRuleFieldset.querySelector('button[id^="rule-context"]')
+        ).toHaveTextContent('Jakso');
+
+        expect(
+          periodRuleFieldset.querySelector('button[id^="rule-frequency"]')
+        ).toHaveTextContent('3. Parillinen');
+
+        expect(
+          periodRuleFieldset.querySelector('button[id^="rule-subject"]')
+        ).toHaveTextContent('Maanantai');
+
+        expect(
+          periodRuleFieldset.querySelector('button[id^="rule-start"]')
+        ).toHaveTextContent('--');
+
+        expect(
+          periodRuleFieldset.querySelector(
+            '[data-test="rule-subject-indicator"]'
+          )
+        ).toHaveTextContent('');
+
+        const monthRuleFieldset = getElementOrThrow(
+          container,
+          `[data-test="rule-list-item-${monthRuleId}"]`
+        );
+
+        expect(
+          monthRuleFieldset.querySelector('button[id^="rule-context"]')
+        ).toHaveTextContent('Kuukausi');
+
+        expect(
+          monthRuleFieldset.querySelector('button[id^="rule-frequency"]')
+        ).toHaveTextContent('Jokainen');
+
+        expect(
+          monthRuleFieldset.querySelector('button[id^="rule-subject"]')
+        ).toHaveTextContent('Viikko');
+
+        expect(
+          monthRuleFieldset.querySelector('button[id^="rule-start"]')
+        ).toHaveTextContent('2.');
+
+        expect(
+          monthRuleFieldset.querySelector(
+            '[data-test="rule-subject-indicator"]'
+          )
+        ).toHaveTextContent('Viikko');
+      });
+    });
+
+    it('should save added rules after edit', async () => {
+      let container: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [timeSpanGroupA],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      await act(async () => {
+        const addRuleButton = getElementOrThrow(
+          container,
+          '[data-test="add-new-rule-button-0"]'
+        );
+        fireEvent.click(addRuleButton);
+      });
+
+      await act(async () => {
+        await selectOption({
+          container,
+          id: '#rule-context-0-1',
+          value: 'Jakso',
+        });
+      });
+
+      await act(async () => {
+        await selectOption({
+          container,
+          id: '#rule-frequency-0-1',
+          value: 'Joka toinen',
+        });
+      });
+
+      await act(async () => {
+        await selectOption({
+          container,
+          id: '#rule-subject-0-1',
+          value: 'Viikko',
+        });
+      });
+
+      await act(async () => {
+        await selectOption({
+          container,
+          id: '#rule-start-0-1',
+          value: '1.',
+        });
+      });
+
+      await act(async () => {
+        const saveButton = container.querySelector(
+          '[data-test="publish-opening-period-button"]'
+        );
+        if (!saveButton) {
+          throw new Error(`Element with selector ${saveButton} not found`);
+        }
+
+        fireEvent.click(saveButton);
+      });
+
+      await act(async () => {
+        expect(submitFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            time_span_groups: [
+              {
+                ...timeSpanGroupA,
+                rules: [
+                  ...timeSpanGroupA.rules,
+                  {
+                    group: timeSpanGroupA.id,
+                    context: 'period',
+                    frequency_modifier: null,
+                    frequency_ordinal: 2,
+                    start: 1,
+                    subject: 'week',
+                  },
+                ],
+              },
+            ],
+          })
+        );
+      });
+    });
+
+    it('should remove rule', async () => {
+      let container: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [timeSpanGroupA],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      await act(async () => {
+        const periodRuleRemoveButton = getElementOrThrow(
+          container,
+          `[data-test="rule-list-item-${timeSpanGroupA.rules[0].id}"] [data-test^=remove-rule-button]`
+        );
+
+        fireEvent.click(periodRuleRemoveButton);
+      });
+
+      await act(async () => {
+        const saveButton = container.querySelector(
+          '[data-test="publish-opening-period-button"]'
+        );
+        if (!saveButton) {
+          throw new Error(`Element with selector ${saveButton} not found`);
+        }
+
+        fireEvent.click(saveButton);
+      });
+
+      await act(async () => {
+        expect(submitFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            time_span_groups: [
+              {
+                ...timeSpanGroupA,
+                rules: [],
+              },
+            ],
+          })
+        );
+      });
+    });
+
+    it('should disable rule start when "Parillinen" frequency is selected', async () => {
+      let container: Element;
+      let ruleItem: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [timeSpanGroupA],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      await act(async () => {
+        ruleItem = getElementOrThrow(
+          container,
+          `[data-test="rule-list-item-${timeSpanGroupA.rules[0].id}"`
+        );
+      });
+
+      await act(async () => {
+        await selectOption({
+          container: ruleItem,
+          id: '#rule-frequency-0-0',
+          value: 'Parillinen',
+        });
+      });
+
+      await act(async () => {
+        const startSelect = getElementOrThrow(
+          ruleItem,
+          '#rule-start-0-0-toggle-button'
+        );
+
+        expect(startSelect).toBeDisabled();
+
+        const startUnitIndicator = getElementOrThrow(
+          ruleItem,
+          '[data-test="rule-subject-indicator"]'
+        );
+        expect(startUnitIndicator).toBeEmptyDOMElement();
+      });
+    });
+
+    it('should enable rule start when "Parillinen" frequency is changed to "Jokainen"', async () => {
+      let container: Element;
+      let ruleItem: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [timeSpanGroupA],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      await act(async () => {
+        ruleItem = getElementOrThrow(
+          container,
+          `[data-test="rule-list-item-${timeSpanGroupA.rules[0].id}"`
+        );
+      });
+
+      await act(async () => {
+        await selectOption({
+          container: ruleItem,
+          id: '#rule-frequency-0-0',
+          value: 'Jokainen',
+        });
+      });
+
+      await act(async () => {
+        const startSelect = getElementOrThrow(
+          ruleItem,
+          '#rule-start-0-0-toggle-button'
+        );
+
+        expect(startSelect).toBeEnabled();
       });
     });
   });
