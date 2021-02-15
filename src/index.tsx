@@ -1,9 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 import './index.scss';
 import axe from 'react-axe';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+Sentry.init({
+  dsn:
+    'https://05f5c4304c7b4ea19e7263910793b9ee@o394401.ingest.sentry.io/5637007',
+  integrations: [new Integrations.BrowserTracing()],
+  environment: window.ENV.SENTRY_ENV,
+  tracesSampleRate: window.ENV.SENTRY_ENV === 'local' ? 0.0 : 1.0, // We do not wish to trace in local env by default
+});
 
 if (window.ENV?.USE_AXE === 'true') {
   axe(React, ReactDOM, 1000);
