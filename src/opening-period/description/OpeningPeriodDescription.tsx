@@ -63,48 +63,38 @@ export default function OpeningPeriodDescription({
       <div className="form-control">
         <div className="opening-period-text-group">
           {Object.values(Language).map((languageKey: Language) => (
-            <div
-              className="opening-period-text-group-field"
-              key={`openingPeriodTitle-${languageKey}`}>
-              <label
-                htmlFor={`openingPeriodTitle-${languageKey}`}
-                className="form-label">
-                {titleLabelTexts[languageKey]}
-              </label>
-              <TextInput
-                className="opening-period-text-group-input"
-                type="text"
-                name={`openingPeriodTitle[${languageKey}]`}
-                data-test={`openingPeriodTitle-${languageKey}`}
-                id={`openingPeriodTitle-${languageKey}`}
-                aria-invalid={errors.openingPeriodTitle ? 'true' : 'false'}
-                ref={register({
-                  validate: {
-                    requireOne: (value: string): boolean => {
-                      clearErrors('openingPeriodTitle');
+            <TextInput
+              key={`openingPeriodTitle-${languageKey}`}
+              label={titleLabelTexts[languageKey]}
+              type="text"
+              name={`openingPeriodTitle[${languageKey}]`}
+              data-test={`openingPeriodTitle-${languageKey}`}
+              id={`openingPeriodTitle-${languageKey}`}
+              aria-invalid={errors.openingPeriodTitle ? 'true' : 'false'}
+              ref={register({
+                validate: {
+                  requireOne: (value: string): boolean => {
+                    clearErrors('openingPeriodTitle');
 
-                      if (value) {
-                        return true;
-                      }
-                      const allTitleTranslations: (
-                        | string
-                        | null
-                      )[] = Object.values(
-                        getValues()?.openingPeriodTitle ?? []
-                      );
+                    if (value) {
+                      return true;
+                    }
+                    const allTitleTranslations: (
+                      | string
+                      | null
+                    )[] = Object.values(getValues()?.openingPeriodTitle ?? []);
 
-                      return !!allTitleTranslations.find(
-                        (translation) => !!translation
-                      );
-                    },
+                    return !!allTitleTranslations.find(
+                      (translation) => !!translation
+                    );
                   },
-                  maxLength: titleMaxLength,
-                })}
-                invalid={hasError}
-                {...(titleMaxLength ? { maxLength: titleMaxLength } : {})}
-                placeholder={titlePlaceholderTexts[languageKey] || ''}
-              />
-            </div>
+                },
+                maxLength: titleMaxLength,
+              })}
+              invalid={hasError}
+              {...(titleMaxLength ? { maxLength: titleMaxLength } : {})}
+              placeholder={titlePlaceholderTexts[languageKey] || ''}
+            />
           ))}
         </div>
         {hasError ? (
@@ -114,22 +104,20 @@ export default function OpeningPeriodDescription({
         )}
       </div>
       <div className="form-control">
-        {Object.values(Language).map((languageKey: Language) => (
-          <div
-            className="opening-period-description-field"
-            key={`openingPeriodOptionalDescription-${languageKey}`}>
+        <div className="opening-period-text-group">
+          {Object.values(Language).map((languageKey: Language) => (
             <TextArea
+              key={`openingPeriodOptionalDescription-${languageKey}`}
               cols={90}
               label={descriptionLabelTexts[languageKey]}
-              rows={2}
-              className="opening-period-optional-description"
               name={`openingPeriodOptionalDescription[${languageKey}]`}
               id={`openingPeriodOptionalDescription-${languageKey}`}
+              className="opening-period-text-group-textarea"
               ref={register({ maxLength: 255 })}
               placeholder={descriptionPlaceholderTexts[languageKey] || ''}
             />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </>
   );

@@ -57,18 +57,13 @@
 }
 
 .opening-period-text-group {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 ($spacing-2-xs * -1);
+  display: grid;
+  grid-gap: $spacing-s;
+  grid-template-columns: repeat(auto-fill, minmax(345px, 1fr));
 }
 
-.opening-period-text-group-field {
-  flex: 0 1 345px;
-  margin: 0 $spacing-2-xs 0;
-}
-
-.opening-period-text-group-input {
-  margin: $spacing-xs 0;
+.opening-period-text-group-textarea {
+  --textarea-height: 6rem;
 }
 
 .opening-period-time-period {

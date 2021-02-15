@@ -3,19 +3,3 @@
 .opening-period-section-title {
   font-size: $fontsize-heading-xxs;
 }
-
-.opening-period-description-field {
-  & + & {
-    margin-top: $spacing-layout-2-xs;
-  }
-}
-
-.opening-period-optional-description {
-  --textarea-height: auto;
-
-  width: calc(0.5808333 * 100%);
-
-  @media screen and (max-width: $breakpoint-m) {
-    width: 100%;
-  }
-}

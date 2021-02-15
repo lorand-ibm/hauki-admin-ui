@@ -199,19 +199,15 @@ export default function TimeSpan({
       <div className="form-control">
         <div className="opening-period-text-group">
           {Object.values(Language).map((languageKey: Language) => (
-            <div
-              className="opening-period-text-group-field"
-              key={`time-span-description-${groupIndex}-${index}-${languageKey}`}>
-              <TextInput
-                ref={register()}
-                id={`time-span-description-${groupIndex}-${index}-${languageKey}`}
-                name={`${timeSpanNamePrefix}.description[${languageKey}]`}
-                className="opening-period-text-group-input"
-                defaultValue={getDescriptionValueByLanguage(languageKey)}
-                label={descriptionLabelTexts[languageKey]}
-                placeholder={descriptionPlaceholderTexts[languageKey] || ''}
-              />
-            </div>
+            <TextInput
+              key={`time-span-description-${groupIndex}-${index}-${languageKey}`}
+              ref={register()}
+              id={`time-span-description-${groupIndex}-${index}-${languageKey}`}
+              name={`${timeSpanNamePrefix}.description[${languageKey}]`}
+              defaultValue={getDescriptionValueByLanguage(languageKey)}
+              label={descriptionLabelTexts[languageKey]}
+              placeholder={descriptionPlaceholderTexts[languageKey] || ''}
+            />
           ))}
         </div>
       </div>
