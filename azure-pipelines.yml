@@ -14,6 +14,9 @@ trigger:
 # By default, use self-hosted agents
 pool: Default
 
+# Opting out of pull request validation
+pr: none
+
 resources:
   repositories:
   # Azure DevOps repository
