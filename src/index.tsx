@@ -12,7 +12,7 @@ Sentry.init({
     'https://05f5c4304c7b4ea19e7263910793b9ee@o394401.ingest.sentry.io/5637007',
   integrations: [new Integrations.BrowserTracing()],
   environment: window.ENV.SENTRY_ENV,
-  tracesSampleRate: window.ENV.SENTRY_ENV === 'local' ? 0.0 : 1.0, // We do not wish to trace in local env by default
+  sampleRate: window.ENV.SENTRY_ENV === 'local' ? 0.0 : 1.0, // We do not wish to trace in local env by default
 });
 
 if (window.ENV?.USE_AXE === 'true') {
