@@ -183,6 +183,7 @@ export default function Rule({
     );
 
     if (selectedModifier) {
+      // When modifier is selected (at the moment 'odd' or 'even') the value of the rule start is unnecessary.
       setValue(startField, '');
       setIsStartDisabled(true);
     } else {
