@@ -54,17 +54,17 @@ describe('User edits an opening period', () => {
     }).should('be.visible');
 
     // Start editing by checking the finnish title
-    cy.get('[data-test=openingPeriodTitle-fi]')
+    cy.get('[data-test=opening-period-title-fi]')
       .invoke('val')
       .should('equal', finnishTitle);
 
     // And then check swedish title
-    cy.get('[data-test=openingPeriodTitle-sv]')
+    cy.get('[data-test=opening-period-title-sv]')
       .invoke('val')
       .should('equal', swedishTitle);
 
     // Change the finnish title
-    cy.get('[data-test=openingPeriodTitle-fi]')
+    cy.get('[data-test=opening-period-title-fi]')
       .clear()
       .type(newFinnishTitle, { log: true });
 

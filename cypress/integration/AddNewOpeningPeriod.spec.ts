@@ -20,15 +20,15 @@ describe('User adds a new opening period', () => {
     }).should('be.visible');
 
     // Start filling the form, first is opening period title in finnish
-    cy.get('[data-test=openingPeriodTitle-fi').type(
+    cy.get('[data-test=opening-period-title-fi').type(
       `e2e-test Testijakson otsikko ${new Date().toJSON()}`
     );
     // ...then in swedish
-    cy.get('[data-test=openingPeriodTitle-sv').type(
+    cy.get('[data-test=opening-period-title-sv').type(
       `e2e-test test periods rubrik ${new Date().toJSON()}`
     );
     // ...then in english
-    cy.get('[data-test=openingPeriodTitle-sv').type(
+    cy.get('[data-test=opening-period-title-en').type(
       `e2e-test test period's title ${new Date().toJSON()}`
     );
 

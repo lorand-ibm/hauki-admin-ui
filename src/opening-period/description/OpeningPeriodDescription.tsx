@@ -68,7 +68,7 @@ export default function OpeningPeriodDescription({
               label={titleLabelTexts[languageKey]}
               type="text"
               name={`openingPeriodTitle[${languageKey}]`}
-              data-test={`openingPeriodTitle-${languageKey}`}
+              data-test={`opening-period-title-${languageKey}`}
               id={`openingPeriodTitle-${languageKey}`}
               aria-invalid={errors.openingPeriodTitle ? 'true' : 'false'}
               ref={register({
@@ -107,11 +107,11 @@ export default function OpeningPeriodDescription({
         <div className="opening-period-text-group">
           {Object.values(Language).map((languageKey: Language) => (
             <TextArea
-              key={`openingPeriodOptionalDescription-${languageKey}`}
+              key={`opening-period-description-${languageKey}`}
               cols={90}
               label={descriptionLabelTexts[languageKey]}
               name={`openingPeriodOptionalDescription[${languageKey}]`}
-              id={`openingPeriodOptionalDescription-${languageKey}`}
+              id={`opening-period-description-${languageKey}`}
               className="opening-period-text-group-textarea"
               ref={register({ maxLength: 255 })}
               placeholder={descriptionPlaceholderTexts[languageKey] || ''}

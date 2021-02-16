@@ -170,11 +170,11 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     await act(async () => {
       // Check info data
       expect(
-        container.querySelector('[data-test="openingPeriodTitle-fi"]')
+        container.querySelector('[data-test="opening-period-title-fi"]')
       ).toHaveValue(testDatePeriod.name.fi);
 
       expect(
-        container.querySelector('#openingPeriodOptionalDescription-fi')
+        container.querySelector('#opening-period-description-fi')
       ).toHaveValue(testDatePeriod.description.fi);
 
       expect(container.querySelector('#openingPeriodBeginDate')).toHaveValue(
