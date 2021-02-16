@@ -62,6 +62,7 @@ export type TimeSpanFormFormat = {
   description: string;
   endTime: string;
   startTime: string;
+  fullDay: boolean;
   resourceState?: ResourceState;
   weekdays: FormWeekdays;
 };

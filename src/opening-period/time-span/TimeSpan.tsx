@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ArrayField,
   Controller,
@@ -6,7 +6,7 @@ import {
   FieldError,
   useFormContext,
 } from 'react-hook-form';
-import { IconTrash, Select, TextInput } from 'hds-react';
+import { Checkbox, IconTrash, Select, TextInput } from 'hds-react';
 import { SupplementaryButton } from '../../components/button/Button';
 import ErrorText from '../../components/icon-text/ErrorText';
 import Weekdays from './Weekdays';
@@ -40,6 +40,8 @@ export default function TimeSpan({
   const timeSpanNamePrefix = `${namePrefix}[${index}]`;
   const { options: resourceStateOptions } = resourceStateConfig;
   const timeSpanErrors = errors && errors[index];
+
+  const [fullDay, setFullDay] = useState((item.fullDay as unknown) as boolean);
 
   const validateTimeRange = (startTime: string, endTime: string): boolean =>
     !!startTime || !!endTime;
@@ -88,11 +90,15 @@ export default function TimeSpan({
               dataTest={`time-span-start-time-${groupIndex}-${index}`}
               registerFn={(ref): void =>
                 register(ref, {
-                  validate: (startTime): boolean =>
-                    validateTimeRange(
+                  validate: (startTime): boolean => {
+                    if (fullDay) {
+                      return true;
+                    }
+                    return validateTimeRange(
                       startTime,
                       getValues(`${timeSpanNamePrefix}.endTime`)
-                    ),
+                    );
+                  },
                 })
               }
               defaultValue={item.startTime || ''}
@@ -100,6 +106,7 @@ export default function TimeSpan({
               id={`time-span-${groupIndex}-${index}-start-time`}
               name={`${timeSpanNamePrefix}.startTime`}
               placeholder="--.--"
+              disabled={fullDay}
             />
           </div>
           <div className="dash-between-start-and-end-time-container">
@@ -110,18 +117,34 @@ export default function TimeSpan({
             dataTest={`time-span-end-time-${groupIndex}-${index}`}
             registerFn={(ref): void =>
               register(ref, {
-                validate: (endTime): boolean =>
-                  validateTimeRange(
+                validate: (endTime): boolean => {
+                  if (fullDay) {
+                    return true;
+                  }
+                  return validateTimeRange(
                     getValues(`${timeSpanNamePrefix}.startTime`),
                     endTime
-                  ),
+                  );
+                },
               })
             }
             defaultValue={item.endTime || ''}
             id={`time-span-end-time-${groupIndex}-${index}`}
             name={`${timeSpanNamePrefix}.endTime`}
             placeholder="--.--"
+            wrapperClassName="time-span-end-time-input-wrapper"
+            disabled={fullDay}
           />
+          <div className="checkbox-container">
+            <Checkbox
+              id={`${timeSpanNamePrefix}.fullDay`}
+              label="Koko päivä"
+              name={`${timeSpanNamePrefix}.fullDay`}
+              onChange={(e): void => setFullDay(e.target.checked)}
+              checked={fullDay}
+              ref={register()}
+            />
+          </div>
         </div>
         {timeSpanErrors &&
           (timeSpanErrors?.startTime || timeSpanErrors?.endTime) && (

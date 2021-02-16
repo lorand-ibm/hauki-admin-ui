@@ -108,6 +108,7 @@ const timeSpanGroupA = {
         en: null,
       },
       end_time: '17:00:00',
+      full_day: false,
       resource_state: ResourceState.OPEN,
       start_time: '12:00:00',
       weekdays: [1, 2, 3, 4, 5],
@@ -121,6 +122,7 @@ const timeSpanGroupA = {
         en: null,
       },
       end_time: '17:00:00',
+      full_day: false,
       resource_state: ResourceState.OPEN,
       start_time: '12:00:00',
       weekdays: [6, 7],
@@ -151,6 +153,7 @@ const timeSpanGroupB = {
         en: null,
       },
       end_time: '17:00:00',
+      full_day: false,
       resource_state: ResourceState.OPEN,
       start_time: '12:00:00',
       weekdays: [1, 2, 3, 4, 5],
@@ -340,6 +343,61 @@ describe(`<OpeningPeriodForm />`, () => {
           'Aukiololla on oltava vähintään alku tai loppuaika.'
         );
         expect(timeFieldRequiredIndicator).toBeInTheDocument();
+      });
+    });
+
+    it('Should not show error message when a timespan is missing both of the time-fields but full day is checked', async () => {
+      let container: Element;
+
+      await act(async () => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            time_span_groups: [
+              {
+                ...timeSpanGroupA,
+                time_spans: [
+                  {
+                    ...timeSpanGroupA.time_spans[0],
+                    end_time: null,
+                    start_time: null,
+                    full_day: true,
+                  },
+                ],
+              },
+            ],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      // try submit form with valid timespan:
+      await act(async () => {
+        const submitFormButton = getElementOrThrow(
+          container,
+          '[data-test="publish-opening-period-button"]'
+        );
+        fireEvent.submit(submitFormButton);
+      });
+
+      act(() => {
+        expect(submitFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            time_span_groups: [
+              {
+                ...timeSpanGroupA,
+                time_spans: [
+                  {
+                    ...timeSpanGroupA.time_spans[0],
+                    end_time: null,
+                    start_time: null,
+                    full_day: true,
+                  },
+                ],
+              },
+            ],
+          })
+        );
       });
     });
   });
