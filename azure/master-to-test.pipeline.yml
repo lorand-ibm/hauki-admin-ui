@@ -47,7 +47,7 @@ steps:
     tags: |
       latest
       $(gitCommitHash)
-    Dockerfile: Dockerfile
+    Dockerfile: Dockerfile-old
 
 - task: oc-cmd@2
   displayName: Deploy image to openshift, add OC tag to latest image
