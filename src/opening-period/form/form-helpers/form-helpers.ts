@@ -96,7 +96,7 @@ function formatRulesToApiFormat(
     ...rest,
     ...(id && id !== '' ? { id: parseInt(id, 10) } : {}),
     ...(group && group !== '' ? { group: parseInt(group, 10) } : {}),
-    start: parseInt(start, 10),
+    start: start ? parseInt(start, 10) : undefined,
   }));
 }
 

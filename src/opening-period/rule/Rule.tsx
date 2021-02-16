@@ -33,12 +33,8 @@ type SelectControllerState = {
 
 const hardCodedFrequencyOptions: FrequencyOption[] = [
   {
-    label: '--',
-    value: { frequency_ordinal: null, frequency_modifier: null },
-  },
-  {
     label: 'Jokainen',
-    value: { frequency_ordinal: 1, frequency_modifier: null },
+    value: { frequency_ordinal: null, frequency_modifier: null },
   },
   {
     label: 'Joka toinen',
@@ -58,9 +54,6 @@ const hardCodedFrequencyOptions: FrequencyOption[] = [
   },
 ];
 
-const frequencyToString = (frequency: Frequency): string =>
-  `${frequency.frequency_ordinal} ${frequency.frequency_modifier} `;
-
 const generateUnknownFrequencyLabel = (
   ordinal: number | null,
   modifierLabel?: string | null
@@ -71,23 +64,16 @@ const generateUnknownFrequencyLabel = (
   return [optionalOrdinalLabel, modifierLabel].join(' ');
 };
 
-const convertFrequencyToInputOption = ({
-  value,
-  label,
-}: {
-  value: Frequency;
-  label: string;
-}): InputOption => ({
-  label,
-  value: frequencyToString(value),
-});
-
-const startAtOptions: InputOption[] = Array.from({ length: 10 }).map(
-  (num, index) => ({
+const startAtOptions: InputOption[] = [
+  {
+    label: '--',
+    value: '',
+  },
+  ...Array.from({ length: 10 }).map((num, index) => ({
     label: `${index + 1}.`,
     value: (index + 1).toString(),
-  })
-);
+  })),
+];
 
 export default function Rule({
   namePrefix,
@@ -131,6 +117,7 @@ export default function Rule({
   const selectedSubject = subjectOptions.find(
     ({ value }: InputOption) => value === subject
   );
+
   const [subjectLabel, setSubjectLabel] = useState<string>(
     selectedSubject?.label ?? ''
   );
@@ -140,8 +127,22 @@ export default function Rule({
     frequency_ordinal: frequencyOrdinal,
   };
 
+  const currentFrequencyAsOption: FrequencyOption = {
+    label: generateUnknownFrequencyLabel(
+      currentFrequency.frequency_ordinal,
+      frequencyModifierOptions.find(
+        (modifierOption: InputOption) =>
+          modifierOption.value === currentFrequency.frequency_modifier
+      )?.label
+    ),
+    value: currentFrequency,
+  };
+
+  const [selectedFrequency, setSelectedFrequency] = useState<FrequencyOption>(
+    currentFrequencyAsOption
+  );
+
   const knownFrequencyValues: FrequencyOption[] = [
-    ...hardCodedFrequencyOptions,
     ...frequencyModifierOptions.map(
       (modifierOption: InputOption): FrequencyOption => ({
         label: modifierOption.label,
@@ -151,51 +152,51 @@ export default function Rule({
         },
       })
     ),
+    ...hardCodedFrequencyOptions,
   ];
 
-  const isKnownFrequencySelected = knownFrequencyValues.find(
-    ({ value }) =>
-      value.frequency_modifier === currentFrequency.frequency_modifier &&
-      value.frequency_ordinal === currentFrequency.frequency_ordinal
+  const isFrequencySelected = (value: Frequency): boolean =>
+    value.frequency_modifier === selectedFrequency.value.frequency_modifier &&
+    value.frequency_ordinal === selectedFrequency.value.frequency_ordinal;
+
+  const isKnownFrequencySelected = knownFrequencyValues.find(({ value }) =>
+    isFrequencySelected(value)
   );
 
   const allFrequencyValues: FrequencyOption[] = isKnownFrequencySelected
     ? knownFrequencyValues
-    : [
-        ...knownFrequencyValues,
-        {
-          label: generateUnknownFrequencyLabel(
-            currentFrequency.frequency_ordinal,
-            frequencyModifierOptions.find(
-              (modifierOption: InputOption) =>
-                modifierOption.value === currentFrequency.frequency_modifier
-            )?.label
-          ),
-          value: currentFrequency,
-        },
-      ];
+    : [...knownFrequencyValues, currentFrequencyAsOption];
 
-  const frequencyOptions: InputOption[] = allFrequencyValues.map(
-    convertFrequencyToInputOption
-  );
+  const [isStartDisabled, setIsStartDisabled] = useState<boolean>(false);
 
   const frequencyModifierField = `${ruleNamePrefix}.frequency_modifier`;
   const frequencyOrdinalField = `${ruleNamePrefix}.frequency_ordinal`;
+  const startField = `${ruleNamePrefix}.start`;
 
-  const onFrequencyChange = (selected: InputOption): void => {
-    const selectedFrequency = allFrequencyValues.find(
-      ({ label }) => label === selected.label
-    );
+  useEffect(() => {
+    const selectedModifier = selectedFrequency?.value.frequency_modifier;
 
-    setValue(
-      frequencyModifierField,
-      selectedFrequency?.value.frequency_modifier || null
-    );
+    setValue(frequencyModifierField, selectedModifier || null);
     setValue(
       frequencyOrdinalField,
       selectedFrequency?.value.frequency_ordinal || null
     );
-  };
+
+    if (selectedModifier) {
+      // When modifier is selected (at the moment 'odd' or 'even') the value of the rule start is unnecessary.
+      setValue(startField, '');
+      setIsStartDisabled(true);
+    } else {
+      setIsStartDisabled(false);
+    }
+  }, [
+    frequencyModifierField,
+    frequencyOrdinalField,
+    selectedFrequency,
+    setValue,
+    startAt,
+    startField,
+  ]);
 
   useEffect(() => {
     register({ name: frequencyModifierField });
@@ -275,17 +276,15 @@ export default function Rule({
             />
           )}
         />
-        <Select
+        <Select<FrequencyOption>
           key={`rule-frequency-${groupIndex}-${index}`}
           id={`rule-frequency-${groupIndex}-${index}`}
           className="opening-group-rule-column opening-group-rule-select"
-          defaultValue={frequencyOptions.find(
-            ({ value }) => value === frequencyToString(currentFrequency)
+          defaultValue={allFrequencyValues.find(({ value }) =>
+            isFrequencySelected(value)
           )}
-          onChange={(selected: InputOption): void =>
-            onFrequencyChange(selected)
-          }
-          options={frequencyOptions}
+          onChange={setSelectedFrequency}
+          options={allFrequencyValues}
           label="Valitse monesko"
           placeholder="Tapahtumatiheys"
         />
@@ -325,7 +324,7 @@ export default function Rule({
           <p key="rule-subject-divider">Alkaen</p>
           <Controller
             key={`rule-start-${groupIndex}-${index}`}
-            name={`${ruleNamePrefix}.start`}
+            name={startField}
             control={control}
             defaultValue={startAt || ''}
             rules={{
@@ -341,15 +340,22 @@ export default function Rule({
               <Select
                 id={`rule-start-${groupIndex}-${index}`}
                 className="opening-group-rule-select"
-                defaultValue={startAtOptions.find(
-                  (selected: InputOption): boolean => selected.value === value
-                )}
+                disabled={isStartDisabled}
+                value={startAtOptions.find((selected: InputOption): boolean => {
+                  return selected.value === value;
+                })}
                 onChange={(selected: InputOption): void =>
                   onChange(selected.value)
                 }
                 options={startAtOptions}
                 invalid={invalid}
-                label={`Valitse monesko ${subjectLabel.toLowerCase() || ''}`}
+                label={
+                  isStartDisabled
+                    ? ''
+                    : `Valitse monesko ${
+                        subjectLabel ? subjectLabel.toLowerCase() : ''
+                      }`
+                }
                 placeholder="Alkaen voimassa"
               />
             )}
@@ -358,7 +364,7 @@ export default function Rule({
             key="rule-subject-indicator"
             data-test="rule-subject-indicator"
             className="opening-group-rule-subject-indicator">
-            {subjectLabel || ''}
+            {isStartDisabled ? '' : subjectLabel}
           </p>
         </div>
       </div>

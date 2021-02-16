@@ -1,7 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { getElementOrThrow } from '../../../test/test-utils';
+import { getElementOrThrow, selectOption } from '../../../test/test-utils';
 import { datePeriodOptions } from '../../../test/fixtures/api-options';
 import {
   DatePeriod,
@@ -69,8 +69,6 @@ const testResourcePageUrl = `/resource/${testResource.id}`;
 
 const weekdayTimeSpanId = 2636;
 const weekendTimeSpanId = 2637;
-const periodRuleId = 10;
-const monthRuleId = 20;
 
 const testDatePeriod: DatePeriod = {
   id: 1,
@@ -85,26 +83,7 @@ const testDatePeriod: DatePeriod = {
     {
       id: 1225,
       period: 1,
-      rules: [
-        {
-          id: periodRuleId,
-          group: 1225,
-          context: 'period',
-          frequency_modifier: 'even',
-          frequency_ordinal: 3,
-          subject: 'mon',
-          start: 1,
-        },
-        {
-          id: monthRuleId,
-          group: 1225,
-          context: 'month',
-          frequency_modifier: null,
-          frequency_ordinal: 1,
-          subject: 'week',
-          start: 2,
-        },
-      ],
+      rules: [],
       time_spans: [
         {
           description: {
@@ -160,41 +139,6 @@ const clickFormSave = (container: Element): void => {
   }
 
   fireEvent.click(saveButton);
-};
-
-const selectOption = async ({
-  container,
-  id,
-  value,
-}: {
-  container: Element;
-  id: string;
-  value: string;
-}): Promise<void> => {
-  await act(async () => {
-    const selectButtonSelector = `${id}-toggle-button`;
-    const selectButton = getElementOrThrow(container, selectButtonSelector);
-
-    fireEvent.click(selectButton);
-  });
-
-  await act(async () => {
-    const selectDropDownSelector = `${id}-menu`;
-    const selectMenu = getElementOrThrow(container, selectDropDownSelector);
-
-    const [optionToSelect] = Array.from(
-      selectMenu?.querySelectorAll('li') ?? []
-    ).filter(
-      (el) =>
-        el.textContent && el.textContent?.toLowerCase() === value.toLowerCase()
-    );
-
-    if (!optionToSelect) {
-      throw new Error(`${value} option not found`);
-    }
-
-    fireEvent.click(optionToSelect);
-  });
 };
 
 describe(`<EditNewOpeningPeriodPage />`, () => {
@@ -372,66 +316,6 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
     });
   });
 
-  it('should render correct time-span-group rules', async () => {
-    let container: Element;
-
-    await act(async () => {
-      container = renderEditOpeningPeriodPage();
-    });
-
-    await act(async () => {
-      const periodRuleFieldset = getElementOrThrow(
-        container,
-        `[data-test="rule-list-item-${periodRuleId}"]`
-      );
-
-      expect(
-        periodRuleFieldset.querySelector('button[id^="rule-context"]')
-      ).toHaveTextContent('Jakso');
-
-      expect(
-        periodRuleFieldset.querySelector('button[id^="rule-frequency"]')
-      ).toHaveTextContent('3. Parillinen');
-
-      expect(
-        periodRuleFieldset.querySelector('button[id^="rule-subject"]')
-      ).toHaveTextContent('Maanantai');
-
-      expect(
-        periodRuleFieldset.querySelector('button[id^="rule-start"]')
-      ).toHaveTextContent('1.');
-
-      expect(
-        periodRuleFieldset.querySelector('[data-test="rule-subject-indicator"]')
-      ).toHaveTextContent('Maanantai');
-
-      const monthRuleFieldset = getElementOrThrow(
-        container,
-        `[data-test="rule-list-item-${monthRuleId}"]`
-      );
-
-      expect(
-        monthRuleFieldset.querySelector('button[id^="rule-context"]')
-      ).toHaveTextContent('Kuukausi');
-
-      expect(
-        monthRuleFieldset.querySelector('button[id^="rule-frequency"]')
-      ).toHaveTextContent('Jokainen');
-
-      expect(
-        monthRuleFieldset.querySelector('button[id^="rule-subject"]')
-      ).toHaveTextContent('Viikko');
-
-      expect(
-        monthRuleFieldset.querySelector('button[id^="rule-start"]')
-      ).toHaveTextContent('2.');
-
-      expect(
-        monthRuleFieldset.querySelector('[data-test="rule-subject-indicator"]')
-      ).toHaveTextContent('Viikko');
-    });
-  });
-
   it('should show loading indicator while loading date period', async () => {
     jest.spyOn(api, 'getDatePeriod').mockImplementation(() => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -510,26 +394,7 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
             {
               id: 1225,
               period: 1,
-              rules: [
-                {
-                  context: 'period',
-                  frequency_modifier: 'even',
-                  frequency_ordinal: 3,
-                  id: 10,
-                  group: 1225,
-                  subject: 'mon',
-                  start: 1,
-                },
-                {
-                  context: 'month',
-                  frequency_modifier: null,
-                  frequency_ordinal: 1,
-                  id: 20,
-                  group: 1225,
-                  subject: 'week',
-                  start: 2,
-                },
-              ],
+              rules: testDatePeriod.time_span_groups[0].rules,
               time_spans: [
                 ...rest,
                 {
@@ -537,150 +402,6 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
                   resource_state: closedResourceState.value,
                 },
               ],
-            },
-          ],
-        })
-      );
-
-      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
-    });
-  });
-
-  it('should save added rules after edit', async () => {
-    let container: Element;
-
-    const patchDatePeriodSpy = jest
-      .spyOn(api, 'patchDatePeriod')
-      .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
-
-    await act(async () => {
-      container = renderEditOpeningPeriodPage();
-    });
-
-    await act(async () => {
-      const addRuleButton = getElementOrThrow(
-        container,
-        '[data-test="add-new-rule-button-0"]'
-      );
-      fireEvent.click(addRuleButton);
-    });
-
-    await act(async () => {
-      await selectOption({
-        container,
-        id: '#rule-context-0-2',
-        value: 'Jakso',
-      });
-    });
-
-    await act(async () => {
-      await selectOption({
-        container,
-        id: '#rule-frequency-0-2',
-        value: 'Joka toinen',
-      });
-    });
-
-    await act(async () => {
-      await selectOption({
-        container,
-        id: '#rule-subject-0-2',
-        value: 'Viikko',
-      });
-    });
-
-    await act(async () => {
-      await selectOption({
-        container,
-        id: '#rule-start-0-2',
-        value: '1.',
-      });
-    });
-
-    await act(async () => {
-      clickFormSave(container);
-    });
-
-    await act(async () => {
-      const timeSpans = testDatePeriod.time_span_groups[0].time_spans;
-      const { rules } = testDatePeriod.time_span_groups[0];
-
-      expect(patchDatePeriodSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          time_span_groups: [
-            {
-              id: 1225,
-              period: 1,
-              rules: [
-                ...rules,
-                {
-                  group: 1225,
-                  context: 'period',
-                  frequency_modifier: null,
-                  frequency_ordinal: 2,
-                  start: 1,
-                  subject: 'week',
-                },
-              ],
-              time_spans: timeSpans,
-            },
-          ],
-        })
-      );
-
-      expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
-    });
-  });
-
-  it('should remove rule', async () => {
-    let container: Element;
-
-    const patchDatePeriodSpy = jest
-      .spyOn(api, 'patchDatePeriod')
-      .mockImplementationOnce(() => Promise.resolve(testDatePeriod));
-
-    await act(async () => {
-      container = renderEditOpeningPeriodPage();
-    });
-
-    await act(async () => {
-      const periodRuleRemoveButton = getElementOrThrow(
-        container,
-        `[data-test="rule-list-item-${periodRuleId}"] [data-test^=remove-rule-button]`
-      );
-
-      fireEvent.click(periodRuleRemoveButton);
-    });
-
-    await act(async () => {
-      const saveButtonSelector = '[data-test="publish-opening-period-button"]';
-      const saveButton = container.querySelector(saveButtonSelector);
-      if (!saveButton) {
-        throw new Error(`Element with selector ${saveButton} not found`);
-      }
-
-      fireEvent.click(saveButton);
-    });
-
-    await act(async () => {
-      expect(patchDatePeriodSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          time_span_groups: [
-            {
-              id: 1225,
-              period: 1,
-              rules: [
-                {
-                  context: 'month',
-                  frequency_modifier: null,
-                  frequency_ordinal: 1,
-                  id: 20,
-                  group: 1225,
-                  subject: 'week',
-                  start: 2,
-                },
-              ],
-              time_spans: testDatePeriod.time_span_groups[0].time_spans,
             },
           ],
         })

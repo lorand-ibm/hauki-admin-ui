@@ -1,4 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
+import { act } from 'react-dom/test-utils';
+import { fireEvent } from '@testing-library/react';
+
 export function getElementOrThrow(
   container: Element | null,
   selector: string
@@ -13,4 +16,39 @@ export function getElementOrThrow(
   }
 
   return element;
+}
+
+export async function selectOption({
+  container,
+  id,
+  value,
+}: {
+  container: Element;
+  id: string;
+  value: string;
+}): Promise<void> {
+  await act(async () => {
+    const selectButtonSelector = `${id}-toggle-button`;
+    const selectButton = getElementOrThrow(container, selectButtonSelector);
+
+    fireEvent.click(selectButton);
+  });
+
+  await act(async () => {
+    const selectDropDownSelector = `${id}-menu`;
+    const selectMenu = getElementOrThrow(container, selectDropDownSelector);
+
+    const [optionToSelect] = Array.from(
+      selectMenu?.querySelectorAll('li') ?? []
+    ).filter(
+      (el) =>
+        el.textContent && el.textContent?.toLowerCase() === value.toLowerCase()
+    );
+
+    if (!optionToSelect) {
+      throw new Error(`${value} option not found`);
+    }
+
+    fireEvent.click(optionToSelect);
+  });
 }

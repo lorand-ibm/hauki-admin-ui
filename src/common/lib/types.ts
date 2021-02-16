@@ -176,7 +176,7 @@ export interface GroupRule extends BaseGroupRule {
   description?: LanguageStrings;
   created?: string;
   modified?: string;
-  start: number;
+  start?: number;
 }
 
 export interface GroupRuleFormFormat extends BaseGroupRule {
