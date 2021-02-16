@@ -32,7 +32,10 @@ export default function Rules({
 }): JSX.Element {
   const { control } = useFormContext();
   const ruleNamePrefix = `${namePrefix}[${groupIndex}].rules`;
-  const { fields, remove, append } = useFieldArray({
+  const { fields, remove, append } = useFieldArray<
+    GroupRuleFormFormat,
+    'ruleUiId'
+  >({
     control,
     name: ruleNamePrefix,
     keyName: 'ruleUiId',
@@ -49,7 +52,7 @@ export default function Rules({
           data-test="rule-list">
           {fields.map(
             (
-              rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>,
+              rule: Partial<ArrayField<GroupRuleFormFormat, 'ruleUiId'>>,
               index: number
             ) => (
               <li

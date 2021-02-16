@@ -28,7 +28,7 @@ export default function TimeSpan({
   resourceStateConfig,
   errors,
 }: {
-  item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
+  item: Partial<ArrayField<TimeSpanFormFormat, 'timeSpanUiId'>>;
   namePrefix: string;
   index: number;
   groupIndex: number;
@@ -57,7 +57,7 @@ export default function TimeSpan({
       <input
         type="hidden"
         name={`${timeSpanNamePrefix}.group`}
-        defaultValue={`${item.group || ''}`}
+        defaultValue={item.group}
         ref={register()}
       />
       <div className="time-span-first-header-row form-control">
@@ -95,7 +95,7 @@ export default function TimeSpan({
                     ),
                 })
               }
-              defaultValue={`${item.startTime}`}
+              defaultValue={item.startTime || ''}
               error={timeSpanErrors?.startTime?.message}
               id={`time-span-${groupIndex}-${index}-start-time`}
               name={`${timeSpanNamePrefix}.startTime`}
@@ -117,7 +117,7 @@ export default function TimeSpan({
                   ),
               })
             }
-            defaultValue={`${item.endTime}`}
+            defaultValue={item.endTime || ''}
             id={`time-span-end-time-${groupIndex}-${index}`}
             name={`${timeSpanNamePrefix}.endTime`}
             placeholder="--.--"
@@ -133,7 +133,7 @@ export default function TimeSpan({
           <Controller
             control={control}
             name={`${timeSpanNamePrefix}.resourceState`}
-            defaultValue={`${item.resourceState || ResourceState.OPEN}`}
+            defaultValue={item.resourceState || ResourceState.OPEN}
             render={({ onChange, value }): JSX.Element => (
               <Select
                 id={`time-span-state-id-${groupIndex}-${index}`}
@@ -159,7 +159,7 @@ export default function TimeSpan({
             id={`time-span-description-${groupIndex}-${index}`}
             name={`${timeSpanNamePrefix}.description`}
             className="time-span-description"
-            defaultValue={`${item.description || ''}`}
+            defaultValue={item.description || ''}
             label="Kuvaus"
             placeholder="Valinnainen lyhyt kuvaus esim. naisten vuoro"
           />

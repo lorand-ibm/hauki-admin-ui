@@ -46,16 +46,15 @@ export default function Weekdays({
   index: number;
   groupIndex: number;
   register: Function;
-  item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>;
+  item: Partial<ArrayField<TimeSpanFormFormat, 'timeSpanUiId'>>;
 }): JSX.Element {
-  const asWeekdaysValue = (item.weekdays as unknown) as FormWeekdays;
   const weekdaysNamePrefix = `${namePrefix}.weekdays`;
 
   return (
     <fieldset>
       <legend>Päivät *</legend>
       <DayCheckbox
-        weekdays={asWeekdaysValue}
+        weekdays={item.weekdays}
         register={register}
         dataTest={`weekdays-monday-${groupIndex}-${index}`}
         namePrefix={weekdaysNamePrefix}
@@ -63,7 +62,7 @@ export default function Weekdays({
         Ma
       </DayCheckbox>
       <DayCheckbox
-        weekdays={asWeekdaysValue}
+        weekdays={item.weekdays}
         register={register}
         dataTest={`weekdays-tuesday-${groupIndex}-${index}`}
         namePrefix={weekdaysNamePrefix}
@@ -71,7 +70,7 @@ export default function Weekdays({
         Ti
       </DayCheckbox>
       <DayCheckbox
-        weekdays={asWeekdaysValue}
+        weekdays={item.weekdays}
         register={register}
         dataTest={`weekdays-wednesday-${groupIndex}-${index}`}
         namePrefix={weekdaysNamePrefix}
@@ -79,7 +78,7 @@ export default function Weekdays({
         Ke
       </DayCheckbox>
       <DayCheckbox
-        weekdays={asWeekdaysValue}
+        weekdays={item.weekdays}
         register={register}
         dataTest={`weekdays-thursday-${groupIndex}-${index}`}
         namePrefix={weekdaysNamePrefix}
@@ -87,7 +86,7 @@ export default function Weekdays({
         To
       </DayCheckbox>
       <DayCheckbox
-        weekdays={asWeekdaysValue}
+        weekdays={item.weekdays}
         register={register}
         dataTest={`weekdays-friday-${groupIndex}-${index}`}
         namePrefix={weekdaysNamePrefix}
@@ -95,7 +94,7 @@ export default function Weekdays({
         Pe
       </DayCheckbox>
       <DayCheckbox
-        weekdays={asWeekdaysValue}
+        weekdays={item.weekdays}
         register={register}
         dataTest={`weekdays-saturday-${groupIndex}-${index}`}
         namePrefix={weekdaysNamePrefix}
@@ -103,7 +102,7 @@ export default function Weekdays({
         La
       </DayCheckbox>
       <DayCheckbox
-        weekdays={asWeekdaysValue}
+        weekdays={item.weekdays}
         register={register}
         dataTest={`weekdays-sunday-${groupIndex}-${index}`}
         namePrefix={weekdaysNamePrefix}

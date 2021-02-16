@@ -33,7 +33,10 @@ export default function TimeSpans({
   const { control } = useFormContext();
   const initTimeSpan: Partial<TimeSpanFormFormat> = { group: groupId ?? '' };
   const timeSpanNamePrefix = `${namePrefix}[${groupIndex}].timeSpans`;
-  const { fields, remove, append } = useFieldArray({
+  const { fields, remove, append } = useFieldArray<
+    TimeSpanFormFormat,
+    'timeSpanUiId'
+  >({
     control,
     keyName: 'timeSpanUiId',
     name: timeSpanNamePrefix,
@@ -54,7 +57,7 @@ export default function TimeSpans({
           data-test={`time-span-list-${groupIndex}`}>
           {fields.map(
             (
-              item: Partial<ArrayField<Record<string, TimeSpanFormFormat>>>,
+              item: Partial<ArrayField<TimeSpanFormFormat, 'timeSpanUiId'>>,
               index: number
             ) => (
               <li
