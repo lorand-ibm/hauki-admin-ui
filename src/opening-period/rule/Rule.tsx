@@ -99,7 +99,7 @@ export default function Rule({
   errors,
 }: {
   namePrefix: string;
-  rule: Partial<ArrayField<Record<string, GroupRuleFormFormat>>>;
+  rule: Partial<ArrayField<GroupRuleFormFormat, 'ruleUiId'>>;
   remove: Function;
   index: number;
   groupIndex: number;
@@ -129,16 +129,16 @@ export default function Rule({
   const ruleErrors = errors && errors[index];
 
   const selectedSubject = subjectOptions.find(
-    ({ value }: InputOption) => value === `${subject}`
+    ({ value }: InputOption) => value === subject
   );
   const [subjectLabel, setSubjectLabel] = useState<string>(
     selectedSubject?.label ?? ''
   );
 
-  const currentFrequency = {
+  const currentFrequency: Frequency = {
     frequency_modifier: frequencyModifier,
     frequency_ordinal: frequencyOrdinal,
-  } as Frequency;
+  };
 
   const knownFrequencyValues: FrequencyOption[] = [
     ...hardCodedFrequencyOptions,
@@ -231,7 +231,7 @@ export default function Rule({
       <input
         type="hidden"
         name={`${ruleNamePrefix}.group`}
-        defaultValue={`${group || ''}`}
+        defaultValue={group}
         ref={register()}
       />
       <div className="form-control-header">
@@ -248,7 +248,7 @@ export default function Rule({
           key={`rule-context-${groupIndex}-${index}`}
           name={`${ruleNamePrefix}.context`}
           control={control}
-          defaultValue={`${context || ''}`}
+          defaultValue={context || ''}
           rules={{
             required: {
               value: contextRequired,
@@ -293,7 +293,7 @@ export default function Rule({
           key={`rule-subject-${groupIndex}-${index}`}
           name={`${ruleNamePrefix}.subject`}
           control={control}
-          defaultValue={`${subject || ''}`}
+          defaultValue={subject || ''}
           rules={{
             required: {
               value: subjectRequired,
@@ -327,7 +327,7 @@ export default function Rule({
             key={`rule-start-${groupIndex}-${index}`}
             name={`${ruleNamePrefix}.start`}
             control={control}
-            defaultValue={`${startAt || ''}`}
+            defaultValue={startAt || ''}
             rules={{
               required: {
                 value: startRequired,

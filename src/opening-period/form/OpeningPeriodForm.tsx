@@ -11,7 +11,6 @@ import {
   DatePeriod,
   UiDatePeriodConfig,
   Language,
-  TimeSpanFormFormat,
   TimeSpanGroupFormFormat,
   UiFieldConfig,
   UiFormRuleConfig,
@@ -174,7 +173,7 @@ export default function OpeningPeriodForm({
     fields: timeSpanGroupFields,
     append: appendTimeSpanGroup,
     remove: removeTimeSpanGroup,
-  } = useFieldArray({
+  } = useFieldArray<TimeSpanGroupFormFormat, 'timeSpanGroupUiId'>({
     control,
     keyName: 'timeSpanGroupUiId',
     name: timeSpanGroupFieldName,
@@ -289,7 +288,7 @@ export default function OpeningPeriodForm({
         {timeSpanGroupFields.map(
           (
             timeSpanGroup: Partial<
-              ArrayField<Record<string, TimeSpanFormFormat>>
+              ArrayField<TimeSpanGroupFormFormat, 'timeSpanGroupUiId'>
             >,
             index: number
           ) => (
@@ -311,13 +310,13 @@ export default function OpeningPeriodForm({
               <input
                 type="hidden"
                 name={`${timeSpanGroupFieldName}[${index}].id`}
-                defaultValue={`${timeSpanGroup.id || ''}`}
+                defaultValue={timeSpanGroup.id}
                 ref={register()}
               />
               <input
                 type="hidden"
                 name={`${timeSpanGroupFieldName}[${index}].period`}
-                defaultValue={`${timeSpanGroup.period || ''}`}
+                defaultValue={timeSpanGroup.period}
                 ref={register()}
               />
               <TimeSpans
