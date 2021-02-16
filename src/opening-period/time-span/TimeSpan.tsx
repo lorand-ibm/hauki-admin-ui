@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import {
   ArrayField,
-  Controller,
   DeepMap,
   FieldError,
   useFormContext,
 } from 'react-hook-form';
-import { Checkbox, IconTrash, Select, TextInput } from 'hds-react';
+import { Checkbox, IconTrash, TextInput } from 'hds-react';
 import { SupplementaryButton } from '../../components/button/Button';
 import { ErrorText } from '../../components/icon-text/IconText';
+import ResourceStateSelect from '../../components/resourse-state-select/ResourceStateSelect';
 import Weekdays from './Weekdays';
 import './TimeSpan.scss';
 import TimeInput from './TimeInput';
 import {
   TimeSpanFormFormat,
-  InputOption,
   UiFieldConfig,
   ResourceState,
   LanguageStrings,
@@ -176,28 +175,13 @@ export default function TimeSpan({
           )}
       </div>
       <div className="form-control">
-        <div className="time-span-state-container">
-          <Controller
-            control={control}
-            name={`${timeSpanNamePrefix}.resourceState`}
-            defaultValue={item.resourceState || ResourceState.OPEN}
-            render={({ onChange, value }): JSX.Element => (
-              <Select
-                id={`time-span-state-id-${groupIndex}-${index}`}
-                onChange={(selected: InputOption): void => {
-                  onChange(selected.value);
-                }}
-                className="time-span-state"
-                defaultValue={resourceStateOptions.find(
-                  (option: InputOption): boolean => option.value === value
-                )}
-                options={resourceStateOptions}
-                label="Tyyppi"
-                placeholder="Valitse tyyppi"
-              />
-            )}
-          />
-        </div>
+        <ResourceStateSelect
+          control={control}
+          name={`${timeSpanNamePrefix}.resourceState`}
+          value={`${item.resourceState || ResourceState.OPEN}`}
+          id={`time-span-state-id-${groupIndex}-${index}`}
+          options={resourceStateOptions}
+        />
       </div>
       <div className="form-control">
         <div className="opening-period-text-group">
