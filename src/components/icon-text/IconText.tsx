@@ -2,7 +2,6 @@ import React from 'react';
 import { IconAlertCircle } from 'hds-react';
 import './IconText.scss';
 
-// eslint-disable-next-line import/prefer-default-export
 export function ErrorText({ message }: { message: string }): JSX.Element {
   return (
     <div className="hds-text-input__helper-text custom-icon-text">
