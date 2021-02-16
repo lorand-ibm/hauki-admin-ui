@@ -14,7 +14,7 @@ import { dropMilliseconds } from '../../../common/utils/date-time/format';
 const filterValidTimeSpan = (value: TimeSpanFormFormat | {}): boolean =>
   Object.keys(value).length > 0;
 
-const handleApiLanguageStrings = (
+const formatDescriptionToApiFormat = (
   object?: LanguageStrings
 ): LanguageStrings | undefined =>
   !object
@@ -44,7 +44,7 @@ function formatTimeSpansToApiFormat(
       return {
         ...(id && id !== '' ? { id: parseInt(id, 10) } : {}),
         ...(group && group !== '' ? { group: parseInt(group, 10) } : {}),
-        description: handleApiLanguageStrings(description),
+        description: formatDescriptionToApiFormat(description),
         end_time: endTime ? `${endTime}:00` : null,
         start_time: startTime ? `${startTime}:00` : null,
         resource_state: resourceState,
