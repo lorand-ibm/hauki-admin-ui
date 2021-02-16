@@ -42,7 +42,7 @@
 .checkbox-container {
   display: flex;
   align-items: center;
-  height: var(--spacing-3-xl);
+  height: var(--spacing-3-xl); // 56px, it is the height of the input
 }
 
 .time-span-end-time-input-wrapper {
