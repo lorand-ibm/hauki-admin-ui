@@ -11,6 +11,7 @@ import {
   DatePeriod,
   Language,
   LanguageStrings,
+  ResourceState,
   TimeSpanGroupFormFormat,
   UiFieldConfig,
   UiFormRuleConfig,
@@ -28,6 +29,7 @@ import {
   SupplementaryButton,
 } from '../../components/button/Button';
 import { ErrorText } from '../../components/icon-text/IconText';
+import ResourceStateSelect from '../../components/resourse-state-select/ResourceStateSelect';
 import toast from '../../components/notification/Toast';
 import {
   formatTimeSpanGroupsToApiFormat,
@@ -43,6 +45,7 @@ interface OpeningPeriodFormData {
   openingPeriodOptionalDescription: LanguageStrings;
   openingPeriodBeginDate: string | undefined;
   openingPeriodEndDate: string | undefined;
+  openingPeriodResourceState: ResourceState | undefined;
   timeSpanGroups: TimeSpanGroupFormFormat[];
 }
 
@@ -151,11 +154,14 @@ export default function OpeningPeriodForm({
     datePeriod?.end_date ? new Date(datePeriod?.end_date) : null
   );
 
+  const openingPeriodResourceStateKey = 'openingPeriodResourceState';
+
   const formValues: OpeningPeriodFormData = {
     openingPeriodTitle: datePeriod?.name || emptyLanguages,
     openingPeriodOptionalDescription: datePeriod?.description || emptyLanguages,
     openingPeriodBeginDate: datePeriod?.start_date,
     openingPeriodEndDate: datePeriod?.end_date,
+    openingPeriodResourceState: datePeriod?.resource_state,
     timeSpanGroups: [defaultTimeSpanGroup],
   };
 
@@ -174,6 +180,10 @@ export default function OpeningPeriodForm({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getValues,
   } = formMethods;
+
+  const clearResourceState = (): void => {
+    setValue(openingPeriodResourceStateKey, 'undefined');
+  };
 
   const timeSpanGroupFieldName = 'timeSpanGroups';
 
@@ -205,6 +215,7 @@ export default function OpeningPeriodForm({
         end_date: data.openingPeriodEndDate
           ? transformDateToApiFormat(data.openingPeriodEndDate)
           : undefined,
+        resource_state: data.openingPeriodResourceState,
         override: forceException || datePeriod?.override || false,
         time_span_groups: formatTimeSpanGroupsToApiFormat(data.timeSpanGroups),
       };
@@ -288,6 +299,28 @@ export default function OpeningPeriodForm({
                   message={errors.openingPeriodEndDate.message}
                 />
               )}
+          </div>
+        </section>
+        <section className="form-section">
+          <h3 className="opening-period-section-title">Jakson tila</h3>
+          <div className="form-control">
+            <div className="form-actions-row">
+              <ResourceStateSelect
+                control={control}
+                name={openingPeriodResourceStateKey}
+                id={openingPeriodResourceStateKey}
+                value={datePeriod?.resource_state}
+                options={resourceStateConfig.options}
+              />
+              <SupplementaryButton
+                dataTest="clear-resource-state"
+                onClick={(): void => {
+                  clearResourceState();
+                }}
+                iconLeft={<IconTrash />}>
+                Tyhjennä valinta
+              </SupplementaryButton>
+            </div>
           </div>
         </section>
         {timeSpanGroupFields.map(
