@@ -18,7 +18,7 @@ const testDatePeriod: DatePeriod = {
   description: { fi: 'Testikuvaus', sv: '', en: '' },
   start_date: '',
   end_date: '2020-11-21',
-  resource_state: ResourceState.OPEN,
+  resource_state: ResourceState.UNDEFINED,
   override: false,
   resource: 1,
   time_span_groups: [
@@ -132,6 +132,25 @@ const testDatePeriodFullDayOpen: DatePeriod = {
 
 const testDatePeriodFullDayClosed: DatePeriod = {
   ...testDatePeriod,
+  time_span_groups: [
+    {
+      ...testDatePeriod.time_span_groups[0],
+      time_spans: [
+        {
+          ...testDatePeriod.time_span_groups[0].time_spans[0],
+          start_time: null,
+          end_time: null,
+          full_day: true,
+          resource_state: ResourceState.CLOSED,
+        },
+      ],
+    },
+  ],
+};
+
+const testDatePeriodStatusAlwaysOpen: DatePeriod = {
+  ...testDatePeriod,
+  resource_state: ResourceState.OPEN,
   time_span_groups: [
     {
       ...testDatePeriod.time_span_groups[0],
@@ -263,5 +282,20 @@ describe(`<PeriodOpeningHours />`, () => {
         'p[data-test="time-span-start-end-times-string-0"]'
       )?.textContent
     ).toEqual('');
+  });
+
+  it('should show period status', async () => {
+    const { container } = render(
+      <PeriodOpeningHours
+        datePeriod={testDatePeriodStatusAlwaysOpen}
+        datePeriodConfig={testDatePeriodOptions}
+        language={Language.FI}
+      />
+    );
+
+    expect(
+      await container?.querySelector('p[data-test="period-status"]')
+        ?.textContent
+    ).toEqual('Aina auki');
   });
 });

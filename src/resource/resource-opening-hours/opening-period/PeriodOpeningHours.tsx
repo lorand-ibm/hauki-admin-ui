@@ -26,6 +26,38 @@ function findResourceStateLabelByValueAndLang(
   return resourceStateObj ? resourceStateObj[language] : null;
 }
 
+function renderPeriodStatusByLanguage(
+  periodStatus: ResourceState | undefined,
+  language: Language,
+  stateOptions: UiOptionsFieldConfig
+): JSX.Element {
+  if (periodStatus === 'open' || periodStatus === 'closed') {
+    const always = {
+      fi: 'Aina',
+      sv: 'Alltid',
+      en: 'Always',
+    };
+
+    return (
+      <p data-test="period-status">{`${
+        always[language]
+      } ${findResourceStateLabelByValueAndLang(
+        periodStatus,
+        stateOptions,
+        language
+      )?.toLowerCase()}`}</p>
+    );
+  }
+
+  return (
+    <p>{`${findResourceStateLabelByValueAndLang(
+      periodStatus,
+      stateOptions,
+      language
+    )}`}</p>
+  );
+}
+
 function renderStartAndEndTimes(
   startTime?: string | null,
   endTime?: string | null,
@@ -87,39 +119,51 @@ export default function PeriodOpeningHours({
   datePeriodConfig: UiDatePeriodConfig;
   language: Language;
 }): JSX.Element {
-  const timeSpans = datePeriod.time_span_groups[0].time_spans;
+  const datePeriodStatus = datePeriod.resource_state;
+
+  const timeSpans = datePeriod.time_span_groups[0]?.time_spans;
 
   return (
     <div data-test="period-opening-hours-container">
-      {timeSpans.map((timeSpan, index) => {
-        return (
-          <div data-test="time-span-row" className="time-span-row" key={index}>
-            <p data-test={`time-span-weekday-string-${index}`}>
-              {createWeekdaysStringFromIndices(timeSpan.weekdays, language)}
-            </p>
-            <p data-test={`time-span-start-end-times-string-${index}`}>
-              {renderStartAndEndTimes(
-                timeSpan.start_time,
-                timeSpan.end_time,
-                timeSpan.full_day,
-                timeSpan.resource_state
-              )}
-            </p>
-            <p data-test={`time-span-resource-state-${index}`}>
-              {findResourceStateLabelByValueAndLang(
-                timeSpan.resource_state,
-                datePeriodConfig.resourceState,
-                language
-              ) || 'Auki'}
-            </p>
-            <p
-              data-test={`time-span-description-${index}`}
-              className="time-span-preview-description">
-              {renderTimeSpanDescription(timeSpan.description, language)}
-            </p>
-          </div>
-        );
-      })}
+      {datePeriodStatus !== 'undefined' &&
+        renderPeriodStatusByLanguage(
+          datePeriodStatus,
+          language,
+          datePeriodConfig.resourceState
+        )}
+      {datePeriodStatus === 'undefined' &&
+        timeSpans.map((timeSpan, index) => {
+          return (
+            <div
+              data-test="time-span-row"
+              className="time-span-row"
+              key={index}>
+              <p data-test={`time-span-weekday-string-${index}`}>
+                {createWeekdaysStringFromIndices(timeSpan.weekdays, language)}
+              </p>
+              <p data-test={`time-span-start-end-times-string-${index}`}>
+                {renderStartAndEndTimes(
+                  timeSpan.start_time,
+                  timeSpan.end_time,
+                  timeSpan.full_day,
+                  timeSpan.resource_state
+                )}
+              </p>
+              <p data-test={`time-span-resource-state-${index}`}>
+                {findResourceStateLabelByValueAndLang(
+                  timeSpan.resource_state,
+                  datePeriodConfig.resourceState,
+                  language
+                ) || 'Auki'}
+              </p>
+              <p
+                data-test={`time-span-description-${index}`}
+                className="time-span-preview-description">
+                {renderTimeSpanDescription(timeSpan.description, language)}
+              </p>
+            </div>
+          );
+        })}
     </div>
   );
 }

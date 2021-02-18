@@ -17,6 +17,7 @@ export enum ResourceState {
   OPEN = 'open',
   SELF_SERVICE = 'self_service',
   CLOSED = 'closed',
+  UNDEFINED = 'undefined',
 }
 
 export enum WeekdayTypes {
