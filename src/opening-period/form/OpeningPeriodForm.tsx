@@ -6,7 +6,7 @@ import {
   useForm,
 } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { IconAlertCircle, IconPlus, IconTrash } from 'hds-react';
+import { IconAlertCircle, IconPlus, IconTrash, Notification } from 'hds-react';
 import {
   DatePeriod,
   Language,
@@ -179,11 +179,18 @@ export default function OpeningPeriodForm({
     setValue,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getValues,
+    watch,
   } = formMethods;
 
   const clearResourceState = (): void => {
     setValue(openingPeriodResourceStateKey, 'undefined');
   };
+
+  const resourceStateWatcher = watch(openingPeriodResourceStateKey);
+
+  const hasPeriodResourceState =
+    resourceStateWatcher &&
+    resourceStateWatcher !== ('undefined' as ResourceState);
 
   const timeSpanGroupFieldName = 'timeSpanGroups';
 
@@ -323,55 +330,70 @@ export default function OpeningPeriodForm({
             </div>
           </div>
         </section>
-        {timeSpanGroupFields.map(
-          (
-            timeSpanGroup: Partial<
-              ArrayField<TimeSpanGroupFormFormat, 'timeSpanGroupUiId'>
-            >,
-            index: number
-          ) => (
-            <section
-              key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
-              data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
-              className="form-section time-span-group">
-              <div className="form-actions-row">
-                <h3 className="opening-period-section-title">Aukioloryhmä</h3>
-                <SupplementaryButton
-                  dataTest="remove-time-span-group"
-                  onClick={(): void => {
-                    removeTimeSpanGroup(index);
-                  }}
-                  iconLeft={<IconTrash />}>
-                  Poista aukioloryhmä
-                </SupplementaryButton>
-              </div>
-              <input
-                type="hidden"
-                name={`${timeSpanGroupFieldName}[${index}].id`}
-                defaultValue={timeSpanGroup.id}
-                ref={register()}
-              />
-              <input
-                type="hidden"
-                name={`${timeSpanGroupFieldName}[${index}].period`}
-                defaultValue={timeSpanGroup.period}
-                ref={register()}
-              />
-              <TimeSpans
-                groupIndex={index}
-                groupId={timeSpanGroup.id}
-                namePrefix={timeSpanGroupFieldName}
-                resourceStateConfig={resourceStateConfig}
-                errors={errors.timeSpanGroups}
-              />
-              <Rules
-                groupIndex={index}
-                groupId={timeSpanGroup.id}
-                namePrefix={timeSpanGroupFieldName}
-                ruleConfig={ruleConfig}
-                errors={errors.timeSpanGroups}
-              />
-            </section>
+        {resourceStateWatcher &&
+        resourceStateWatcher !== ('undefined' as ResourceState) ? (
+          <section
+            key="resource-state-notification"
+            data-test="resource-state-notification"
+            className="form-section time-span-group">
+            <Notification
+              label="Aukiolojaksolle on valittu aukiolotyyppi"
+              className="opening-period-form-notification">
+              Kun aukiolojaksolle on valittu aukiolotyyppi niin se yliajaa
+              jakson kaikki muut mahdolliset aukiolot.
+            </Notification>
+          </section>
+        ) : (
+          timeSpanGroupFields.map(
+            (
+              timeSpanGroup: Partial<
+                ArrayField<TimeSpanGroupFormFormat, 'timeSpanGroupUiId'>
+              >,
+              index: number
+            ) => (
+              <section
+                key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
+                data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
+                className="form-section time-span-group">
+                <div className="form-actions-row">
+                  <h3 className="opening-period-section-title">Aukioloryhmä</h3>
+                  <SupplementaryButton
+                    dataTest="remove-time-span-group"
+                    onClick={(): void => {
+                      removeTimeSpanGroup(index);
+                    }}
+                    iconLeft={<IconTrash />}>
+                    Poista aukioloryhmä
+                  </SupplementaryButton>
+                </div>
+                <input
+                  type="hidden"
+                  name={`${timeSpanGroupFieldName}[${index}].id`}
+                  defaultValue={timeSpanGroup.id}
+                  ref={register()}
+                />
+                <input
+                  type="hidden"
+                  name={`${timeSpanGroupFieldName}[${index}].period`}
+                  defaultValue={timeSpanGroup.period}
+                  ref={register()}
+                />
+                <TimeSpans
+                  groupIndex={index}
+                  groupId={timeSpanGroup.id}
+                  namePrefix={timeSpanGroupFieldName}
+                  resourceStateConfig={resourceStateConfig}
+                  errors={errors.timeSpanGroups}
+                />
+                <Rules
+                  groupIndex={index}
+                  groupId={timeSpanGroup.id}
+                  namePrefix={timeSpanGroupFieldName}
+                  ruleConfig={ruleConfig}
+                  errors={errors.timeSpanGroups}
+                />
+              </section>
+            )
           )
         )}
         <div className="form-actions-row form-actions-row-condensed">
