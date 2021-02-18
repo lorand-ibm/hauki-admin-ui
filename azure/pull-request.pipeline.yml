@@ -37,4 +37,4 @@ steps:
     PathtoPublish: '$(Build.SourcesDirectory)/cypress/videos'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-  condition: succeededOrFailed()
+  condition: failed()
