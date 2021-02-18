@@ -6,7 +6,9 @@ describe('User edits an opening period', () => {
   let dataPeriodId: string | undefined;
   const resourceId = Cypress.env('resource-id');
   const datePeriodTitlePrefix = 'e2e-test Muokkaamisen testijakson otsikko';
-  const newTitle = `${datePeriodTitlePrefix} ${new Date().toJSON()}`;
+  const finnishTitle = `${datePeriodTitlePrefix} suomeksi ${new Date().toJSON()}`;
+  const newFinnishTitle = `${datePeriodTitlePrefix} suomeksi muutettu ${new Date().toJSON()}`;
+  const swedishTitle = `${datePeriodTitlePrefix} ruotsiksi ${new Date().toJSON()}`;
   const startDate = new Date();
   const endDate = new Date();
   endDate.setDate(new Date().getDate() + 1);
@@ -21,7 +23,7 @@ describe('User edits an opening period', () => {
 
   before(() => {
     cy.createDatePeriod({
-      name: newTitle,
+      name: { fi: finnishTitle, sv: swedishTitle, en: null },
       startDate,
       endDate,
       resourceId,
@@ -51,15 +53,20 @@ describe('User edits an opening period', () => {
       timeout: 5000,
     }).should('be.visible');
 
-    // Start editing by checking the old title
-    cy.get('[data-test=openingPeriodTitle]')
+    // Start editing by checking the finnish title
+    cy.get('[data-test=opening-period-title-fi]')
       .invoke('val')
-      .should('not.be', undefined);
+      .should('equal', finnishTitle);
 
-    // Change the title
-    cy.get('[data-test=openingPeriodTitle]')
+    // And then check swedish title
+    cy.get('[data-test=opening-period-title-sv]')
+      .invoke('val')
+      .should('equal', swedishTitle);
+
+    // Change the finnish title
+    cy.get('[data-test=opening-period-title-fi]')
       .clear()
-      .type(newTitle, { log: true });
+      .type(newFinnishTitle, { log: true });
 
     // Change timespan data
     cy.get('[data-test=weekdays-monday-0-0-checkbox]').should('be.checked');
@@ -86,7 +93,7 @@ describe('User edits an opening period', () => {
     // Check that updated title exists in the date-period's list item on the resource page
     cy.get(`[data-test="openingPeriod-${dataPeriodId}"]`).should(
       'contain',
-      newTitle
+      newFinnishTitle
     );
   });
 });

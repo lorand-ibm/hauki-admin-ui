@@ -163,7 +163,7 @@ describe(`<OpeningPeriodForm />`, () => {
 
       await act(async () => {
         const requiredIndicator = await screen.findByText(
-          'Aukiolojakson otsikko on pakollinen'
+          'Aukiolojaksolla on oltava otsikko ainakin yhdellä kielellä.'
         );
         expect(requiredIndicator).toBeInTheDocument();
       });

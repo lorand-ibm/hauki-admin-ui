@@ -2,23 +2,58 @@ import React from 'react';
 import { FieldErrors } from 'react-hook-form/dist/types/errors.d';
 import { TextArea, TextInput } from 'hds-react';
 import './OpeningPeriodDescription.scss';
-import { TextFieldConfig } from '../../common/lib/types';
+import {
+  Language,
+  LanguageStrings,
+  TextFieldConfig,
+} from '../../common/lib/types';
+import {
+  ErrorText,
+  NotificationText,
+} from '../../components/icon-text/IconText';
 
 type TFieldValues = {
-  openingPeriodTitle: string;
+  openingPeriodTitle: LanguageStrings;
+};
+
+const titleLabelTexts: LanguageStrings = {
+  fi: 'Otsikko suomeksi',
+  sv: 'Otsikko ruotsiksi',
+  en: 'Otsikko englanniksi',
+};
+
+const titlePlaceholderTexts: LanguageStrings = {
+  fi: 'Esim. Kevään aukiolot',
+  sv: 'Esim. Värets öppetider',
+  en: 'Esim. Spring opening hours',
+};
+
+const descriptionLabelTexts: LanguageStrings = {
+  fi: 'Valinnainen kuvaus suomeksi',
+  sv: 'Valinnainen kuvaus ruotsiksi',
+  en: 'Valinnainen kuvaus englanniksi',
+};
+
+const descriptionPlaceholderTexts: LanguageStrings = {
+  fi: 'Esim. Kevään aukioloihin voi tulla muutoksia juhlapyhien aikaan.',
+  sv: 'Esim. Värets öppetider kan ändras under helger.',
+  en: 'Esim. Opening hours can change during holidays',
 };
 
 export default function OpeningPeriodDescription({
   register,
   errors,
+  getValues,
+  clearErrors,
   nameFieldConfig,
 }: {
   register: Function;
   errors: FieldErrors<TFieldValues>;
+  getValues: Function;
+  clearErrors: Function;
   nameFieldConfig: TextFieldConfig;
 }): JSX.Element {
-  const hasError =
-    errors.openingPeriodTitle && errors.openingPeriodTitle.type === 'required';
+  const hasError = !!errors.openingPeriodTitle;
 
   const titleMaxLength: number | undefined = nameFieldConfig.max_length;
 
@@ -26,39 +61,63 @@ export default function OpeningPeriodDescription({
     <>
       <h3 className="opening-period-section-title">Jakson kuvaus</h3>
       <div className="form-control">
-        <label htmlFor="openingPeriodTitle" className="form-label">
-          Aukiolojakson otsikko *
-        </label>
-        <TextInput
-          className="opening-period-title-input"
-          type="text"
-          name="openingPeriodTitle"
-          data-test="openingPeriodTitle"
-          id="openingPeriodTitle"
-          aria-invalid={errors.openingPeriodTitle ? 'true' : 'false'}
-          ref={register({
-            required: true,
-            maxLength: titleMaxLength,
-          })}
-          helperText={
-            hasError ? 'Aukiolojakson otsikko on pakollinen' : undefined
-          }
-          invalid={hasError}
-          {...(titleMaxLength ? { maxLength: titleMaxLength } : {})}
-        />
+        <div className="opening-period-text-group">
+          {Object.values(Language).map((languageKey: Language) => (
+            <TextInput
+              key={`openingPeriodTitle-${languageKey}`}
+              label={titleLabelTexts[languageKey]}
+              type="text"
+              name={`openingPeriodTitle[${languageKey}]`}
+              data-test={`opening-period-title-${languageKey}`}
+              id={`openingPeriodTitle-${languageKey}`}
+              aria-invalid={errors.openingPeriodTitle ? 'true' : 'false'}
+              ref={register({
+                validate: {
+                  requireOne: (value: string): boolean => {
+                    clearErrors('openingPeriodTitle');
+
+                    if (value) {
+                      return true;
+                    }
+                    const allTitleTranslations: (
+                      | string
+                      | null
+                    )[] = Object.values(getValues()?.openingPeriodTitle ?? []);
+
+                    return !!allTitleTranslations.find(
+                      (translation) => !!translation
+                    );
+                  },
+                },
+                maxLength: titleMaxLength,
+              })}
+              invalid={hasError}
+              {...(titleMaxLength ? { maxLength: titleMaxLength } : {})}
+              placeholder={titlePlaceholderTexts[languageKey] || ''}
+            />
+          ))}
+        </div>
+        {hasError ? (
+          <ErrorText message="Aukiolojaksolla on oltava otsikko ainakin yhdellä kielellä." />
+        ) : (
+          <NotificationText message="Aukiolojaksolla on oltava otsikko ainakin yhdellä kielellä." />
+        )}
       </div>
       <div className="form-control">
-        <label htmlFor="openingPeriodOptionalDescription">
-          Jakson valinnainen kuvaus
-        </label>
-        <TextArea
-          cols={90}
-          rows={9}
-          className="opening-period-optional-description"
-          id="openingPeriodOptionalDescription"
-          name="openingPeriodOptionalDescription"
-          ref={register({ maxLength: 255 })}
-        />
+        <div className="opening-period-text-group">
+          {Object.values(Language).map((languageKey: Language) => (
+            <TextArea
+              key={`opening-period-description-${languageKey}`}
+              cols={90}
+              label={descriptionLabelTexts[languageKey]}
+              name={`openingPeriodOptionalDescription[${languageKey}]`}
+              id={`opening-period-description-${languageKey}`}
+              className="opening-period-text-group-textarea"
+              ref={register({ maxLength: 255 })}
+              placeholder={descriptionPlaceholderTexts[languageKey] || ''}
+            />
+          ))}
+        </div>
       </div>
     </>
   );

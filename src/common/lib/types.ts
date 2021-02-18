@@ -59,7 +59,7 @@ export type FormWeekdays = [
 export type TimeSpanFormFormat = {
   id?: string;
   group?: string;
-  description: string;
+  description?: LanguageStrings;
   endTime: string;
   startTime: string;
   fullDay: boolean;

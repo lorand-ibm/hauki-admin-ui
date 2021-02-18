@@ -16,7 +16,7 @@ describe('opening-period form-helpers', () => {
             timeSpans: [
               {
                 group: '1100',
-                description: 'description text A',
+                description: { en: null, fi: 'description text A', sv: null },
                 startTime: '10:00',
                 endTime: '',
                 resourceState: ResourceState.OPEN,
@@ -151,7 +151,7 @@ describe('opening-period form-helpers', () => {
             {
               id: '1234',
               group: '1100',
-              description: 'description text A',
+              description: { en: null, fi: 'description text A', sv: null },
               startTime: '10:00',
               endTime: '18:00',
               fullDay: false,
@@ -161,7 +161,7 @@ describe('opening-period form-helpers', () => {
             {
               id: '3456',
               group: '1100',
-              description: 'description text C',
+              description: { en: null, fi: 'description text C', sv: null },
               startTime: '12:00',
               endTime: '18:00',
               fullDay: true,
@@ -171,7 +171,7 @@ describe('opening-period form-helpers', () => {
             {
               id: '2345',
               group: '1100',
-              description: 'description text B',
+              description: { en: null, fi: 'description text B', sv: null },
               startTime: '10:00',
               endTime: '18:00',
               fullDay: false,

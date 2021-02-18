@@ -2,6 +2,8 @@ import {
   FormWeekdays,
   GroupRule,
   GroupRuleFormFormat,
+  Language,
+  LanguageStrings,
   TimeSpan as TimeSpanApiFormat,
   TimeSpanFormFormat,
   TimeSpanGroup,
@@ -11,6 +13,19 @@ import { dropMilliseconds } from '../../../common/utils/date-time/format';
 
 const filterValidTimeSpan = (value: TimeSpanFormFormat | {}): boolean =>
   Object.keys(value).length > 0;
+
+const formatDescriptionToApiFormat = (
+  object?: LanguageStrings
+): LanguageStrings | undefined =>
+  !object
+    ? undefined
+    : Object.keys(object).reduce<LanguageStrings>(
+        (acc: LanguageStrings, current: string): LanguageStrings => {
+          const value: string | null = object[current as Language];
+          return { ...acc, [current]: value || null };
+        },
+        { fi: null, sv: null, en: null }
+      );
 
 function formatTimeSpansToApiFormat(
   timeSpans: TimeSpanFormFormat[]
@@ -29,11 +44,7 @@ function formatTimeSpansToApiFormat(
       return {
         ...(id && id !== '' ? { id: parseInt(id, 10) } : {}),
         ...(group && group !== '' ? { group: parseInt(group, 10) } : {}),
-        description: {
-          fi: description ?? '',
-          sv: null,
-          en: null,
-        },
+        description: formatDescriptionToApiFormat(description),
         end_time: endTime ? `${endTime}:00` : null,
         start_time: startTime ? `${startTime}:00` : null,
         resource_state: resourceState,
@@ -75,7 +86,7 @@ function formatApiTimeSpansToFormFormat(
       return {
         id: apiTimeSpan.id ? apiTimeSpan.id.toString() : undefined,
         group: apiTimeSpan.group ? apiTimeSpan.group.toString() : undefined,
-        description: apiTimeSpan.description?.fi || '',
+        description: apiTimeSpan.description,
         startTime: apiTimeSpan.start_time
           ? dropMilliseconds(apiTimeSpan.start_time)
           : '',

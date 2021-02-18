@@ -56,6 +56,16 @@
   margin: 0;
 }
 
+.opening-period-text-group {
+  display: grid;
+  grid-gap: $spacing-s;
+  grid-template-columns: repeat(auto-fill, minmax(345px, 1fr));
+}
+
+.opening-period-text-group-textarea {
+  --textarea-height: 6rem;
+}
+
 .opening-period-time-period {
   display: flex;
 }
