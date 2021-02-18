@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import { AuthContextProps, useAuth } from '../auth/auth-context';
 import api from '../common/utils/api/api';
+import Main from '../components/main/Main';
 
 const PermissionResolver = ({
   id,
@@ -50,9 +51,9 @@ const PermissionResolver = ({
 
   if (isLoading) {
     return (
-      <div>
+      <Main id="main">
         <h1>Sivua alustetaan..</h1>
-      </div>
+      </Main>
     );
   }
 
