@@ -346,7 +346,7 @@ export default function OpeningPeriodForm({
             Luo uusi aukioloryhmä tähän jaksoon
           </SupplementaryButton>
           <p className="opening-period-notification-text">
-            <IconAlertCircle />
+            <IconAlertCircle area-hidden="true" />
             <span>
               Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
               aukioloaikoja useammilla eri säännöillä

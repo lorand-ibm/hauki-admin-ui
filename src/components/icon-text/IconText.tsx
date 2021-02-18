@@ -6,7 +6,7 @@ export function ErrorText({ message }: { message: string }): JSX.Element {
   return (
     <div className="hds-text-input__helper-text custom-icon-text">
       <span className="text-danger">
-        <IconAlertCircle />
+        <IconAlertCircle area-hidden="true" />
       </span>
       <span className="text-danger">{message}</span>
     </div>
@@ -21,7 +21,7 @@ export function NotificationText({
   return (
     <div className="hds-text-input__helper-text custom-icon-text">
       <span>
-        <IconAlertCircle />
+        <IconAlertCircle area-hidden="true" />
       </span>
       <span>{message}</span>
     </div>
