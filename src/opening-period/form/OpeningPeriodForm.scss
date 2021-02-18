@@ -99,6 +99,10 @@
   }
 }
 
+.opening-period-clear-state-button {
+  margin-top: 1.25rem; // Align center with the input, not with input and label. Press down the label height: 1rem + bottom-margin 0.25rem
+}
+
 .opening-period-final-action-row-container {
   margin-top: 116px;
 }

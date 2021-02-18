@@ -321,6 +321,7 @@ export default function OpeningPeriodForm({
                   options={resourceStateConfig.options}
                 />
                 <SupplementaryButton
+                  className="opening-period-clear-state-button"
                   dataTest="clear-resource-state"
                   onClick={(): void => {
                     clearResourceState();
