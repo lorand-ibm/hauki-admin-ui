@@ -8,10 +8,22 @@
   }
 }
 
+.form-sections-small {
+  display: flex;
+  margin: 0 ($spacing-layout-s / 2 * -1);
+  flex-wrap: wrap;
+}
+
 .form-section {
   background-color: white;
   margin-bottom: $spacing-layout-xs;
   padding: $spacing-layout-s $spacing-layout-s $spacing-layout-m;
+
+  .form-sections-small > & {
+    flex: 1 1 300px;
+    margin-left: $spacing-layout-s / 2;
+    margin-right: $spacing-layout-s / 2;
+  }
 }
 
 .form-group {

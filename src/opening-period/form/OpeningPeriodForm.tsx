@@ -273,63 +273,65 @@ export default function OpeningPeriodForm({
             nameFieldConfig={nameFieldConfig}
           />
         </section>
-        <section className="form-section">
-          <h3 className="opening-period-section-title">Ajanjakso</h3>
-          <div className="form-control">
-            <section className="opening-period-time-period">
-              <Datepicker
-                id="openingPeriodBeginDate"
-                dataTest="openingPeriodBeginDate"
-                labelText="Alkaa"
-                onChange={(value): void => setPeriodBeginDate(value || null)}
-                value={periodBeginDate}
-                error={errors.openingPeriodBeginDate}
-                registerFn={register}
-              />
-              <p className="dash-between-begin-and-end-date">—</p>
-              <Datepicker
-                id="openingPeriodEndDate"
-                dataTest="openingPeriodEndDate"
-                labelText="Päättyy"
-                onChange={(value): void => setPeriodEndDate(value || null)}
-                value={periodEndDate}
-                registerFn={register}
-                customValidations={{
-                  dateRange: validateEndInputWithStartDate(periodBeginDate),
-                }}
-              />
-            </section>
-            {errors.openingPeriodEndDate?.type === 'dateRange' &&
-              errors.openingPeriodEndDate?.message && (
-                <ErrorText
-                  id="opening-period-date-error-text"
-                  message={errors.openingPeriodEndDate.message}
+        <div className="form-sections-small">
+          <section className="form-section">
+            <h3 className="opening-period-section-title">Ajanjakso</h3>
+            <div className="form-control">
+              <section className="opening-period-time-period">
+                <Datepicker
+                  id="openingPeriodBeginDate"
+                  dataTest="openingPeriodBeginDate"
+                  labelText="Alkaa"
+                  onChange={(value): void => setPeriodBeginDate(value || null)}
+                  value={periodBeginDate}
+                  error={errors.openingPeriodBeginDate}
+                  registerFn={register}
                 />
-              )}
-          </div>
-        </section>
-        <section className="form-section">
-          <h3 className="opening-period-section-title">Jakson tila</h3>
-          <div className="form-control">
-            <div className="form-actions-row">
-              <ResourceStateSelect
-                control={control}
-                name={openingPeriodResourceStateKey}
-                id={openingPeriodResourceStateKey}
-                value={datePeriod?.resource_state}
-                options={resourceStateConfig.options}
-              />
-              <SupplementaryButton
-                dataTest="clear-resource-state"
-                onClick={(): void => {
-                  clearResourceState();
-                }}
-                iconLeft={<IconTrash />}>
-                Tyhjennä valinta
-              </SupplementaryButton>
+                <p className="dash-between-begin-and-end-date">—</p>
+                <Datepicker
+                  id="openingPeriodEndDate"
+                  dataTest="openingPeriodEndDate"
+                  labelText="Päättyy"
+                  onChange={(value): void => setPeriodEndDate(value || null)}
+                  value={periodEndDate}
+                  registerFn={register}
+                  customValidations={{
+                    dateRange: validateEndInputWithStartDate(periodBeginDate),
+                  }}
+                />
+              </section>
+              {errors.openingPeriodEndDate?.type === 'dateRange' &&
+                errors.openingPeriodEndDate?.message && (
+                  <ErrorText
+                    id="opening-period-date-error-text"
+                    message={errors.openingPeriodEndDate.message}
+                  />
+                )}
             </div>
-          </div>
-        </section>
+          </section>
+          <section className="form-section">
+            <h3 className="opening-period-section-title">Jakson tila</h3>
+            <div className="form-control">
+              <div className="form-actions-row">
+                <ResourceStateSelect
+                  control={control}
+                  name={openingPeriodResourceStateKey}
+                  id={openingPeriodResourceStateKey}
+                  value={datePeriod?.resource_state}
+                  options={resourceStateConfig.options}
+                />
+                <SupplementaryButton
+                  dataTest="clear-resource-state"
+                  onClick={(): void => {
+                    clearResourceState();
+                  }}
+                  iconLeft={<IconTrash />}>
+                  Tyhjennä valinta
+                </SupplementaryButton>
+              </div>
+            </div>
+          </section>
+        </div>
         {resourceStateWatcher &&
         resourceStateWatcher !== ('undefined' as ResourceState) ? (
           <section
