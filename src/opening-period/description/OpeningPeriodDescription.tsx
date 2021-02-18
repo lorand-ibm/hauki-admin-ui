@@ -98,9 +98,15 @@ export default function OpeningPeriodDescription({
           ))}
         </div>
         {hasError ? (
-          <ErrorText message="Aukiolojaksolla on oltava otsikko ainakin yhdellä kielellä." />
+          <ErrorText
+            id="opening-period-title-error-text"
+            message="Aukiolojaksolla on oltava otsikko ainakin yhdellä kielellä."
+          />
         ) : (
-          <NotificationText message="Aukiolojaksolla on oltava otsikko ainakin yhdellä kielellä." />
+          <NotificationText
+            id="opening-period-title-info-text"
+            message="Aukiolojaksolla on oltava otsikko ainakin yhdellä kielellä."
+          />
         )}
       </div>
       <div className="form-control">
