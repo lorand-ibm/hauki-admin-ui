@@ -283,7 +283,10 @@ export default function OpeningPeriodForm({
             </section>
             {errors.openingPeriodEndDate?.type === 'dateRange' &&
               errors.openingPeriodEndDate?.message && (
-                <ErrorText message={errors.openingPeriodEndDate.message} />
+                <ErrorText
+                  id="opening-period-date-error-text"
+                  message={errors.openingPeriodEndDate.message}
+                />
               )}
           </div>
         </section>
@@ -346,8 +349,11 @@ export default function OpeningPeriodForm({
             Luo uusi aukioloryhmä tähän jaksoon
           </SupplementaryButton>
           <p className="opening-period-notification-text">
-            <IconAlertCircle />
-            <span>
+            <IconAlertCircle
+              area-hidden="true"
+              aria-labelledby="opening-period-group-info"
+            />
+            <span id="opening-period-group-info">
               Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
               aukioloaikoja useammilla eri säännöillä
             </span>

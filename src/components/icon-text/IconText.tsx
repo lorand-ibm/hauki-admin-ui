@@ -2,28 +2,31 @@ import React from 'react';
 import { IconAlertCircle } from 'hds-react';
 import './IconText.scss';
 
-export function ErrorText({ message }: { message: string }): JSX.Element {
+type IconTextProps = {
+  id: string;
+  message: string;
+};
+
+export function ErrorText({ message, id }: IconTextProps): JSX.Element {
   return (
     <div className="hds-text-input__helper-text custom-icon-text">
       <span className="text-danger">
-        <IconAlertCircle />
+        <IconAlertCircle area-hidden="true" aria-labelledby={id} />
       </span>
-      <span className="text-danger">{message}</span>
+      <span id={id} className="text-danger">
+        {message}
+      </span>
     </div>
   );
 }
 
-export function NotificationText({
-  message,
-}: {
-  message: string;
-}): JSX.Element {
+export function NotificationText({ message, id }: IconTextProps): JSX.Element {
   return (
     <div className="hds-text-input__helper-text custom-icon-text">
       <span>
-        <IconAlertCircle />
+        <IconAlertCircle area-hidden="true" aria-labelledby={id} />
       </span>
-      <span>{message}</span>
+      <span id={id}>{message}</span>
     </div>
   );
 }

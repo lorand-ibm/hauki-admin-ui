@@ -372,13 +372,22 @@ export default function Rule({
         {ruleErrors && (
           <>
             {ruleErrors?.context?.message && (
-              <ErrorText message={ruleErrors?.context?.message} />
+              <ErrorText
+                id="opening-period-rule-context-error-text"
+                message={ruleErrors?.context?.message}
+              />
             )}
             {ruleErrors?.subject?.message && (
-              <ErrorText message={ruleErrors?.subject?.message} />
+              <ErrorText
+                id="opening-period-rule-subject-error-text"
+                message={ruleErrors?.subject?.message}
+              />
             )}
             {ruleErrors?.start?.message && (
-              <ErrorText message={ruleErrors?.start?.message} />
+              <ErrorText
+                id="opening-period-rule-start-error-text"
+                message={ruleErrors?.start?.message}
+              />
             )}
           </>
         )}

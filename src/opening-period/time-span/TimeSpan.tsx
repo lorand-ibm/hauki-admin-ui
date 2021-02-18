@@ -169,7 +169,10 @@ export default function TimeSpan({
         </div>
         {timeSpanErrors &&
           (timeSpanErrors?.startTime || timeSpanErrors?.endTime) && (
-            <ErrorText message="Aukiololla on oltava vähintään alku tai loppuaika." />
+            <ErrorText
+              id="opening-period-time-span-error-text"
+              message="Aukiololla on oltava vähintään alku tai loppuaika."
+            />
           )}
       </div>
       <div className="form-control">

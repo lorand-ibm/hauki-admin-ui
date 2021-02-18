@@ -12,10 +12,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '12.x'
-  displayName: 'Install Node.js'
+- script: |
+    yarn cache clean
+  displayName: 'yarn cache clean'
 
 - script: |
     yarn install
@@ -32,3 +31,10 @@ steps:
 - script: |
     CI=true yarn test-cypress-with-test-api
   displayName: 'Yarn run cypress (e2e) tests'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)/cypress/videos'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  condition: failed()
