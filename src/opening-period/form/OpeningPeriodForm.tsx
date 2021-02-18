@@ -186,11 +186,7 @@ export default function OpeningPeriodForm({
     setValue(openingPeriodResourceStateKey, 'undefined');
   };
 
-  const resourceStateWatcher = watch(openingPeriodResourceStateKey);
-
-  const hasPeriodResourceState =
-    resourceStateWatcher &&
-    resourceStateWatcher !== ('undefined' as ResourceState);
+  const resourceStateValue = watch(openingPeriodResourceStateKey);
 
   const timeSpanGroupFieldName = 'timeSpanGroups';
 
@@ -333,8 +329,7 @@ export default function OpeningPeriodForm({
             </div>
           </section>
         </div>
-        {resourceStateWatcher &&
-        resourceStateWatcher !== ('undefined' as ResourceState) ? (
+        {resourceStateValue !== ResourceState.UNDEFINED ? (
           <section
             key="resource-state-notification"
             data-test="resource-state-notification"
