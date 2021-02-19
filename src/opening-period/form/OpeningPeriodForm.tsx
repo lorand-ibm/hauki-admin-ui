@@ -13,9 +13,9 @@ import {
   LanguageStrings,
   ResourceState,
   TimeSpanGroupFormFormat,
+  UiDatePeriodConfig,
   UiFieldConfig,
   UiFormRuleConfig,
-  UiDatePeriodConfig,
 } from '../../common/lib/types';
 import { isDateBefore } from '../../common/utils/date-time/compare';
 import {
@@ -82,6 +82,11 @@ const validateEndInputWithStartDate = (start: Date | null) => (
   }
 
   return true;
+};
+
+const isResourceStateSet = (state?: ResourceState): boolean => {
+  console.log('statessss', state);
+  return !!state && state !== ResourceState.UNDEFINED;
 };
 
 const emptyLanguages: LanguageStrings = {
@@ -220,7 +225,9 @@ export default function OpeningPeriodForm({
           : undefined,
         resource_state: data.openingPeriodResourceState,
         override: forceException || datePeriod?.override || false,
-        time_span_groups: formatTimeSpanGroupsToApiFormat(data.timeSpanGroups),
+        time_span_groups: isResourceStateSet(datePeriod?.resource_state)
+          ? []
+          : formatTimeSpanGroupsToApiFormat(data.timeSpanGroups),
       };
       const updatedPeriod = await submitFn(dataAsDatePeriod);
       if (updatedPeriod) {
@@ -246,7 +253,7 @@ export default function OpeningPeriodForm({
     if (datePeriod) {
       setValue(
         'timeSpanGroups',
-        datePeriod?.time_span_groups
+        datePeriod?.time_span_groups && datePeriod?.time_span_groups.length
           ? formatTimeSpanGroupsToFormFormat(datePeriod.time_span_groups)
           : [defaultTimeSpanGroup]
       );
@@ -329,7 +336,7 @@ export default function OpeningPeriodForm({
             </div>
           </section>
         </div>
-        {resourceStateValue !== ResourceState.UNDEFINED ? (
+        {isResourceStateSet(resourceStateValue) ? (
           <section
             key="resource-state-notification"
             data-test="resource-state-notification"
