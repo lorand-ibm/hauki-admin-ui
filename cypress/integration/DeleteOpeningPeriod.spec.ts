@@ -27,7 +27,7 @@ describe('User deletes an opening period', () => {
     cy.visitResourcePageAsAuthenticatedUser(resourceId);
   });
 
-  it('User successfully edits an opening period', () => {
+  it('User successfully deletes an opening period', () => {
     // Enter in delete modal by clicking the delete-button
     cy.get('[data-test=resource-opening-periods-list]', {
       timeout: 5000,
