@@ -345,10 +345,10 @@ export default function OpeningPeriodForm({
             data-test="resource-state-notification"
             className="form-section time-span-group">
             <Notification
-              label="Aukiolojaksolle on valittu aukiolotyyppi"
+              label="Aukiolojaksolle on valittu aukiolotila"
               className="opening-period-form-notification">
-              Kun aukiolojaksolle on valittu aukiolotyyppi niin se poistaa
-              jakson kaikki muut mahdolliset aukiolot.
+              Kun aukiolojaksolle on valittu aukiolotila niin se poistaa jakson
+              kaikki muut mahdolliset aukiolot.
             </Notification>
           </section>
         ) : (
