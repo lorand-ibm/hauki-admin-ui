@@ -492,6 +492,101 @@ describe(`<OpeningPeriodForm />`, () => {
       });
     });
 
+    it('should submit formerly closed date period opening hours', async () => {
+      let container: Element;
+
+      act(() => {
+        container = renderOpeningPeriodForm({
+          ...defaultProps,
+          datePeriod: {
+            ...baseTestDatePeriod,
+            resource_state: ResourceState.CLOSED,
+            time_span_groups: [],
+          },
+        } as OpeningPeriodFormProps);
+      });
+
+      act(() => {
+        const clearResourceStateButton = getElementOrThrow(
+          container,
+          '[data-test="clear-resource-state-button"]'
+        );
+
+        fireEvent.click(clearResourceStateButton);
+      });
+
+      act(() => {
+        const mondayButton = getElementOrThrow(
+          container,
+          '[data-test="weekdays-monday-0-0-checkbox"]'
+        );
+
+        fireEvent.click(mondayButton);
+
+        const tuesdayButton = getElementOrThrow(
+          container,
+          '[data-test="weekdays-tuesday-0-0-checkbox"]'
+        );
+
+        fireEvent.click(tuesdayButton);
+
+        const beginTime = getElementOrThrow(
+          container,
+          '[data-test=time-span-start-time-0-0]'
+        );
+        fireEvent.input(beginTime, {
+          target: {
+            value: '08:00',
+          },
+        });
+
+        const endTime = getElementOrThrow(
+          container,
+          '[data-test=time-span-end-time-0-0]'
+        );
+
+        fireEvent.input(endTime, {
+          target: {
+            value: '16:00',
+          },
+        });
+      });
+
+      await act(async () => {
+        const saveButton = container.querySelector(
+          '[data-test="publish-opening-period-button"]'
+        );
+        if (!saveButton) {
+          throw new Error(`Element with selector ${saveButton} not found`);
+        }
+
+        fireEvent.click(saveButton);
+      });
+
+      act(() => {
+        expect(submitFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            resource_state: ResourceState.UNDEFINED,
+            time_span_groups: [
+              {
+                rules: [],
+                time_spans: [
+                  {
+                    description: { en: null, fi: null, sv: null },
+                    end_time: '16:00:00',
+                    full_day: false,
+                    resource_state: ResourceState.OPEN,
+                    start_time: '08:00:00',
+                    weekdays: [1, 2],
+                  },
+                ],
+              },
+            ],
+          })
+        );
+      });
+    });
+
     it('should add time-span-group', async () => {
       let container: Element;
 
