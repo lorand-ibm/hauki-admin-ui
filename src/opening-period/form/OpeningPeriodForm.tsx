@@ -84,10 +84,8 @@ const validateEndInputWithStartDate = (start: Date | null) => (
   return true;
 };
 
-const isResourceStateSet = (state?: ResourceState): boolean => {
-  console.log('statessss', state);
-  return !!state && state !== ResourceState.UNDEFINED;
-};
+const isResourceStateSet = (state?: ResourceState): boolean =>
+  !!state && state !== ResourceState.UNDEFINED;
 
 const emptyLanguages: LanguageStrings = {
   fi: null,

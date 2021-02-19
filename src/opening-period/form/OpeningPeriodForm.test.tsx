@@ -5,8 +5,8 @@ import { getElementOrThrow, selectOption } from '../../../test/test-utils';
 import { datePeriodOptions } from '../../../test/fixtures/api-options';
 import {
   DatePeriod,
-  UiDatePeriodConfig,
   ResourceState,
+  UiDatePeriodConfig,
 } from '../../common/lib/types';
 import OpeningPeriodForm, { OpeningPeriodFormProps } from './OpeningPeriodForm';
 
