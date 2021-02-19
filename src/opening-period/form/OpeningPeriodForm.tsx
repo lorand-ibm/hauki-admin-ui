@@ -321,6 +321,7 @@ export default function OpeningPeriodForm({
                   name={openingPeriodResourceStateKey}
                   id={openingPeriodResourceStateKey}
                   value={datePeriod?.resource_state}
+                  label="Valitse koko aukiolojakson tila"
                   options={resourceStateConfig.options}
                 />
                 <SupplementaryButton

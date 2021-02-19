@@ -179,6 +179,7 @@ export default function TimeSpan({
           control={control}
           name={`${timeSpanNamePrefix}.resourceState`}
           value={`${item.resourceState || ResourceState.OPEN}`}
+          label="Valitse aukiolon tila"
           id={`time-span-state-id-${groupIndex}-${index}`}
           options={resourceStateOptions}
         />

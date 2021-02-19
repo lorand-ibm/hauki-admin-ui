@@ -8,6 +8,7 @@ type ResourceSelectProps = {
   control: Control;
   name: string;
   value?: string;
+  label: string;
   id: string;
   options: InputOption[];
 };
@@ -16,6 +17,7 @@ export default function ResourceStateSelect({
   control,
   name,
   value,
+  label,
   id,
   options,
 }: ResourceSelectProps): JSX.Element {
@@ -36,8 +38,7 @@ export default function ResourceStateSelect({
               (option: InputOption): boolean => option.value === innerValue
             )}
             options={options}
-            label="Tyyppi"
-            placeholder="Valitse tyyppi"
+            label={label}
           />
         )}
       />
