@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select } from 'hds-react';
 import { Control, Controller } from 'react-hook-form';
-import { InputOption } from '../../common/lib/types';
+import { InputOption, ResourceState } from '../../common/lib/types';
 import './ResourceStateSelect.scss';
 
 type ResourceSelectProps = {
@@ -24,7 +24,7 @@ export default function ResourceStateSelect({
       <Controller
         control={control}
         name={name}
-        defaultValue={value}
+        defaultValue={value || ResourceState.UNDEFINED}
         render={({ onChange, value: innerValue }): JSX.Element => (
           <Select
             id={id}
