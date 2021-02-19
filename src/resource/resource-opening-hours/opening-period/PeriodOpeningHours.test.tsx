@@ -296,6 +296,6 @@ describe(`<PeriodOpeningHours />`, () => {
     expect(
       await container?.querySelector('p[data-test="period-status"]')
         ?.textContent
-    ).toEqual('Aina auki');
+    ).toEqual('Auki');
   });
 });

@@ -31,26 +31,8 @@ function renderPeriodStatusByLanguage(
   language: Language,
   stateOptions: UiOptionsFieldConfig
 ): JSX.Element {
-  if (periodStatus === 'open' || periodStatus === 'closed') {
-    const always = {
-      fi: 'Aina',
-      sv: 'Alltid',
-      en: 'Always',
-    };
-
-    return (
-      <p data-test="period-status">{`${
-        always[language]
-      } ${findResourceStateLabelByValueAndLang(
-        periodStatus,
-        stateOptions,
-        language
-      )?.toLowerCase()}`}</p>
-    );
-  }
-
   return (
-    <p>{`${findResourceStateLabelByValueAndLang(
+    <p data-test="period-status">{`${findResourceStateLabelByValueAndLang(
       periodStatus,
       stateOptions,
       language
