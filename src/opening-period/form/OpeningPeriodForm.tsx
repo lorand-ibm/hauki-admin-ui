@@ -223,7 +223,7 @@ export default function OpeningPeriodForm({
           : undefined,
         resource_state: data.openingPeriodResourceState,
         override: forceException || datePeriod?.override || false,
-        time_span_groups: isResourceStateSet(datePeriod?.resource_state)
+        time_span_groups: isResourceStateSet(data?.openingPeriodResourceState)
           ? []
           : formatTimeSpanGroupsToApiFormat(data.timeSpanGroups),
       };
