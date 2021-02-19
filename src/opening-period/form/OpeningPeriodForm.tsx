@@ -313,7 +313,9 @@ export default function OpeningPeriodForm({
             </div>
           </section>
           <section className="form-section">
-            <h3 className="opening-period-section-title">Jakson tila</h3>
+            <h3 className="opening-period-section-title">
+              Jakson tila (valinnainen)
+            </h3>
             <div className="form-control">
               <div className="form-actions-row">
                 <ResourceStateSelect
@@ -345,7 +347,7 @@ export default function OpeningPeriodForm({
             <Notification
               label="Aukiolojaksolle on valittu aukiolotyyppi"
               className="opening-period-form-notification">
-              Kun aukiolojaksolle on valittu aukiolotyyppi niin se yliajaa
+              Kun aukiolojaksolle on valittu aukiolotyyppi niin se poistaa
               jakson kaikki muut mahdolliset aukiolot.
             </Notification>
           </section>
