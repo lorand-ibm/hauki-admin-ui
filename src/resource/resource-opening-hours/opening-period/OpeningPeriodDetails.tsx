@@ -6,6 +6,7 @@ import {
   GroupRule,
   Language,
   LanguageStrings,
+  ResourceState,
   UiDatePeriodConfig,
 } from '../../../common/lib/types';
 
@@ -30,7 +31,7 @@ function containsSpecialRules(rules: GroupRule[]): boolean {
 function getNonSupportedFeatures(datePeriod: DatePeriod): string[] {
   const nonSupportedFeatures = [];
   if (datePeriod.time_span_groups.length === 0) {
-    if (datePeriod.resource_state === 'undefined') {
+    if (datePeriod.resource_state === ResourceState.UNDEFINED) {
       nonSupportedFeatures.push(
         'Jaksolta puuttuvat aukioloajat. Jaksolla ei ole aukioloryhmää, eikä statusta'
       );
