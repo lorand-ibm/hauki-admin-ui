@@ -99,8 +99,12 @@
   }
 }
 
+.opening-period-resource-state {
+  align-items: flex-end;
+}
+
 .opening-period-clear-state-button {
-  margin-top: 1.25rem; // Align center with the input, not with input and label. Press down the label height: 1rem + bottom-margin 0.25rem
+  margin: $spacing-s 0 2px;
 }
 
 .opening-period-final-action-row-container {
