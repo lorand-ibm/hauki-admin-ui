@@ -319,7 +319,7 @@ export default function OpeningPeriodForm({
                 <ResourceStateSelect
                   control={control}
                   name={openingPeriodResourceStateKey}
-                  id={openingPeriodResourceStateKey}
+                  id="opening-period-resource-state"
                   value={datePeriod?.resource_state}
                   label="Valitse koko aukiolojakson tila"
                   options={resourceStateConfig.options}
@@ -327,7 +327,7 @@ export default function OpeningPeriodForm({
                 {isResourceStateSet(resourceStateValue) && (
                   <SupplementaryButton
                     className="opening-period-clear-state-button"
-                    dataTest="clear-resource-state"
+                    dataTest="clear-resource-state-button"
                     onClick={(): void => {
                       clearResourceState();
                     }}
