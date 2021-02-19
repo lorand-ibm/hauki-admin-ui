@@ -326,15 +326,17 @@ export default function OpeningPeriodForm({
                   label="Valitse koko aukiolojakson tila"
                   options={resourceStateConfig.options}
                 />
-                <SupplementaryButton
-                  className="opening-period-clear-state-button"
-                  dataTest="clear-resource-state"
-                  onClick={(): void => {
-                    clearResourceState();
-                  }}
-                  iconLeft={<IconTrash />}>
-                  Tyhjennä valinta
-                </SupplementaryButton>
+                {isResourceStateSet(resourceStateValue) && (
+                  <SupplementaryButton
+                    className="opening-period-clear-state-button"
+                    dataTest="clear-resource-state"
+                    onClick={(): void => {
+                      clearResourceState();
+                    }}
+                    iconLeft={<IconTrash />}>
+                    Tyhjennä valinta
+                  </SupplementaryButton>
+                )}
               </div>
             </div>
           </section>
