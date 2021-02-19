@@ -274,7 +274,7 @@ export default function OpeningPeriodForm({
             nameFieldConfig={nameFieldConfig}
           />
         </section>
-        <div className="form-sections-small">
+        <div className="form-multiple-sections-row">
           <section className="form-section">
             <h3 className="opening-period-section-title">Ajanjakso</h3>
             <div className="form-control">
