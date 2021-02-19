@@ -35,6 +35,7 @@
 
 .form-actions-row-condensed {
   padding: 0 $spacing-l;
+  margin-bottom: $spacing-layout-2-xl;
 }
 
 .form-control {
@@ -84,7 +85,21 @@
 }
 
 .opening-period-final-action-row-container {
-  margin-top: 116px;
+  height: $spacing-layout-xl;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--hauki-form-action-bar-background-color);
+
+  .main-container {
+    background-color: var(--hauki-form-action-bar-background-color);
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .opening-period-final-action-button.opening-period-final-action-button.opening-period-final-action-button {

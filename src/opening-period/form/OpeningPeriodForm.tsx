@@ -354,17 +354,19 @@ export default function OpeningPeriodForm({
           </p>
         </div>
         <div className="opening-period-final-action-row-container">
-          <PrimaryButton
-            dataTest="publish-opening-period-button"
-            className="opening-period-final-action-button"
-            type="submit">
-            Julkaise
-          </PrimaryButton>
-          <SecondaryButton
-            className="opening-period-final-action-button"
-            onClick={(): void => returnToResourcePage()}>
-            Peruuta ja palaa
-          </SecondaryButton>
+          <div className="main-container">
+            <PrimaryButton
+              dataTest="publish-opening-period-button"
+              className="opening-period-final-action-button"
+              type="submit">
+              Julkaise
+            </PrimaryButton>
+            <SecondaryButton
+              className="opening-period-final-action-button"
+              onClick={(): void => returnToResourcePage()}>
+              Peruuta ja palaa
+            </SecondaryButton>
+          </div>
         </div>
       </form>
     </FormProvider>
