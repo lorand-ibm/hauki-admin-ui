@@ -317,7 +317,7 @@ export default function OpeningPeriodForm({
               Jakson tila (valinnainen)
             </h3>
             <div className="form-control">
-              <div className="form-actions-row">
+              <div className="form-actions-row opening-period-resource-state">
                 <ResourceStateSelect
                   control={control}
                   name={openingPeriodResourceStateKey}
