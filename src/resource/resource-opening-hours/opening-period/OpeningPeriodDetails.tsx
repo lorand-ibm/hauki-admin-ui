@@ -6,6 +6,7 @@ import {
   GroupRule,
   Language,
   LanguageStrings,
+  ResourceState,
   UiDatePeriodConfig,
 } from '../../../common/lib/types';
 
@@ -30,8 +31,12 @@ function containsSpecialRules(rules: GroupRule[]): boolean {
 function getNonSupportedFeatures(datePeriod: DatePeriod): string[] {
   const nonSupportedFeatures = [];
   if (datePeriod.time_span_groups.length === 0) {
-    nonSupportedFeatures.push('Jakso ilman aukioloryhmää');
-    return nonSupportedFeatures;
+    if (datePeriod.resource_state === ResourceState.UNDEFINED) {
+      nonSupportedFeatures.push(
+        'Jaksolta puuttuvat aukioloajat. Jaksolla ei ole aukioloryhmää, eikä statusta'
+      );
+      return nonSupportedFeatures;
+    }
   }
 
   if (datePeriod.time_span_groups.length > 1) {
@@ -40,6 +45,7 @@ function getNonSupportedFeatures(datePeriod: DatePeriod): string[] {
   }
 
   if (
+    datePeriod.time_span_groups.length > 0 &&
     datePeriod.time_span_groups[0].rules.length > 0 &&
     containsSpecialRules(datePeriod.time_span_groups[0].rules)
   ) {
@@ -48,7 +54,10 @@ function getNonSupportedFeatures(datePeriod: DatePeriod): string[] {
     );
   }
 
-  if (datePeriod.time_span_groups[0].time_spans.length === 0) {
+  if (
+    datePeriod.time_span_groups.length > 0 &&
+    datePeriod.time_span_groups[0].time_spans.length === 0
+  ) {
     nonSupportedFeatures.push('Jakso ilman päiväkohtaisia aukioloja');
   }
 

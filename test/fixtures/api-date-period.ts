@@ -10,7 +10,7 @@ export const datePeriod: DatePeriod = {
   description: { fi: 'Testikuvaus', sv: '', en: '' },
   start_date: '',
   end_date: '2020-11-21',
-  resource_state: ResourceState.OPEN,
+  resource_state: ResourceState.UNDEFINED,
   override: false,
   resource: 1,
   time_span_groups: [
