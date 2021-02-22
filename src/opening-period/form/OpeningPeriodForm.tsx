@@ -347,8 +347,8 @@ export default function OpeningPeriodForm({
             <Notification
               label="Aukiolojaksolle on valittu aukiolotila"
               className="opening-period-form-notification">
-              Kun aukiolojaksolle on valittu aukiolotila niin se poistaa jakson
-              kaikki muut mahdolliset aukiolot.
+              Kun aukiolojaksolle on valittu aukiolotila niin se poistaa tämän
+              jakson kaikki muut mahdolliset aukiolot.
             </Notification>
           </section>
         ) : (
