@@ -57,4 +57,37 @@ describe('User adds a new opening period', () => {
       timeout: 10000,
     }).should('be.visible');
   });
+
+  it('User successfully adds a new opening period which is open through the period', () => {
+    // Begin from resource page
+    cy.get('[data-test=resource-opening-periods-list] ', {
+      timeout: 5000,
+    }).should('be.visible');
+
+    // Go to add new opening period page by pressing the header button
+    cy.get('[data-test=add-new-opening-period-button]').click();
+
+    // Check that add new opening period form is visible in the new page
+    cy.get('[data-test=add-new-opening-period-form]', {
+      timeout: 5000,
+    }).should('be.visible');
+
+    // Start filling the form, first is opening period title
+    cy.get('[data-test=opening-period-title-fi').type(
+      `e2e-test Testijakson otsikko open constantly ${new Date().toJSON()}`
+    );
+
+    // Then select the resource state for the date-period
+    cy.selectHdsDropdown({
+      id: 'opening-period-resource-state',
+      value: 'Auki',
+    });
+
+    // Try submit form
+    cy.get('[data-test=publish-opening-period-button]').click();
+
+    cy.get('[data-testid=opening-period-form-success]', {
+      timeout: 10000,
+    }).should('be.visible');
+  });
 });

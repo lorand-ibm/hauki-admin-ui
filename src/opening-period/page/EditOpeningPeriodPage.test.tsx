@@ -76,7 +76,7 @@ const testDatePeriod: DatePeriod = {
   description: { fi: 'test opening period description', sv: '', en: '' },
   start_date: '2020-12-18',
   end_date: '2021-01-18',
-  resource_state: ResourceState.OPEN,
+  resource_state: ResourceState.UNDEFINED,
   override: false,
   resource: 1,
   time_span_groups: [

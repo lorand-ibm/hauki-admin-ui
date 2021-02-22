@@ -35,7 +35,7 @@ export const datePeriod: DatePeriod = {
           end_time: '16:00:00',
           full_day: false,
           weekdays: [1, 3],
-          resource_state: ResourceState.OPEN,
+          resource_state: ResourceState.UNDEFINED,
           created: '2021-01-14T18:28:53.391999+02:00',
           modified: '2021-01-21T16:46:27.119217+02:00',
         },
