@@ -16,6 +16,7 @@ import {
 } from './auth/auth-context';
 import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
+import HaukiNavigation from './components/navigation/HaukiNavigation';
 import './App.scss';
 import PrivateResourceRoute from './resource/PrivateResourceRoute';
 import ResourcePage from './resource/page/ResourcePage';
@@ -52,14 +53,14 @@ export default function App(): JSX.Element {
         <Router>
           <Switch>
             <Route exact path="/">
-              <NavigationAndFooterWrapper renderFooter>
+              <NavigationAndFooterWrapper>
                 <Main id="main">
                   <h1>Etusivu</h1>
                 </Main>
               </NavigationAndFooterWrapper>
             </Route>
             <Route exact path="/not_found">
-              <NavigationAndFooterWrapper renderFooter>
+              <NavigationAndFooterWrapper>
                 <Main id="main">
                   <h1>Kohdetta ei löydy</h1>
                   <p>
@@ -71,14 +72,14 @@ export default function App(): JSX.Element {
               </NavigationAndFooterWrapper>
             </Route>
             <Route exact path="/unauthorized">
-              <NavigationAndFooterWrapper renderFooter>
+              <NavigationAndFooterWrapper>
                 <Main id="main">
                   <h1>Puutteelliset tunnukset</h1>
                 </Main>
               </NavigationAndFooterWrapper>
             </Route>
             <Route exact path="/unauthenticated">
-              <NavigationAndFooterWrapper renderFooter>
+              <NavigationAndFooterWrapper>
                 <Main id="main">
                   <h1>Puuttuvat tunnukset</h1>
                 </Main>
@@ -91,7 +92,7 @@ export default function App(): JSX.Element {
               render={({
                 match,
               }: RouteComponentProps<{ id: string }>): ReactElement => (
-                <NavigationAndFooterWrapper renderFooter>
+                <NavigationAndFooterWrapper>
                   <Main id="main">
                     <ResourcePage id={match.params.id} />
                   </Main>
@@ -107,14 +108,15 @@ export default function App(): JSX.Element {
               }: RouteComponentProps<{
                 id: string;
               }>): ReactElement => (
-                <NavigationAndFooterWrapper renderFooter={false}>
+                <>
+                  <HaukiNavigation />
                   <Main id="main">
                     <CreateNewOpeningPeriodPage
                       exception={false}
                       resourceId={match.params.id}
                     />
                   </Main>
-                </NavigationAndFooterWrapper>
+                </>
               )}
             />
             <PrivateResourceRoute
@@ -126,14 +128,15 @@ export default function App(): JSX.Element {
               }: RouteComponentProps<{
                 id: string;
               }>): ReactElement => (
-                <NavigationAndFooterWrapper renderFooter={false}>
+                <>
+                  <HaukiNavigation />
                   <Main id="main">
                     <CreateNewOpeningPeriodPage
                       exception
                       resourceId={match.params.id}
                     />
                   </Main>
-                </NavigationAndFooterWrapper>
+                </>
               )}
             />
             <PrivateResourceRoute
@@ -145,14 +148,15 @@ export default function App(): JSX.Element {
                 id: string;
                 datePeriodId: string;
               }>): ReactElement => (
-                <NavigationAndFooterWrapper renderFooter={false}>
+                <>
+                  <HaukiNavigation />
                   <Main id="main">
                     <EditOpeningPeriodPage
                       resourceId={match.params.id}
                       datePeriodId={match.params.datePeriodId}
                     />
                   </Main>
-                </NavigationAndFooterWrapper>
+                </>
               )}
             />
           </Switch>

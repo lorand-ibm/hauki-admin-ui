@@ -4,7 +4,6 @@ import HaukiFooter from '../footer/HaukiFooter';
 
 interface Props {
   children: React.ReactNode;
-  renderFooter: boolean;
 }
 
 export default function NavigationAndFooterWrapper(props: Props): JSX.Element {
@@ -12,7 +11,7 @@ export default function NavigationAndFooterWrapper(props: Props): JSX.Element {
     <>
       <HaukiNavigation />
       {props.children}
-      {props.renderFooter && <HaukiFooter />}
+      <HaukiFooter />
     </>
   );
 }
