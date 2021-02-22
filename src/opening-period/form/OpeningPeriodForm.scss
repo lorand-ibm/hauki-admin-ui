@@ -1,5 +1,7 @@
 @import 'node_modules/hds-design-tokens/lib/all.scss';
 
+$final-action-row-height: $spacing-layout-xl;
+
 .opening-period-form {
   margin-top: $spacing-layout-s;
 
@@ -35,7 +37,7 @@
 
 .form-actions-row-condensed {
   padding: 0 $spacing-l;
-  margin-bottom: $spacing-layout-2-xl;
+  margin-bottom: $final-action-row-height;
 }
 
 .form-control {
@@ -85,7 +87,7 @@
 }
 
 .opening-period-final-action-row-container {
-  height: $spacing-layout-xl;
+  height: $final-action-row-height;
   position: fixed;
   display: flex;
   align-items: center;
