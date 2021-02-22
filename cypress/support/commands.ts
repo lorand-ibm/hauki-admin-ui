@@ -117,7 +117,7 @@ Cypress.Commands.add(
                   },
                   start_date: toJsonDate(startDate),
                   end_date: toJsonDate(endDate),
-                  resource_state: 'open',
+                  resource_state: 'undefined',
                   override: false,
                   time_span_groups: timeSpans
                     ? [
