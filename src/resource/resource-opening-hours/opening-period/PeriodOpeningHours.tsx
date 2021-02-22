@@ -107,13 +107,12 @@ export default function PeriodOpeningHours({
 
   return (
     <div data-test="period-opening-hours-container">
-      {datePeriodStatus !== 'undefined' &&
-        renderPeriodStatusByLanguage(
+      {datePeriodStatus !== ResourceState.UNDEFINED ?
+       renderPeriodStatusByLanguage(
           datePeriodStatus,
           language,
           datePeriodConfig.resourceState
-        )}
-      {datePeriodStatus === 'undefined' &&
+        )  :   
         timeSpans.map((timeSpan, index) => {
           return (
             <div
