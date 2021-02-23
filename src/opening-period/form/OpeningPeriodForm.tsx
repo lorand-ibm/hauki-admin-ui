@@ -346,7 +346,7 @@ export default function OpeningPeriodForm({
             className="form-section time-span-group">
             <Notification
               label="Aukiolojaksolle on valittu aukiolotila"
-              className="opening-period-form-notification">
+              style={{ zIndex: 0 }}>
               Kun aukiolojaksolle on valittu aukiolotila niin se poistaa tämän
               jakson kaikki muut mahdolliset aukiolot.
             </Notification>
