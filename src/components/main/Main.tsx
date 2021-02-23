@@ -6,8 +6,12 @@ type MainProps = {
   children: ReactNode;
 };
 
+export function MainContainer({ children }: Partial<MainProps>): JSX.Element {
+  return <div className="main-container">{children}</div>;
+}
+
 export default ({ id, children }: MainProps): JSX.Element => (
   <main id={id} className="main">
-    <div className="main-container">{children}</div>
+    <MainContainer>{children}</MainContainer>
   </main>
 );

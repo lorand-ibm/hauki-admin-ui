@@ -16,6 +16,7 @@ import {
 } from './auth/auth-context';
 import Main from './components/main/Main';
 import NavigationAndFooterWrapper from './components/navigation-and-footer-wrapper/NavigationAndFooterWrapper';
+import HaukiNavigation from './components/navigation/HaukiNavigation';
 import './App.scss';
 import PrivateResourceRoute from './resource/PrivateResourceRoute';
 import ResourcePage from './resource/page/ResourcePage';
@@ -50,84 +51,115 @@ export default function App(): JSX.Element {
     <div className="App">
       <AuthContext.Provider value={{ authTokens, clearAuth }}>
         <Router>
-          <NavigationAndFooterWrapper>
-            <Main id="main">
-              <Switch>
-                <Route exact path="/">
+          <Switch>
+            <Route exact path="/">
+              <NavigationAndFooterWrapper>
+                <Main id="main">
                   <h1>Etusivu</h1>
-                </Route>
-                <Route exact path="/not_found">
+                </Main>
+              </NavigationAndFooterWrapper>
+            </Route>
+            <Route exact path="/not_found">
+              <NavigationAndFooterWrapper>
+                <Main id="main">
                   <h1>Kohdetta ei löydy</h1>
                   <p>
                     Kohdetta ei löytynyt. Yritä myöhemmin uudestaan. Ongelman
                     toistuessa ota yhteys sivuston ylläpitoon. Teidät on
                     automaattisesti kirjattu ulos.
                   </p>
-                </Route>
-                <Route exact path="/unauthorized">
+                </Main>
+              </NavigationAndFooterWrapper>
+            </Route>
+            <Route exact path="/unauthorized">
+              <NavigationAndFooterWrapper>
+                <Main id="main">
                   <h1>Puutteelliset tunnukset</h1>
-                </Route>
-                <Route exact path="/unauthenticated">
+                </Main>
+              </NavigationAndFooterWrapper>
+            </Route>
+            <Route exact path="/unauthenticated">
+              <NavigationAndFooterWrapper>
+                <Main id="main">
                   <h1>Puuttuvat tunnukset</h1>
-                </Route>
-                <PrivateResourceRoute
-                  id="resource-route"
-                  exact
-                  path="/resource/:id"
-                  render={({
-                    match,
-                  }: RouteComponentProps<{ id: string }>): ReactElement => (
+                </Main>
+              </NavigationAndFooterWrapper>
+            </Route>
+            <PrivateResourceRoute
+              id="resource-route"
+              exact
+              path="/resource/:id"
+              render={({
+                match,
+              }: RouteComponentProps<{ id: string }>): ReactElement => (
+                <NavigationAndFooterWrapper>
+                  <Main id="main">
                     <ResourcePage id={match.params.id} />
-                  )}
-                />
-                <PrivateResourceRoute
-                  id="create-new-opening-period-route"
-                  exact
-                  path="/resource/:id/period/new"
-                  render={({
-                    match,
-                  }: RouteComponentProps<{
-                    id: string;
-                  }>): ReactElement => (
+                  </Main>
+                </NavigationAndFooterWrapper>
+              )}
+            />
+            <PrivateResourceRoute
+              id="create-new-opening-period-route"
+              exact
+              path="/resource/:id/period/new"
+              render={({
+                match,
+              }: RouteComponentProps<{
+                id: string;
+              }>): ReactElement => (
+                <>
+                  <HaukiNavigation />
+                  <Main id="main">
                     <CreateNewOpeningPeriodPage
                       exception={false}
                       resourceId={match.params.id}
                     />
-                  )}
-                />
-                <PrivateResourceRoute
-                  id="create-new-opening-period-route"
-                  exact
-                  path="/resource/:id/period/new-exception"
-                  render={({
-                    match,
-                  }: RouteComponentProps<{
-                    id: string;
-                  }>): ReactElement => (
+                  </Main>
+                </>
+              )}
+            />
+            <PrivateResourceRoute
+              id="create-new-opening-period-route"
+              exact
+              path="/resource/:id/period/new-exception"
+              render={({
+                match,
+              }: RouteComponentProps<{
+                id: string;
+              }>): ReactElement => (
+                <>
+                  <HaukiNavigation />
+                  <Main id="main">
                     <CreateNewOpeningPeriodPage
                       exception
                       resourceId={match.params.id}
                     />
-                  )}
-                />
-                <PrivateResourceRoute
-                  id="edit-opening-period-route"
-                  path="/resource/:id/period/:datePeriodId"
-                  render={({
-                    match,
-                  }: RouteComponentProps<{
-                    id: string;
-                    datePeriodId: string;
-                  }>): ReactElement => (
+                  </Main>
+                </>
+              )}
+            />
+            <PrivateResourceRoute
+              id="edit-opening-period-route"
+              path="/resource/:id/period/:datePeriodId"
+              render={({
+                match,
+              }: RouteComponentProps<{
+                id: string;
+                datePeriodId: string;
+              }>): ReactElement => (
+                <>
+                  <HaukiNavigation />
+                  <Main id="main">
                     <EditOpeningPeriodPage
                       resourceId={match.params.id}
                       datePeriodId={match.params.datePeriodId}
                     />
-                  )}
-                />
-              </Switch>
-            </Main>
-          </NavigationAndFooterWrapper>
+                  </Main>
+                </>
+              )}
+            />
+          </Switch>
         </Router>
       </AuthContext.Provider>
     </div>
