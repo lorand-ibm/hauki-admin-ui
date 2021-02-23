@@ -37,6 +37,7 @@ import OpeningPeriodDescription from '../description/OpeningPeriodDescription';
 import TimeSpans from '../time-span/TimeSpans';
 import Rules from '../rule/Rules';
 import './OpeningPeriodForm.scss';
+import { MainContainer } from '../../components/main/Main';
 
 interface OpeningPeriodFormData {
   openingPeriodTitle: LanguageStrings;
@@ -354,7 +355,7 @@ export default function OpeningPeriodForm({
           </p>
         </div>
         <div className="opening-period-final-action-row-container">
-          <div className="main-container">
+          <MainContainer>
             <PrimaryButton
               dataTest="publish-opening-period-button"
               className="opening-period-final-action-button"
@@ -366,7 +367,7 @@ export default function OpeningPeriodForm({
               onClick={(): void => returnToResourcePage()}>
               Peruuta ja palaa
             </SecondaryButton>
-          </div>
+          </MainContainer>
         </div>
       </form>
     </FormProvider>
