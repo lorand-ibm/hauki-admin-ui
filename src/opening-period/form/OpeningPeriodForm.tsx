@@ -43,8 +43,8 @@ import './OpeningPeriodForm.scss';
 interface OpeningPeriodFormData {
   openingPeriodTitle: LanguageStrings;
   openingPeriodOptionalDescription: LanguageStrings;
-  openingPeriodBeginDate: string | undefined;
-  openingPeriodEndDate: string | undefined;
+  openingPeriodBeginDate: string | null;
+  openingPeriodEndDate: string | null;
   openingPeriodResourceState: ResourceState | undefined;
   timeSpanGroups: TimeSpanGroupFormFormat[];
 }
@@ -162,8 +162,8 @@ export default function OpeningPeriodForm({
   const formValues: OpeningPeriodFormData = {
     openingPeriodTitle: datePeriod?.name || emptyLanguages,
     openingPeriodOptionalDescription: datePeriod?.description || emptyLanguages,
-    openingPeriodBeginDate: datePeriod?.start_date,
-    openingPeriodEndDate: datePeriod?.end_date,
+    openingPeriodBeginDate: datePeriod?.start_date ?? null,
+    openingPeriodEndDate: datePeriod?.end_date ?? null,
     openingPeriodResourceState: datePeriod?.resource_state,
     timeSpanGroups: [defaultTimeSpanGroup],
   };
@@ -217,10 +217,10 @@ export default function OpeningPeriodForm({
         description: data.openingPeriodOptionalDescription,
         start_date: data.openingPeriodBeginDate
           ? transformDateToApiFormat(data.openingPeriodBeginDate)
-          : undefined,
+          : null,
         end_date: data.openingPeriodEndDate
           ? transformDateToApiFormat(data.openingPeriodEndDate)
-          : undefined,
+          : null,
         resource_state: data.openingPeriodResourceState,
         override: forceException || datePeriod?.override || false,
         time_span_groups: isResourceStateSet(data?.openingPeriodResourceState)

@@ -207,8 +207,8 @@ export type DatePeriod = {
   is_removed?: boolean;
   name: LanguageStrings;
   description: LanguageStrings;
-  start_date?: string;
-  end_date?: string;
+  start_date: string | null;
+  end_date: string | null;
   resource_state?: ResourceState;
   override: boolean;
   resource: number;
