@@ -16,8 +16,8 @@ export const formatDateRange = ({
   startDate,
   endDate,
 }: {
-  startDate?: string;
-  endDate?: string;
+  startDate: string | null;
+  endDate: string | null;
 }): string => {
   if (!startDate && !endDate) {
     return 'Voimassa toistaiseksi';

@@ -12,19 +12,21 @@ describe('format', () => {
     });
 
     it('should return formatted startDate when endDate is missing', () => {
-      expect(formatDateRange({ startDate: '2020-12-18' })).toEqual(
-        '18.12.2020 alkaen'
-      );
+      expect(
+        formatDateRange({ startDate: '2020-12-18', endDate: null })
+      ).toEqual('18.12.2020 alkaen');
     });
 
     it('should return formatted endDate when startDate is missing', () => {
-      expect(formatDateRange({ endDate: '2020-12-31' })).toEqual(
-        '31.12.2020 asti'
-      );
+      expect(
+        formatDateRange({ startDate: null, endDate: '2020-12-31' })
+      ).toEqual('31.12.2020 asti');
     });
 
     it('should return valid under further notice when both endDate and startDate are missing', () => {
-      expect(formatDateRange({})).toEqual('Voimassa toistaiseksi');
+      expect(formatDateRange({ startDate: null, endDate: null })).toEqual(
+        'Voimassa toistaiseksi'
+      );
     });
   });
 

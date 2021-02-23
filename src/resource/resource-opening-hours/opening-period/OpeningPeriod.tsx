@@ -39,9 +39,10 @@ export default function OpeningPeriod({
 }): JSX.Element {
   const datePeriodName = datePeriod.name[language];
   const formattedDateRange = formatDateRange({
-    startDate: datePeriod.start_date,
-    endDate: datePeriod.end_date,
+    startDate: datePeriod.start_date ?? null,
+    endDate: datePeriod.end_date ?? null,
   });
+
   const deleteModalTitle = 'Oletko varma että haluat poistaa aukiolojakson?';
   const DeleteModalText = (): JSX.Element => (
     <>

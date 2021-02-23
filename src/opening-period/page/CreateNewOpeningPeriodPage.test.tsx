@@ -203,6 +203,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       is_removed: false,
       name: { fi: '', sv: '', en: '' },
       description: { fi: '', sv: '', en: '' },
+      start_date: null,
       end_date: '2020-11-21',
       resource_state: ResourceState.OPEN,
       override: false,
