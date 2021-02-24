@@ -155,7 +155,7 @@ export default function TimeSpan({
             wrapperClassName="time-span-end-time-input-wrapper"
             disabled={fullDay}
           />
-          <div className="checkbox-container">
+          <div className="time-span-fullday-checkbox-container">
             <Checkbox
               id={`${timeSpanNamePrefix}.fullDay`}
               label="Koko päivä"
