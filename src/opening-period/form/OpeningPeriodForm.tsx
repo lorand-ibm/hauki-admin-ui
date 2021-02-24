@@ -6,7 +6,7 @@ import {
   useForm,
 } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { IconAlertCircle, IconPlus, IconTrash, Notification } from 'hds-react';
+import { IconPlus, IconTrash, Notification } from 'hds-react';
 import {
   DatePeriod,
   Language,

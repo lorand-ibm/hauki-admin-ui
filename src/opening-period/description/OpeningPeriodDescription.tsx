@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldErrors } from 'react-hook-form/dist/types/errors.d';
-import { Notification, TextArea, TextInput } from 'hds-react';
+import { TextArea, TextInput } from 'hds-react';
 import './OpeningPeriodDescription.scss';
 import {
   Language,
