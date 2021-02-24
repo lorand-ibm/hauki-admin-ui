@@ -1,0 +1,28 @@
+# Release pipeline
+# This pipeline releases hauki-admin-ui automatically to staging environment from release-* branches
+# The pipeline also triggers production pipeline, but that will require manual approve from azure devops to run completely.
+
+trigger:
+  branches:
+    include:
+      - release-*
+  paths:
+    exclude:
+      - README.md
+
+# By default, use self-hosted agents
+pool: Default
+
+# Opting out of pull request validation
+pr: none
+
+resources:
+  repositories:
+    # Azure DevOps repository
+    - repository: hauki-pipelines
+      type: git
+      # project/repository
+      name: hauki/hauki-pipelines
+
+extends:
+  template: hauki-admin-ui-release.pipeline.yml@hauki-pipelines

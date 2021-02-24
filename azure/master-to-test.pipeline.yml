@@ -1,82 +1,29 @@
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- master
-
-pr: none
+# File: hauki-admin-ui/master-to-test.pipeline.yml
 
 variables:
   gitCommitHash: '$(Build.SourceVersion)'
-  imageName: 'hauki-admin-ui'
-  azureSubscription: HKI-kanslia-standalone
-  appName: hauki-admin-ui
-  containerRegistry: registry.hub.docker.com
 
-pool:
-  vmImage: 'ubuntu-latest'
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
 
-steps:
-- script: |
-    yarn cache clean
-  displayName: 'yarn cache clean'
+# By default, use self-hosted agents
+pool: Default
 
-- script: |
-    yarn install
-  displayName: 'Yarn install'
+# Opting out of pull request validation
+pr: none
 
-- script: |
-    yarn lint
-  displayName: 'Yarn lint'
+resources:
+  repositories:
+  # Azure DevOps repository
+  - repository: hauki-pipelines
+    type: git
+    # project/repository
+    name: hauki/hauki-pipelines
 
-- script: |
-    CI=true yarn test
-  displayName: 'Yarn run tests'
-
-- script: |
-    CI=true yarn test-cypress-with-test-api
-  displayName: 'Yarn run cypress (e2e) tests'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/cypress/videos'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-  condition: failed()
-
-- task: Docker@2
-  displayName: Build and push Hauki admin ui image to docker hub
-  inputs:
-    containerRegistry: Docker hub upload-hauki-admin-ui
-    repository: 'helsinki/$(imageName)'
-    command: buildAndPush
-    tags: |
-      latest
-      $(gitCommitHash)
-    Dockerfile: Dockerfile-old
-
-- task: oc-cmd@2
-  displayName: Deploy image to openshift, add OC tag to latest image
-  inputs:
-    openshiftService: Azure OpenShift-hauki-admin-ui
-    cmd: 'tag docker.io/helsinki/hauki-admin-ui:$(gitCommitHash) hauki-admin-ui:latest'
-
-- task: Bash@3
-  displayName: Wait for deploy to finish
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your commands here
-
-      sleep 50
-
-- script: |
-    CI=true yarn test-cypress-test-env
-  displayName: 'Yarn run cypress (e2e) tests against test environment'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/cypress/videos'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-  condition: failed()
+extends:
+  template: hauki-admin-ui-test.pipeline.yml@hauki-pipelines
