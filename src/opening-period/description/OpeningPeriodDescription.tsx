@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldErrors } from 'react-hook-form/dist/types/errors.d';
-import { TextArea, TextInput } from 'hds-react';
+import { Notification, TextArea, TextInput } from 'hds-react';
 import './OpeningPeriodDescription.scss';
 import {
   Language,
@@ -54,13 +54,17 @@ export default function OpeningPeriodDescription({
   nameFieldConfig: TextFieldConfig;
 }): JSX.Element {
   const hasError = !!errors.openingPeriodTitle;
-
   const titleMaxLength: number | undefined = nameFieldConfig.max_length;
 
   return (
     <>
       <h3 className="opening-period-section-title">Jakson kuvaus</h3>
       <div className="form-control">
+        <NotificationText
+          id="opening-period-title-info-text"
+          className="opening-period-notification-text"
+          message="Ole hyvä ja syötä otsikko ainakin yhdellä kielellä."
+        />
         <div className="opening-period-text-group">
           {Object.values(Language).map((languageKey: Language) => (
             <TextInput
@@ -97,14 +101,9 @@ export default function OpeningPeriodDescription({
             />
           ))}
         </div>
-        {hasError ? (
+        {hasError && (
           <ErrorText
             id="opening-period-title-error-text"
-            message="Aukiolojaksolla on oltava otsikko ainakin yhdellä kielellä."
-          />
-        ) : (
-          <NotificationText
-            id="opening-period-title-info-text"
             message="Aukiolojaksolla on oltava otsikko ainakin yhdellä kielellä."
           />
         )}
