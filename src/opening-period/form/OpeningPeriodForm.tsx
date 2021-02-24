@@ -28,7 +28,10 @@ import {
   SecondaryButton,
   SupplementaryButton,
 } from '../../components/button/Button';
-import { ErrorText } from '../../components/icon-text/IconText';
+import {
+  ErrorText,
+  NotificationText,
+} from '../../components/icon-text/IconText';
 import ResourceStateSelect from '../../components/resourse-state-select/ResourceStateSelect';
 import toast from '../../components/notification/Toast';
 import {
@@ -412,16 +415,12 @@ export default function OpeningPeriodForm({
             iconLeft={<IconPlus />}>
             Luo uusi aukioloryhmä tähän jaksoon
           </SupplementaryButton>
-          <p className="opening-period-notification-text">
-            <IconAlertCircle
-              area-hidden="true"
-              aria-labelledby="opening-period-group-info"
-            />
-            <span id="opening-period-group-info">
-              Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
-              aukioloaikoja useammilla eri säännöillä
-            </span>
-          </p>
+          <NotificationText
+            id="opening-period-group-info"
+            className="opening-period-notification-text"
+            message="Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
+              aukioloaikoja useammilla eri säännöillä"
+          />
         </div>
         <div className="opening-period-final-action-row-container">
           <MainContainer>
