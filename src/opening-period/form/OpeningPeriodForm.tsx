@@ -356,72 +356,76 @@ export default function OpeningPeriodForm({
             </Notification>
           </section>
         ) : (
-          timeSpanGroupFields.map(
-            (
-              timeSpanGroup: Partial<
-                ArrayField<TimeSpanGroupFormFormat, 'timeSpanGroupUiId'>
-              >,
-              index: number
-            ) => (
-              <section
-                key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
-                data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
-                className="form-section time-span-group">
-                <div className="form-actions-row">
-                  <h3 className="opening-period-section-title">Aukioloryhmä</h3>
-                  <SupplementaryButton
-                    dataTest="remove-time-span-group"
-                    onClick={(): void => {
-                      removeTimeSpanGroup(index);
-                    }}
-                    iconLeft={<IconTrash />}>
-                    Poista aukioloryhmä
-                  </SupplementaryButton>
-                </div>
-                <input
-                  type="hidden"
-                  name={`${timeSpanGroupFieldName}[${index}].id`}
-                  defaultValue={timeSpanGroup.id}
-                  ref={register()}
-                />
-                <input
-                  type="hidden"
-                  name={`${timeSpanGroupFieldName}[${index}].period`}
-                  defaultValue={timeSpanGroup.period}
-                  ref={register()}
-                />
-                <TimeSpans
-                  groupIndex={index}
-                  groupId={timeSpanGroup.id}
-                  namePrefix={timeSpanGroupFieldName}
-                  resourceStateConfig={resourceStateConfig}
-                  errors={errors.timeSpanGroups}
-                />
-                <Rules
-                  groupIndex={index}
-                  groupId={timeSpanGroup.id}
-                  namePrefix={timeSpanGroupFieldName}
-                  ruleConfig={ruleConfig}
-                  errors={errors.timeSpanGroups}
-                />
-              </section>
-            )
-          )
-        )}
-        <div className="form-actions-row form-actions-row-condensed">
-          <SupplementaryButton
-            dataTest="add-time-span-group"
-            onClick={(): void => appendTimeSpanGroup(defaultTimeSpanGroup)}
-            iconLeft={<IconPlus />}>
-            Luo uusi aukioloryhmä tähän jaksoon
-          </SupplementaryButton>
-          <NotificationText
-            id="opening-period-group-info"
-            className="opening-period-notification-text"
-            message="Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
+          <>
+            {timeSpanGroupFields.map(
+              (
+                timeSpanGroup: Partial<
+                  ArrayField<TimeSpanGroupFormFormat, 'timeSpanGroupUiId'>
+                >,
+                index: number
+              ) => (
+                <section
+                  key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
+                  data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
+                  className="form-section time-span-group">
+                  <div className="form-actions-row">
+                    <h3 className="opening-period-section-title">
+                      Aukioloryhmä
+                    </h3>
+                    <SupplementaryButton
+                      dataTest="remove-time-span-group"
+                      onClick={(): void => {
+                        removeTimeSpanGroup(index);
+                      }}
+                      iconLeft={<IconTrash />}>
+                      Poista aukioloryhmä
+                    </SupplementaryButton>
+                  </div>
+                  <input
+                    type="hidden"
+                    name={`${timeSpanGroupFieldName}[${index}].id`}
+                    defaultValue={timeSpanGroup.id}
+                    ref={register()}
+                  />
+                  <input
+                    type="hidden"
+                    name={`${timeSpanGroupFieldName}[${index}].period`}
+                    defaultValue={timeSpanGroup.period}
+                    ref={register()}
+                  />
+                  <TimeSpans
+                    groupIndex={index}
+                    groupId={timeSpanGroup.id}
+                    namePrefix={timeSpanGroupFieldName}
+                    resourceStateConfig={resourceStateConfig}
+                    errors={errors.timeSpanGroups}
+                  />
+                  <Rules
+                    groupIndex={index}
+                    groupId={timeSpanGroup.id}
+                    namePrefix={timeSpanGroupFieldName}
+                    ruleConfig={ruleConfig}
+                    errors={errors.timeSpanGroups}
+                  />
+                </section>
+              )
+            )}
+            <div className="form-actions-row form-actions-row-condensed">
+              <SupplementaryButton
+                dataTest="add-time-span-group"
+                onClick={(): void => appendTimeSpanGroup(defaultTimeSpanGroup)}
+                iconLeft={<IconPlus />}>
+                Luo uusi aukioloryhmä tähän jaksoon
+              </SupplementaryButton>
+              <NotificationText
+                id="opening-period-group-info"
+                className="opening-period-notification-text"
+                message="Lisää uusi ryhmä tähän aukiolojaksoon jos haluat lisätä
               aukioloaikoja useammilla eri säännöillä"
-          />
-        </div>
+              />
+            </div>
+          </>
+        )}
         <div className="opening-period-final-action-row-container">
           <MainContainer>
             <PrimaryButton
