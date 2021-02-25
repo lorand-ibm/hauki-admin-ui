@@ -347,7 +347,7 @@ export default function OpeningPeriodForm({
           <section
             key="resource-state-notification"
             data-test="resource-state-notification"
-            className="form-section time-span-group">
+            className="form-section resource-state-notification-row">
             <Notification
               label="Aukiolojaksolle on valittu aukiolotila"
               style={{ zIndex: 0 }}>
@@ -410,7 +410,7 @@ export default function OpeningPeriodForm({
                 </section>
               )
             )}
-            <div className="form-actions-row form-actions-row-condensed">
+            <div className="form-actions-row form-actions-row-condensed time-span-group-action-row">
               <SupplementaryButton
                 dataTest="add-time-span-group"
                 onClick={(): void => appendTimeSpanGroup(defaultTimeSpanGroup)}

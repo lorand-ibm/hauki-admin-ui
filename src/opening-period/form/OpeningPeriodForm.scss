@@ -43,7 +43,6 @@ $final-action-row-height: $spacing-layout-xl;
 
 .form-actions-row-condensed {
   padding: 0 $spacing-l;
-  margin-bottom: $final-action-row-height;
 }
 
 .form-control {
@@ -90,6 +89,12 @@ $final-action-row-height: $spacing-layout-xl;
 
 .opening-period-resource-state {
   align-items: flex-end;
+}
+
+// Final rows of the form use margin to add some space for the floating footer in the bottom
+.resource-state-notification-row,
+.time-span-group-action-row {
+  margin-bottom: $final-action-row-height;
 }
 
 .opening-period-clear-state-button {
