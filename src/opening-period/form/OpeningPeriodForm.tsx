@@ -19,6 +19,7 @@ import {
 } from '../../common/lib/types';
 import { isDateBefore } from '../../common/utils/date-time/compare';
 import {
+  parseApiDate,
   parseFormDate,
   transformDateToApiFormat,
 } from '../../common/utils/date-time/format';
@@ -154,11 +155,11 @@ export default function OpeningPeriodForm({
   };
 
   const [periodBeginDate, setPeriodBeginDate] = useState<Date | null>(
-    datePeriod?.start_date ? new Date(datePeriod?.start_date) : null
+    datePeriod?.start_date ? parseApiDate(datePeriod?.start_date) : null
   );
 
   const [periodEndDate, setPeriodEndDate] = useState<Date | null>(
-    datePeriod?.end_date ? new Date(datePeriod?.end_date) : null
+    datePeriod?.end_date ? parseApiDate(datePeriod?.end_date) : null
   );
 
   const openingPeriodResourceStateKey = 'openingPeriodResourceState';
