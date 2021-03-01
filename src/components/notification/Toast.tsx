@@ -30,6 +30,7 @@ const renderToast = ({
   ReactDOM.render(
     <Notification
       position="top-right"
+      displayAutoCloseProgress={false}
       autoClose
       size="small"
       label={label}
