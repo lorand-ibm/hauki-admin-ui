@@ -32,6 +32,7 @@ const renderToast = ({
       position="top-right"
       displayAutoCloseProgress={false}
       autoClose
+      dismissible
       size="small"
       label={label}
       type={type}
