@@ -8,6 +8,7 @@ import {
   UiDatePeriodConfig,
   Resource,
   ResourceState,
+  ResourceType,
 } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
 import EditOpeningPeriodPage from './EditOpeningPeriodPage';
@@ -63,6 +64,7 @@ const testResource: Resource = {
   },
   children: [],
   parents: [],
+  resource_type: ResourceType.UNIT,
 };
 
 const testResourcePageUrl = `/resource/${testResource.id}`;

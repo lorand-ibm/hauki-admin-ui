@@ -5,9 +5,10 @@ import { datePeriodOptions } from '../../../test/fixtures/api-options';
 import { getElementOrThrow } from '../../../test/test-utils';
 import {
   DatePeriod,
-  UiDatePeriodConfig,
   Resource,
   ResourceState,
+  ResourceType,
+  UiDatePeriodConfig,
 } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
 import CreateNewOpeningPeriodPage from './CreateNewOpeningPeriodPage';
@@ -192,6 +193,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       },
       children: [],
       parents: [],
+      resource_type: ResourceType.UNIT,
     };
 
     testResourcePageUrl = `/resource/${testResource.id}`;
