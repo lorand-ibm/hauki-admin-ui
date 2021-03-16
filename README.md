@@ -40,7 +40,6 @@ It is also possible to configure API's URL by setting env variable API_URL, for 
    http://localhost:3000/resource/<HAUKI_RESOURCE>?<paste generated query parameters here>
    ```
 
-
 ### Running service in Docker
 
 #### How to build a docker image
@@ -52,6 +51,7 @@ docker build . -t hauki-admin-ui
 ```bash
 docker run -p 3000:8000 -e API_URL=<api-url-here> -e USE_AXE=<true|false> hauki-admin-ui
 ```
+
 
 ## RELEASE
 
