@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { datePeriodOptions } from '../../../test/fixtures/api-options';
 import { getElementOrThrow } from '../../../test/test-utils';
 import {
@@ -551,6 +551,35 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
       expect(() =>
         getElementOrThrow(container, '[data-test="time-span-0-1"]')
       ).toThrow();
+    });
+  });
+
+  it('should show different subtitle for subresource', async () => {
+    let container: Element;
+
+    jest.spyOn(api, 'getResource').mockImplementation(() =>
+      Promise.resolve({
+        ...testResource,
+        resource_type: ResourceType.CONTACT,
+      })
+    );
+
+    await act(async () => {
+      container = render(
+        <CreateNewOpeningPeriodPage exception={false} resourceId="tprek:8100" />
+      ).container;
+
+      if (!container) {
+        throw new Error(
+          'Something went wrong in rendering of CreateNewOpeningPeriodPage'
+        );
+      }
+    });
+
+    await act(async () => {
+      expect(await screen.getByRole('heading', { level: 2 })).toHaveTextContent(
+        'Alakohteen aukiolojakson lisäys'
+      );
     });
   });
 });
