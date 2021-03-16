@@ -295,7 +295,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       )}
       <ResourceSourceLink id="resource-source-link" resource={resource} />
       <ResourceSection id="resource-opening-hours">
-        {resource && <ResourceOpeningHours resourceId={resource.id} />}
+        {resource && <ResourceOpeningHours resource={resource} />}
       </ResourceSection>
     </>
   );

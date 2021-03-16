@@ -4,8 +4,10 @@ import { useHistory } from 'react-router-dom';
 import {
   DatePeriod,
   Language,
+  Resource,
   UiDatePeriodConfig,
 } from '../../common/lib/types';
+import { isUnitResource } from '../../common/utils/resource/helper';
 import api from '../../common/utils/api/api';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect from '../../components/language-select/LanguageSelect';
@@ -124,10 +126,11 @@ const partitionByOverride = (datePeriods: DatePeriod[]): DatePeriod[][] =>
   );
 
 export default function ResourceOpeningHours({
-  resourceId,
+  resource,
 }: {
-  resourceId: number;
+  resource: Resource;
 }): JSX.Element | null {
+  const resourceId = resource.id;
   const [error, setError] = useState<Error | undefined>(undefined);
   const [datePeriodConfig, setDatePeriodConfig] = useState<
     UiDatePeriodConfig
@@ -175,14 +178,18 @@ export default function ResourceOpeningHours({
     <Collapse
       isOpen
       collapseContentId={`${resourceId}-opening-hours-section`}
-      title="Toimipisteen aukiolotiedot">
+      title={`${
+        isUnitResource(resource) ? 'Toimipisteen' : 'Alikohteen'
+      } aukiolotiedot`}>
       <p>
-        Toimipisteen aukiolotietoja muokataan jaksokohtaisesti. Aukiolojaksot
+        {`${
+          isUnitResource(resource) ? 'Toimipisteen' : 'Alikohteen'
+        } aukiolotietoja muokataan jaksokohtaisesti. Aukiolojaksot
         voivat olla julkaistuja tai julkaisemattomia. Alla voit selata myös
         tulevia ja menneitä aukiolojaksoja. Näet alla myös eri kieliversiot
         valitsemalla kielen valikosta. Huomioithan, että palvelu voi itse valita
         aukiolojaksojen esitystavan, se ei välttämättä ole alla näkyvän
-        kaltainen.
+        kaltainen.`}
       </p>
       <OpeningPeriodsList
         id="resource-opening-periods-list"
