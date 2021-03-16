@@ -412,4 +412,23 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
     });
   });
+
+  it('should show different subtitle for subresource', async () => {
+    jest.spyOn(api, 'getResource').mockImplementation(() =>
+      Promise.resolve({
+        ...testResource,
+        resource_type: ResourceType.CONTACT,
+      })
+    );
+
+    await act(async () => {
+      renderEditOpeningPeriodPage();
+    });
+
+    await act(async () => {
+      expect(await screen.getByRole('heading', { level: 2 })).toHaveTextContent(
+        'Alakohteen aukiolojakson muokkaus'
+      );
+    });
+  });
 });
