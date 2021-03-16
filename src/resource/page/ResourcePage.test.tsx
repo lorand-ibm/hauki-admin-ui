@@ -213,6 +213,8 @@ describe(`<ResourcePage />`, () => {
     });
 
     await act(async () => {
+      expect(screen.getByText('Alakohteet')).toBeInTheDocument();
+
       expect(
         await container.querySelector(
           'p[data-test="child-resource-description"]'
@@ -242,6 +244,8 @@ describe(`<ResourcePage />`, () => {
     });
 
     await act(async () => {
+      expect(screen.getByText('Toimipisteet')).toBeInTheDocument();
+
       expect(
         await container.querySelector(
           'p[data-test="parent-resource-description"]'

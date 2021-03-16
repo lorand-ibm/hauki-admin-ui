@@ -224,11 +224,11 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       {parentResources?.length > 0 && (
         <ResourceDetailsSection
           id="parent-resource-description"
-          title="Yläkohteet">
+          title="Toimipisteet">
           <p
             data-test="parent-resource-description"
             className="resource-description-text">
-            Tämä toimipiste on alikohteena seuraaville yläkohteille.
+            Tämä alakohde sijaitsee seuraavissa toimipisteissä.
           </p>
           {parentResources?.map((parentResource, index) => (
             <div className="related-resource-list-item" key={index}>
@@ -239,7 +239,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
                   parentResource?.name[language] ||
                   displayLangVersionNotFound({
                     language,
-                    label: 'Yläkohteen nimi',
+                    label: 'toimipisteen nimi',
                   })
                 }
               />
@@ -249,7 +249,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
                 {parentResource?.description[language] ||
                   displayLangVersionNotFound({
                     language,
-                    label: 'Yläkohteen kuvaus',
+                    label: 'toimipisteen kuvaus',
                   })}
               </p>
             </div>
@@ -259,12 +259,12 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       {childResources?.length > 0 && (
         <ResourceDetailsSection
           id="child-resource-description"
-          title="Alikohteet">
+          title="Alakohteet">
           <p
             data-test="child-resource-description"
             className="resource-description-text">
-            Tässä toimipisteessä on alikohteita. Alikohteet voivat olla
-            esimerkiksi toimipisteen eri tiloja. Voit muokata alikohteiden muita
+            Tässä toimipisteessä on alakohteita. Alakohteet voivat olla
+            esimerkiksi toimipisteen eri tiloja. Voit muokata alakohteiden muita
             tietoja tilapaikkarekisterissä.
           </p>
           {childResources?.map((childResource, index) => (
@@ -276,7 +276,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
                   childResource?.name[language] ||
                   displayLangVersionNotFound({
                     language,
-                    label: 'Alikohteen nimi',
+                    label: 'alakohteen nimi',
                   })
                 }
               />
@@ -286,7 +286,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
                 {childResource?.description[language] ||
                   displayLangVersionNotFound({
                     language,
-                    label: 'Alikohteen kuvaus',
+                    label: 'alakohteen kuvaus',
                   })}
               </p>
             </div>
