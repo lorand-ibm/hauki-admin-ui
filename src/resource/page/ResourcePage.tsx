@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { Language, Resource } from '../../common/lib/types';
+import { isUnitResource } from '../../common/utils/resource/helper';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
   displayLangVersionNotFound,
@@ -23,7 +24,12 @@ export const ResourceTitle = ({
 }): JSX.Element => {
   const name =
     resource?.name[language] ||
-    displayLangVersionNotFound({ language, label: 'toimipisteen nimi' });
+    displayLangVersionNotFound({
+      language,
+      label: `${
+        resource && isUnitResource(resource) ? 'toimipisteen' : 'alakohteen'
+      } nimi`,
+    });
 
   return (
     <div className="resource-info-title-wrapper">
@@ -47,7 +53,12 @@ export const ResourceAddress = ({
 }): JSX.Element => {
   const address =
     resource?.address[language] ||
-    displayLangVersionNotFound({ language, label: 'toimipisteen osoite' });
+    displayLangVersionNotFound({
+      language,
+      label: `${
+        resource && isUnitResource(resource) ? 'toimipisteen' : 'alakohteen'
+      } osoite`,
+    });
 
   return (
     <>
