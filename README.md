@@ -30,7 +30,7 @@ It is also possible to configure API's URL by setting env variable API_URL, for 
    ```shell 
    node scripts/generate-auth-params.js
    ```
-3. Copy generated query-parameters to clipboard   
+3. Copy generated query-parameters to clipboard.  
 4. Start dev server:
    ```shell
    yarn start
