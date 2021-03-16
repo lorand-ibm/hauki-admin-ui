@@ -36,7 +36,7 @@ It is also possible to configure API's URL by setting env variable API_URL, for 
    yarn start
    ```
 5. Visit localhost:
-  `http://localhost:3000/resource/<HAUKI_RESOURCE>?<paste generated query parameters here>`
+  ```http://localhost:3000/resource/<HAUKI_RESOURCE>?<paste generated query parameters here>`
 
 
 ### Running service in Docker
