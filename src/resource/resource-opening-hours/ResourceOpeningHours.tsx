@@ -179,11 +179,11 @@ export default function ResourceOpeningHours({
       isOpen
       collapseContentId={`${resourceId}-opening-hours-section`}
       title={`${
-        isUnitResource(resource) ? 'Toimipisteen' : 'Alikohteen'
+        isUnitResource(resource) ? 'Toimipisteen' : 'Alakohteen'
       } aukiolotiedot`}>
       <p>
         {`${
-          isUnitResource(resource) ? 'Toimipisteen' : 'Alikohteen'
+          isUnitResource(resource) ? 'Toimipisteen' : 'Alakohteen'
         } aukiolotietoja muokataan jaksokohtaisesti. Aukiolojaksot
         voivat olla julkaistuja tai julkaisemattomia. Alla voit selata myös
         tulevia ja menneitä aukiolojaksoja. Näet alla myös eri kieliversiot
