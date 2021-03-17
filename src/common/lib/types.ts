@@ -215,6 +215,21 @@ export type DatePeriod = {
   time_span_groups: TimeSpanGroup[];
 };
 
+export enum ResourceType {
+  UNIT = 'unit',
+  SECTION = 'section',
+  SPECIAL_GROUP = 'special_group',
+  CONTACT = 'contact',
+  ONLINE_SERVICE = 'online_service',
+  SERVICE = 'service',
+  SERVICE_CHANNEL = 'service_channel',
+  SERVICE_AT_UNIT = 'service_at_unit',
+  RESERVABLE = 'reservable',
+  BUILDING = 'building',
+  AREA = 'area',
+  ENTRANCE_OR_EXIT = 'entrance_or_exit',
+}
+
 export interface Resource {
   id: number;
   name: {
@@ -238,4 +253,5 @@ export interface Resource {
   };
   children: number[];
   parents: number[];
+  resource_type: ResourceType;
 }

@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { Language, Resource } from '../../common/lib/types';
+import { isUnitResource } from '../../common/utils/resource/helper';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
   displayLangVersionNotFound,
@@ -23,7 +24,12 @@ export const ResourceTitle = ({
 }): JSX.Element => {
   const name =
     resource?.name[language] ||
-    displayLangVersionNotFound({ language, label: 'toimipisteen nimi' });
+    displayLangVersionNotFound({
+      language,
+      label: `${
+        resource && isUnitResource(resource) ? 'toimipisteen' : 'alakohteen'
+      } nimi`,
+    });
 
   return (
     <div className="resource-info-title-wrapper">
@@ -47,7 +53,12 @@ export const ResourceAddress = ({
 }): JSX.Element => {
   const address =
     resource?.address[language] ||
-    displayLangVersionNotFound({ language, label: 'toimipisteen osoite' });
+    displayLangVersionNotFound({
+      language,
+      label: `${
+        resource && isUnitResource(resource) ? 'toimipisteen' : 'alakohteen'
+      } osoite`,
+    });
 
   return (
     <>
@@ -213,11 +224,11 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       {parentResources?.length > 0 && (
         <ResourceDetailsSection
           id="parent-resource-description"
-          title="Yläkohteet">
+          title="Toimipisteet">
           <p
             data-test="parent-resource-description"
             className="resource-description-text">
-            Tämä toimipiste on alikohteena seuraaville yläkohteille.
+            Tämä alakohde sijaitsee seuraavissa toimipisteissä.
           </p>
           {parentResources?.map((parentResource, index) => (
             <div className="related-resource-list-item" key={index}>
@@ -228,7 +239,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
                   parentResource?.name[language] ||
                   displayLangVersionNotFound({
                     language,
-                    label: 'Yläkohteen nimi',
+                    label: 'toimipisteen nimi',
                   })
                 }
               />
@@ -238,7 +249,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
                 {parentResource?.description[language] ||
                   displayLangVersionNotFound({
                     language,
-                    label: 'Yläkohteen kuvaus',
+                    label: 'toimipisteen kuvaus',
                   })}
               </p>
             </div>
@@ -248,12 +259,12 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       {childResources?.length > 0 && (
         <ResourceDetailsSection
           id="child-resource-description"
-          title="Alikohteet">
+          title="Alakohteet">
           <p
             data-test="child-resource-description"
             className="resource-description-text">
-            Tässä toimipisteessä on alikohteita. Alikohteet voivat olla
-            esimerkiksi toimipisteen eri tiloja. Voit muokata alikohteiden muita
+            Tässä toimipisteessä on alakohteita. Alakohteet voivat olla
+            esimerkiksi toimipisteen eri tiloja. Voit muokata alakohteiden muita
             tietoja tilapaikkarekisterissä.
           </p>
           {childResources?.map((childResource, index) => (
@@ -265,7 +276,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
                   childResource?.name[language] ||
                   displayLangVersionNotFound({
                     language,
-                    label: 'Alikohteen nimi',
+                    label: 'alakohteen nimi',
                   })
                 }
               />
@@ -275,7 +286,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
                 {childResource?.description[language] ||
                   displayLangVersionNotFound({
                     language,
-                    label: 'Alikohteen kuvaus',
+                    label: 'alakohteen kuvaus',
                   })}
               </p>
             </div>
@@ -284,7 +295,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
       )}
       <ResourceSourceLink id="resource-source-link" resource={resource} />
       <ResourceSection id="resource-opening-hours">
-        {resource && <ResourceOpeningHours resourceId={resource.id} />}
+        {resource && <ResourceOpeningHours resource={resource} />}
       </ResourceSection>
     </>
   );

@@ -5,6 +5,7 @@ import {
   DatePeriod,
   UiDatePeriodConfig,
 } from '../../common/lib/types';
+import { isUnitResource } from '../../common/utils/resource/helper';
 import api from '../../common/utils/api/api';
 import {
   ResourceAddress,
@@ -82,7 +83,13 @@ export default function CreateNewOpeningPeriodPage({
     <>
       <ResourceInfo>
         <ResourceTitle resource={resource}>
-          <ResourceInfoSubTitle text="Toimipisteen aukiolojakson lisäys" />
+          <ResourceInfoSubTitle
+            text={`${
+              resource && isUnitResource(resource)
+                ? 'Toimipisteen'
+                : 'Alakohteen'
+            } aukiolojakson lisäys`}
+          />
         </ResourceTitle>
         <ResourceAddress resource={resource} />
       </ResourceInfo>

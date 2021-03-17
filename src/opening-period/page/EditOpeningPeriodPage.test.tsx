@@ -8,6 +8,7 @@ import {
   UiDatePeriodConfig,
   Resource,
   ResourceState,
+  ResourceType,
 } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
 import EditOpeningPeriodPage from './EditOpeningPeriodPage';
@@ -63,6 +64,7 @@ const testResource: Resource = {
   },
   children: [],
   parents: [],
+  resource_type: ResourceType.UNIT,
 };
 
 const testResourcePageUrl = `/resource/${testResource.id}`;
@@ -408,6 +410,25 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
       );
 
       expect(mockHistoryPush).toHaveBeenCalledWith(testResourcePageUrl);
+    });
+  });
+
+  it('should show different subtitle for subresource', async () => {
+    jest.spyOn(api, 'getResource').mockImplementation(() =>
+      Promise.resolve({
+        ...testResource,
+        resource_type: ResourceType.CONTACT,
+      })
+    );
+
+    await act(async () => {
+      renderEditOpeningPeriodPage();
+    });
+
+    await act(async () => {
+      expect(await screen.getByRole('heading', { level: 2 })).toHaveTextContent(
+        'Alakohteen aukiolojakson muokkaus'
+      );
     });
   });
 });

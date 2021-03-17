@@ -7,6 +7,7 @@ import {
   DatePeriod,
   Resource,
   ResourceState,
+  ResourceType,
   UiDatePeriodConfig,
 } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
@@ -35,6 +36,7 @@ const testResource: Resource = {
   },
   children: [123],
   parents: [321],
+  resource_type: ResourceType.UNIT,
 };
 
 const testParentResource: Resource = {
@@ -60,6 +62,7 @@ const testParentResource: Resource = {
   },
   children: [1186],
   parents: [],
+  resource_type: ResourceType.UNIT,
 };
 
 const testChildResource: Resource = {
@@ -85,6 +88,7 @@ const testChildResource: Resource = {
   },
   children: [],
   parents: [1186],
+  resource_type: ResourceType.CONTACT,
 };
 
 const testDatePeriod: DatePeriod = {
@@ -209,6 +213,8 @@ describe(`<ResourcePage />`, () => {
     });
 
     await act(async () => {
+      expect(screen.getByText('Alakohteet')).toBeInTheDocument();
+
       expect(
         await container.querySelector(
           'p[data-test="child-resource-description"]'
@@ -238,6 +244,8 @@ describe(`<ResourcePage />`, () => {
     });
 
     await act(async () => {
+      expect(screen.getByText('Toimipisteet')).toBeInTheDocument();
+
       expect(
         await container.querySelector(
           'p[data-test="parent-resource-description"]'
