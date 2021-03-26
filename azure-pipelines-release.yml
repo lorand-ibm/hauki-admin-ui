@@ -5,8 +5,7 @@
 trigger:
   branches:
     include:
-    - master
-    - feature/*
+    - release-*
   paths:
     exclude:
     - README.md
@@ -26,4 +25,4 @@ resources:
     name: hauki/hauki-pipelines
 
 extends:
-  template: azure-pipelines-hauki-admin-ui.yml@hauki-pipelines
+  template: azure-pipelines-hauki-admin-ui-release.yml@hauki-pipelines
