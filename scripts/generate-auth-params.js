@@ -16,6 +16,17 @@ const validUntil =
 const hasOrganizationRights =
   process.env.HAUKI_HAS_ORGANIZATION_RIGHTS || 'true';
 
+const params = {
+  key,
+  username,
+  resource,
+  organization,
+  source,
+  createdAt,
+  validUntil,
+  hasOrganizationRights,
+};
+
 const signatureStr = `${source}${username}${createdAt}${validUntil}${organization}${resource}${hasOrganizationRights}`;
 
 const signature = crypto
@@ -34,4 +45,4 @@ const queryParameters = [
   `hsa_signature=${signature}`,
 ].join('&');
 
-process.stdout.write(queryParameters);
+process.stdout.write(JSON.stringify(params));

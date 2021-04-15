@@ -48,6 +48,7 @@ Cypress.Commands.add(
   'visitResourcePageAsAuthenticatedUser',
   (resourceId: string) => {
     cy.exec('node ./scripts/generate-auth-params.js').then((params) => {
+      cy.task('log', params.stdout);
       cy.task('log', 'Starting visit as authenticated user');
       cy.visit(`/resource/${resourceId}?${params.stdout}`, {
         log: true,
