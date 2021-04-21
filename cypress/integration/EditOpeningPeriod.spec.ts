@@ -4,7 +4,7 @@ import { ResourceState } from '../../src/common/lib/types';
 
 describe('User edits an opening period', () => {
   let dataPeriodId: string | undefined;
-  const resourceId = Cypress.env('resource-id');
+  const resourceId = Cypress.env('resourceId');
   const datePeriodTitlePrefix = 'e2e-test Muokkaamisen testijakson otsikko';
   const finnishTitle = `${datePeriodTitlePrefix} suomeksi ${new Date().toJSON()}`;
   const newFinnishTitle = `${datePeriodTitlePrefix} suomeksi muutettu ${new Date().toJSON()}`;

@@ -2,7 +2,7 @@
 /// <reference path="../index.d.ts" />
 describe('User adds a new opening period', () => {
   beforeEach(() => {
-    cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resource-id'));
+    cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resourceId'));
   });
 
   it('User successfully adds a new opening period', () => {

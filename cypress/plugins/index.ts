@@ -17,8 +17,15 @@
  * @type {Cypress.PluginConfig}
  */
 
+// plugins/index.js
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('dotenv').config();
+
 // module.exports = function (on, config)
-module.exports = function plugins(on: Cypress.PluginEvents): void {
+module.exports = function plugins(
+  on: Cypress.PluginEvents,
+  config: Cypress.PluginConfigOptions
+): Cypress.PluginConfigOptions {
   on('task', {
     log(message: string) {
       // eslint-disable-next-line no-console
@@ -26,4 +33,10 @@ module.exports = function plugins(on: Cypress.PluginEvents): void {
       return null;
     },
   });
+
+  // copy any needed variables from process.env to config.env
+  // eslint-disable-next-line no-param-reassign
+  config.env.resourceId = process.env.HAUKI_RESOURCE;
+
+  return config;
 };
