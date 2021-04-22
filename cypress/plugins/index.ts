@@ -17,10 +17,6 @@
  * @type {Cypress.PluginConfig}
  */
 
-// plugins/index.js
-// eslint-disable-next-line import/no-extraneous-dependencies
-require('dotenv').config();
-
 // module.exports = function (on, config)
 module.exports = function plugins(
   on: Cypress.PluginEvents,
