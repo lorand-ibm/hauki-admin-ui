@@ -1,9 +1,5 @@
 {
   "baseUrl": "http://localhost:3000",
   "ignoreTestFiles": "**/examples/*.spec.js",
-  "trashAssetsBeforeRuns": false,
-  "env": {
-    "resource-id": "tprek:8215",
-    "auth-query-parameters": ""
-  }
+  "trashAssetsBeforeRuns": false
 }

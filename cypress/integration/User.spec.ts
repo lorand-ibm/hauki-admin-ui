@@ -2,7 +2,7 @@
 /// <reference path="../index.d.ts" />
 describe('Unauthenticated user', () => {
   beforeEach(() => {
-    cy.visitResourcePageAsUnauthenticatedUser(Cypress.env('resource-id'));
+    cy.visitResourcePageAsUnauthenticatedUser(Cypress.env('resourceId'));
   });
 
   it('Is redirected to unauthenticated page', () => {
@@ -12,7 +12,7 @@ describe('Unauthenticated user', () => {
 
 describe('Authenticated user', () => {
   beforeEach(() => {
-    cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resource-id'));
+    cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resourceId'));
   });
 
   it('should logout permanently', () => {

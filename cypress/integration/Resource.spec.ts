@@ -2,7 +2,7 @@
 /// <reference path="../index.d.ts" />
 describe('Resource page', () => {
   beforeEach(() => {
-    cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resource-id'));
+    cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resourceId'));
   });
 
   it('Has opening periods listed', () => {

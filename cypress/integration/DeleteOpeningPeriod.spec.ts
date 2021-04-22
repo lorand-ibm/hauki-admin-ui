@@ -3,7 +3,7 @@
 
 describe('User deletes an opening period', () => {
   let dataPeriodId: string | undefined;
-  const resourceId = Cypress.env('resource-id');
+  const resourceId = Cypress.env('resourceId');
   const datePeriodTitlePrefix = 'e2e-test Poistamisen testijakson otsikko';
   const newTitle = `${datePeriodTitlePrefix} ${new Date().toJSON()}`;
   const startDate = new Date();
