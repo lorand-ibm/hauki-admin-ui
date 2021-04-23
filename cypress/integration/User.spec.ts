@@ -21,7 +21,7 @@ describe('Authenticated user', () => {
       .then((resourcePageUrl) => {
         cy.get('header')
           .find('button')
-          .contains('admin@hel.fi')
+          .contains(Cypress.env('haukiUser'))
           .click({ force: true });
         cy.get('header').first().find('a').contains('Kirjaudu ulos').click();
         // have to wait here because cypress does not work optimal: https://github.com/cypress-io/cypress/issues/7306

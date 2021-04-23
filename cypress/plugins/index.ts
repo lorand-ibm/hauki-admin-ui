@@ -31,8 +31,10 @@ module.exports = function plugins(
   });
 
   // copy any needed variables from process.env to config.env
-  // eslint-disable-next-line no-param-reassign
+  /* eslint-disable no-param-reassign */
   config.env.resourceId = process.env.HAUKI_RESOURCE;
+  config.env.haukiUser = process.env.HAUKI_USER;
+  /* eslint-enable no-param-reassign */
 
   return config;
 };
