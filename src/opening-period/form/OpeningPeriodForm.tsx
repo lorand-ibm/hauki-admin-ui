@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   ArrayField,
   FormProvider,
@@ -6,7 +6,7 @@ import {
   useForm,
 } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { IconPlus, IconTrash, Notification } from 'hds-react';
+import { IconPlus, IconTrash, Notification, DateInput } from 'hds-react';
 import {
   DatePeriod,
   Language,
@@ -19,11 +19,10 @@ import {
 } from '../../common/lib/types';
 import { isDateBefore } from '../../common/utils/date-time/compare';
 import {
-  parseApiDate,
+  formatDate,
   parseFormDate,
   transformDateToApiFormat,
 } from '../../common/utils/date-time/format';
-import Datepicker from '../../components/datepicker/Datepicker';
 import {
   PrimaryButton,
   SecondaryButton,
@@ -75,14 +74,14 @@ export type OpeningPeriodFormProps = {
   errorTextAndLabel: NotificationTexts;
 };
 
-const validateEndInputWithStartDate = (start: Date | null) => (
+const validateEndInputWithStartDate = (start: string | null) => (
   end: string | null
 ): boolean | string => {
   if (!start || !end) {
     return true;
   }
 
-  if (isDateBefore(parseFormDate(end), start)) {
+  if (isDateBefore(parseFormDate(end), parseFormDate(start))) {
     return 'Aukiolojakson loppupäivämäärä ei voi olla ennen alkupäivämäärää.';
   }
 
@@ -154,14 +153,6 @@ export default function OpeningPeriodForm({
     },
   };
 
-  const [periodBeginDate, setPeriodBeginDate] = useState<Date | null>(
-    datePeriod?.start_date ? parseApiDate(datePeriod?.start_date) : null
-  );
-
-  const [periodEndDate, setPeriodEndDate] = useState<Date | null>(
-    datePeriod?.end_date ? parseApiDate(datePeriod?.end_date) : null
-  );
-
   const openingPeriodResourceStateKey = 'openingPeriodResourceState';
 
   const formValues: OpeningPeriodFormData = {
@@ -185,7 +176,6 @@ export default function OpeningPeriodForm({
     clearErrors,
     control,
     setValue,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getValues,
     watch,
   } = formMethods;
@@ -284,26 +274,46 @@ export default function OpeningPeriodForm({
             <h3 className="opening-period-section-title">Ajanjakso</h3>
             <div className="form-control">
               <section className="opening-period-time-period">
-                <Datepicker
+                <DateInput
                   id="openingPeriodBeginDate"
-                  dataTest="openingPeriodBeginDate"
-                  labelText="Alkaa"
-                  onChange={(value): void => setPeriodBeginDate(value || null)}
-                  value={periodBeginDate}
-                  error={errors.openingPeriodBeginDate}
-                  registerFn={register}
+                  name="openingPeriodBeginDate"
+                  data-test="openingPeriodBeginDate"
+                  initialMonth={new Date()}
+                  label="Alkaa"
+                  openButtonAriaLabel="Valitse alkupäivämäärä"
+                  language="fi"
+                  value={
+                    datePeriod?.start_date
+                      ? formatDate(datePeriod?.start_date)
+                      : ''
+                  }
+                  ref={register()}
+                  disableConfirmation
                 />
                 <p className="dash-between-begin-and-end-date">—</p>
-                <Datepicker
+                <DateInput
                   id="openingPeriodEndDate"
-                  dataTest="openingPeriodEndDate"
-                  labelText="Päättyy"
-                  onChange={(value): void => setPeriodEndDate(value || null)}
-                  value={periodEndDate}
-                  registerFn={register}
-                  customValidations={{
-                    dateRange: validateEndInputWithStartDate(periodBeginDate),
-                  }}
+                  name="openingPeriodEndDate"
+                  data-test="openingPeriodEndDate"
+                  initialMonth={new Date()}
+                  label="Päättyy"
+                  openButtonAriaLabel="Valitse loppupäivämäärä"
+                  language="fi"
+                  value={
+                    datePeriod?.end_date ? formatDate(datePeriod?.end_date) : ''
+                  }
+                  invalid={!!errors.openingPeriodEndDate?.message}
+                  aria-describedby="opening-period-date-error-text"
+                  ref={(ref): void =>
+                    register(ref, {
+                      validate: {
+                        dateRange: validateEndInputWithStartDate(
+                          getValues()?.openingPeriodBeginDate
+                        ),
+                      },
+                    })
+                  }
+                  disableConfirmation
                 />
               </section>
               {errors.openingPeriodEndDate?.type === 'dateRange' &&
