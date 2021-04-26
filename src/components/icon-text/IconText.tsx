@@ -30,7 +30,7 @@ export function ErrorText({
 }: IconTextProps): JSX.Element {
   return (
     <IconTextContainer className={className}>
-      <span className="text-danger">
+      <span className="custom-icon-text-icon text-danger">
         <IconAlertCircle area-hidden="true" aria-labelledby={id} />
       </span>
       <span id={id} className="text-danger">
@@ -47,7 +47,7 @@ export function NotificationText({
 }: IconTextProps): JSX.Element {
   return (
     <IconTextContainer className={className}>
-      <span>
+      <span className="custom-icon-text-icon">
         <IconAlertCircle area-hidden="true" aria-labelledby={id} />
       </span>
       <span id={id}>{message}</span>
