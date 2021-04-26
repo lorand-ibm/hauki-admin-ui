@@ -35,10 +35,22 @@ describe('User adds a new opening period', () => {
     // Then select the begin and end date for the period. For the test we wish to select
     // current date and the first date of the next month
     cy.get('[data-test=openingPeriodBeginDate]').click();
-    cy.get('button.dayToday').click();
+    cy.get('button[aria-label="Valitse alkupäivämäärä"]').click();
+    cy.get(
+      `[role="dialog"] button[data-date$="${new Date().getDate().toString()}"]`
+    )
+      .filter(':visible')
+      .click({ force: true });
     cy.get('[data-test=openingPeriodEndDate]').click();
-    cy.get('[data-test=show-next-month-button]').click();
-    cy.get('button.dayButton').contains('01').click();
+    cy.get('button[aria-label="Valitse loppupäivämäärä"]')
+      .filter(':visible')
+      .click();
+    cy.get('[role="dialog"] button[aria-label="Seuraava kuukausi"]')
+      .filter(':visible')
+      .click();
+    cy.get(`[role="dialog"] button[data-date$="01"]`)
+      .filter(':visible')
+      .click({ force: true });
 
     // Then enter time span data
     cy.get('[data-test=weekdays-monday-0-0]').click();
