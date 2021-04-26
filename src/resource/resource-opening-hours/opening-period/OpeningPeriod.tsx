@@ -89,7 +89,7 @@ export default function OpeningPeriod({
             data-test={`openingPeriodEditLink-${datePeriod.id}`}
             to={`/resource/${resourceId}/period/${datePeriod.id}`}>
             <IconPenLine aria-hidden="true" />
-            <span className="sr-only">{`Muokkaa ${
+            <span className="hiddenFromScreen">{`Muokkaa ${
               datePeriodName || 'nimettömän'
             } aukiolojakson tietoja`}</span>
           </Link>
@@ -99,7 +99,7 @@ export default function OpeningPeriod({
             type="button"
             onClick={(): void => openModal()}>
             <IconTrash aria-hidden="true" />
-            <span className="sr-only">{`Poista ${
+            <span className="hiddenFromScreen">{`Poista ${
               datePeriodName || 'nimetön'
             } aukiolojakso`}</span>
           </button>
@@ -109,7 +109,7 @@ export default function OpeningPeriod({
             type="button"
             onClick={(): void => toggleAccordion()}>
             <AccordionIcon />
-            <span className="sr-only">{`Näytä aukioloajat jaksosta ${
+            <span className="hiddenFromScreen">{`Näytä aukioloajat jaksosta ${
               datePeriodName || 'nimetön'
             } aukiolojakso`}</span>
           </button>
