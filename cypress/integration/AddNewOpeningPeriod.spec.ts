@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 /// <reference path="../index.d.ts" />
-describe.only('User adds a new opening period', () => {
+describe('User adds a new opening period', () => {
   const todayDay: number = new Date().getDate();
   const todayDayString: string =
     todayDay < 10 ? `0${todayDay}` : todayDay.toString();
