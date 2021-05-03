@@ -178,6 +178,7 @@ export default function OpeningPeriodForm({
     setValue,
     getValues,
     watch,
+    trigger,
   } = formMethods;
 
   const clearResourceState = (): void => {
@@ -204,6 +205,8 @@ export default function OpeningPeriodForm({
     history.push(`/resource/${resourceId}`);
 
   const onSubmit = async (data: OpeningPeriodFormData): Promise<void> => {
+    await trigger('openingPeriodEndDate'); // Validate the end date before sending the form, in case the user changed only the beginning date.
+
     try {
       const dataAsDatePeriod: DatePeriod = {
         ...(datePeriod?.id ? { id: datePeriod.id } : {}),
