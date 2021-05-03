@@ -165,7 +165,7 @@ export default function OpeningPeriodForm({
   };
 
   const formMethods = useForm<OpeningPeriodFormData>({
-    mode: 'all',
+    mode: 'onBlur',
     defaultValues: formValues,
   });
 
