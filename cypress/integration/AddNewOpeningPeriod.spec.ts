@@ -1,6 +1,10 @@
 /// <reference types="cypress" />
 /// <reference path="../index.d.ts" />
-describe('User adds a new opening period', () => {
+describe.only('User adds a new opening period', () => {
+  const todayDay: number = new Date().getDate();
+  const todayDayString: string =
+    todayDay < 10 ? `0${todayDay}` : todayDay.toString();
+
   beforeEach(() => {
     cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resourceId'));
   });
@@ -36,9 +40,7 @@ describe('User adds a new opening period', () => {
     // current date and the first date of the next month
     cy.get('[data-test=openingPeriodBeginDate]').click();
     cy.get('button[aria-label="Valitse alkupäivämäärä"]').click();
-    cy.get(
-      `[role="dialog"] button[data-date$="${new Date().getDate().toString()}"]`
-    )
+    cy.get(`[role="dialog"] button[data-date$="${todayDayString}"]`)
       .filter(':visible')
       .click({ force: true });
     cy.get('[data-test=openingPeriodEndDate]').click();
