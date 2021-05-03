@@ -281,6 +281,7 @@ export default function OpeningPeriodForm({
                   id="openingPeriodBeginDate"
                   name="openingPeriodBeginDate"
                   data-test="openingPeriodBeginDate"
+                  className="opening-period-date-picker"
                   initialMonth={new Date()}
                   label="Alkaa"
                   openButtonAriaLabel="Valitse alkupäivämäärä"
@@ -298,6 +299,7 @@ export default function OpeningPeriodForm({
                   id="openingPeriodEndDate"
                   name="openingPeriodEndDate"
                   data-test="openingPeriodEndDate"
+                  className="opening-period-date-picker"
                   initialMonth={new Date()}
                   label="Päättyy"
                   openButtonAriaLabel="Valitse loppupäivämäärä"
