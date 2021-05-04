@@ -281,7 +281,7 @@ export default function OpeningPeriodForm({
                   id="openingPeriodBeginDate"
                   name="openingPeriodBeginDate"
                   data-test="openingPeriodBeginDate"
-                  className="opening-period-date-picker"
+                  className="opening-period-date-picker opening-period-start-date-picker"
                   initialMonth={new Date()}
                   label="Alkaa"
                   openButtonAriaLabel="Valitse alkupäivämäärä"
