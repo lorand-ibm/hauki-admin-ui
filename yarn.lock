@@ -6629,20 +6629,20 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hds-core@1.0.0, hds-core@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-1.0.0.tgz#314751120b169391d91313c6bd60bc215386b883"
-  integrity sha512-7lEb8exIJ1uqczlrL3Ubr70B4L+90gTbiMj3mMyP1x5zafUBLK98LLT7N7+p5m+2JU6L7yfqBV2JkmCA5C+vAw==
+hds-core@1.1.0, hds-core@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-1.1.0.tgz#de4b696c39e70b1c8256a0f104463ec509259576"
+  integrity sha512-eXT/X3Ts7pdGjH6nYoBuyGjZZDz534TUMJZD3uvvE4U0ousUwJ8J8QQBAggLUyhmiR8piSl7ODuzU3ZFJQYOMg==
 
-hds-design-tokens@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-1.0.0.tgz#eb11b124838d6945bc4e7bfa46e6e120f3f7267a"
-  integrity sha512-03XUA6N9VRTnr1eaDnjkDRybMyOIAMzp6e7kCcaf0unAZIKO2LT0uR6gEA+JfCTakl8TfvUjqa4ZI7KRBd/q6g==
+hds-design-tokens@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-1.1.0.tgz#a5bec355e0f6224fb4dc2de46e7bc62bfc192973"
+  integrity sha512-N6/UY6NZxc5rA7uULE7TcwIdpWomoIyq+ByBYh4KbB2SpLrMkxTFNcoat2Iqct1uiSw1hZinQd8/JtBuwLrjDg==
 
-hds-react@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-1.0.0.tgz#464dc2a9471d629729635e18173a7e4f5f6671bf"
-  integrity sha512-Ckc0TWUJJIE7ezOVFyDyZ/Gszn+LPQi7zjEeAaFOjs7zjx4I+vDMV9W+k8r6/MWAOpf2nCq3YOMqKcRqDaxv+w==
+hds-react@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-1.1.0.tgz#0caa01f41c30b1137eea84fbfcff1bf23d908c8a"
+  integrity sha512-K9pz/Ffsl9AmGn0vplTbuCJ1BNC3GWIy7bGNFD/vsRdI5mLbvLkUheDsD5m+xpsafgCQtG1XraHVvVADlrLNUg==
   dependencies:
     "@babel/runtime" "7.11.2"
     "@juggle/resize-observer" "3.2.0"
@@ -6650,7 +6650,7 @@ hds-react@1.0.0:
     "@react-aria/visually-hidden" "3.2.0"
     date-fns "2.16.1"
     downshift "6.0.6"
-    hds-core "1.0.0"
+    hds-core "1.1.0"
     lodash.isequal "4.5.0"
     lodash.isfunction "3.0.9"
     lodash.uniqueid "4.0.1"
