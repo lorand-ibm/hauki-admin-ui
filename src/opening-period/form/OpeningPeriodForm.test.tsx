@@ -1,6 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { getElementOrThrow, selectOption } from '../../../test/test-utils';
 import { datePeriodOptions } from '../../../test/fixtures/api-options';
 import {
@@ -515,7 +516,7 @@ describe(`<OpeningPeriodForm />`, () => {
         fireEvent.click(clearResourceStateButton);
       });
 
-      act(() => {
+      await act(async () => {
         const mondayButton = getElementOrThrow(
           container,
           '[data-test="weekdays-monday-0-0-checkbox"]'
@@ -530,26 +531,33 @@ describe(`<OpeningPeriodForm />`, () => {
 
         fireEvent.click(tuesdayButton);
 
-        const beginTime = getElementOrThrow(
+        const beginTimeHours = getElementOrThrow(
           container,
-          '[data-test=time-span-start-time-0-0]'
-        );
-        fireEvent.input(beginTime, {
-          target: {
-            value: '08:00',
-          },
-        });
-
-        const endTime = getElementOrThrow(
-          container,
-          '[data-test=time-span-end-time-0-0]'
+          '#time-span-0-0-start-time-hours'
         );
 
-        fireEvent.input(endTime, {
-          target: {
-            value: '16:00',
-          },
-        });
+        await userEvent.type(beginTimeHours, '08');
+
+        const beginTimeMinutes = getElementOrThrow(
+          container,
+          '#time-span-0-0-start-time-minutes'
+        );
+
+        await userEvent.type(beginTimeMinutes, '00');
+
+        const endTimeHours = getElementOrThrow(
+          container,
+          '#time-span-0-0-end-time-hours'
+        );
+
+        await userEvent.type(endTimeHours, '16');
+
+        const endTimeMinutes = getElementOrThrow(
+          container,
+          '#time-span-0-0-end-time-minutes'
+        );
+
+        await userEvent.type(endTimeMinutes, '00');
       });
 
       await act(async () => {
