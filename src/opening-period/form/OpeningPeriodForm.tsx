@@ -74,7 +74,8 @@ export type OpeningPeriodFormProps = {
   errorTextAndLabel: NotificationTexts;
 };
 
-const validateEndInputWithStartDate = (start: string | null) => (
+const validateEndInputWithStartDate = (
+  start: string | null,
   end: string | null
 ): boolean | string => {
   if (!start || !end) {
@@ -309,19 +310,17 @@ export default function OpeningPeriodForm({
                   }
                   invalid={!!errors.openingPeriodEndDate?.message}
                   aria-describedby="opening-period-date-error-text"
-                  ref={(ref): void =>
-                    register(ref, {
-                      validate: {
-                        dateRange: validateEndInputWithStartDate(
-                          getValues()?.openingPeriodBeginDate
-                        ),
-                      },
-                    })
-                  }
+                  ref={register({
+                    validate: (value) =>
+                      validateEndInputWithStartDate(
+                        getValues()?.openingPeriodBeginDate,
+                        value
+                      ),
+                  })}
                   disableConfirmation
                 />
               </section>
-              {errors.openingPeriodEndDate?.type === 'dateRange' &&
+              {errors.openingPeriodEndDate?.type === 'validate' &&
                 errors.openingPeriodEndDate?.message && (
                   <ErrorText
                     id="opening-period-date-error-text"
