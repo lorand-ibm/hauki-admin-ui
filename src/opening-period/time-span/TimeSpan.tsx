@@ -111,7 +111,6 @@ export default function TimeSpan({
               hideLabel
               hoursLabel="tunnit"
               minutesLabel="minuutit"
-              className="time-span-time-input"
               data-test={`time-span-start-time-${groupIndex}-${index}`}
               defaultValue={item.startTime || ''}
               ref={register({
@@ -140,7 +139,7 @@ export default function TimeSpan({
             hideLabel
             hoursLabel="tunnit"
             minutesLabel="minuutit"
-            className="time-span-time-input time-span-end-time-input"
+            className="time-span-end-time-input"
             data-test={`time-span-end-time-${groupIndex}-${index}`}
             defaultValue={item.endTime || ''}
             ref={register({
