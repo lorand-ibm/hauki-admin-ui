@@ -134,7 +134,7 @@ export default function TimeSpan({
             <p>—</p>
           </div>
           <TimeInput
-            id={`time-span-end-time-${groupIndex}-${index}`}
+            id={`time-span-${groupIndex}-${index}-end-time`}
             name={`${timeSpanNamePrefix}.endTime`}
             label="Aukiolon loppukellonaika"
             hideLabel
