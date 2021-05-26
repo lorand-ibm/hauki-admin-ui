@@ -5,13 +5,12 @@ import {
   FieldError,
   useFormContext,
 } from 'react-hook-form';
-import { Checkbox, IconTrash, TextInput } from 'hds-react';
+import { Checkbox, IconTrash, TextInput, TimeInput } from 'hds-react';
 import { SupplementaryButton } from '../../components/button/Button';
 import { ErrorText } from '../../components/icon-text/IconText';
 import ResourceStateSelect from '../../components/resourse-state-select/ResourceStateSelect';
 import Weekdays from './Weekdays';
 import './TimeSpan.scss';
-import TimeInput from './TimeInput';
 import {
   TimeSpanFormFormat,
   UiFieldConfig,
@@ -106,54 +105,58 @@ export default function TimeSpan({
               Kellonaika *
             </label>
             <TimeInput
-              ariaLabel="Aukiolon alkukellonaika"
-              dataTest={`time-span-start-time-${groupIndex}-${index}`}
-              registerFn={(ref): void =>
-                register(ref, {
-                  validate: (startTime): boolean => {
-                    if (fullDay) {
-                      return true;
-                    }
-                    return validateTimeRange(
-                      startTime,
-                      getValues(`${timeSpanNamePrefix}.endTime`)
-                    );
-                  },
-                })
-              }
-              defaultValue={item.startTime || ''}
-              error={timeSpanErrors?.startTime?.message}
               id={`time-span-${groupIndex}-${index}-start-time`}
               name={`${timeSpanNamePrefix}.startTime`}
-              placeholder="--.--"
+              label="Aukiolon alkukellonaika"
+              hideLabel
+              hoursLabel="tunnit"
+              minutesLabel="minuutit"
+              className="time-span-time-input"
+              data-test={`time-span-start-time-${groupIndex}-${index}`}
+              defaultValue={item.startTime || ''}
+              ref={register({
+                validate: (startTime): boolean => {
+                  if (fullDay) {
+                    return true;
+                  }
+                  return validateTimeRange(
+                    startTime,
+                    getValues(`${timeSpanNamePrefix}.endTime`)
+                  );
+                },
+              })}
               disabled={fullDay}
+              invalid={!!timeSpanErrors?.startTime?.message}
+              placeholder="--.--"
             />
           </div>
           <div className="dash-between-start-and-end-time-container">
             <p>—</p>
           </div>
           <TimeInput
-            ariaLabel="Aukiolon loppukellonaika"
-            dataTest={`time-span-end-time-${groupIndex}-${index}`}
-            registerFn={(ref): void =>
-              register(ref, {
-                validate: (endTime): boolean => {
-                  if (fullDay) {
-                    return true;
-                  }
-                  return validateTimeRange(
-                    getValues(`${timeSpanNamePrefix}.startTime`),
-                    endTime
-                  );
-                },
-              })
-            }
-            defaultValue={item.endTime || ''}
             id={`time-span-end-time-${groupIndex}-${index}`}
             name={`${timeSpanNamePrefix}.endTime`}
-            placeholder="--.--"
-            wrapperClassName="time-span-end-time-input-wrapper"
+            label="Aukiolon loppukellonaika"
+            hideLabel
+            hoursLabel="tunnit"
+            minutesLabel="minuutit"
+            className="time-span-time-input time-span-end-time-input"
+            data-test={`time-span-end-time-${groupIndex}-${index}`}
+            defaultValue={item.endTime || ''}
+            ref={register({
+              validate: (endTime): boolean => {
+                if (fullDay) {
+                  return true;
+                }
+                return validateTimeRange(
+                  getValues(`${timeSpanNamePrefix}.startTime`),
+                  endTime
+                );
+              },
+            })}
+            invalid={!!timeSpanErrors?.endTime?.message}
             disabled={fullDay}
+            placeholder="--.--"
           />
           <div className="time-span-fullday-checkbox-container">
             <Checkbox
