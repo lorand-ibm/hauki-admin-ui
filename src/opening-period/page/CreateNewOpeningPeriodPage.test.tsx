@@ -29,19 +29,16 @@ async function fillCompulsoryPeriodDescriptionFields(
   const titleInput = await screen.findByRole('textbox', {
     name: 'Otsikko suomeksi',
   });
-  fireEvent.input(titleInput, {
-    target: {
-      value: 'Test title',
-    },
-  });
+  await userEvent.type(titleInput, 'Test title');
 
   // Enter begin date
   const beginDate = getElementOrThrow(
     container,
     '[data-test="openingPeriodBeginDate"]'
   );
-  fireEvent.click(beginDate);
-  fireEvent.click(
+
+  userEvent.click(beginDate);
+  userEvent.click(
     screen.getByRole('button', { name: 'Valitse alkupäivämäärä' })
   );
 
@@ -51,16 +48,16 @@ async function fillCompulsoryPeriodDescriptionFields(
     beginDatePicker,
     `[data-date="${new Date().toISOString().slice(0, 10)}"]`
   );
-  fireEvent.click(todayButton);
+  userEvent.click(todayButton);
 
   // Enter end date
   const endDate = getElementOrThrow(
     container,
     '[data-test="openingPeriodEndDate"]'
   );
-  fireEvent.click(endDate);
+  userEvent.click(endDate);
 
-  fireEvent.click(
+  userEvent.click(
     screen.getByRole('button', { name: 'Valitse loppupäivämäärä' })
   );
 
@@ -71,11 +68,13 @@ async function fillCompulsoryPeriodDescriptionFields(
     '[aria-label="Seuraava kuukausi"]'
   );
 
-  fireEvent.click(nextMonthButton);
+  userEvent.click(nextMonthButton);
 
   // Last one requires a separate act wrapping
   const firstDayButton = getElementOrThrow(endDatePicker, `[data-date$="01"]`);
-  fireEvent.click(firstDayButton);
+  await act(async () => {
+    userEvent.click(firstDayButton);
+  });
 }
 
 function selectAllWeekdaysInTimeSpan({
@@ -91,43 +90,43 @@ function selectAllWeekdaysInTimeSpan({
     container,
     `[data-test=weekdays-monday-${groupIndex}-${timeSpanIndex}]`
   );
-  fireEvent.click(mondayButton);
+  userEvent.click(mondayButton);
 
   const tuesdayButton = getElementOrThrow(
     container,
     `[data-test=weekdays-tuesday-${groupIndex}-${timeSpanIndex}]`
   );
-  fireEvent.click(tuesdayButton);
+  userEvent.click(tuesdayButton);
 
   const wednesdayButton = getElementOrThrow(
     container,
     `[data-test=weekdays-wednesday-${groupIndex}-${timeSpanIndex}]`
   );
-  fireEvent.click(wednesdayButton);
+  userEvent.click(wednesdayButton);
 
   const thursdayButton = getElementOrThrow(
     container,
     `[data-test=weekdays-thursday-${groupIndex}-${timeSpanIndex}]`
   );
-  fireEvent.click(thursdayButton);
+  userEvent.click(thursdayButton);
 
   const fridayButton = getElementOrThrow(
     container,
     `[data-test=weekdays-friday-${groupIndex}-${timeSpanIndex}]`
   );
-  fireEvent.click(fridayButton);
+  userEvent.click(fridayButton);
 
   const saturdayButton = getElementOrThrow(
     container,
     `[data-test=weekdays-saturday-${groupIndex}-${timeSpanIndex}]`
   );
-  fireEvent.click(saturdayButton);
+  userEvent.click(saturdayButton);
 
   const sundayButton = getElementOrThrow(
     container,
     `[data-test=weekdays-sunday-${groupIndex}-${timeSpanIndex}]`
   );
-  fireEvent.click(sundayButton);
+  userEvent.click(sundayButton);
 }
 
 async function selectTimeAndTypeInTimeSpan({
@@ -171,7 +170,7 @@ async function selectTimeAndTypeInTimeSpan({
     container,
     `button#time-span-state-id-${groupIndex}-${timeSpanIndex}-toggle-button`
   );
-  fireEvent.click(timeSpanStateDropDown);
+  userEvent.click(timeSpanStateDropDown);
 
   const firstOptionInStateDropDown = getElementOrThrow(
     container,
@@ -180,7 +179,7 @@ async function selectTimeAndTypeInTimeSpan({
 
   // Last one requires a separate act wrapping
   await act(async () => {
-    fireEvent.click(firstOptionInStateDropDown);
+    userEvent.click(firstOptionInStateDropDown);
   });
 }
 
@@ -376,7 +375,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
         container,
         '[data-test=weekdays-monday-0-0]'
       );
-      fireEvent.click(mondayButton);
+      userEvent.click(mondayButton);
 
       const beginTimeHours = getElementOrThrow(
         container,
@@ -411,7 +410,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
         container,
         '[data-test="publish-opening-period-button"]'
       );
-      fireEvent.submit(submitFormButton);
+      userEvent.click(submitFormButton);
     });
 
     await act(async () => {
@@ -453,7 +452,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
         container,
         '[data-test="publish-opening-period-button"]'
       );
-      fireEvent.submit(submitFormButton);
+      userEvent.click(submitFormButton);
     });
 
     await act(async () => {
@@ -495,7 +494,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
         container,
         '[data-test="add-new-time-span-button-0"]'
       );
-      fireEvent.click(addNewTimeSpanButton);
+      userEvent.click(addNewTimeSpanButton);
       selectAllWeekdaysInTimeSpan({
         container,
         groupIndex: 0,
@@ -511,7 +510,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
         container,
         '[data-test="publish-opening-period-button"]'
       );
-      fireEvent.submit(submitFormButton);
+      userEvent.click(submitFormButton);
     });
 
     await act(async () => {
@@ -554,7 +553,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
         container,
         '[data-test="add-new-time-span-button-0"]'
       );
-      fireEvent.click(addNewTimeSpanButton);
+      userEvent.click(addNewTimeSpanButton);
 
       const secondTimeSpanElement = getElementOrThrow(
         container,
@@ -571,7 +570,7 @@ describe(`<CreateNewOpeningPeriodPage />`, () => {
         '[data-test="remove-time-span-button-0-1"]'
       );
 
-      fireEvent.click(deleteSecondTimeSpanButton);
+      userEvent.click(deleteSecondTimeSpanButton);
     });
 
     await act(async () => {
