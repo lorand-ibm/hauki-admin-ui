@@ -27,5 +27,14 @@ declare namespace Cypress {
       id: string;
       value: string;
     }) => Chainable;
+    setHdsTimeInputTime: ({
+      id,
+      hours,
+      minutes,
+    }: {
+      id: string;
+      hours: string;
+      minutes: string;
+    }) => Chainable;
   }
 }

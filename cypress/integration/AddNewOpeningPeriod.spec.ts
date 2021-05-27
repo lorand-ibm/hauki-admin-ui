@@ -60,8 +60,16 @@ describe('User adds a new opening period', () => {
     cy.get('[data-test=weekdays-wednesday-0-0]').click();
     cy.get('[data-test=weekdays-thursday-0-0]').click();
     cy.get('[data-test=weekdays-friday-0-0]').click();
-    cy.get('[data-test=time-span-start-time-0-0]').type('08:00');
-    cy.get('[data-test=time-span-end-time-0-0]').type('16:00');
+    cy.setHdsTimeInputTime({
+      id: 'time-span-0-0-start-time',
+      hours: '08',
+      minutes: '00',
+    });
+    cy.setHdsTimeInputTime({
+      id: 'time-span-0-0-end-time',
+      hours: '16',
+      minutes: '00',
+    });
     cy.selectHdsDropdown({ id: 'time-span-state-id-0-0', value: 'Auki' });
 
     // Try submit form
