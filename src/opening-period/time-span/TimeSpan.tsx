@@ -31,6 +31,26 @@ const descriptionPlaceholderTexts: LanguageStrings = {
   en: 'Esim. for women only',
 };
 
+const validateTimeFormat = (timeString: string): boolean => {
+  const [hours, minutes] = timeString.split(':');
+  return (
+    (!hours && !minutes) ||
+    (parseInt(hours, 10) < 24 && parseInt(minutes, 10) < 60)
+  );
+};
+
+const timeRangeErrorMessage =
+  'Aukiololla on oltava vähintään alku tai loppuaika.';
+
+const validateTimeRange = (
+  startTime: string,
+  endTime: string
+): boolean | string => {
+  const isValidStartTime = startTime !== ':';
+  const isValidEndTime = endTime !== ':';
+  return isValidStartTime || isValidEndTime;
+};
+
 export default function TimeSpan({
   item,
   namePrefix,
@@ -54,9 +74,6 @@ export default function TimeSpan({
   const timeSpanErrors = errors && errors[index];
 
   const [fullDay, setFullDay] = useState((item.fullDay as unknown) as boolean);
-
-  const validateTimeRange = (startTime: string, endTime: string): boolean =>
-    !!startTime || !!endTime;
 
   const getDescriptionValueByLanguage = (language: Language): string => {
     const description = item.description
@@ -114,14 +131,22 @@ export default function TimeSpan({
               data-test={`time-span-start-time-${groupIndex}-${index}`}
               defaultValue={item.startTime || ''}
               ref={register({
-                validate: (startTime): boolean => {
-                  if (fullDay) {
-                    return true;
-                  }
-                  return validateTimeRange(
-                    startTime,
-                    getValues(`${timeSpanNamePrefix}.endTime`)
-                  );
+                validate: {
+                  timeFormat: (startTime: string): boolean | string =>
+                    validateTimeFormat(startTime) ||
+                    'Alkuaika on virheellisessä muodossa',
+                  timeRange: (startTime: string): boolean | string => {
+                    if (fullDay) {
+                      return true;
+                    }
+
+                    const isValid = validateTimeRange(
+                      startTime,
+                      getValues(`${timeSpanNamePrefix}.endTime`)
+                    );
+
+                    return isValid || timeRangeErrorMessage;
+                  },
                 },
               })}
               disabled={fullDay}
@@ -143,14 +168,22 @@ export default function TimeSpan({
             data-test={`time-span-end-time-${groupIndex}-${index}`}
             defaultValue={item.endTime || ''}
             ref={register({
-              validate: (endTime): boolean => {
-                if (fullDay) {
-                  return true;
-                }
-                return validateTimeRange(
-                  getValues(`${timeSpanNamePrefix}.startTime`),
-                  endTime
-                );
+              validate: {
+                timeFormat: (endTime: string): boolean | string =>
+                  validateTimeFormat(endTime) ||
+                  'Loppuaika on virheellisessä muodossa',
+                timeRange: (endTime: string): boolean | string => {
+                  if (fullDay) {
+                    return true;
+                  }
+
+                  const isValid = validateTimeRange(
+                    getValues(`${timeSpanNamePrefix}.startTime`),
+                    endTime
+                  );
+
+                  return isValid || timeRangeErrorMessage;
+                },
               },
             })}
             invalid={!!timeSpanErrors?.endTime?.message}
@@ -172,7 +205,11 @@ export default function TimeSpan({
           (timeSpanErrors?.startTime || timeSpanErrors?.endTime) && (
             <ErrorText
               id="opening-period-time-span-error-text"
-              message="Aukiololla on oltava vähintään alku tai loppuaika."
+              message={
+                timeSpanErrors?.startTime?.message ||
+                timeSpanErrors?.endTime?.message ||
+                ''
+              }
             />
           )}
       </div>
