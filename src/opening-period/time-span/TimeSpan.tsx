@@ -46,8 +46,8 @@ const validateTimeRange = (
   startTime: string,
   endTime: string
 ): boolean | string => {
-  const isValidStartTime = startTime !== ':';
-  const isValidEndTime = endTime !== ':';
+  const isValidStartTime = !!startTime && startTime !== ':';
+  const isValidEndTime = !!endTime && endTime !== ':';
   return isValidStartTime || isValidEndTime;
 };
 
