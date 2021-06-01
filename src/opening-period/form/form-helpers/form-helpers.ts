@@ -27,6 +27,14 @@ const formatDescriptionToApiFormat = (
         { fi: null, sv: null, en: null }
       );
 
+const formatTimeToApiFormat = (time: string): string | null => {
+  // HDS TimeInput bug: it will return ':' if it is cleared, https://helsinkisolutionoffice.atlassian.net/browse/HDS-838.
+  if (!time || time === ':') {
+    return null;
+  }
+  return `${time}:00`;
+};
+
 function formatTimeSpansToApiFormat(
   timeSpans: TimeSpanFormFormat[]
 ): TimeSpanApiFormat[] {
@@ -45,8 +53,8 @@ function formatTimeSpansToApiFormat(
         ...(id && id !== '' ? { id: parseInt(id, 10) } : {}),
         ...(group && group !== '' ? { group: parseInt(group, 10) } : {}),
         description: formatDescriptionToApiFormat(description),
-        end_time: endTime ? `${endTime}:00` : null,
-        start_time: startTime ? `${startTime}:00` : null,
+        end_time: formatTimeToApiFormat(endTime),
+        start_time: formatTimeToApiFormat(startTime),
         resource_state: resourceState,
         full_day: fullDay,
         weekdays: weekdays.reduce(
