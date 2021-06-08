@@ -2,6 +2,13 @@
 
 .custom-icon-text {
   display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > .custom-icon-text-icon {
+    line-height: 1;
+    vertical-align: middle;
+  }
 
   > * + * {
     margin-left: $spacing-3-xs;

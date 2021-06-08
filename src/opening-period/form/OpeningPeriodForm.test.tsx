@@ -349,7 +349,7 @@ describe(`<OpeningPeriodForm />`, () => {
     it('should render time-span-groups', async () => {
       let container: Element;
 
-      act(() => {
+      await act(async () => {
         container = renderOpeningPeriodForm({
           ...defaultProps,
           datePeriod: {
@@ -405,7 +405,7 @@ describe(`<OpeningPeriodForm />`, () => {
     it('should save changed time-span-groups', async () => {
       let container: Element;
 
-      act(() => {
+      await act(async () => {
         container = renderOpeningPeriodForm({
           ...defaultProps,
           datePeriod: {
@@ -462,7 +462,7 @@ describe(`<OpeningPeriodForm />`, () => {
     it('should submit opening period as an exception period', async () => {
       let container: Element;
 
-      act(() => {
+      await act(async () => {
         container = renderOpeningPeriodForm({
           ...defaultProps,
           datePeriod: {
@@ -495,7 +495,7 @@ describe(`<OpeningPeriodForm />`, () => {
     it('should submit formerly closed date period opening hours', async () => {
       let container: Element;
 
-      act(() => {
+      await act(async () => {
         container = renderOpeningPeriodForm({
           ...defaultProps,
           datePeriod: {
@@ -590,7 +590,7 @@ describe(`<OpeningPeriodForm />`, () => {
     it('should add time-span-group', async () => {
       let container: Element;
 
-      act(() => {
+      await act(async () => {
         container = renderOpeningPeriodForm({
           ...defaultProps,
           datePeriod: {

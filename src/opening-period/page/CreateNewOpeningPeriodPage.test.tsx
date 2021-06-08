@@ -39,26 +39,42 @@ async function fillCompulsoryPeriodDescriptionFields(
     container,
     '[data-test="openingPeriodBeginDate"]'
   );
-  const beginDateButton = getElementOrThrow(beginDate, 'button.iconCalendar');
-  fireEvent.click(beginDateButton);
+  fireEvent.click(beginDate);
+  fireEvent.click(
+    screen.getByRole('button', { name: 'Valitse alkupäivämäärä' })
+  );
 
-  const todayButton = getElementOrThrow(container, 'button.dayToday');
+  const beginDatePicker = screen.getByRole('dialog');
+
+  const todayButton = getElementOrThrow(
+    beginDatePicker,
+    `[data-date="${new Date().toISOString().slice(0, 10)}"]`
+  );
   fireEvent.click(todayButton);
 
   // Enter end date
-  const endDate = container.querySelector('[data-test="openingPeriodEndDate"]');
-  const endDateButton = getElementOrThrow(endDate, 'button.iconCalendar');
-  fireEvent.click(endDateButton);
+  const endDate = getElementOrThrow(
+    container,
+    '[data-test="openingPeriodEndDate"]'
+  );
+  fireEvent.click(endDate);
+
+  fireEvent.click(
+    screen.getByRole('button', { name: 'Valitse loppupäivämäärä' })
+  );
+
+  const endDatePicker = screen.getByRole('dialog');
 
   const nextMonthButton = getElementOrThrow(
-    container,
-    '[data-test="show-next-month-button"]'
+    endDatePicker,
+    '[aria-label="Seuraava kuukausi"]'
   );
+
   fireEvent.click(nextMonthButton);
+
   // Last one requires a separate act wrapping
-  await act(async () => {
-    fireEvent.click(screen.getByText('01'));
-  });
+  const firstDayButton = getElementOrThrow(endDatePicker, `[data-date$="01"]`);
+  fireEvent.click(firstDayButton);
 }
 
 function selectAllWeekdaysInTimeSpan({
