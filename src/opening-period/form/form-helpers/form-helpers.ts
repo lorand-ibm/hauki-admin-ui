@@ -28,7 +28,7 @@ const formatDescriptionToApiFormat = (
       );
 
 const formatTimeToApiFormat = (time: string): string | null => {
-  // HDS TimeInput bug: it will return ':' if it is cleared, https://helsinkisolutionoffice.atlassian.net/browse/HDS-838.
+  // HDS TimeInput bug: it will return ':' when the input is cleared, https://helsinkisolutionoffice.atlassian.net/browse/HDS-838.
   if (!time || time === ':') {
     return null;
   }
