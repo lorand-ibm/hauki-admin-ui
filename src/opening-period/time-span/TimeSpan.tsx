@@ -31,7 +31,7 @@ const descriptionPlaceholderTexts: LanguageStrings = {
   en: 'Esim. for women only',
 };
 
-const isTimeEmpty = (timeString: string): boolean => {
+const isEmptyTime = (timeString: string): boolean => {
   const [hours, minutes] = timeString.split(':');
   return !hours && !minutes;
 };
@@ -135,7 +135,7 @@ export default function TimeSpan({
               ref={register({
                 validate: {
                   timeFormat: (startTime: string): boolean | string =>
-                    isTimeEmpty(startTime) ||
+                    isEmptyTime(startTime) ||
                     validateTime(startTime) ||
                     'Alkuaika on virheellisessä muodossa',
                   timeRange: (startTime: string): boolean | string => {
@@ -173,7 +173,7 @@ export default function TimeSpan({
             ref={register({
               validate: {
                 timeFormat: (endTime: string): boolean | string =>
-                  isTimeEmpty(endTime) ||
+                  isEmptyTime(endTime) ||
                   validateTime(endTime) ||
                   'Loppuaika on virheellisessä muodossa',
                 timeRange: (endTime: string): boolean | string => {
