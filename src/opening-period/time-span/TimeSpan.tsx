@@ -31,12 +31,14 @@ const descriptionPlaceholderTexts: LanguageStrings = {
   en: 'Esim. for women only',
 };
 
-const validateTimeFormat = (timeString: string): boolean => {
+const isTimeEmpty = (timeString: string): boolean => {
   const [hours, minutes] = timeString.split(':');
-  return (
-    (!hours && !minutes) ||
-    (parseInt(hours, 10) < 24 && parseInt(minutes, 10) < 60)
-  );
+  return !hours && !minutes;
+};
+
+const validateTime = (timeString: string): boolean => {
+  const [hours, minutes] = timeString.split(':');
+  return parseInt(hours, 10) < 24 && parseInt(minutes, 10) < 60;
 };
 
 const timeRangeErrorMessage =
@@ -133,7 +135,8 @@ export default function TimeSpan({
               ref={register({
                 validate: {
                   timeFormat: (startTime: string): boolean | string =>
-                    validateTimeFormat(startTime) ||
+                    isTimeEmpty(startTime) ||
+                    validateTime(startTime) ||
                     'Alkuaika on virheellisessä muodossa',
                   timeRange: (startTime: string): boolean | string => {
                     if (fullDay) {
@@ -170,7 +173,8 @@ export default function TimeSpan({
             ref={register({
               validate: {
                 timeFormat: (endTime: string): boolean | string =>
-                  validateTimeFormat(endTime) ||
+                  isTimeEmpty(endTime) ||
+                  validateTime(endTime) ||
                   'Loppuaika on virheellisessä muodossa',
                 timeRange: (endTime: string): boolean | string => {
                   if (fullDay) {
