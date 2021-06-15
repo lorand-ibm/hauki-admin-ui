@@ -1,6 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { getElementOrThrow, selectOption } from '../../../test/test-utils';
 import { datePeriodOptions } from '../../../test/fixtures/api-options';
 import {
@@ -158,7 +159,7 @@ describe(`<OpeningPeriodForm />`, () => {
           container,
           '[data-test="publish-opening-period-button"]'
         );
-        fireEvent.submit(submitFormButton);
+        userEvent.click(submitFormButton);
       });
 
       await act(async () => {
@@ -189,7 +190,7 @@ describe(`<OpeningPeriodForm />`, () => {
           container,
           '[data-test="publish-opening-period-button"]'
         );
-        fireEvent.submit(submitFormButton);
+        userEvent.click(submitFormButton);
       });
 
       await act(async () => {
@@ -218,7 +219,7 @@ describe(`<OpeningPeriodForm />`, () => {
           container,
           '[data-test="add-new-rule-button-0"]'
         );
-        fireEvent.click(addRuleButton);
+        userEvent.click(addRuleButton);
       });
 
       // try submit form with invalid date range:
@@ -227,7 +228,7 @@ describe(`<OpeningPeriodForm />`, () => {
           container,
           '[data-test="publish-opening-period-button"]'
         );
-        fireEvent.submit(submitFormButton);
+        userEvent.click(submitFormButton);
       });
 
       await act(async () => {
@@ -274,7 +275,7 @@ describe(`<OpeningPeriodForm />`, () => {
           container,
           '[data-test="publish-opening-period-button"]'
         );
-        fireEvent.submit(submitFormButton);
+        userEvent.click(submitFormButton);
       });
 
       await act(async () => {
@@ -316,7 +317,7 @@ describe(`<OpeningPeriodForm />`, () => {
           container,
           '[data-test="publish-opening-period-button"]'
         );
-        fireEvent.submit(submitFormButton);
+        userEvent.click(submitFormButton);
       });
 
       act(() => {
@@ -425,7 +426,7 @@ describe(`<OpeningPeriodForm />`, () => {
           timeSpanGroupElementB,
           `[data-test=weekdays-saturday-1-0]`
         );
-        fireEvent.click(fridayButton);
+        userEvent.click(fridayButton);
       });
 
       await act(async () => {
@@ -436,7 +437,7 @@ describe(`<OpeningPeriodForm />`, () => {
           throw new Error(`Element with selector ${saveButton} not found`);
         }
 
-        fireEvent.click(saveButton);
+        userEvent.click(saveButton);
       });
 
       act(() => {
@@ -480,7 +481,7 @@ describe(`<OpeningPeriodForm />`, () => {
           throw new Error(`Element with selector ${saveButton} not found`);
         }
 
-        fireEvent.click(saveButton);
+        userEvent.click(saveButton);
       });
 
       act(() => {
@@ -512,44 +513,51 @@ describe(`<OpeningPeriodForm />`, () => {
           '[data-test="clear-resource-state-button"]'
         );
 
-        fireEvent.click(clearResourceStateButton);
+        userEvent.click(clearResourceStateButton);
       });
 
-      act(() => {
+      await act(async () => {
         const mondayButton = getElementOrThrow(
           container,
           '[data-test="weekdays-monday-0-0-checkbox"]'
         );
 
-        fireEvent.click(mondayButton);
+        userEvent.click(mondayButton);
 
         const tuesdayButton = getElementOrThrow(
           container,
           '[data-test="weekdays-tuesday-0-0-checkbox"]'
         );
 
-        fireEvent.click(tuesdayButton);
+        userEvent.click(tuesdayButton);
 
-        const beginTime = getElementOrThrow(
+        const beginTimeHours = getElementOrThrow(
           container,
-          '[data-test=time-span-start-time-0-0]'
-        );
-        fireEvent.input(beginTime, {
-          target: {
-            value: '08:00',
-          },
-        });
-
-        const endTime = getElementOrThrow(
-          container,
-          '[data-test=time-span-end-time-0-0]'
+          '#time-span-0-0-start-time-hours'
         );
 
-        fireEvent.input(endTime, {
-          target: {
-            value: '16:00',
-          },
-        });
+        await userEvent.type(beginTimeHours, '08');
+
+        const beginTimeMinutes = getElementOrThrow(
+          container,
+          '#time-span-0-0-start-time-minutes'
+        );
+
+        await userEvent.type(beginTimeMinutes, '00');
+
+        const endTimeHours = getElementOrThrow(
+          container,
+          '#time-span-0-0-end-time-hours'
+        );
+
+        await userEvent.type(endTimeHours, '16');
+
+        const endTimeMinutes = getElementOrThrow(
+          container,
+          '#time-span-0-0-end-time-minutes'
+        );
+
+        await userEvent.type(endTimeMinutes, '00');
       });
 
       await act(async () => {
@@ -560,7 +568,7 @@ describe(`<OpeningPeriodForm />`, () => {
           throw new Error(`Element with selector ${saveButton} not found`);
         }
 
-        fireEvent.click(saveButton);
+        userEvent.click(saveButton);
       });
 
       act(() => {
@@ -606,7 +614,7 @@ describe(`<OpeningPeriodForm />`, () => {
           '[data-test="add-time-span-group"]'
         );
 
-        fireEvent.click(addTimeSpanGroupButton);
+        userEvent.click(addTimeSpanGroupButton);
       });
 
       act(() => {
@@ -645,7 +653,7 @@ describe(`<OpeningPeriodForm />`, () => {
           timeSpanGroupElementA,
           '[data-test="remove-time-span-group"]'
         );
-        fireEvent.click(removeGroupButton);
+        userEvent.click(removeGroupButton);
       });
 
       await act(async () => {
@@ -664,7 +672,7 @@ describe(`<OpeningPeriodForm />`, () => {
           throw new Error(`Element with selector ${saveButton} not found`);
         }
 
-        fireEvent.click(saveButton);
+        userEvent.click(saveButton);
       });
 
       act(() => {
@@ -793,7 +801,7 @@ describe(`<OpeningPeriodForm />`, () => {
           container,
           '[data-test="add-new-rule-button-0"]'
         );
-        fireEvent.click(addRuleButton);
+        userEvent.click(addRuleButton);
       });
 
       await act(async () => {
@@ -836,7 +844,7 @@ describe(`<OpeningPeriodForm />`, () => {
           throw new Error(`Element with selector ${saveButton} not found`);
         }
 
-        fireEvent.click(saveButton);
+        userEvent.click(saveButton);
       });
 
       await act(async () => {
@@ -882,7 +890,7 @@ describe(`<OpeningPeriodForm />`, () => {
           `[data-test="rule-list-item-${timeSpanGroupA.rules[0].id}"] [data-test^=remove-rule-button]`
         );
 
-        fireEvent.click(periodRuleRemoveButton);
+        userEvent.click(periodRuleRemoveButton);
       });
 
       await act(async () => {
@@ -893,7 +901,7 @@ describe(`<OpeningPeriodForm />`, () => {
           throw new Error(`Element with selector ${saveButton} not found`);
         }
 
-        fireEvent.click(saveButton);
+        userEvent.click(saveButton);
       });
 
       await act(async () => {

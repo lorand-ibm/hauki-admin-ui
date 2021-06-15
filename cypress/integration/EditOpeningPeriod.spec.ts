@@ -76,8 +76,16 @@ describe('User edits an opening period', () => {
     cy.get('[data-test=weekdays-tuesday-0-0]').click();
     cy.get('[data-test=weekdays-tuesday-0-0-checkbox]').should('be.checked');
 
-    cy.get('[data-test=time-span-start-time-0-0]').type('08:00');
-    cy.get('[data-test=time-span-end-time-0-0]').type('16:00');
+    cy.setHdsTimeInputTime({
+      id: 'time-span-0-0-start-time',
+      hours: '08',
+      minutes: '00',
+    });
+    cy.setHdsTimeInputTime({
+      id: 'time-span-0-0-end-time',
+      hours: '16',
+      minutes: '00',
+    });
 
     // Save
     cy.get('[data-test=publish-opening-period-button]').click({

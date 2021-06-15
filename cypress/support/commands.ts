@@ -169,3 +169,19 @@ Cypress.Commands.add(
       .click(); // HDS component Select appends the part '-item' in the option's id in addition to given component id
   }
 );
+
+Cypress.Commands.add(
+  'setHdsTimeInputTime',
+  { prevSubject: 'optional' },
+  (
+    subject: PrevSubject | undefined,
+    { id, hours, minutes }: { id: string; hours: string; minutes: string }
+  ) => {
+    const timeInputContainer = cy.get(`input#${id}`).parent();
+
+    return timeInputContainer.within(() => {
+      cy.get(`input#${id}-hours`).type(hours);
+      cy.get(`input#${id}-minutes`).type(minutes);
+    });
+  }
+);

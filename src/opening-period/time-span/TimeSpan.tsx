@@ -5,13 +5,12 @@ import {
   FieldError,
   useFormContext,
 } from 'react-hook-form';
-import { Checkbox, IconTrash, TextInput } from 'hds-react';
+import { Checkbox, IconTrash, TextInput, TimeInput } from 'hds-react';
 import { SupplementaryButton } from '../../components/button/Button';
 import { ErrorText } from '../../components/icon-text/IconText';
 import ResourceStateSelect from '../../components/resourse-state-select/ResourceStateSelect';
 import Weekdays from './Weekdays';
 import './TimeSpan.scss';
-import TimeInput from './TimeInput';
 import {
   TimeSpanFormFormat,
   UiFieldConfig,
@@ -30,6 +29,28 @@ const descriptionPlaceholderTexts: LanguageStrings = {
   fi: 'Esim. naisten vuoro',
   sv: 'Esim. för kvinnorna',
   en: 'Esim. for women only',
+};
+
+const isEmptyTime = (timeString: string): boolean => {
+  const [hours, minutes] = timeString.split(':');
+  return !hours && !minutes;
+};
+
+const validateTime = (timeString: string): boolean => {
+  const [hours, minutes] = timeString.split(':');
+  return parseInt(hours, 10) < 24 && parseInt(minutes, 10) < 60;
+};
+
+const timeRangeErrorMessage =
+  'Aukiololla on oltava vähintään alku tai loppuaika.';
+
+const validateTimeRange = (
+  startTime: string,
+  endTime: string
+): boolean | string => {
+  const isValidStartTime = !!startTime && startTime !== ':';
+  const isValidEndTime = !!endTime && endTime !== ':';
+  return isValidStartTime || isValidEndTime;
 };
 
 export default function TimeSpan({
@@ -55,9 +76,6 @@ export default function TimeSpan({
   const timeSpanErrors = errors && errors[index];
 
   const [fullDay, setFullDay] = useState((item.fullDay as unknown) as boolean);
-
-  const validateTimeRange = (startTime: string, endTime: string): boolean =>
-    !!startTime || !!endTime;
 
   const getDescriptionValueByLanguage = (language: Language): string => {
     const description = item.description
@@ -106,54 +124,75 @@ export default function TimeSpan({
               Kellonaika *
             </label>
             <TimeInput
-              ariaLabel="Aukiolon alkukellonaika"
-              dataTest={`time-span-start-time-${groupIndex}-${index}`}
-              registerFn={(ref): void =>
-                register(ref, {
-                  validate: (startTime): boolean => {
+              id={`time-span-${groupIndex}-${index}-start-time`}
+              name={`${timeSpanNamePrefix}.startTime`}
+              label="Aukiolon alkukellonaika"
+              hideLabel
+              hoursLabel="tunnit"
+              minutesLabel="minuutit"
+              data-test={`time-span-start-time-${groupIndex}-${index}`}
+              defaultValue={item.startTime || ''}
+              ref={register({
+                validate: {
+                  timeFormat: (startTime: string): boolean | string =>
+                    isEmptyTime(startTime) ||
+                    validateTime(startTime) ||
+                    'Alkuaika on virheellisessä muodossa',
+                  timeRange: (startTime: string): boolean | string => {
                     if (fullDay) {
                       return true;
                     }
-                    return validateTimeRange(
+
+                    const isValid = validateTimeRange(
                       startTime,
                       getValues(`${timeSpanNamePrefix}.endTime`)
                     );
+
+                    return isValid || timeRangeErrorMessage;
                   },
-                })
-              }
-              defaultValue={item.startTime || ''}
-              error={timeSpanErrors?.startTime?.message}
-              id={`time-span-${groupIndex}-${index}-start-time`}
-              name={`${timeSpanNamePrefix}.startTime`}
-              placeholder="--.--"
+                },
+              })}
               disabled={fullDay}
+              invalid={!!timeSpanErrors?.startTime?.message}
+              placeholder="--.--"
             />
           </div>
           <div className="dash-between-start-and-end-time-container">
             <p>—</p>
           </div>
           <TimeInput
-            ariaLabel="Aukiolon loppukellonaika"
-            dataTest={`time-span-end-time-${groupIndex}-${index}`}
-            registerFn={(ref): void =>
-              register(ref, {
-                validate: (endTime): boolean => {
+            id={`time-span-${groupIndex}-${index}-end-time`}
+            name={`${timeSpanNamePrefix}.endTime`}
+            label="Aukiolon loppukellonaika"
+            hideLabel
+            hoursLabel="tunnit"
+            minutesLabel="minuutit"
+            className="time-span-end-time-input"
+            data-test={`time-span-end-time-${groupIndex}-${index}`}
+            defaultValue={item.endTime || ''}
+            ref={register({
+              validate: {
+                timeFormat: (endTime: string): boolean | string =>
+                  isEmptyTime(endTime) ||
+                  validateTime(endTime) ||
+                  'Loppuaika on virheellisessä muodossa',
+                timeRange: (endTime: string): boolean | string => {
                   if (fullDay) {
                     return true;
                   }
-                  return validateTimeRange(
+
+                  const isValid = validateTimeRange(
                     getValues(`${timeSpanNamePrefix}.startTime`),
                     endTime
                   );
+
+                  return isValid || timeRangeErrorMessage;
                 },
-              })
-            }
-            defaultValue={item.endTime || ''}
-            id={`time-span-end-time-${groupIndex}-${index}`}
-            name={`${timeSpanNamePrefix}.endTime`}
-            placeholder="--.--"
-            wrapperClassName="time-span-end-time-input-wrapper"
+              },
+            })}
+            invalid={!!timeSpanErrors?.endTime?.message}
             disabled={fullDay}
+            placeholder="--.--"
           />
           <div className="time-span-fullday-checkbox-container">
             <Checkbox
@@ -170,7 +209,11 @@ export default function TimeSpan({
           (timeSpanErrors?.startTime || timeSpanErrors?.endTime) && (
             <ErrorText
               id="opening-period-time-span-error-text"
-              message="Aukiololla on oltava vähintään alku tai loppuaika."
+              message={
+                timeSpanErrors?.startTime?.message ||
+                timeSpanErrors?.endTime?.message ||
+                ''
+              }
             />
           )}
       </div>
