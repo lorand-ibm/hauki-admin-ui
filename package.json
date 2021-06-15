@@ -28,7 +28,7 @@
     "hds-core": "^1.1.0",
     "hds-design-tokens": "^1.1.0",
     "hds-react": "1.1.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "node-sass": "^4.14.1",
     "prettier": "^2.1.1",
     "react": "^16.13.1",
