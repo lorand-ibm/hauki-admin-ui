@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# Hauki Admin UI
+# Hauki ADMIN UI
 UI for managing opening hours in Hauki.
 
 ## DEVELOPMENT
