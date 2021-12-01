@@ -43,14 +43,14 @@ describe('User edits an opening period', () => {
   it('User successfully edits an opening period', () => {
     // Enter in edit page from resource page
     cy.get('[data-test=resource-opening-periods-list]', {
-      timeout: 5000,
+      timeout: 10000,
     })
       .find(`[data-test="openingPeriodEditLink-${dataPeriodId}"]`)
       .click({ log: true });
 
     // Check that form exists
     cy.get('[data-test=edit-opening-period-form]', {
-      timeout: 5000,
+      timeout: 10000,
     }).should('be.visible');
 
     // Start editing by checking the finnish title
@@ -99,9 +99,8 @@ describe('User edits an opening period', () => {
     }).should('be.visible');
 
     // Check that updated title exists in the date-period's list item on the resource page
-    cy.get(`[data-test="openingPeriod-${dataPeriodId}"]`).should(
-      'contain',
-      newFinnishTitle
-    );
+    cy.get(`[data-test="openingPeriod-${dataPeriodId}"]`, {
+      timeout: 10000,
+    }).should('contain', newFinnishTitle);
   });
 });
