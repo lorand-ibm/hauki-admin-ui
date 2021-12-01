@@ -38,7 +38,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-test-renderer": "^16.13.1",
-    "typescript": "~3.8.0",
+    "typescript": "~3.9.10",
     "use-deep-compare-effect": "^1.4.0"
   },
   "scripts": {
