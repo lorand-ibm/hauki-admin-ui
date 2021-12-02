@@ -6638,10 +6638,15 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hds-core@1.1.0, hds-core@^1.1.0:
+hds-core@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-1.1.0.tgz#de4b696c39e70b1c8256a0f104463ec509259576"
   integrity sha512-eXT/X3Ts7pdGjH6nYoBuyGjZZDz534TUMJZD3uvvE4U0ousUwJ8J8QQBAggLUyhmiR8piSl7ODuzU3ZFJQYOMg==
+
+hds-core@^1.6.0:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-1.7.1.tgz#f4b82e101b206a43680429ccc6e37d4d1c1265f1"
+  integrity sha512-eRADYXzxd+02IxA+i0VLEQQo8szTYr61cyDojrKk8cxJax7bLua94CQwsAb0NlqbqYSrZhzd63is3YNXqnNYdg==
 
 hds-design-tokens@^1.1.0:
   version "1.1.0"
