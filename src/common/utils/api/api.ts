@@ -335,6 +335,7 @@ export default {
     const permission = await apiPost<PermissionResponse>({
       path: `${resourceBasePath}/${resourceId}/copy_date_periods`,
       parameters: {
+        replace: true,
         target_resources: targetResources.join(','),
       },
     });
