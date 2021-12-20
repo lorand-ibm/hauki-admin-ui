@@ -3,6 +3,7 @@ import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { Language, Resource } from '../../common/lib/types';
 import { isUnitResource } from '../../common/utils/resource/helper';
+import { PrimaryButton } from '../../components/button/Button';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
   displayLangVersionNotFound,
@@ -139,13 +140,31 @@ const ResourceSourceLink = ({
   );
 };
 
-export default function ResourcePage({ id }: { id: string }): JSX.Element {
+export default function ResourcePage({
+  id,
+  targetResourcesString,
+}: {
+  id: string;
+  targetResourcesString?: string;
+}): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
+  const [targetResources, setTargetResource] = useState<string[]>();
+  const [targetNotificationOpen, setTargetNotificationOpen] = useState<boolean>(
+    false
+  );
   const [childResources, setChildResources] = useState<Resource[]>([]);
   const [parentResources, setParentResources] = useState<Resource[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
+  const hasTargetResources = !!targetResources?.length;
+
+  useEffect(() => {
+    if (targetResourcesString) {
+      setTargetResource(targetResourcesString.split(','));
+      setTargetNotificationOpen(true);
+    }
+  }, [targetResourcesString, setTargetResource]);
 
   useEffect((): void => {
     // UseEffect's callbacks are synchronous to prevent a race condition.
@@ -196,6 +215,20 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
 
   return (
     <>
+      {targetResources && targetNotificationOpen && (
+        <div style={{ position: 'absolute' }}>
+          <Notification
+            position="top-center"
+            label={`Olet muokkaamassa toimipisteen ${resource?.name[language]} tietoja.`}>
+            <p>{`Kun teet muutoksia sinulla on mahdollisuus tallentaa samat
+          aukiolotiedot ${targetResources?.length} muuhun toimipisteeseen`}</p>
+            <PrimaryButton
+              onClick={(): void => {
+                api.copyDatePeriods(id, targetResources);
+              }}>{`Tallenna samat aukiolo tiedot ${targetResources?.length} muuhun kohteeseen`}</PrimaryButton>
+          </Notification>
+        </div>
+      )}
       <ResourceInfo>
         <ResourceTitle resource={resource} language={language}>
           <LanguageSelect
@@ -221,7 +254,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
             })}
         </p>
       </ResourceDetailsSection>
-      {parentResources?.length > 0 && (
+      {!hasTargetResources && parentResources?.length > 0 && (
         <ResourceDetailsSection
           id="parent-resource-description"
           title="Toimipisteet">
@@ -256,7 +289,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
           ))}
         </ResourceDetailsSection>
       )}
-      {childResources?.length > 0 && (
+      {!hasTargetResources && childResources?.length > 0 && (
         <ResourceDetailsSection
           id="child-resource-description"
           title="Alakohteet">
@@ -293,7 +326,9 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
           ))}
         </ResourceDetailsSection>
       )}
-      <ResourceSourceLink id="resource-source-link" resource={resource} />
+      {!hasTargetResources && (
+        <ResourceSourceLink id="resource-source-link" resource={resource} />
+      )}
       <ResourceSection id="resource-opening-hours">
         {resource && <ResourceOpeningHours resource={resource} />}
       </ResourceSection>

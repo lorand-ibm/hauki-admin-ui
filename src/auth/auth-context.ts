@@ -1,6 +1,6 @@
 /// <reference types="node"/>
-import querystring, { ParsedUrlQuery } from 'querystring';
 import { Context, createContext, useContext } from 'react';
+import { SearchParameters } from '../common/utils/url/url';
 
 export enum TokenKeys {
   usernameKey = 'hsa_username',
@@ -65,12 +65,11 @@ export const getTokens = (): AuthTokens | undefined => {
   }
 };
 
-export const parseAuthParams = (queryStr: string): AuthTokens | undefined => {
-  const queryParams: ParsedUrlQuery = querystring.parse(
-    queryStr.replace('?', '')
-  );
+export const parseAuthParams = (
+  searchParams: SearchParameters
+): AuthTokens | undefined => {
   const authParams = authKeys.reduce((acc, key) => {
-    const paramValue: string | string[] | undefined = queryParams[key];
+    const paramValue: string | string[] | undefined = searchParams[key];
     const value = typeof paramValue === 'string' ? paramValue : paramValue?.[0];
     if (value) {
       return { ...acc, [key]: decodeURIComponent(value) };

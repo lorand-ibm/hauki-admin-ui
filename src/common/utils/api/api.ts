@@ -54,6 +54,7 @@ interface OptionsParameters {
 
 interface PostParameters extends DataRequestParameters {
   useRootPath?: boolean;
+  parameters?: RequestParameters;
 }
 
 type PutRequestParameters = DataRequestParameters;
@@ -138,6 +139,7 @@ async function apiPost<T>({
   path,
   data = {},
   useRootPath = false,
+  parameters,
 }: PostParameters): Promise<T> {
   return request<T>({
     url: `${apiBaseUrl}${useRootPath ? '' : '/v1'}${path}/`,
@@ -146,6 +148,7 @@ async function apiPost<T>({
     },
     method: 'post',
     data,
+    params: parameters,
     validateStatus,
   });
 }
@@ -321,6 +324,19 @@ export default {
   testResourcePostPermission: async (resourceId: string): Promise<boolean> => {
     const permission = await apiPost<PermissionResponse>({
       path: `${resourceBasePath}/${resourceId}/permission_check`,
+    });
+    return permission.has_permission;
+  },
+
+  copyDatePeriods: async (
+    resourceId: string,
+    targetResources: string[]
+  ): Promise<boolean> => {
+    const permission = await apiPost<PermissionResponse>({
+      path: `${resourceBasePath}/${resourceId}/copy_date_periods`,
+      parameters: {
+        target_resources: targetResources.join(','),
+      },
     });
     return permission.has_permission;
   },

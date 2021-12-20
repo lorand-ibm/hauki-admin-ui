@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import 'hds-core';
 import { AppContext } from './App-context';
+import urlUtils, { SearchParameters } from './common/utils/url/url';
 import {
   AuthContext,
   AuthTokens,
@@ -26,10 +27,10 @@ import EditOpeningPeriodPage from './opening-period/page/EditOpeningPeriodPage';
 
 type OptionalAuthTokens = AuthTokens | undefined;
 
-const getPersistentTokens = (): OptionalAuthTokens => {
-  const authTokensFromQuery: OptionalAuthTokens = parseAuthParams(
-    window.location.search
-  );
+const getPersistentTokens = (
+  searchParams: SearchParameters
+): OptionalAuthTokens => {
+  const authTokensFromQuery: OptionalAuthTokens = parseAuthParams(searchParams);
 
   if (authTokensFromQuery) {
     storeTokens(authTokensFromQuery);
@@ -49,8 +50,10 @@ export default function App(): JSX.Element {
     }
   };
 
+  const searchParams = urlUtils.parseSearchParameters(window.location.search);
+
   const [authTokens, setAuthTokens] = useState<AuthTokens | undefined>(
-    getPersistentTokens()
+    getPersistentTokens(searchParams)
   );
 
   const clearAuth = (): void => {
@@ -106,7 +109,12 @@ export default function App(): JSX.Element {
                 }: RouteComponentProps<{ id: string }>): ReactElement => (
                   <NavigationAndFooterWrapper>
                     <Main id="main">
-                      <ResourcePage id={match.params.id} />
+                      <ResourcePage
+                        id={match.params.id}
+                        targetResourcesString={
+                          searchParams.targetResources as string
+                        }
+                      />
                     </Main>
                   </NavigationAndFooterWrapper>
                 )}
