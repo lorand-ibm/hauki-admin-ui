@@ -19,6 +19,11 @@
   --focus-outline-color: var(--color-coat-of-arms);
 }
 
+.primary-button.primary-button--is-loading {
+  background-color: transparent !important;
+  color: var(--color-coat-of-arms) !important;
+}
+
 .secondary-button.secondary-button.secondary-button {
   border-color: var(--color-coat-of-arms);
 }

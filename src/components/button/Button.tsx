@@ -14,6 +14,8 @@ interface ButtonProps {
   type?: ButtonTypeVariant;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
+  isLoading?: boolean;
+  loadingText?: string;
 }
 
 export function SecondaryButton({
@@ -52,15 +54,21 @@ export function PrimaryButton({
   className = '',
   type = 'button',
   iconLeft,
+  isLoading,
+  loadingText,
 }: ButtonProps): JSX.Element {
   return (
     <HDSButton
       data-test={dataTest}
-      className={`button-common primary-button ${className}`}
+      className={`button-common primary-button ${
+        isLoading && 'primary-button--is-loading'
+      } ${className}`}
       variant="primary"
       onClick={onClick}
       type={type}
-      iconLeft={iconLeft}>
+      iconLeft={iconLeft}
+      isLoading={isLoading}
+      loadingText={loadingText}>
       {children}
     </HDSButton>
   );

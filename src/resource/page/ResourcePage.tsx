@@ -9,6 +9,7 @@ import LanguageSelect, {
   displayLangVersionNotFound,
 } from '../../components/language-select/LanguageSelect';
 import { ExternalLink, Link } from '../../components/link/Link';
+import toast from '../../components/notification/Toast';
 import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
 import './ResourcePage.scss';
 
@@ -152,12 +153,41 @@ export default function ResourcePage({
   const [targetNotificationOpen, setTargetNotificationOpen] = useState<boolean>(
     false
   );
+  const [isCopyLoading, setIsCopyLoading] = useState<boolean>(false);
   const [childResources, setChildResources] = useState<Resource[]>([]);
   const [parentResources, setParentResources] = useState<Resource[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
   const hasTargetResources = !!targetResources?.length;
+
+  const copyDatePeriods = async (): Promise<void> => {
+    setIsCopyLoading(true);
+
+    if (!targetResources) {
+      return;
+    }
+
+    try {
+      await api.copyDatePeriods(id, targetResources);
+      toast.success({
+        dataTestId: 'period-copy-success',
+        label: 'Aukiolotietojen kopiointi onnistui',
+        text: 'Voit tarvittaessa kopioida aukiolotiedot uudelleen',
+      });
+      setIsCopyLoading(false);
+    } catch (err) {
+      toast.error({
+        dataTestId: 'period-copy-error',
+        label: 'Aukiolotietojen kopointi epäonnistui',
+        text: 'Yritä myöhemmin uudelleen',
+      });
+      setIsCopyLoading(false);
+
+      // eslint-disable-next-line no-console
+      console.error(err); // For debug purposes
+    }
+  };
 
   useEffect(() => {
     if (targetResourcesString) {
@@ -215,21 +245,22 @@ export default function ResourcePage({
 
   return (
     <>
-      {targetResources && targetNotificationOpen && (
-        <div style={{ position: 'absolute' }}>
-          <Notification
-            position="top-center"
-            label={`Olet muokkaamassa toimipisteen ${resource?.name[language]} tietoja.`}>
-            <p>{`Kun teet muutoksia sinulla on mahdollisuus tallentaa samat
-          aukiolotiedot ${targetResources?.length} muuhun toimipisteeseen`}</p>
-            <PrimaryButton
-              onClick={(): void => {
-                api.copyDatePeriods(id, targetResources);
-              }}>{`Tallenna samat aukiolo tiedot ${targetResources?.length} muuhun kohteeseen`}</PrimaryButton>
-          </Notification>
-        </div>
-      )}
       <ResourceInfo>
+        {targetResources && targetNotificationOpen && (
+          <div className="resource-copy-date-periods">
+            <Notification
+              label={`Olet muokkaamassa toimipisteen ${resource?.name[language]} tietoja.`}>
+              <p>{`Kun teet muutoksia sinulla on mahdollisuus kopioida samat
+          aukiolotiedot ${targetResources?.length} muuhun toimipisteeseen`}</p>
+              <PrimaryButton
+                isLoading={isCopyLoading}
+                loadingText="Aukiolotietoja kopioidaan"
+                onClick={(): void => {
+                  copyDatePeriods();
+                }}>{`Kopioi samat aukiolotiedot ${targetResources?.length} muuhun kohteeseen`}</PrimaryButton>
+            </Notification>
+          </div>
+        )}
         <ResourceTitle resource={resource} language={language}>
           <LanguageSelect
             id="resource-info-language-select"

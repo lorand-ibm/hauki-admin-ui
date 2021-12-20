@@ -70,6 +70,7 @@ export type OpeningPeriodFormProps = {
   resourceId: number;
   datePeriodConfig: UiDatePeriodConfig;
   submitFn: (datePeriod: DatePeriod) => Promise<DatePeriod>;
+  returnFn?: () => void;
   successTextAndLabel: NotificationTexts;
   errorTextAndLabel: NotificationTexts;
 };
@@ -105,6 +106,7 @@ export default function OpeningPeriodForm({
   resourceId,
   datePeriodConfig,
   submitFn,
+  returnFn,
   successTextAndLabel,
   errorTextAndLabel,
 }: OpeningPeriodFormProps): JSX.Element {
@@ -202,8 +204,11 @@ export default function OpeningPeriodForm({
 
   const history = useHistory();
 
-  const returnToResourcePage = (): void =>
+  const defaultReturnToResource = (): void =>
     history.push(`/resource/${resourceId}`);
+
+  const returnToResourcePage = (): void =>
+    returnFn ? returnFn() : defaultReturnToResource();
 
   const onSubmit = async (data: OpeningPeriodFormData): Promise<void> => {
     await trigger('openingPeriodEndDate'); // Validate the end date before sending the form, in case the user changed only the beginning date.
