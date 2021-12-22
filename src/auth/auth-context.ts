@@ -50,16 +50,8 @@ export const storeTokens = (
 export const removeTokens = (): void =>
   localStorage.removeItem(tokenStorageKey);
 
-export const getTokens = (): AuthTokens | undefined => {
-  try {
-    const item = window.localStorage.getItem(tokenStorageKey);
-    return item ? JSON.parse(item) : undefined;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
-    return undefined;
-  }
-};
+export const getTokens = (): AuthTokens | undefined =>
+  localStorage.getItem<AuthTokens>(tokenStorageKey);
 
 export const parseAuthParams = (
   searchParams: SearchParameters

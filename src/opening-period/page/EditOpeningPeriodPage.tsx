@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
-import { useHistory } from 'react-router-dom';
 import api from '../../common/utils/api/api';
 import {
   DatePeriod,
@@ -19,7 +18,6 @@ import OpeningPeriodForm from '../form/OpeningPeriodForm';
 export default function EditOpeningPeriodPage({
   resourceId,
   datePeriodId,
-  targetResourcesString,
 }: {
   resourceId: string;
   datePeriodId: string;
@@ -38,14 +36,6 @@ export default function EditOpeningPeriodPage({
 
   const submitFn = (updatedDatePeriod: DatePeriod): Promise<DatePeriod> =>
     api.patchDatePeriod(updatedDatePeriod);
-
-  const history = useHistory();
-
-  const cancelFn = (): void => {
-    history.push(
-      `/resource/${resourceId}?targetResources=${targetResourcesString}`
-    );
-  };
 
   useEffect((): void => {
     const fetchData = async (): Promise<void> => {
@@ -118,7 +108,6 @@ export default function EditOpeningPeriodPage({
           resourceId={resource.id}
           datePeriodConfig={datePeriodConfig}
           submitFn={submitFn}
-          returnFn={cancelFn}
           successTextAndLabel={{
             label: 'Aukiolojakson muutokset tallennettu onnistuneesti.',
             text: 'Aukiolojakson muutokset tallennettu onnistuneesti.',

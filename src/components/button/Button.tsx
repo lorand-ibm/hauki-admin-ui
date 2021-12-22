@@ -14,6 +14,7 @@ interface ButtonProps {
   type?: ButtonTypeVariant;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
+  disabled?: boolean;
   isLoading?: boolean;
   loadingText?: string;
 }
@@ -54,6 +55,7 @@ export function PrimaryButton({
   className = '',
   type = 'button',
   iconLeft,
+  disabled,
   isLoading,
   loadingText,
 }: ButtonProps): JSX.Element {
@@ -61,12 +63,13 @@ export function PrimaryButton({
     <HDSButton
       data-test={dataTest}
       className={`button-common primary-button ${
-        isLoading && 'primary-button--is-loading'
-      } ${className}`}
+        disabled && 'primary-button--is-disabled'
+      } ${isLoading && 'primary-button--is-loading'} ${className}`}
       variant="primary"
       onClick={onClick}
       type={type}
       iconLeft={iconLeft}
+      disabled={disabled}
       isLoading={isLoading}
       loadingText={loadingText}>
       {children}

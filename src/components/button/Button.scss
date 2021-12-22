@@ -19,6 +19,22 @@
   --focus-outline-color: var(--color-coat-of-arms);
 }
 
+.primary-button.primary-button.primary-button--is-disabled {
+  background-color: var(--button-disabled-background-color);
+  color: var(--button-disabled-color);
+
+  &:hover {
+    background-color: var(--color-coat-of-arms-dark);
+    border-color: var(--color-coat-of-arms-dark);
+  }
+
+  &:focus {
+    background-color: var(--color-coat-of-arms);
+    border-color: var(--color-coat-of-arms) !important;
+    outline-color: var(--color-coat-of-arms);
+  }
+}
+
 .primary-button.primary-button--is-loading {
   background-color: transparent !important;
   color: var(--color-coat-of-arms) !important;

@@ -3,6 +3,7 @@ import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { Language, Resource } from '../../common/lib/types';
 import { isUnitResource } from '../../common/utils/resource/helper';
+import { localStorage } from '../../common/utils/storage/storage';
 import { PrimaryButton } from '../../components/button/Button';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
@@ -141,6 +142,12 @@ const ResourceSourceLink = ({
   );
 };
 
+type TargetResourcesProps = {
+  originId?: number;
+  resources: string[];
+  modified?: string;
+};
+
 export default function ResourcePage({
   id,
   targetResourcesString,
@@ -149,7 +156,10 @@ export default function ResourcePage({
   targetResourcesString?: string;
 }): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
-  const [targetResources, setTargetResource] = useState<string[]>();
+  const [targetResourceData, setTargetResourceData] = useState<
+    TargetResourcesProps | undefined
+  >();
+  const targetResourcesKey = 'targetResources';
   const [targetNotificationOpen, setTargetNotificationOpen] = useState<boolean>(
     false
   );
@@ -159,22 +169,39 @@ export default function ResourcePage({
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
-  const hasTargetResources = !!targetResources?.length;
+  const hasTargetResources =
+    targetResourceData?.originId === resource?.id &&
+    !!targetResourceData?.resources?.length;
+
+  const storeTargetResourceData = (
+    value: TargetResourcesProps
+  ): TargetResourcesProps | undefined => {
+    return localStorage.storeItem<TargetResourcesProps>({
+      key: targetResourcesKey,
+      value,
+    });
+  };
 
   const copyDatePeriods = async (): Promise<void> => {
     setIsCopyLoading(true);
 
-    if (!targetResources) {
+    if (!targetResourceData?.resources) {
       return;
     }
 
     try {
-      await api.copyDatePeriods(id, targetResources);
+      await api.copyDatePeriods(id, targetResourceData.resources);
       toast.success({
         dataTestId: 'period-copy-success',
         label: 'Aukiolotietojen kopiointi onnistui',
         text: 'Voit tarvittaessa kopioida aukiolotiedot uudelleen',
       });
+      const newData = storeTargetResourceData({
+        originId: targetResourceData?.originId,
+        resources: targetResourceData?.resources,
+        modified: resource?.modified,
+      });
+      setTargetResourceData(newData);
       setIsCopyLoading(false);
     } catch (err) {
       toast.error({
@@ -191,10 +218,20 @@ export default function ResourcePage({
 
   useEffect(() => {
     if (targetResourcesString) {
-      setTargetResource(targetResourcesString.split(','));
-      setTargetNotificationOpen(true);
+      const targetResourceStorageData = storeTargetResourceData({
+        originId: resource?.id,
+        resources: targetResourcesString.split(','),
+        modified: undefined,
+      });
+      setTargetResourceData(targetResourceStorageData);
+    } else {
+      setTargetResourceData(localStorage.getItem(targetResourcesKey));
     }
-  }, [targetResourcesString, setTargetResource]);
+  }, [id, resource, targetResourcesString]);
+
+  useEffect(() => {
+    setTargetNotificationOpen(hasTargetResources);
+  }, [hasTargetResources]);
 
   useEffect((): void => {
     // UseEffect's callbacks are synchronous to prevent a race condition.
@@ -246,21 +283,19 @@ export default function ResourcePage({
   return (
     <>
       <ResourceInfo>
-        {targetResources && targetNotificationOpen && (
+        {hasTargetResources && targetNotificationOpen && (
           <div className="resource-copy-date-periods">
             <Notification
               type="alert"
               label={`JOUKKOPÄIVITYS. Olet muokkaamassa toimipisteen ${resource?.name[language]} tietoja.`}>
-              <>
-                <p>{`Kun teet muutoksia sinulla on mahdollisuus kopioida samat
-          aukiolotiedot ${targetResources?.length} muuhun toimipisteeseen`}</p>
-                <PrimaryButton
-                  isLoading={isCopyLoading}
-                  loadingText="Aukiolotietoja kopioidaan"
-                  onClick={(): void => {
-                    copyDatePeriods();
-                  }}>{`Kopioi samat aukiolotiedot ${targetResources?.length} muuhun toimipisteeseen`}</PrimaryButton>
-              </>
+              <p>{`Kun teet muutoksia sinulla on mahdollisuus kopioida samat
+          aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen`}</p>
+              <PrimaryButton
+                isLoading={isCopyLoading}
+                loadingText="Aukiolotietoja kopioidaan"
+                onClick={(): void => {
+                  copyDatePeriods();
+                }}>{`Kopioi aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen`}</PrimaryButton>
             </Notification>
           </div>
         )}
