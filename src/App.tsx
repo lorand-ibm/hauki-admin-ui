@@ -53,7 +53,7 @@ export default function App(): JSX.Element {
   const searchParams = urlUtils.parseSearchParameters(window.location.search);
   const targetResourcesStr:
     | string
-    | undefined = searchParams.targetResources as string;
+    | undefined = searchParams.target_resources as string;
 
   const [authTokens, setAuthTokens] = useState<AuthTokens | undefined>(
     getPersistentTokens(searchParams)
