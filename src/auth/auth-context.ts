@@ -1,7 +1,6 @@
 /// <reference types="node"/>
 import { Context, createContext, useContext } from 'react';
 import { SearchParameters } from '../common/utils/url/url';
-import { localStorage } from '../common/utils/storage/storage';
 
 export enum TokenKeys {
   usernameKey = 'hsa_username',
@@ -41,17 +40,30 @@ const tokenStorageKey: 'tokens' = 'tokens';
 
 export const storeTokens = (
   authTokens: AuthTokens | undefined
-): AuthTokens | undefined =>
-  localStorage.storeItem<AuthTokens | undefined>({
-    key: tokenStorageKey,
-    value: authTokens,
-  });
+): AuthTokens | undefined => {
+  try {
+    window.localStorage.setItem(tokenStorageKey, JSON.stringify(authTokens));
+    return authTokens;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    return undefined;
+  }
+};
 
 export const removeTokens = (): void =>
-  localStorage.removeItem(tokenStorageKey);
+  window.localStorage.removeItem(tokenStorageKey);
 
-export const getTokens = (): AuthTokens | undefined =>
-  localStorage.getItem<AuthTokens>(tokenStorageKey);
+export const getTokens = (): AuthTokens | undefined => {
+  try {
+    const item = window.localStorage.getItem(tokenStorageKey);
+    return item ? JSON.parse(item) : undefined;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    return undefined;
+  }
+};
 
 export const parseAuthParams = (
   searchParams: SearchParameters

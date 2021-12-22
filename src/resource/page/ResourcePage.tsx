@@ -1,17 +1,19 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { Language, Resource } from '../../common/lib/types';
 import { isUnitResource } from '../../common/utils/resource/helper';
-import { localStorage } from '../../common/utils/storage/storage';
+import useStorage from '../../common/utils/storage/storage';
 import { PrimaryButton } from '../../components/button/Button';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
   displayLangVersionNotFound,
 } from '../../components/language-select/LanguageSelect';
 import { ExternalLink, Link } from '../../components/link/Link';
-import toast from '../../components/notification/Toast';
 import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
+import ResourcePeriodsCopyFieldset, {
+  TargetResourcesProps,
+} from './ResourcePeriodsCopyFieldset';
 import './ResourcePage.scss';
 
 const resourceTitleId = 'resource-title';
@@ -142,12 +144,6 @@ const ResourceSourceLink = ({
   );
 };
 
-type TargetResourcesProps = {
-  originId?: number;
-  resources: string[];
-  modified?: string;
-};
-
 export default function ResourcePage({
   id,
   targetResourcesString,
@@ -156,82 +152,28 @@ export default function ResourcePage({
   targetResourcesString?: string;
 }): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
-  const [targetResourceData, setTargetResourceData] = useState<
-    TargetResourcesProps | undefined
-  >();
   const targetResourcesKey = 'targetResources';
-  const [targetNotificationOpen, setTargetNotificationOpen] = useState<boolean>(
-    false
-  );
-  const [isCopyLoading, setIsCopyLoading] = useState<boolean>(false);
+  const initialTargetResourceValue = targetResourcesString
+    ? {
+        originId: id,
+        resources: targetResourcesString.split(','),
+      }
+    : undefined;
+
+  const [targetResourceData, setTargetResourceData] = useStorage<
+    TargetResourcesProps | undefined
+  >({ key: targetResourcesKey, initialValue: initialTargetResourceValue });
   const [childResources, setChildResources] = useState<Resource[]>([]);
   const [parentResources, setParentResources] = useState<Resource[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
+
+  console.log(targetResourceData);
+
   const hasTargetResources =
-    targetResourceData?.originId === resource?.id &&
+    targetResourceData?.originId === id &&
     !!targetResourceData?.resources?.length;
-
-  const storeTargetResourceData = (
-    value: TargetResourcesProps
-  ): TargetResourcesProps | undefined => {
-    return localStorage.storeItem<TargetResourcesProps>({
-      key: targetResourcesKey,
-      value,
-    });
-  };
-
-  const copyDatePeriods = async (): Promise<void> => {
-    setIsCopyLoading(true);
-
-    if (!targetResourceData?.resources) {
-      return;
-    }
-
-    try {
-      await api.copyDatePeriods(id, targetResourceData.resources);
-      toast.success({
-        dataTestId: 'period-copy-success',
-        label: 'Aukiolotietojen kopiointi onnistui',
-        text: 'Voit tarvittaessa kopioida aukiolotiedot uudelleen',
-      });
-      const newData = storeTargetResourceData({
-        originId: targetResourceData?.originId,
-        resources: targetResourceData?.resources,
-        modified: resource?.modified,
-      });
-      setTargetResourceData(newData);
-      setIsCopyLoading(false);
-    } catch (err) {
-      toast.error({
-        dataTestId: 'period-copy-error',
-        label: 'Aukiolotietojen kopointi epäonnistui',
-        text: 'Yritä myöhemmin uudelleen',
-      });
-      setIsCopyLoading(false);
-
-      // eslint-disable-next-line no-console
-      console.error(err); // For debug purposes
-    }
-  };
-
-  useEffect(() => {
-    if (targetResourcesString) {
-      const targetResourceStorageData = storeTargetResourceData({
-        originId: resource?.id,
-        resources: targetResourcesString.split(','),
-        modified: undefined,
-      });
-      setTargetResourceData(targetResourceStorageData);
-    } else {
-      setTargetResourceData(localStorage.getItem(targetResourcesKey));
-    }
-  }, [id, resource, targetResourcesString]);
-
-  useEffect(() => {
-    setTargetNotificationOpen(hasTargetResources);
-  }, [hasTargetResources]);
 
   useEffect((): void => {
     // UseEffect's callbacks are synchronous to prevent a race condition.
@@ -283,21 +225,15 @@ export default function ResourcePage({
   return (
     <>
       <ResourceInfo>
-        {hasTargetResources && targetNotificationOpen && (
-          <div className="resource-copy-date-periods">
-            <Notification
-              type="alert"
-              label={`JOUKKOPÄIVITYS. Olet muokkaamassa toimipisteen ${resource?.name[language]} tietoja.`}>
-              <p>{`Kun teet muutoksia sinulla on mahdollisuus kopioida samat
-          aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen`}</p>
-              <PrimaryButton
-                isLoading={isCopyLoading}
-                loadingText="Aukiolotietoja kopioidaan"
-                onClick={(): void => {
-                  copyDatePeriods();
-                }}>{`Kopioi aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen`}</PrimaryButton>
-            </Notification>
-          </div>
+        {hasTargetResources && resource && (
+          <ResourcePeriodsCopyFieldset
+            resourceName={resource?.name[language]}
+            resourceId={resource?.id}
+            targetResourceData={targetResourceData}
+            onChange={(resourceData): void =>
+              setTargetResourceData(resourceData)
+            }
+          />
         )}
         <ResourceTitle resource={resource} language={language}>
           <LanguageSelect

@@ -329,7 +329,7 @@ export default {
   },
 
   copyDatePeriods: async (
-    resourceId: string,
+    resourceId: number,
     targetResources: string[]
   ): Promise<boolean> => {
     const permission = await apiPost<PermissionResponse>({
