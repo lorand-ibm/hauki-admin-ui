@@ -249,15 +249,18 @@ export default function ResourcePage({
         {targetResources && targetNotificationOpen && (
           <div className="resource-copy-date-periods">
             <Notification
-              label={`Olet muokkaamassa toimipisteen ${resource?.name[language]} tietoja.`}>
-              <p>{`Kun teet muutoksia sinulla on mahdollisuus kopioida samat
+              type="alert"
+              label={`JOUKKOPÄIVITYS. Olet muokkaamassa toimipisteen ${resource?.name[language]} tietoja.`}>
+              <>
+                <p>{`Kun teet muutoksia sinulla on mahdollisuus kopioida samat
           aukiolotiedot ${targetResources?.length} muuhun toimipisteeseen`}</p>
-              <PrimaryButton
-                isLoading={isCopyLoading}
-                loadingText="Aukiolotietoja kopioidaan"
-                onClick={(): void => {
-                  copyDatePeriods();
-                }}>{`Kopioi samat aukiolotiedot ${targetResources?.length} muuhun kohteeseen`}</PrimaryButton>
+                <PrimaryButton
+                  isLoading={isCopyLoading}
+                  loadingText="Aukiolotietoja kopioidaan"
+                  onClick={(): void => {
+                    copyDatePeriods();
+                  }}>{`Kopioi samat aukiolotiedot ${targetResources?.length} muuhun toimipisteeseen`}</PrimaryButton>
+              </>
             </Notification>
           </div>
         )}
