@@ -60,6 +60,7 @@ export default function LanguageSelect({
           href="#"
           key={languageOption.value}
           label={languageOption.label}
+          lang={selectedLanguage}
           onClick={(
             e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
           ): void => {
