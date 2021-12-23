@@ -73,10 +73,13 @@ steps:
 
       sleep 50
 
+<<<<<<< HEAD
 #- script: |
 #   CI=true yarn test-cypress-with-new-test-env
 #  displayName: 'Yarn run cypress (e2e) tests against test environment'
 
+=======
+>>>>>>> 3c5b3a7 (Effort to build a branch into old test)
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.SourcesDirectory)/cypress/videos'
