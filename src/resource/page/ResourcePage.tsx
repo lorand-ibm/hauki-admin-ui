@@ -3,7 +3,7 @@ import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { Language, Resource } from '../../common/lib/types';
 import { isUnitResource } from '../../common/utils/resource/helper';
-import useStorage from '../../common/utils/storage/storage';
+import storage from '../../common/utils/storage/storage';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
   displayLangVersionNotFound,
@@ -152,27 +152,41 @@ export default function ResourcePage({
 }): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
   const targetResourcesKey = 'targetResources';
-  const initialTargetResourceValue = targetResourcesString
-    ? {
-        originId: id,
-        resources: targetResourcesString.split(','),
-      }
-    : undefined;
-
-  const [targetResourceData, setTargetResourceData] = useStorage<
+  const [targetResourceData, setTargetResourceData] = useState<
     TargetResourcesProps | undefined
-  >({ key: targetResourcesKey, initialValue: initialTargetResourceValue });
+  >(undefined);
   const [childResources, setChildResources] = useState<Resource[]>([]);
   const [parentResources, setParentResources] = useState<Resource[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
 
-  console.log(targetResourceData);
-
   const hasTargetResources =
-    targetResourceData?.originId === id &&
+    targetResourceData?.originId === resource?.id &&
     !!targetResourceData?.resources?.length;
+
+  useEffect(() => {
+    if (resource && targetResourcesString) {
+      const newData: TargetResourcesProps = {
+        originId: resource.id,
+        resources: targetResourcesString.split(','),
+      };
+      setTargetResourceData(newData);
+      storage.storeItem<TargetResourcesProps>({
+        key: targetResourcesKey,
+        value: newData,
+      });
+    } else {
+      const oldData = storage.getItem<TargetResourcesProps>(targetResourcesKey);
+      if (oldData) {
+        if (oldData.originId === resource?.id) {
+          setTargetResourceData(oldData);
+        } else {
+          storage.removeItem(targetResourcesKey);
+        }
+      }
+    }
+  }, [resource, targetResourcesString]);
 
   useEffect((): void => {
     // UseEffect's callbacks are synchronous to prevent a race condition.
