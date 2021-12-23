@@ -27,10 +27,10 @@ import EditOpeningPeriodPage from './opening-period/page/EditOpeningPeriodPage';
 
 type OptionalAuthTokens = AuthTokens | undefined;
 
-const getPersistentTokens = (
-  searchParams: SearchParameters
-): OptionalAuthTokens => {
-  const authTokensFromQuery: OptionalAuthTokens = parseAuthParams(searchParams);
+const getPersistentTokens = (): OptionalAuthTokens => {
+  const authTokensFromQuery: OptionalAuthTokens = parseAuthParams(
+    window.location.search
+  );
 
   if (authTokensFromQuery) {
     storeTokens(authTokensFromQuery);
@@ -56,7 +56,7 @@ export default function App(): JSX.Element {
     | undefined = searchParams.target_resources as string;
 
   const [authTokens, setAuthTokens] = useState<AuthTokens | undefined>(
-    getPersistentTokens(searchParams)
+    getPersistentTokens()
   );
 
   const clearAuth = (): void => {
