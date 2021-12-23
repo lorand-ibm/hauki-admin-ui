@@ -1,7 +1,4 @@
 # Add steps that build, run tests, deploy, and more:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '>=12 <15'
 # https://aka.ms/yaml
 
 trigger:
@@ -20,6 +17,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '>=12 <15'
+
 - script: |
     yarn cache clean
   displayName: 'yarn cache clean'
