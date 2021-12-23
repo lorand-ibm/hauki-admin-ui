@@ -1,10 +1,9 @@
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { Language, Resource } from '../../common/lib/types';
 import { isUnitResource } from '../../common/utils/resource/helper';
 import useStorage from '../../common/utils/storage/storage';
-import { PrimaryButton } from '../../components/button/Button';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
   displayLangVersionNotFound,

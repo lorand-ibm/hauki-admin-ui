@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
-import { Notification } from 'hds-react';
+import React, { useEffect, useState } from 'react';
+import { Notification, IconCopy } from 'hds-react';
 import api from '../../common/utils/api/api';
+import {
+  formatDate,
+  datetimeFormFormat,
+} from '../../common/utils/date-time/format';
 import { PrimaryButton } from '../../components/button/Button';
 import toast from '../../components/notification/Toast';
 
@@ -22,6 +26,7 @@ export default function ResourcePeriodsCopyFieldset({
   onChange: (value: TargetResourcesProps | undefined) => void;
 }): JSX.Element {
   const [isCopyLoading, setIsCopyLoading] = useState<boolean>(false);
+  const [dateModified, setDateModified] = useState<string>();
 
   const copyDatePeriods = async (): Promise<void> => {
     setIsCopyLoading(true);
@@ -56,6 +61,16 @@ export default function ResourcePeriodsCopyFieldset({
     }
   };
 
+  useEffect(() => {
+    if (targetResourceData && targetResourceData?.modified) {
+      setDateModified(
+        formatDate(targetResourceData?.modified, datetimeFormFormat)
+      );
+    }
+  }, [targetResourceData, setDateModified]);
+
+  console.log(targetResourceData?.modified);
+
   return (
     <div className="resource-copy-date-periods">
       <Notification
@@ -64,11 +79,15 @@ export default function ResourcePeriodsCopyFieldset({
         <p>{`Kun teet muutoksia sinulla on mahdollisuus kopioida samat
           aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen`}</p>
         <PrimaryButton
+          iconLeft={<IconCopy aria-hidden />}
           isLoading={isCopyLoading}
           loadingText="Aukiolotietoja kopioidaan"
           onClick={(): void => {
             copyDatePeriods();
           }}>{`Kopioi aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen`}</PrimaryButton>
+        {targetResourceData?.modified && (
+          <span className="resource-copy-modified-text">{`Tiedot päivitetty ${dateModified}`}</span>
+        )}
       </Notification>
     </div>
   );
