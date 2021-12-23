@@ -1,4 +1,7 @@
 # Add steps that build, run tests, deploy, and more:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '>=12 <15'
 # https://aka.ms/yaml
 
 trigger:
