@@ -50,10 +50,13 @@ export default function App(): JSX.Element {
     }
   };
 
-  const searchParams = urlUtils.parseSearchParameters(window.location.search);
-  const targetResourcesStr:
-    | string
-    | undefined = searchParams.target_resources as string;
+  const searchParams: SearchParameters = urlUtils.parseSearchParameters(
+    window.location.search
+  );
+  const targetResourcesParameter = 'target_resources';
+  const targetResourcesStr: string | undefined = searchParams[
+    targetResourcesParameter
+  ] as string;
 
   const [authTokens, setAuthTokens] = useState<AuthTokens | undefined>(
     getPersistentTokens()
@@ -114,9 +117,7 @@ export default function App(): JSX.Element {
                     <Main id="main">
                       <ResourcePage
                         id={match.params.id}
-                        targetResourcesString={
-                          searchParams.targetResources as string
-                        }
+                        targetResourcesString={targetResourcesStr}
                       />
                     </Main>
                   </NavigationAndFooterWrapper>
