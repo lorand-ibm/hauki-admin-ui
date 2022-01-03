@@ -202,8 +202,7 @@ export default function TimeSpan({
                   label="Koko päivä"
                   name={`${timeSpanNamePrefix}.fullDay`}
                   onChange={(e): void => {
-                    const eventValue: boolean = e.target.checked;
-                    field.onChange(eventValue);
+                    field.onChange(e.target.checked);
                   }}
                   checked={field.value}
                 />
