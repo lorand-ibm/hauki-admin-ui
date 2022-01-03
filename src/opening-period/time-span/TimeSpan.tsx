@@ -75,7 +75,8 @@ export default function TimeSpan({
   const timeSpanNamePrefix = `${namePrefix}[${index}]`;
   const { options: resourceStateOptions } = resourceStateConfig;
   const timeSpanErrors = errors && errors[index];
-  const fullDay: boolean = watch(`${timeSpanNamePrefix}.fullDay`);
+  const fullDayFieldKey = `${timeSpanNamePrefix}.fullDay`;
+  const fullDay: boolean = watch(fullDayFieldKey);
 
   const getDescriptionValueByLanguage = (language: Language): string => {
     const description = item.description
@@ -198,9 +199,9 @@ export default function TimeSpan({
             <Controller
               render={(field): JSX.Element => (
                 <Checkbox
-                  id={`${timeSpanNamePrefix}.fullDay`}
+                  id={fullDayFieldKey}
                   label="Koko päivä"
-                  name={`${timeSpanNamePrefix}.fullDay`}
+                  name={fullDayFieldKey}
                   onChange={(e): void => {
                     field.onChange(e.target.checked);
                   }}
