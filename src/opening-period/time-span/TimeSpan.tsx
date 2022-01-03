@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ArrayField,
+  Controller,
   DeepMap,
   FieldError,
   useFormContext,
@@ -70,12 +71,11 @@ export default function TimeSpan({
   resourceStateConfig: UiFieldConfig;
   errors: (DeepMap<TimeSpanFormFormat, FieldError> | undefined)[] | undefined;
 }): JSX.Element {
-  const { control, register, getValues } = useFormContext();
+  const { control, register, getValues, watch } = useFormContext();
   const timeSpanNamePrefix = `${namePrefix}[${index}]`;
   const { options: resourceStateOptions } = resourceStateConfig;
   const timeSpanErrors = errors && errors[index];
-
-  const [fullDay, setFullDay] = useState((item.fullDay as unknown) as boolean);
+  const fullDay: boolean = watch(`${timeSpanNamePrefix}.fullDay`);
 
   const getDescriptionValueByLanguage = (language: Language): string => {
     const description = item.description
@@ -195,13 +195,22 @@ export default function TimeSpan({
             placeholder="--.--"
           />
           <div className="time-span-fullday-checkbox-container">
-            <Checkbox
-              id={`${timeSpanNamePrefix}.fullDay`}
-              label="Koko päivä"
+            <Controller
+              render={(field): JSX.Element => (
+                <Checkbox
+                  id={`${timeSpanNamePrefix}.fullDay`}
+                  label="Koko päivä"
+                  name={`${timeSpanNamePrefix}.fullDay`}
+                  onChange={(e): void => {
+                    const eventValue: boolean = e.target.checked;
+                    field.onChange(eventValue);
+                  }}
+                  checked={field.value}
+                />
+              )}
+              control={control}
               name={`${timeSpanNamePrefix}.fullDay`}
-              onChange={(e): void => setFullDay(e.target.checked)}
-              checked={fullDay}
-              ref={register()}
+              defaultValue={item.fullDay || false}
             />
           </div>
         </div>
