@@ -47,6 +47,9 @@ export default function ResourcePeriodsCopyFieldset({
         modified: new Date().toJSON(),
       });
       setIsCopyLoading(false);
+      if (document.referrer !== '' && window.history.length === 1) {
+        window.close();
+      }
     } catch (err) {
       toast.error({
         dataTestId: 'period-copy-error',
@@ -64,16 +67,17 @@ export default function ResourcePeriodsCopyFieldset({
     <div className="resource-copy-date-periods">
       <Notification
         type="alert"
-        label={`JOUKKOPÄIVITYS. Olet muokkaamassa toimipisteen ${resourceName} tietoja.`}>
-        <p>{`Kun teet muutoksia sinulla on mahdollisuus kopioida samat
-          aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen`}</p>
+        label={`Olet valinnut joukkopäivityksessä ${
+          (targetResourceData?.resources?.length || 0) + 1
+        } pistettä. Klikkasit "${resourceName}"n aukiolotietoa. Sinulle on auennut ”${resourceName}”n aukiolotieto muokattavaksi.`}>
+        <p>{`Kun olet muokannut ${resourceName}n aukiolotietoa, paina alla olevaa painiketta. Aukiolotieto päivittyy joukkopäivityksessä valitsemissasi toimipisteissä.`}</p>
         <PrimaryButton
           iconLeft={<IconCopy aria-hidden />}
           isLoading={isCopyLoading}
           loadingText="Aukiolotietoja kopioidaan"
           onClick={(): void => {
             copyDatePeriods();
-          }}>{`Kopioi aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen`}</PrimaryButton>
+          }}>{`Päivitä aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen. Ikkuna sulkeutuu.`}</PrimaryButton>
         {targetResourceData?.modified && (
           <span className="resource-copy-modified-text">{`Tiedot päivitetty ${formatDate(
             targetResourceData?.modified,
