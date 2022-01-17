@@ -9,7 +9,7 @@ import { PrimaryButton } from '../../components/button/Button';
 import toast from '../../components/notification/Toast';
 
 export type TargetResourcesProps = {
-  originId?: number;
+  mainResourceId?: number;
   resources: string[];
   modified?: string;
 };
@@ -42,7 +42,7 @@ export default function ResourcePeriodsCopyFieldset({
         text: 'Voit tarvittaessa kopioida aukiolotiedot uudelleen',
       });
       onChange({
-        originId: targetResourceData?.originId,
+        mainResourceId: targetResourceData?.mainResourceId,
         resources: targetResourceData?.resources,
         modified: new Date().toJSON(),
       });

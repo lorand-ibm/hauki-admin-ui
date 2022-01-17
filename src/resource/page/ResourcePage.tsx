@@ -162,13 +162,13 @@ export default function ResourcePage({
   const [language, setLanguage] = useState<Language>(Language.FI);
 
   const hasTargetResources =
-    targetResourceData?.originId === resource?.id &&
+    targetResourceData?.mainResourceId === resource?.id &&
     !!targetResourceData?.resources?.length;
 
   useEffect(() => {
     if (resource && targetResourcesString) {
       const newData: TargetResourcesProps = {
-        originId: resource.id,
+        mainResourceId: resource.id,
         resources: targetResourcesString.split(','),
       };
       setTargetResourceData(newData);
@@ -179,7 +179,7 @@ export default function ResourcePage({
     } else {
       const oldData = storage.getItem<TargetResourcesProps>(targetResourcesKey);
       if (oldData) {
-        if (oldData.originId === resource?.id) {
+        if (oldData.mainResourceId === resource?.id) {
           setTargetResourceData(oldData);
         } else {
           storage.removeItem(targetResourcesKey);
