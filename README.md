@@ -56,6 +56,7 @@ docker run -p 3000:8000 -e API_URL=<api-url-here> -e USE_AXE=<true|false> hauki-
 ## RELEASE
 
 ### Release to Test environment
+**Note**: Remember to update the package.json version number before releasing something new. Use [semver](https://semver.org/) versioning.
 
 Release to test environment https://hauki-admin-ui.dev.hel.ninja is handled automatically from master branch. Updates to master branch triggers
 azure pipeline that will run tests, build and push image to dockerhub, and finally release it to test environment hosted by red hat openshift.
