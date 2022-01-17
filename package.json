@@ -2,8 +2,10 @@
   "name": "hauki-admin-ui",
   "version": "0.1.0",
   "license": "MIT",
+  "engines": {
+    "node": ">=12 <15"
+  },
   "dependencies": {
-    "@datepicker-react/hooks": "^2.7.0",
     "@sentry/react": "^6.11.0",
     "@sentry/tracing": "^6.11.0",
     "@testing-library/react": "^11.0.2",
@@ -25,12 +27,12 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "eslint-config-airbnb-typescript-prettier": "^3.1.0",
-    "hds-core": "^1.1.0",
-    "hds-design-tokens": "^1.6.0",
-    "hds-react": "1.1.0",
+    "hds-core": "^1.8.0",
+    "hds-design-tokens": "^1.8.0",
+    "hds-react": "1.8.0",
     "lodash": "^4.17.21",
     "node-sass": "^4.14.1",
-    "prettier": "^2.1.1",
+    "prettier": "^2.4.1",
     "react": "^16.13.1",
     "react-axe": "^3.5.3",
     "react-dom": "^16.13.1",

@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { getElementOrThrow, selectOption } from '../../../test/test-utils';
 import { datePeriodOptions } from '../../../test/fixtures/api-options';
 import {
@@ -163,13 +163,9 @@ describe(`<EditNewOpeningPeriodPage />`, () => {
   });
 
   it('should render basic date-period data', async () => {
-    let container: Element;
+    const container = renderEditOpeningPeriodPage();
 
-    await act(async () => {
-      container = renderEditOpeningPeriodPage();
-    });
-
-    await act(async () => {
+    await waitFor(async () => {
       // Check info data
       expect(
         container.querySelector('[data-test="opening-period-title-fi"]')
