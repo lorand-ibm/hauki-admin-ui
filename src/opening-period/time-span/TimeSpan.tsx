@@ -200,7 +200,7 @@ export default function TimeSpan({
               render={(field): JSX.Element => (
                 <Checkbox
                   id={fullDayFieldKey}
-                  label="Vuorokausi"
+                  label="Koko vuorokausi"
                   name={fullDayFieldKey}
                   onChange={(e): void => {
                     field.onChange(e.target.checked);
