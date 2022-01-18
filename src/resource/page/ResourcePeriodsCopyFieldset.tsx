@@ -47,7 +47,7 @@ export default function ResourcePeriodsCopyFieldset({
         modified: new Date().toJSON(),
       });
       setIsCopyLoading(false);
-      if (document.referrer !== '' && window.history.length === 1) {
+      if (document.referrer !== '') {
         window.close();
       }
     } catch (err) {
