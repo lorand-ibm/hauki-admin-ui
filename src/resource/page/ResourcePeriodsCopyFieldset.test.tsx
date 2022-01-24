@@ -10,7 +10,7 @@ import ResourcePeriodsCopyFieldset, {
 const testCopyResourceData: TargetResourcesProps = {
   mainResourceId: 1111,
   mainResourceName: 'testTargetResource',
-  resources: ['tprek: 1122'],
+  targetResources: ['tprek: 1122'],
 };
 
 const onChange = jest.fn();
@@ -67,7 +67,7 @@ describe.only(`<ResourcePeriodsCopyFieldset/>`, () => {
     await waitFor(async () => {
       expect(apiCopySpy).toHaveBeenCalledWith(
         testCopyResourceData.mainResourceId,
-        testCopyResourceData.resources
+        testCopyResourceData.targetResources
       );
       expect(toastSuccessSpy).toHaveBeenCalled();
       expect(onChange).toHaveBeenCalledWith({

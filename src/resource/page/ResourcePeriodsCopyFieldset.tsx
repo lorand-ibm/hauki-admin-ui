@@ -11,14 +11,14 @@ import toast from '../../components/notification/Toast';
 export type TargetResourcesProps = {
   mainResourceName?: string;
   mainResourceId?: number;
-  resources?: string[];
+  targetResources?: string[];
   modified?: string;
 };
 
 export default function ResourcePeriodsCopyFieldset({
   mainResourceName,
   mainResourceId,
-  resources = [],
+  targetResources = [],
   onChange,
   modified,
 }: TargetResourcesProps & {
@@ -29,12 +29,12 @@ export default function ResourcePeriodsCopyFieldset({
   const copyDatePeriods = async (): Promise<void> => {
     setIsCopyLoading(true);
 
-    if (!mainResourceId || resources.length === 0) {
+    if (!mainResourceId || targetResources.length === 0) {
       return;
     }
 
     try {
-      await api.copyDatePeriods(mainResourceId, resources);
+      await api.copyDatePeriods(mainResourceId, targetResources);
       toast.success({
         dataTestId: 'period-copy-success',
         label: 'Aukiolotietojen kopiointi onnistui',
@@ -43,7 +43,7 @@ export default function ResourcePeriodsCopyFieldset({
       onChange({
         mainResourceName,
         mainResourceId,
-        resources,
+        targetResources,
         modified: new Date().toJSON(),
       });
       setIsCopyLoading(false);
@@ -68,7 +68,7 @@ export default function ResourcePeriodsCopyFieldset({
       <Notification
         type="alert"
         label={`Olet valinnut joukkopäivityksessä ${
-          (resources?.length || 0) + 1
+          (targetResources?.length || 0) + 1
         } pistettä. Klikkasit "${mainResourceName}"n aukiolotietoa. Sinulle on auennut ”${mainResourceName}”n aukiolotieto muokattavaksi.`}>
         <p>{`Kun olet muokannut ${mainResourceName}n aukiolotietoa, paina alla olevaa painiketta. Aukiolotieto päivittyy joukkopäivityksessä valitsemissasi toimipisteissä.`}</p>
         <PrimaryButton
@@ -77,7 +77,7 @@ export default function ResourcePeriodsCopyFieldset({
           loadingText="Aukiolotietoja kopioidaan"
           onClick={(): void => {
             copyDatePeriods();
-          }}>{`Päivitä aukiolotiedot ${resources?.length} muuhun toimipisteeseen. Ikkuna sulkeutuu.`}</PrimaryButton>
+          }}>{`Päivitä aukiolotiedot ${targetResources?.length} muuhun toimipisteeseen. Ikkuna sulkeutuu.`}</PrimaryButton>
         {modified && (
           <span className="resource-copy-modified-text">{`Tiedot päivitetty ${formatDate(
             modified,

@@ -163,14 +163,14 @@ export default function ResourcePage({
 
   const hasTargetResources =
     targetResourceData?.mainResourceId === resource?.id &&
-    !!targetResourceData?.resources?.length;
+    !!targetResourceData?.targetResources?.length;
 
   useEffect(() => {
     if (resource && targetResourcesString) {
       const mainResourceId = resource.id;
       const mainResourceName = resource?.name[language];
-      const resources = targetResourcesString.split(',');
-      const newData = { mainResourceId, mainResourceName, resources };
+      const targetResources = targetResourcesString.split(',');
+      const newData = { mainResourceId, mainResourceName, targetResources };
       setTargetResourceData(newData);
       storage.storeItem<TargetResourcesProps>({
         key: targetResourcesKey,
