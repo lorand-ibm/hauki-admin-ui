@@ -9,20 +9,19 @@ import { PrimaryButton } from '../../components/button/Button';
 import toast from '../../components/notification/Toast';
 
 export type TargetResourcesProps = {
+  mainResourceName?: string;
   mainResourceId?: number;
-  resources: string[];
+  resources?: string[];
   modified?: string;
 };
 
 export default function ResourcePeriodsCopyFieldset({
-  resourceId,
-  resourceName,
-  targetResourceData,
+  mainResourceName,
+  mainResourceId,
+  resources = [],
   onChange,
-}: {
-  resourceName: string;
-  resourceId: number;
-  targetResourceData: TargetResourcesProps | undefined;
+  modified,
+}: TargetResourcesProps & {
   onChange: (value: TargetResourcesProps | undefined) => void;
 }): JSX.Element {
   const [isCopyLoading, setIsCopyLoading] = useState<boolean>(false);
@@ -30,20 +29,21 @@ export default function ResourcePeriodsCopyFieldset({
   const copyDatePeriods = async (): Promise<void> => {
     setIsCopyLoading(true);
 
-    if (!targetResourceData?.resources) {
+    if (!mainResourceId || resources.length === 0) {
       return;
     }
 
     try {
-      await api.copyDatePeriods(resourceId, targetResourceData?.resources);
+      await api.copyDatePeriods(mainResourceId, resources);
       toast.success({
         dataTestId: 'period-copy-success',
         label: 'Aukiolotietojen kopiointi onnistui',
         text: 'Voit tarvittaessa kopioida aukiolotiedot uudelleen',
       });
       onChange({
-        mainResourceId: targetResourceData?.mainResourceId,
-        resources: targetResourceData?.resources,
+        mainResourceName,
+        mainResourceId,
+        resources,
         modified: new Date().toJSON(),
       });
       setIsCopyLoading(false);
@@ -68,19 +68,19 @@ export default function ResourcePeriodsCopyFieldset({
       <Notification
         type="alert"
         label={`Olet valinnut joukkopäivityksessä ${
-          (targetResourceData?.resources?.length || 0) + 1
-        } pistettä. Klikkasit "${resourceName}"n aukiolotietoa. Sinulle on auennut ”${resourceName}”n aukiolotieto muokattavaksi.`}>
-        <p>{`Kun olet muokannut ${resourceName}n aukiolotietoa, paina alla olevaa painiketta. Aukiolotieto päivittyy joukkopäivityksessä valitsemissasi toimipisteissä.`}</p>
+          (resources?.length || 0) + 1
+        } pistettä. Klikkasit "${mainResourceName}"n aukiolotietoa. Sinulle on auennut ”${mainResourceName}”n aukiolotieto muokattavaksi.`}>
+        <p>{`Kun olet muokannut ${mainResourceName}n aukiolotietoa, paina alla olevaa painiketta. Aukiolotieto päivittyy joukkopäivityksessä valitsemissasi toimipisteissä.`}</p>
         <PrimaryButton
           iconLeft={<IconCopy aria-hidden />}
           isLoading={isCopyLoading}
           loadingText="Aukiolotietoja kopioidaan"
           onClick={(): void => {
             copyDatePeriods();
-          }}>{`Päivitä aukiolotiedot ${targetResourceData?.resources?.length} muuhun toimipisteeseen. Ikkuna sulkeutuu.`}</PrimaryButton>
-        {targetResourceData?.modified && (
+          }}>{`Päivitä aukiolotiedot ${resources?.length} muuhun toimipisteeseen. Ikkuna sulkeutuu.`}</PrimaryButton>
+        {modified && (
           <span className="resource-copy-modified-text">{`Tiedot päivitetty ${formatDate(
-            targetResourceData?.modified,
+            modified,
             datetimeFormFormat
           )}`}</span>
         )}

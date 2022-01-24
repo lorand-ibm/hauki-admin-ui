@@ -167,10 +167,10 @@ export default function ResourcePage({
 
   useEffect(() => {
     if (resource && targetResourcesString) {
-      const newData: TargetResourcesProps = {
-        mainResourceId: resource.id,
-        resources: targetResourcesString.split(','),
-      };
+      const mainResourceId = resource.id;
+      const mainResourceName = resource?.name[language];
+      const resources = targetResourcesString.split(',');
+      const newData = { mainResourceId, mainResourceName, resources };
       setTargetResourceData(newData);
       storage.storeItem<TargetResourcesProps>({
         key: targetResourcesKey,
@@ -186,7 +186,7 @@ export default function ResourcePage({
         }
       }
     }
-  }, [resource, targetResourcesString]);
+  }, [language, resource, targetResourcesString]);
 
   useEffect((): void => {
     // UseEffect's callbacks are synchronous to prevent a race condition.
@@ -238,11 +238,9 @@ export default function ResourcePage({
   return (
     <>
       <ResourceInfo>
-        {hasTargetResources && resource && (
+        {hasTargetResources && (
           <ResourcePeriodsCopyFieldset
-            resourceName={resource?.name[language]}
-            resourceId={resource?.id}
-            targetResourceData={targetResourceData}
+            {...targetResourceData}
             onChange={(resourceData): void =>
               setTargetResourceData(resourceData)
             }
