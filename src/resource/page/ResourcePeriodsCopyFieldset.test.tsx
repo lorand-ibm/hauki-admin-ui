@@ -15,7 +15,7 @@ const testCopyResourceData: TargetResourcesProps = {
 
 const onChange = jest.fn();
 
-describe.only(`<ResourcePeriodsCopyFieldset/>`, () => {
+describe(`<ResourcePeriodsCopyFieldset/>`, () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
