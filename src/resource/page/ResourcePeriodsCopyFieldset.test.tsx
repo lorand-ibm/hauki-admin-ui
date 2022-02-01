@@ -34,8 +34,7 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
 
     expect(
       await screen.getByRole('button', {
-        name:
-          'Päivitä aukiolotiedot 1 muuhun toimipisteeseen. Ikkuna sulkeutuu.',
+        name: 'Päivitä aukiolotiedot 1 muuhun toimipisteeseen',
       })
     ).toBeInTheDocument();
   });
@@ -59,8 +58,7 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
 
     userEvent.click(
       screen.getByRole('button', {
-        name:
-          'Päivitä aukiolotiedot 1 muuhun toimipisteeseen. Ikkuna sulkeutuu.',
+        name: 'Päivitä aukiolotiedot 1 muuhun toimipisteeseen',
       })
     );
 
@@ -94,8 +92,7 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
 
     userEvent.click(
       screen.getByRole('button', {
-        name:
-          'Päivitä aukiolotiedot 1 muuhun toimipisteeseen. Ikkuna sulkeutuu.',
+        name: 'Päivitä aukiolotiedot 1 muuhun toimipisteeseen',
       })
     );
 
