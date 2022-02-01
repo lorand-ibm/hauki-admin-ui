@@ -24,6 +24,9 @@ export default function ResourcePeriodsCopyFieldset({
 }: TargetResourcesProps & {
   onChange: (value: TargetResourcesProps | undefined) => void;
 }): JSX.Element {
+  const hasReferrer: boolean =
+    document.referrer !== '' && document.referrer !== window.location.href;
+
   const [isCopyLoading, setIsCopyLoading] = useState<boolean>(false);
 
   const copyDatePeriods = async (): Promise<void> => {
@@ -47,7 +50,7 @@ export default function ResourcePeriodsCopyFieldset({
         modified: new Date().toJSON(),
       });
       setIsCopyLoading(false);
-      if (document.referrer !== '') {
+      if (hasReferrer) {
         window.close();
       }
     } catch (err) {
@@ -77,7 +80,11 @@ export default function ResourcePeriodsCopyFieldset({
           loadingText="Aukiolotietoja kopioidaan"
           onClick={(): void => {
             copyDatePeriods();
-          }}>{`Päivitä aukiolotiedot ${targetResources?.length} muuhun toimipisteeseen. Ikkuna sulkeutuu.`}</PrimaryButton>
+          }}>{`Päivitä aukiolotiedot ${
+          targetResources?.length
+        } muuhun toimipisteeseen${
+          hasReferrer ? '. Ikkuna sulkeutuu.' : ''
+        }`}</PrimaryButton>
         {modified && (
           <span className="resource-copy-modified-text">{`Tiedot päivitetty ${formatDate(
             modified,
