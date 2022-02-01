@@ -26,6 +26,7 @@
 
 /// <reference path="../../src/globals.d.ts" />
 
+import querystring, { ParsedUrlQueryInput } from 'querystring';
 import {
   GroupRule,
   LanguageStrings,
@@ -44,14 +45,38 @@ Cypress.Commands.add(
   }
 );
 
+const visitPageAsAuthenticated = ({
+  path,
+  queryParams,
+}: {
+  path: string;
+  queryParams?: ParsedUrlQueryInput;
+}): Cypress.Chainable<Cypress.Exec> =>
+  cy.exec('node ./scripts/generate-auth-params.js').then((params) => {
+    const queryParameters: string[] = [
+      queryParams ? querystring.stringify(queryParams) : '',
+      params.stdout,
+    ].filter((p) => p !== '');
+
+    cy.task('log', 'Starting visit as authenticated user');
+    cy.visit(`${path}?${queryParameters.join('&')}`, {
+      log: true,
+    }).task('log', 'Visiting the page as authenticated user');
+  });
+
 Cypress.Commands.add(
   'visitResourcePageAsAuthenticatedUser',
   (resourceId: string) => {
-    cy.exec('node ./scripts/generate-auth-params.js').then((params) => {
-      cy.task('log', 'Starting visit as authenticated user');
-      cy.visit(`/resource/${resourceId}?${params.stdout}`, {
-        log: true,
-      }).task('log', 'Visiting the page as authenticated user');
+    visitPageAsAuthenticated({ path: `/resource/${resourceId}` });
+  }
+);
+
+Cypress.Commands.add(
+  'visitResourcePageAsAuthenticatedUserWithTargetResource',
+  (resourceId: string, targetResource: string) => {
+    visitPageAsAuthenticated({
+      path: `/resource/${resourceId}`,
+      queryParams: { target_resources: targetResource },
     });
   }
 );
