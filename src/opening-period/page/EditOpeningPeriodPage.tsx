@@ -21,7 +21,6 @@ export default function EditOpeningPeriodPage({
 }: {
   resourceId: string;
   datePeriodId: string;
-  targetResourcesString?: string;
 }): JSX.Element {
   const id = parseInt(datePeriodId, 10);
   const [resource, setResource] = useState<Resource>();
