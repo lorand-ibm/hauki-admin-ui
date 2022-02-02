@@ -67,7 +67,7 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     });
   });
 
-  it('should close app window when the app is opened from another window', async () => {
+  it('should close app window after successful copy when the app is opened from another window', async () => {
     jest
       .spyOn(api, 'copyDatePeriods')
       .mockImplementation(() => Promise.resolve(true));
