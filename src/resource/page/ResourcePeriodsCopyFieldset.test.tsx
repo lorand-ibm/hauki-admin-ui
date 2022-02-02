@@ -13,9 +13,19 @@ const testCopyResourceData: TargetResourcesProps = {
   targetResources: ['tprek: 1122'],
 };
 
-const onChange = jest.fn();
-
 describe(`<ResourcePeriodsCopyFieldset/>`, () => {
+  const { close } = window;
+
+  const onChange = jest.fn();
+
+  beforeAll(() => {
+    delete window.close;
+    window.close = jest.fn();
+  });
+  afterAll(() => {
+    window.close = close;
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -58,8 +68,6 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
   });
 
   it('should close app window when the app is opened from another window', async () => {
-    const windowCloseSpy = jest.spyOn(global.window, 'close');
-
     jest
       .spyOn(api, 'copyDatePeriods')
       .mockImplementation(() => Promise.resolve(true));
@@ -81,7 +89,7 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     );
 
     await waitFor(async () => {
-      expect(windowCloseSpy).toHaveBeenCalled();
+      expect(window.close).toHaveBeenCalled();
     });
   });
 
