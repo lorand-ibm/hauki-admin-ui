@@ -158,14 +158,15 @@ export default function ResourcePage({
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
-  const targetResourcesKey = 'targetResources';
   const [targetResourceData, setTargetResourceData] = useState<
     TargetResourcesProps | undefined
   >(undefined);
+  const targetResourcesStorageKey = 'targetResources';
 
   const hasTargetResources =
     targetResourceData?.mainResourceId === resource?.id &&
-    !!targetResourceData?.targetResources?.length;
+    targetResourceData?.targetResources &&
+    targetResourceData?.targetResources.length > 0;
 
   useEffect(() => {
     if (resource && targetResourcesString) {
@@ -175,16 +176,18 @@ export default function ResourcePage({
       const newData = { mainResourceId, mainResourceName, targetResources };
       setTargetResourceData(newData);
       storage.storeItem<TargetResourcesProps>({
-        key: targetResourcesKey,
+        key: targetResourcesStorageKey,
         value: newData,
       });
     } else {
-      const oldData = storage.getItem<TargetResourcesProps>(targetResourcesKey);
+      const oldData = storage.getItem<TargetResourcesProps>(
+        targetResourcesStorageKey
+      );
       if (oldData) {
         if (oldData.mainResourceId === resource?.id) {
           setTargetResourceData(oldData);
         } else {
-          storage.removeItem(targetResourcesKey);
+          storage.removeItem(targetResourcesStorageKey);
         }
       }
     }
