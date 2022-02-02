@@ -146,9 +146,11 @@ const ResourceSourceLink = ({
 export default function ResourcePage({
   id,
   targetResourcesString,
+  hasReferrer,
 }: {
   id: string;
   targetResourcesString?: string;
+  hasReferrer: boolean;
 }): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
   const targetResourcesKey = 'targetResources';
@@ -241,6 +243,7 @@ export default function ResourcePage({
         {hasTargetResources && (
           <ResourcePeriodsCopyFieldset
             {...targetResourceData}
+            hasReferrer={hasReferrer}
             onChange={(resourceData): void =>
               setTargetResourceData(resourceData)
             }

@@ -24,6 +24,7 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     render(
       <ResourcePeriodsCopyFieldset
         {...testCopyResourceData}
+        hasReferrer={false}
         onChange={onChange}
       />
     );
@@ -52,6 +53,7 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     render(
       <ResourcePeriodsCopyFieldset
         {...testCopyResourceData}
+        hasReferrer={false}
         onChange={onChange}
       />
     );
@@ -75,6 +77,34 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     });
   });
 
+  it('should close app window when the app is opened from another window', async () => {
+    const windowCloseSpy = jest.spyOn(global.window, 'close');
+
+    jest
+      .spyOn(api, 'copyDatePeriods')
+      .mockImplementation(() => Promise.resolve(true));
+    jest.spyOn(toast, 'success');
+
+    render(
+      <ResourcePeriodsCopyFieldset
+        {...testCopyResourceData}
+        hasReferrer
+        onChange={onChange}
+      />
+    );
+
+    userEvent.click(
+      screen.getByRole('button', {
+        name:
+          'Päivitä aukiolotiedot 1 muuhun toimipisteeseen. Ikkuna sulkeutuu.',
+      })
+    );
+
+    await waitFor(async () => {
+      expect(windowCloseSpy).toHaveBeenCalled();
+    });
+  });
+
   it('should show error notification when api copy fails', async () => {
     const error: Error = new Error('Failed to load a resource');
     const apiCopySpy = jest
@@ -86,6 +116,7 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     render(
       <ResourcePeriodsCopyFieldset
         {...testCopyResourceData}
+        hasReferrer={false}
         onChange={onChange}
       />
     );

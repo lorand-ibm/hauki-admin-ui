@@ -21,12 +21,11 @@ export default function ResourcePeriodsCopyFieldset({
   targetResources = [],
   onChange,
   modified,
+  hasReferrer,
 }: TargetResourcesProps & {
+  hasReferrer: boolean;
   onChange: (value: TargetResourcesProps | undefined) => void;
 }): JSX.Element {
-  const hasReferrer: boolean =
-    document.referrer !== '' && document.referrer !== window.location.href;
-
   const [isCopyLoading, setIsCopyLoading] = useState<boolean>(false);
 
   const copyDatePeriods = async (): Promise<void> => {
