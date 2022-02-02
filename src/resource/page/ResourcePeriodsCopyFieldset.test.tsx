@@ -20,26 +20,6 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     jest.clearAllMocks();
   });
 
-  it('should render copy fieldset', async () => {
-    render(
-      <ResourcePeriodsCopyFieldset
-        {...testCopyResourceData}
-        hasReferrer={false}
-        onChange={onChange}
-      />
-    );
-
-    expect(await screen.getByRole('heading', { level: 2 })).toHaveTextContent(
-      `Olet valinnut joukkopäivityksessä 2 pistettä. Klikkasit "${testCopyResourceData.mainResourceName}"n aukiolotietoa. Sinulle on auennut ”${testCopyResourceData.mainResourceName}”n aukiolotieto muokattavaksi.`
-    );
-
-    expect(
-      await screen.getByRole('button', {
-        name: 'Päivitä aukiolotiedot 1 muuhun toimipisteeseen',
-      })
-    ).toBeInTheDocument();
-  });
-
   it('should copy targets when user clicks the copy button', async () => {
     const utcTimeString = '2022-01-24T18:00:00.000Z';
     jest.spyOn(Date.prototype, 'toJSON').mockReturnValue(utcTimeString);
