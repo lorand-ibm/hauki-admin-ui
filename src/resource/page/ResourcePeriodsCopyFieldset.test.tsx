@@ -14,16 +14,10 @@ const testCopyResourceData: TargetResourcesProps = {
 };
 
 describe(`<ResourcePeriodsCopyFieldset/>`, () => {
-  const { close } = window;
+  let onChange: jest.Mock<any, any>;
 
-  const onChange = jest.fn();
-
-  beforeAll(() => {
-    delete window.close;
-    window.close = jest.fn();
-  });
-  afterAll(() => {
-    window.close = close;
+  beforeEach(() => {
+    onChange = jest.fn();
   });
 
   afterEach(() => {
@@ -67,12 +61,7 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     });
   });
 
-  it('should close app window after successful copy when the app is opened from another window', async () => {
-    jest
-      .spyOn(api, 'copyDatePeriods')
-      .mockImplementation(() => Promise.resolve(true));
-    jest.spyOn(toast, 'success');
-
+  it('should show window closing info when the app is opened from another window', () => {
     render(
       <ResourcePeriodsCopyFieldset
         {...testCopyResourceData}
@@ -81,16 +70,12 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
       />
     );
 
-    userEvent.click(
+    expect(
       screen.getByRole('button', {
         name:
           'Päivitä aukiolotiedot 1 muuhun toimipisteeseen. Ikkuna sulkeutuu.',
       })
-    );
-
-    await waitFor(async () => {
-      expect(window.close).toHaveBeenCalled();
-    });
+    ).toBeInTheDocument();
   });
 
   it('should show error notification when api copy fails', async () => {
