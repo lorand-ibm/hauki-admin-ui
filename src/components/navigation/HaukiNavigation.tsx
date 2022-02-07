@@ -68,7 +68,7 @@ export default function HaukiNavigation(): JSX.Element {
           <SecondaryButton
             dataTest="close-window-button"
             className="navigation-button"
-            iconLeft={<IconCrossCircleFill aria-hidden />}
+            iconRight={<IconCrossCircleFill aria-hidden />}
             onClick={(): void => {
               if (closeAppWindow) {
                 closeAppWindow();
