@@ -6,22 +6,25 @@
 }
 
 .primary-button.primary-button.primary-button {
-  color: var(--add-new-opening-period-button-color);
-  background-color: var(--color-coat-of-arms);
-
-  &:hover {
-    background-color: var(--color-coat-of-arms-dark);
-    border-color: var(--color-coat-of-arms-dark);
-  }
-
-  &:focus {
-    background-color: var(--color-coat-of-arms);
-    border-color: var(--color-coat-of-arms) !important;
-    outline-color: var(--color-coat-of-arms);
-  }
+  --background-color: var(--color-coat-of-arms);
+  --background-color-hover: var(--color-coat-of-arms-dark);
+  --background-color-hover-focus: var(--color-coat-of-arms-dark);
+  --border-color: var(--color-coat-of-arms);
+  --border-color-hover: var(--color-coat-of-arms-dark);
+  --border-color-focus: var(--color-coat-of-arms);
+  --border-color-hover-focus: var(--color-coat-of-arms);
+  --color: var(--add-new-opening-period-button-color);
+  --color-hover: var(--add-new-opening-period-button-color);
+  --color-focus: var(--add-new-opening-period-button-color);
+  --color-hover-focus: var(--add-new-opening-period-button-color);
+  --focus-outline-color: var(--color-coat-of-arms);
 }
 
 .supplementary-button.supplementary-button.supplementary-button {
-  color: var(--color-coat-of-arms);
+  --color: var(--color-coat-of-arms);
+  --color-hover: var(--color-coat-of-arms);
+  --color-focus: var(--color-coat-of-arms);
+  --color-hover-focus: var(--color-coat-of-arms);
+
   border: 0 none;
 }
