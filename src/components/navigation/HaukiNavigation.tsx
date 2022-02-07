@@ -1,12 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Navigation } from 'hds-react';
+import { IconCrossCircleFill, Navigation } from 'hds-react';
 import api from '../../common/utils/api/api';
+import { useAppContext } from '../../App-context';
 import { AuthContextProps, TokenKeys, useAuth } from '../../auth/auth-context';
 import './HaukiNavigation.scss';
+import { SecondaryButton } from '../button/Button';
 import toast from '../notification/Toast';
 
 export default function HaukiNavigation(): JSX.Element {
+  const { hasReferrer, closeAppWindow } = useAppContext();
   const authProps: Partial<AuthContextProps> = useAuth();
   const { authTokens, clearAuth } = authProps;
   const history = useHistory();
@@ -61,6 +64,21 @@ export default function HaukiNavigation(): JSX.Element {
             onClick={(): Promise<void> => signOut()}
           />
         </Navigation.User>
+        {hasReferrer && (
+          <SecondaryButton
+            dataTest="close-window-button"
+            className="navigation-button"
+            iconLeft={<IconCrossCircleFill aria-hidden />}
+            onClick={(): void => {
+              if (closeAppWindow) {
+                closeAppWindow();
+              }
+            }}
+            variant="secondary"
+            light>
+            Sulje
+          </SecondaryButton>
+        )}
       </Navigation.Actions>
     </Navigation>
   );
