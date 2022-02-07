@@ -2,7 +2,6 @@
 
 .button-common.button-common.button-common {
   font-family: HelsinkiGrotesk-Medium, Arial, sans-serif;
-  border-color: var(--color-coat-of-arms);
 }
 
 .primary-button.primary-button.primary-button {
@@ -18,6 +17,10 @@
   --color-focus: var(--add-new-opening-period-button-color);
   --color-hover-focus: var(--add-new-opening-period-button-color);
   --focus-outline-color: var(--color-coat-of-arms);
+}
+
+.secondary-button.secondary-button.secondary-button {
+  border-color: var(--color-coat-of-arms);
 }
 
 .supplementary-button.supplementary-button.supplementary-button {
