@@ -1,4 +1,4 @@
-import { Button as HDSButton } from 'hds-react';
+import { Button as HDSButton, ButtonSize as HDSButtonSize } from 'hds-react';
 import React, { ReactNode } from 'react';
 import './Button.scss';
 
@@ -23,13 +23,15 @@ export function SecondaryButton({
   type = 'button',
   iconLeft,
   light = false,
-}: ButtonProps & { light?: boolean }): JSX.Element {
+  size = 'default',
+}: ButtonProps & { light?: boolean; size?: HDSButtonSize }): JSX.Element {
   return (
     <HDSButton
       className={`button-common ${
         light ? 'secondary-button-light' : 'secondary-button'
       } ${className}`}
-      theme={light ? undefined : 'coat'}
+      theme={light ? 'default' : 'coat'}
+      size={size}
       data-test={dataTest}
       variant="secondary"
       onClick={onClick}
