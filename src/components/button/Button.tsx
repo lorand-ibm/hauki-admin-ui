@@ -22,12 +22,15 @@ export function SecondaryButton({
   className = '',
   type = 'button',
   iconLeft,
-}: ButtonProps): JSX.Element {
+  light = false,
+}: ButtonProps & { light?: boolean }): JSX.Element {
   return (
     <HDSButton
+      className={`button-common ${
+        light ? 'secondary-button-light' : 'secondary-button'
+      } ${className}`}
+      theme={light ? undefined : 'coat'}
       data-test={dataTest}
-      className={`button-common ${className}`}
-      theme="coat"
       variant="secondary"
       onClick={onClick}
       type={type}

@@ -23,6 +23,21 @@
   border-color: var(--color-coat-of-arms);
 }
 
+.secondary-button-light.secondary-button-light.secondary-button-light {
+  --background-color: transparent;
+  --background-color-hover: var(--color-coat-of-arms-light);
+  --background-color-hover-focus: var(--color-coat-of-arms-light);
+  --border-color: var(--color-white);
+  --border-color-hover: var(--color-white);
+  --border-color-focus: var(--color-white);
+  --border-color-hover-focus: var(--color-white);
+  --color: var(--color-white);
+  --color-hover: var(--color-coat-of-arms);
+  --color-focus: var(--color-coat-of-arms);
+  --color-hover-focus: var(--color-coat-of-arms);
+  --focus-outline-color: var(--color-coat-of-arms);
+}
+
 .supplementary-button.supplementary-button.supplementary-button {
   --color: var(--color-coat-of-arms);
   --color-hover: var(--color-coat-of-arms);
