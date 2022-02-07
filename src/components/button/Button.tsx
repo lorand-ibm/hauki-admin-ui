@@ -26,7 +26,8 @@ export function SecondaryButton({
   return (
     <HDSButton
       data-test={dataTest}
-      className={`button-common secondary-button ${className}`}
+      className={`button-common ${className}`}
+      theme="coat"
       variant="secondary"
       onClick={onClick}
       type={type}

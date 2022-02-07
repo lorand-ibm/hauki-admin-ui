@@ -21,21 +21,6 @@
   }
 }
 
-.secondary-button.secondary-button.secondary-button {
-  color: var(--color-coat-of-arms);
-
-  &:hover {
-    background-color: var(--color-coat-of-arms-light);
-    border-color: var(--color-coat-of-arms);
-  }
-
-  &:focus {
-    border-color: var(--color-coat-of-arms) !important;
-    outline-color: var(--color-coat-of-arms);
-    color: var(--color-coat-of-arms) !important;
-  }
-}
-
 .supplementary-button.supplementary-button.supplementary-button {
   color: var(--color-coat-of-arms);
   border: 0 none;
