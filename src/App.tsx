@@ -39,11 +39,11 @@ const getPersistentTokens = (): OptionalAuthTokens => {
 };
 
 export default function App(): JSX.Element {
-  const hasReferrer =
-    document.referrer && document.referrer !== window.location.href;
+  const hasOpenerWindow = window.parent !== window.top;
 
   const closeAppWindow = (): void => {
-    if (hasReferrer) {
+    // A window can only close itself if it has an parent opener.
+    if (hasOpenerWindow) {
       window.close();
     }
   };
@@ -59,7 +59,7 @@ export default function App(): JSX.Element {
 
   return (
     <div className="App">
-      <AppContext.Provider value={{ hasReferrer, closeAppWindow }}>
+      <AppContext.Provider value={{ hasOpenerWindow, closeAppWindow }}>
         <AuthContext.Provider value={{ authTokens, clearAuth }}>
           <Router>
             <Switch>

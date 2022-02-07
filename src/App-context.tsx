@@ -1,7 +1,7 @@
 import { Context, createContext, useContext } from 'react';
 
 export type AppContextProps = {
-  hasReferrer: boolean;
+  hasOpenerWindow: boolean;
   closeAppWindow: () => void;
 };
 

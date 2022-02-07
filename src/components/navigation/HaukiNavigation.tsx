@@ -9,7 +9,7 @@ import { SecondaryButton } from '../button/Button';
 import toast from '../notification/Toast';
 
 export default function HaukiNavigation(): JSX.Element {
-  const { hasReferrer, closeAppWindow } = useAppContext();
+  const { hasOpenerWindow, closeAppWindow } = useAppContext();
   const authProps: Partial<AuthContextProps> = useAuth();
   const { authTokens, clearAuth } = authProps;
   const history = useHistory();
@@ -64,7 +64,7 @@ export default function HaukiNavigation(): JSX.Element {
             onClick={(): Promise<void> => signOut()}
           />
         </Navigation.User>
-        {hasReferrer && (
+        {hasOpenerWindow && (
           <SecondaryButton
             dataTest="close-window-button"
             className="navigation-button"
