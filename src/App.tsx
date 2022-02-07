@@ -39,7 +39,8 @@ const getPersistentTokens = (): OptionalAuthTokens => {
 };
 
 export default function App(): JSX.Element {
-  const hasOpenerWindow = window.parent !== window.top;
+  const hasOpenerWindow =
+    document.referrer && document.referrer !== window.location.href;
 
   const closeAppWindow = (): void => {
     // A window can only close itself if it has an parent opener.
