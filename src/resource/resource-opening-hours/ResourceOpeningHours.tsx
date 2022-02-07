@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IconInfoCircle, Button, Notification } from 'hds-react';
+import { IconInfoCircle, Notification } from 'hds-react';
 import { useHistory } from 'react-router-dom';
 import {
   DatePeriod,
@@ -9,6 +9,7 @@ import {
 } from '../../common/lib/types';
 import { isUnitResource } from '../../common/utils/resource/helper';
 import api from '../../common/utils/api/api';
+import { SecondaryButton } from '../../components/button/Button';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect from '../../components/language-select/LanguageSelect';
 import OpeningPeriod from './opening-period/OpeningPeriod';
@@ -69,20 +70,20 @@ const OpeningPeriodsList = ({
             selectedLanguage={language}
             onSelect={setLanguage}
           />
-          <Button
-            data-test={addNewOpeningPeriodButtonDataTest}
+          <SecondaryButton
+            dataTest={addNewOpeningPeriodButtonDataTest}
             size="small"
             className="opening-period-header-button"
+            light
             onClick={(): void => {
               if (exception) {
                 history.push(`/resource/${resourceId}/period/new-exception`);
               } else {
                 history.push(`/resource/${resourceId}/period/new`);
               }
-            }}
-            variant="secondary">
+            }}>
             Lisää uusi +
-          </Button>
+          </SecondaryButton>
         </div>
       </header>
       {datePeriodConfig && (
