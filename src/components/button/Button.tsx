@@ -13,6 +13,7 @@ interface ButtonProps {
   className?: string;
   type?: ButtonTypeVariant;
   iconLeft?: ReactNode;
+  iconRight?: ReactNode;
 }
 
 export function SecondaryButton({
@@ -22,6 +23,7 @@ export function SecondaryButton({
   className = '',
   type = 'button',
   iconLeft,
+  iconRight,
   light = false,
   size = 'default',
 }: ButtonProps & { light?: boolean; size?: HDSButtonSize }): JSX.Element {
@@ -36,7 +38,8 @@ export function SecondaryButton({
       variant="secondary"
       onClick={onClick}
       type={type}
-      iconLeft={iconLeft}>
+      iconLeft={iconLeft}
+      iconRight={iconRight}>
       {children}
     </HDSButton>
   );
