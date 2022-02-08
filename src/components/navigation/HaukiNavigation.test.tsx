@@ -14,7 +14,7 @@ describe('<HaukiNavigation>', () => {
       </AppContext.Provider>
     );
     userEvent.click(
-      getElementOrThrow(container, '[data-test="close-window-button"]')
+      getElementOrThrow(container, '[data-test="close-app-button"]')
     );
 
     expect(closeAppWindow).toHaveBeenCalled();

@@ -41,6 +41,16 @@ export default function HaukiNavigation(): JSX.Element {
     }
   };
 
+  const onCloseButtonClick = async (): Promise<void> => {
+    if (isAuthenticated) {
+      await signOut();
+    }
+
+    if (hasOpenerWindow && closeAppWindow) {
+      closeAppWindow();
+    }
+  };
+
   return (
     <Navigation
       theme={{
@@ -64,21 +74,15 @@ export default function HaukiNavigation(): JSX.Element {
             onClick={(): Promise<void> => signOut()}
           />
         </Navigation.User>
-        {hasOpenerWindow && (
-          <SecondaryButton
-            dataTest="close-window-button"
-            className="navigation-button"
-            iconRight={<IconCrossCircleFill aria-hidden />}
-            onClick={(): void => {
-              if (closeAppWindow) {
-                closeAppWindow();
-              }
-            }}
-            variant="secondary"
-            light>
-            Sulje
-          </SecondaryButton>
-        )}
+        <SecondaryButton
+          dataTest="close-app-button"
+          className="navigation-button"
+          iconRight={<IconCrossCircleFill aria-hidden />}
+          onClick={(): Promise<void> => onCloseButtonClick()}
+          variant="secondary"
+          light>
+          Sulje
+        </SecondaryButton>
       </Navigation.Actions>
     </Navigation>
   );

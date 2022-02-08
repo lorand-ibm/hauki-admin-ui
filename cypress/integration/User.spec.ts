@@ -15,22 +15,16 @@ describe('Authenticated user', () => {
     cy.visitResourcePageAsAuthenticatedUser(Cypress.env('resourceId'));
   });
 
-  it('should logout permanently', () => {
+  it('should logout permanently on application close', () => {
     cy.location()
       .its('href')
       .then((resourcePageUrl) => {
-        cy.get('header')
-          .find('button')
-          .contains(Cypress.env('haukiUser'))
-          .click({ force: true });
-        cy.get('header')
-          .first()
-          .find('a')
-          .contains('Kirjaudu ulos')
-          .click({ force: true });
+        cy.get('[data-test="close-app-button"]').click();
         // have to wait here because cypress does not work optimal: https://github.com/cypress-io/cypress/issues/7306
         cy.wait(2000);
-        cy.get('header').first().should('not.contain', 'Kirjaudu ulos');
+        cy.get('header')
+          .first()
+          .should('not.contain', Cypress.env('haukiUser'));
         cy.location('pathname').should('equal', '/');
 
         // Try to visit the resource page again
