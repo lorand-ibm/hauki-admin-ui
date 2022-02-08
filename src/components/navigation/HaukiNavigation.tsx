@@ -64,8 +64,8 @@ export default function HaukiNavigation(): JSX.Element {
       menuToggleAriaLabel="Menu"
       skipTo="#main"
       skipToContentLabel="Siirry pääsisältöön">
-      <Navigation.Actions>
-        {isAuthenticated && (
+      {isAuthenticated && (
+        <Navigation.Actions>
           <Navigation.Item as="div">
             <div className="navigation-user">
               <IconUser aria-hidden />
@@ -74,17 +74,17 @@ export default function HaukiNavigation(): JSX.Element {
               </span>
             </div>
           </Navigation.Item>
-        )}
-        <SecondaryButton
-          dataTest="close-app-button"
-          className="navigation-button"
-          iconRight={<IconCrossCircleFill aria-hidden />}
-          onClick={(): Promise<void> => onCloseButtonClick()}
-          variant="secondary"
-          light>
-          Sulje
-        </SecondaryButton>
-      </Navigation.Actions>
+          <SecondaryButton
+            dataTest="close-app-button"
+            className="navigation-button"
+            iconRight={<IconCrossCircleFill aria-hidden />}
+            onClick={(): Promise<void> => onCloseButtonClick()}
+            variant="secondary"
+            light>
+            Sulje
+          </SecondaryButton>
+        </Navigation.Actions>
+      )}
     </Navigation>
   );
 }
