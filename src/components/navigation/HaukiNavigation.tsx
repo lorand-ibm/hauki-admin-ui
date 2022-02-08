@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { IconCrossCircleFill, Navigation } from 'hds-react';
+import { IconCrossCircleFill, IconUser, Navigation } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { useAppContext } from '../../App-context';
 import { AuthContextProps, TokenKeys, useAuth } from '../../auth/auth-context';
@@ -63,17 +63,16 @@ export default function HaukiNavigation(): JSX.Element {
       skipTo="#main"
       skipToContentLabel="Siirry pääsisältöön">
       <Navigation.Actions>
-        <Navigation.User
-          authenticated={isAuthenticated}
-          label="Kirjaudu"
-          userName={authTokens && authTokens[TokenKeys.usernameKey]}>
-          <Navigation.Item
-            label="Kirjaudu ulos"
-            target="_blank"
-            variant="primary"
-            onClick={(): Promise<void> => signOut()}
-          />
-        </Navigation.User>
+        {isAuthenticated && (
+          <Navigation.Item as="div">
+            <div className="navigation-user">
+              <IconUser aria-hidden />
+              <span className="navigation-user-name">
+                {authTokens && authTokens[TokenKeys.usernameKey]}
+              </span>
+            </div>
+          </Navigation.Item>
+        )}
         <SecondaryButton
           dataTest="close-app-button"
           className="navigation-button"

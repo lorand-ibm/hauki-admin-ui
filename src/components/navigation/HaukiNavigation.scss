@@ -6,3 +6,13 @@
     }
   }
 }
+
+.navigation-user {
+  align-items: center;
+  display: flex;
+  margin-left: var(--spacing-xs);
+}
+
+.navigation-user-name {
+  margin-left: var(--spacing-xs);
+}
