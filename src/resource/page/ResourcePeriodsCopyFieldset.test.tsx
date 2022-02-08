@@ -14,7 +14,7 @@ const testCopyResourceData: TargetResourcesProps = {
 };
 
 describe(`<ResourcePeriodsCopyFieldset/>`, () => {
-  let onChange: jest.Mock<any, any>;
+  let onChange: jest.Mock;
 
   beforeEach(() => {
     onChange = jest.fn();
