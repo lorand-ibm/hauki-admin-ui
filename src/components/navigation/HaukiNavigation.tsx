@@ -60,7 +60,6 @@ export default function HaukiNavigation(): JSX.Element {
         '--mobile-menu-background-color':
           'var(--hauki-header-background-color)',
       }}
-      className="navigation-header"
       title="Aukiolot"
       menuToggleAriaLabel="Menu"
       skipTo="#main"
