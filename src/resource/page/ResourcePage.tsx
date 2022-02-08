@@ -169,25 +169,27 @@ export default function ResourcePage({
     targetResourceData?.targetResources.length > 0;
 
   useEffect(() => {
-    if (resource && targetResourcesString) {
-      const mainResourceId = resource.id;
-      const mainResourceName = resource?.name[language];
-      const targetResources = targetResourcesString.split(',');
-      const newData = { mainResourceId, mainResourceName, targetResources };
-      setTargetResourceData(newData);
-      storage.storeItem<TargetResourcesProps>({
-        key: targetResourcesStorageKey,
-        value: newData,
-      });
-    } else {
-      const oldData = storage.getItem<TargetResourcesProps>(
-        targetResourcesStorageKey
-      );
-      if (oldData) {
-        if (oldData.mainResourceId === resource?.id) {
-          setTargetResourceData(oldData);
-        } else {
-          storage.removeItem(targetResourcesStorageKey);
+    if (resource) {
+      if (targetResourcesString) {
+        const mainResourceId = resource.id;
+        const mainResourceName = resource?.name[language];
+        const targetResources = targetResourcesString.split(',');
+        const newData = { mainResourceId, mainResourceName, targetResources };
+        setTargetResourceData(newData);
+        storage.storeItem<TargetResourcesProps>({
+          key: targetResourcesStorageKey,
+          value: newData,
+        });
+      } else {
+        const oldData = storage.getItem<TargetResourcesProps>(
+          targetResourcesStorageKey
+        );
+        if (oldData) {
+          if (oldData.mainResourceId === resource?.id) {
+            setTargetResourceData(oldData);
+          } else {
+            storage.removeItem(targetResourcesStorageKey);
+          }
         }
       }
     }
