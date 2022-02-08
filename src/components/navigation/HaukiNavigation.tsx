@@ -56,6 +56,9 @@ export default function HaukiNavigation(): JSX.Element {
       theme={{
         '--header-background-color': 'var(--hauki-header-background-color)',
         '--header-color': 'var(--hauki-header-color)',
+        '--mobile-menu-color': 'var(--hauki-header-color)',
+        '--mobile-menu-background-color':
+          'var(--hauki-header-background-color)',
       }}
       className="navigation-header"
       title="Aukiolot"
