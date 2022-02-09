@@ -5,6 +5,7 @@ import {
   formatDate,
   datetimeFormFormat,
 } from '../../common/utils/date-time/format';
+import { useAppContext } from '../../App-context';
 import { PrimaryButton } from '../../components/button/Button';
 import toast from '../../components/notification/Toast';
 
@@ -21,11 +22,10 @@ export default function ResourcePeriodsCopyFieldset({
   targetResources = [],
   onChange,
   modified,
-  hasReferrer,
 }: TargetResourcesProps & {
-  hasReferrer: boolean;
   onChange: (value: TargetResourcesProps | undefined) => void;
 }): JSX.Element {
+  const { hasOpenerWindow, closeAppWindow } = useAppContext();
   const [isCopyLoading, setIsCopyLoading] = useState<boolean>(false);
 
   const copyDatePeriods = async (): Promise<void> => {
@@ -49,8 +49,8 @@ export default function ResourcePeriodsCopyFieldset({
         modified: new Date().toJSON(),
       });
       setIsCopyLoading(false);
-      if (hasReferrer) {
-        window.close();
+      if (closeAppWindow) {
+        closeAppWindow();
       }
     } catch (err) {
       toast.error({
@@ -82,7 +82,7 @@ export default function ResourcePeriodsCopyFieldset({
           }}>{`Päivitä aukiolotiedot ${
           targetResources?.length
         } muuhun toimipisteeseen${
-          hasReferrer ? '. Ikkuna sulkeutuu.' : ''
+          hasOpenerWindow ? '. Ikkuna sulkeutuu.' : ''
         }`}</PrimaryButton>
         {modified && (
           <span className="resource-copy-modified-text">{`Tiedot päivitetty ${formatDate(

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { AppContext } from '../../App-context';
 import api from '../../common/utils/api/api';
 import toast from '../../components/notification/Toast';
 import ResourcePeriodsCopyFieldset, {
@@ -35,11 +36,13 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     const toastSuccessSpy = jest.spyOn(toast, 'success');
 
     render(
-      <ResourcePeriodsCopyFieldset
-        {...testCopyResourceData}
-        hasReferrer={false}
-        onChange={onChange}
-      />
+      <AppContext.Provider
+        value={{ hasOpenerWindow: false, closeAppWindow: jest.fn() }}>
+        <ResourcePeriodsCopyFieldset
+          {...testCopyResourceData}
+          onChange={onChange}
+        />
+      </AppContext.Provider>
     );
 
     userEvent.click(
@@ -61,21 +64,28 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     });
   });
 
-  it('should show window closing info when the app is opened from another window', () => {
+  it('should show window closing info when the app is opened from another window', async () => {
+    const closeAppWindow = jest.fn();
+
     render(
-      <ResourcePeriodsCopyFieldset
-        {...testCopyResourceData}
-        hasReferrer
-        onChange={onChange}
-      />
+      <AppContext.Provider value={{ hasOpenerWindow: true, closeAppWindow }}>
+        <ResourcePeriodsCopyFieldset
+          {...testCopyResourceData}
+          onChange={onChange}
+        />
+      </AppContext.Provider>
     );
 
-    expect(
+    userEvent.click(
       screen.getByRole('button', {
         name:
           'Päivitä aukiolotiedot 1 muuhun toimipisteeseen. Ikkuna sulkeutuu.',
       })
-    ).toBeInTheDocument();
+    );
+
+    await waitFor(async () => {
+      expect(closeAppWindow).toHaveBeenCalled();
+    });
   });
 
   it('should show error notification when api copy fails', async () => {
@@ -87,11 +97,13 @@ describe(`<ResourcePeriodsCopyFieldset/>`, () => {
     jest.spyOn(global.console, 'error').mockImplementationOnce((e) => e);
 
     render(
-      <ResourcePeriodsCopyFieldset
-        {...testCopyResourceData}
-        hasReferrer={false}
-        onChange={onChange}
-      />
+      <AppContext.Provider
+        value={{ hasOpenerWindow: false, closeAppWindow: jest.fn() }}>
+        <ResourcePeriodsCopyFieldset
+          {...testCopyResourceData}
+          onChange={onChange}
+        />
+      </AppContext.Provider>
     );
 
     userEvent.click(
