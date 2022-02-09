@@ -1,6 +1,6 @@
 {
   "name": "hauki-admin-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "engines": {
     "node": ">=12 <15"
@@ -44,10 +44,10 @@
     "use-deep-compare-effect": "^1.4.0"
   },
   "scripts": {
-    "start": "SENTRY_ENV=${SENTRY_ENV:=local} API_URL=${API_URL:=http://localhost:8000} USE_AXE=${USE_AXE:=true} ./scripts/env.sh && cp env-config.js ./public/ && BROWSER=none react-scripts start",
-    "start-with-test-api": "SENTRY_ENV=local API_URL=https://hauki-test.oc.hel.ninja USE_AXE=${USE_AXE:=true} ./scripts/env.sh && cp env-config.js ./public/ && react-scripts start",
-    "start-with-new-test-api": "SENTRY_ENV=local API_URL=https://hauki-api-test.agw.arodevtest.hel.fi USE_AXE=${USE_AXE:=true} ./scripts/env.sh && cp env-config.js ./public/ && react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_VERSION=$npm_package_version SENTRY_ENV=${SENTRY_ENV:=local} API_URL=${API_URL:=http://localhost:8000} USE_AXE=${USE_AXE:=true} ./scripts/env.sh && cp env-config.js ./public/ && BROWSER=none react-scripts start",
+    "start-with-test-api": "REACT_APP_VERSION=$npm_package_version SENTRY_ENV=local API_URL=https://hauki-test.oc.hel.ninja USE_AXE=${USE_AXE:=true} ./scripts/env.sh && cp env-config.js ./public/ && react-scripts start",
+    "start-with-new-test-api": "REACT_APP_VERSION=$npm_package_version SENTRY_ENV=local API_URL=https://hauki-api-test.agw.arodevtest.hel.fi USE_AXE=${USE_AXE:=true} ./scripts/env.sh && cp env-config.js ./public/ && react-scripts start",
+    "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test-cypress": "start-server-and-test start http://localhost:3000 cypress-run-chrome",
     "test-cypress-headless": "start-server-and-test start http://localhost:3000 cypress-run-chrome-headless",
