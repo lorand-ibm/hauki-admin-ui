@@ -51,7 +51,7 @@ export default function App(): JSX.Element {
   };
 
   const searchParams: SearchParameters = urlUtils.parseSearchParameters(
-    window.location.search
+    window ? window.location.search : ''
   );
   const targetResourcesParameter = 'target_resources';
   const targetResourcesStr: string | undefined = searchParams[
