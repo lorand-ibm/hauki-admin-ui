@@ -6,6 +6,7 @@ import {
   RouteComponentProps,
 } from 'react-router-dom';
 import 'hds-core';
+import { AppContext } from './App-context';
 import {
   AuthContext,
   AuthTokens,
@@ -38,6 +39,16 @@ const getPersistentTokens = (): OptionalAuthTokens => {
 };
 
 export default function App(): JSX.Element {
+  const hasOpenerWindow =
+    document.referrer && document.referrer !== window.location.href;
+
+  const closeAppWindow = (): void => {
+    // A window can only close itself if it has an parent opener.
+    if (hasOpenerWindow) {
+      window.close();
+    }
+  };
+
   const [authTokens, setAuthTokens] = useState<AuthTokens | undefined>(
     getPersistentTokens()
   );
@@ -49,119 +60,121 @@ export default function App(): JSX.Element {
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{ authTokens, clearAuth }}>
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <NavigationAndFooterWrapper>
-                <Main id="main">
-                  <h1>Etusivu</h1>
-                </Main>
-              </NavigationAndFooterWrapper>
-            </Route>
-            <Route exact path="/not_found">
-              <NavigationAndFooterWrapper>
-                <Main id="main">
-                  <h1>Kohdetta ei löydy</h1>
-                  <p>
-                    Kohdetta ei löytynyt. Yritä myöhemmin uudestaan. Ongelman
-                    toistuessa ota yhteys sivuston ylläpitoon. Teidät on
-                    automaattisesti kirjattu ulos.
-                  </p>
-                </Main>
-              </NavigationAndFooterWrapper>
-            </Route>
-            <Route exact path="/unauthorized">
-              <NavigationAndFooterWrapper>
-                <Main id="main">
-                  <h1>Puutteelliset tunnukset</h1>
-                </Main>
-              </NavigationAndFooterWrapper>
-            </Route>
-            <Route exact path="/unauthenticated">
-              <NavigationAndFooterWrapper>
-                <Main id="main">
-                  <h1>Puuttuvat tunnukset</h1>
-                </Main>
-              </NavigationAndFooterWrapper>
-            </Route>
-            <PrivateResourceRoute
-              id="resource-route"
-              exact
-              path="/resource/:id"
-              render={({
-                match,
-              }: RouteComponentProps<{ id: string }>): ReactElement => (
+      <AppContext.Provider value={{ hasOpenerWindow, closeAppWindow }}>
+        <AuthContext.Provider value={{ authTokens, clearAuth }}>
+          <Router>
+            <Switch>
+              <Route exact path="/">
                 <NavigationAndFooterWrapper>
                   <Main id="main">
-                    <ResourcePage id={match.params.id} />
+                    <h1>Etusivu</h1>
                   </Main>
                 </NavigationAndFooterWrapper>
-              )}
-            />
-            <PrivateResourceRoute
-              id="create-new-opening-period-route"
-              exact
-              path="/resource/:id/period/new"
-              render={({
-                match,
-              }: RouteComponentProps<{
-                id: string;
-              }>): ReactElement => (
-                <>
-                  <HaukiNavigation />
+              </Route>
+              <Route exact path="/not_found">
+                <NavigationAndFooterWrapper>
                   <Main id="main">
-                    <CreateNewOpeningPeriodPage
-                      exception={false}
-                      resourceId={match.params.id}
-                    />
+                    <h1>Kohdetta ei löydy</h1>
+                    <p>
+                      Kohdetta ei löytynyt. Yritä myöhemmin uudestaan. Ongelman
+                      toistuessa ota yhteys sivuston ylläpitoon. Teidät on
+                      automaattisesti kirjattu ulos.
+                    </p>
                   </Main>
-                </>
-              )}
-            />
-            <PrivateResourceRoute
-              id="create-new-opening-period-route"
-              exact
-              path="/resource/:id/period/new-exception"
-              render={({
-                match,
-              }: RouteComponentProps<{
-                id: string;
-              }>): ReactElement => (
-                <>
-                  <HaukiNavigation />
+                </NavigationAndFooterWrapper>
+              </Route>
+              <Route exact path="/unauthorized">
+                <NavigationAndFooterWrapper>
                   <Main id="main">
-                    <CreateNewOpeningPeriodPage
-                      exception
-                      resourceId={match.params.id}
-                    />
+                    <h1>Puutteelliset tunnukset</h1>
                   </Main>
-                </>
-              )}
-            />
-            <PrivateResourceRoute
-              id="edit-opening-period-route"
-              path="/resource/:id/period/:datePeriodId"
-              render={({
-                match,
-              }: RouteComponentProps<{
-                id: string;
-                datePeriodId: string;
-              }>): ReactElement => (
-                <>
-                  <HaukiNavigation />
+                </NavigationAndFooterWrapper>
+              </Route>
+              <Route exact path="/unauthenticated">
+                <NavigationAndFooterWrapper>
                   <Main id="main">
-                    <EditOpeningPeriodPage
-                      resourceId={match.params.id}
-                      datePeriodId={match.params.datePeriodId}
-                    />
+                    <h1>Puuttuvat tunnukset</h1>
                   </Main>
-                </>
-              )}
-            />
-          </Switch>
-        </Router>
-      </AuthContext.Provider>
+                </NavigationAndFooterWrapper>
+              </Route>
+              <PrivateResourceRoute
+                id="resource-route"
+                exact
+                path="/resource/:id"
+                render={({
+                  match,
+                }: RouteComponentProps<{ id: string }>): ReactElement => (
+                  <NavigationAndFooterWrapper>
+                    <Main id="main">
+                      <ResourcePage id={match.params.id} />
+                    </Main>
+                  </NavigationAndFooterWrapper>
+                )}
+              />
+              <PrivateResourceRoute
+                id="create-new-opening-period-route"
+                exact
+                path="/resource/:id/period/new"
+                render={({
+                  match,
+                }: RouteComponentProps<{
+                  id: string;
+                }>): ReactElement => (
+                  <>
+                    <HaukiNavigation />
+                    <Main id="main">
+                      <CreateNewOpeningPeriodPage
+                        exception={false}
+                        resourceId={match.params.id}
+                      />
+                    </Main>
+                  </>
+                )}
+              />
+              <PrivateResourceRoute
+                id="create-new-opening-period-route"
+                exact
+                path="/resource/:id/period/new-exception"
+                render={({
+                  match,
+                }: RouteComponentProps<{
+                  id: string;
+                }>): ReactElement => (
+                  <>
+                    <HaukiNavigation />
+                    <Main id="main">
+                      <CreateNewOpeningPeriodPage
+                        exception
+                        resourceId={match.params.id}
+                      />
+                    </Main>
+                  </>
+                )}
+              />
+              <PrivateResourceRoute
+                id="edit-opening-period-route"
+                path="/resource/:id/period/:datePeriodId"
+                render={({
+                  match,
+                }: RouteComponentProps<{
+                  id: string;
+                  datePeriodId: string;
+                }>): ReactElement => (
+                  <>
+                    <HaukiNavigation />
+                    <Main id="main">
+                      <EditOpeningPeriodPage
+                        resourceId={match.params.id}
+                        datePeriodId={match.params.datePeriodId}
+                      />
+                    </Main>
+                  </>
+                )}
+              />
+            </Switch>
+          </Router>
+        </AuthContext.Provider>
+      </AppContext.Provider>
     </div>
   );
 }

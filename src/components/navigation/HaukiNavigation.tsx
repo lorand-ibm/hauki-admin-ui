@@ -1,12 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Navigation } from 'hds-react';
+import { IconCrossCircleFill, IconUser, Navigation } from 'hds-react';
 import api from '../../common/utils/api/api';
+import { useAppContext } from '../../App-context';
 import { AuthContextProps, TokenKeys, useAuth } from '../../auth/auth-context';
 import './HaukiNavigation.scss';
+import { SecondaryButton } from '../button/Button';
 import toast from '../notification/Toast';
 
 export default function HaukiNavigation(): JSX.Element {
+  const { hasOpenerWindow, closeAppWindow } = useAppContext();
   const authProps: Partial<AuthContextProps> = useAuth();
   const { authTokens, clearAuth } = authProps;
   const history = useHistory();
@@ -38,30 +41,50 @@ export default function HaukiNavigation(): JSX.Element {
     }
   };
 
+  const onCloseButtonClick = async (): Promise<void> => {
+    if (isAuthenticated) {
+      await signOut();
+    }
+
+    if (hasOpenerWindow && closeAppWindow) {
+      closeAppWindow();
+    }
+  };
+
   return (
     <Navigation
       theme={{
         '--header-background-color': 'var(--hauki-header-background-color)',
         '--header-color': 'var(--hauki-header-color)',
+        '--mobile-menu-color': 'var(--hauki-header-color)',
+        '--mobile-menu-background-color':
+          'var(--hauki-header-background-color)',
       }}
-      className="navigation-header"
       title="Aukiolot"
       menuToggleAriaLabel="Menu"
       skipTo="#main"
       skipToContentLabel="Siirry pääsisältöön">
-      <Navigation.Actions>
-        <Navigation.User
-          authenticated={isAuthenticated}
-          label="Kirjaudu"
-          userName={authTokens && authTokens[TokenKeys.usernameKey]}>
-          <Navigation.Item
-            label="Kirjaudu ulos"
-            target="_blank"
-            variant="primary"
-            onClick={(): Promise<void> => signOut()}
-          />
-        </Navigation.User>
-      </Navigation.Actions>
+      {isAuthenticated && (
+        <Navigation.Actions>
+          <Navigation.Item as="div">
+            <div className="navigation-user">
+              <IconUser aria-hidden />
+              <span className="navigation-user-name">
+                {authTokens && authTokens[TokenKeys.usernameKey]}
+              </span>
+            </div>
+          </Navigation.Item>
+          <SecondaryButton
+            dataTest="close-app-button"
+            className="navigation-button"
+            iconRight={<IconCrossCircleFill aria-hidden />}
+            onClick={(): Promise<void> => onCloseButtonClick()}
+            variant="secondary"
+            light>
+            Sulje
+          </SecondaryButton>
+        </Navigation.Actions>
+      )}
     </Navigation>
   );
 }

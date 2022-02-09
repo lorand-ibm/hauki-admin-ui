@@ -1,8 +1,9 @@
-.navigation-header {
-  nav {
-    a {
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
-  }
+.navigation-user {
+  align-items: center;
+  display: flex;
+  margin-left: var(--spacing-xs);
+}
+
+.navigation-user-name {
+  margin-left: var(--spacing-xs);
 }
