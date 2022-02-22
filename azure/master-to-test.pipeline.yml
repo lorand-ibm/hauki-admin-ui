@@ -2,7 +2,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- feature/group-update
+- master
 
 pr: none
 
