@@ -3,12 +3,16 @@ import { Notification } from 'hds-react';
 import api from '../../common/utils/api/api';
 import { Language, Resource } from '../../common/lib/types';
 import { isUnitResource } from '../../common/utils/resource/helper';
+import storage from '../../common/utils/storage/storage';
 import Collapse from '../../components/collapse/Collapse';
 import LanguageSelect, {
   displayLangVersionNotFound,
 } from '../../components/language-select/LanguageSelect';
 import { ExternalLink, Link } from '../../components/link/Link';
 import ResourceOpeningHours from '../resource-opening-hours/ResourceOpeningHours';
+import ResourcePeriodsCopyFieldset, {
+  TargetResourcesProps,
+} from './ResourcePeriodsCopyFieldset';
 import './ResourcePage.scss';
 
 const resourceTitleId = 'resource-title';
@@ -139,13 +143,55 @@ const ResourceSourceLink = ({
   );
 };
 
-export default function ResourcePage({ id }: { id: string }): JSX.Element {
+export default function ResourcePage({
+  id,
+  targetResourcesString,
+}: {
+  id: string;
+  targetResourcesString?: string;
+}): JSX.Element {
   const [resource, setResource] = useState<Resource | undefined>(undefined);
   const [childResources, setChildResources] = useState<Resource[]>([]);
   const [parentResources, setParentResources] = useState<Resource[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<Language>(Language.FI);
+  const [targetResourceData, setTargetResourceData] = useState<
+    TargetResourcesProps | undefined
+  >(undefined);
+  const targetResourcesStorageKey = 'targetResources';
+
+  const hasTargetResources =
+    targetResourceData?.mainResourceId === resource?.id &&
+    targetResourceData?.targetResources &&
+    targetResourceData?.targetResources.length > 0;
+
+  useEffect(() => {
+    if (resource) {
+      if (targetResourcesString) {
+        const mainResourceId = resource.id;
+        const mainResourceName = resource?.name[language];
+        const targetResources = targetResourcesString.split(',');
+        const newData = { mainResourceId, mainResourceName, targetResources };
+        setTargetResourceData(newData);
+        storage.storeItem<TargetResourcesProps>({
+          key: targetResourcesStorageKey,
+          value: newData,
+        });
+      } else {
+        const oldData = storage.getItem<TargetResourcesProps>(
+          targetResourcesStorageKey
+        );
+        if (oldData) {
+          if (oldData.mainResourceId === resource?.id) {
+            setTargetResourceData(oldData);
+          } else {
+            storage.removeItem(targetResourcesStorageKey);
+          }
+        }
+      }
+    }
+  }, [language, resource, targetResourcesString]);
 
   useEffect((): void => {
     // UseEffect's callbacks are synchronous to prevent a race condition.
@@ -197,6 +243,14 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
   return (
     <>
       <ResourceInfo>
+        {hasTargetResources && (
+          <ResourcePeriodsCopyFieldset
+            {...targetResourceData}
+            onChange={(resourceData): void =>
+              setTargetResourceData(resourceData)
+            }
+          />
+        )}
         <ResourceTitle resource={resource} language={language}>
           <LanguageSelect
             id="resource-info-language-select"
@@ -221,7 +275,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
             })}
         </p>
       </ResourceDetailsSection>
-      {parentResources?.length > 0 && (
+      {!hasTargetResources && parentResources?.length > 0 && (
         <ResourceDetailsSection
           id="parent-resource-description"
           title="Toimipisteet">
@@ -256,7 +310,7 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
           ))}
         </ResourceDetailsSection>
       )}
-      {childResources?.length > 0 && (
+      {!hasTargetResources && childResources?.length > 0 && (
         <ResourceDetailsSection
           id="child-resource-description"
           title="Alakohteet">
@@ -293,7 +347,9 @@ export default function ResourcePage({ id }: { id: string }): JSX.Element {
           ))}
         </ResourceDetailsSection>
       )}
-      <ResourceSourceLink id="resource-source-link" resource={resource} />
+      {!hasTargetResources && (
+        <ResourceSourceLink id="resource-source-link" resource={resource} />
+      )}
       <ResourceSection id="resource-opening-hours">
         {resource && <ResourceOpeningHours resource={resource} />}
       </ResourceSection>

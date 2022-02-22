@@ -232,6 +232,7 @@ export enum ResourceType {
 
 export interface Resource {
   id: number;
+  modified?: string;
   name: {
     fi: string;
     sv: string;

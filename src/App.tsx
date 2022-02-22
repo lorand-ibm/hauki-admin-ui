@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import 'hds-core';
 import { AppContext } from './App-context';
+import urlUtils, { SearchParameters } from './common/utils/url/url';
 import {
   AuthContext,
   AuthTokens,
@@ -48,6 +49,14 @@ export default function App(): JSX.Element {
       window.close();
     }
   };
+
+  const searchParams: SearchParameters = urlUtils.parseSearchParameters(
+    window ? window.location.search : ''
+  );
+  const targetResourcesParameter = 'target_resources';
+  const targetResourcesStr: string | undefined = searchParams[
+    targetResourcesParameter
+  ] as string;
 
   const [authTokens, setAuthTokens] = useState<AuthTokens | undefined>(
     getPersistentTokens()
@@ -106,7 +115,10 @@ export default function App(): JSX.Element {
                 }: RouteComponentProps<{ id: string }>): ReactElement => (
                   <NavigationAndFooterWrapper>
                     <Main id="main">
-                      <ResourcePage id={match.params.id} />
+                      <ResourcePage
+                        id={match.params.id}
+                        targetResourcesString={targetResourcesStr}
+                      />
                     </Main>
                   </NavigationAndFooterWrapper>
                 )}

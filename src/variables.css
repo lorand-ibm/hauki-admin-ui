@@ -31,5 +31,7 @@
   --modal-close-button-color: var(--color-coat-of-arms);
   --button-icon-hover-background-color: var(--color-coat-of-arms-light);
   --button-icon-focus-border-color: var(--color-coat-of-arms);
+  --button-disabled-background-color: var(--color-black-20);
+  --button-disabled-color: var(--color-white);
   --textarea-height: auto;
 }

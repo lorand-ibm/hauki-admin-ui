@@ -1,6 +1,7 @@
 /// <reference types="node"/>
 import querystring, { ParsedUrlQuery } from 'querystring';
 import { Context, createContext, useContext } from 'react';
+import storage from '../common/utils/storage/storage';
 
 export enum TokenKeys {
   usernameKey = 'hsa_username',
@@ -40,30 +41,16 @@ const tokenStorageKey: 'tokens' = 'tokens';
 
 export const storeTokens = (
   authTokens: AuthTokens | undefined
-): AuthTokens | undefined => {
-  try {
-    window.localStorage.setItem(tokenStorageKey, JSON.stringify(authTokens));
-    return authTokens;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
-    return undefined;
-  }
-};
+): AuthTokens | undefined =>
+  storage.storeItem<AuthTokens | undefined>({
+    key: tokenStorageKey,
+    value: authTokens,
+  });
 
-export const removeTokens = (): void =>
-  window.localStorage.removeItem(tokenStorageKey);
+export const removeTokens = (): void => storage.removeItem(tokenStorageKey);
 
-export const getTokens = (): AuthTokens | undefined => {
-  try {
-    const item = window.localStorage.getItem(tokenStorageKey);
-    return item ? JSON.parse(item) : undefined;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
-    return undefined;
-  }
-};
+export const getTokens = (): AuthTokens | undefined =>
+  storage.getItem<AuthTokens | undefined>(tokenStorageKey);
 
 export const parseAuthParams = (queryStr: string): AuthTokens | undefined => {
   const queryParams: ParsedUrlQuery = querystring.parse(

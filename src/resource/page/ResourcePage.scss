@@ -20,6 +20,15 @@
   margin-bottom: var(--spacing-xs);
 }
 
+.resource-copy-date-periods {
+  margin: var(--spacing-m) 0;
+}
+
+.resource-copy-modified-text {
+  margin-top: var(--spacing-s);
+  display: block;
+}
+
 .resource-info-subtitle {
   color: var(--color-coat-of-arms);
   font-size: $fontsize-heading-m;

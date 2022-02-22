@@ -6,8 +6,10 @@ export const dateApiFormat = 'yyyy-MM-dd';
 export const dateFormFormat = 'dd.MM.yyyy';
 export const datetimeFormFormat = `${dateFormFormat} HH:mm`;
 
-export const formatDate = (date: string): string =>
-  format(new Date(date), dateFormFormat);
+export const formatDate = (
+  date: string,
+  dateFormatStr: string | undefined = dateFormFormat
+): string => format(new Date(date), dateFormatStr);
 
 export const parseFormDate = (date: string): Date =>
   parse(date, dateFormFormat, new Date());
