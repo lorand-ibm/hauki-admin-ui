@@ -73,9 +73,9 @@ steps:
 
       sleep 50
 
-#- script: |
-#   CI=true yarn test-cypress-with-new-test-env
-#  displayName: 'Yarn run cypress (e2e) tests against test environment'
+- script: |
+   CI=true yarn test-cypress-with-new-test-env
+  displayName: 'Yarn run cypress (e2e) tests against test environment'
 
 - task: PublishBuildArtifacts@1
   inputs:
