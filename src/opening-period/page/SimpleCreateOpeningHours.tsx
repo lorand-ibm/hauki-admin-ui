@@ -55,7 +55,15 @@ const SwitchButtons = ({
   );
 };
 
-const OpeningHoursRange = ({ label }: { label: string }): JSX.Element => (
+type OptionType = { value: string; label: string };
+
+const OpeningHoursRange = ({
+  label,
+  resourceStates,
+}: {
+  label: string;
+  resourceStates: OptionType[];
+}): JSX.Element => (
   <>
     <div className="opening-hours-range--label">{label}</div>
     <div className="opening-hours-range--selections">
@@ -69,9 +77,10 @@ const OpeningHoursRange = ({ label }: { label: string }): JSX.Element => (
         <div>-</div>
         <TimeInput id="startDate" hoursLabel="tunnit" minutesLabel="minuutit" />
       </div>
-      <Select
+      <Select<OptionType>
         label="Tila"
-        options={[{ label: 'Plutonium' }]}
+        options={resourceStates}
+        className="opening-hours-range-select"
         placeholder="Placeholder"
         required
       />
@@ -88,6 +97,13 @@ export default function CreateNewOpeningPeriodPage({
   const [datePeriodConfig, setDatePeriodConfig] = useState<
     UiDatePeriodConfig
   >();
+
+  const resourceStates = datePeriodConfig
+    ? datePeriodConfig.resourceState.options.map((translatedApiChoice) => ({
+        value: translatedApiChoice.value,
+        label: translatedApiChoice.label.fi as string,
+      }))
+    : [];
 
   useEffect((): void => {
     const fetchData = async (): Promise<void> => {
@@ -116,9 +132,15 @@ export default function CreateNewOpeningPeriodPage({
         <div>
           <div>Erottele arkipäivät</div>
           <section className="opening-hours-section">
-            <OpeningHoursRange label="Ma-Pe" />
-            <OpeningHoursRange label="Lauantai" />
-            <OpeningHoursRange label="Sunnuntai" />
+            <OpeningHoursRange label="Ma-Pe" resourceStates={resourceStates} />
+            <OpeningHoursRange
+              label="Lauantai"
+              resourceStates={resourceStates}
+            />
+            <OpeningHoursRange
+              label="Sunnuntai"
+              resourceStates={resourceStates}
+            />
           </section>
           <Button>Tallenna</Button>
         </div>
