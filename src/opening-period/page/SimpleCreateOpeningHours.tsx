@@ -1,6 +1,10 @@
 import { Button, Select, TimeInput } from 'hds-react';
 import React, { useEffect, useState } from 'react';
-import { Resource, UiDatePeriodConfig } from '../../common/lib/types';
+import {
+  Resource,
+  ResourceState,
+  UiDatePeriodConfig,
+} from '../../common/lib/types';
 import api from '../../common/utils/api/api';
 import './SimpleCreateOpeningHours.scss';
 
@@ -53,10 +57,16 @@ const OpeningHoursRange = ({
   label,
   defaultIOpen = true,
   resourceStates,
+  defaultValues,
 }: {
   label: string;
   defaultIOpen?: boolean;
   resourceStates: OptionType[];
+  defaultValues?: {
+    startTime: string;
+    endTime: string;
+    state: ResourceState;
+  };
 }): JSX.Element => {
   const [open, setOpen] = useState(defaultIOpen);
 
@@ -76,12 +86,14 @@ const OpeningHoursRange = ({
                 id="startDate"
                 hoursLabel="tunnit"
                 minutesLabel="minuutit"
+                value={defaultValues?.startTime}
               />
               <div>-</div>
               <TimeInput
                 id="startDate"
                 hoursLabel="tunnit"
                 minutesLabel="minuutit"
+                value={defaultValues?.endTime}
               />
             </div>
             <Select<OptionType>
@@ -89,6 +101,13 @@ const OpeningHoursRange = ({
               options={resourceStates}
               className="opening-hours-range-select"
               placeholder="Placeholder"
+              value={
+                defaultValues?.state
+                  ? resourceStates.find(
+                      ({ value }) => value === defaultValues.state
+                    )
+                  : undefined
+              }
               required
             />
           </>
@@ -108,6 +127,12 @@ export default function CreateNewOpeningPeriodPage({
     UiDatePeriodConfig
   >();
   const [separateWeekdays, setSeparateWeekdays] = useState(false);
+
+  const defaultWeekendValueValue = {
+    startTime: '09:00',
+    endTime: '15:00',
+    state: ResourceState.OPEN,
+  };
 
   const resourceStates = datePeriodConfig
     ? datePeriodConfig.resourceState.options.map((translatedApiChoice) => ({
@@ -144,7 +169,7 @@ export default function CreateNewOpeningPeriodPage({
           <div className="separate-weekdays-section">
             <span className="separate-weekdays-section--label">
               Erottele arkipäivät
-            </span>{' '}
+            </span>
             <SwitchButtons
               labels={{ on: 'Kyllä', off: 'Ei' }}
               onChange={() => setSeparateWeekdays(!separateWeekdays)}
@@ -152,16 +177,26 @@ export default function CreateNewOpeningPeriodPage({
             />
           </div>
           <section className="opening-hours-section">
-            <OpeningHoursRange label="Ma-Pe" resourceStates={resourceStates} />
+            <OpeningHoursRange
+              label="Ma-Pe"
+              resourceStates={resourceStates}
+              defaultValues={{
+                startTime: '09:00',
+                endTime: '20:00',
+                state: ResourceState.OPEN,
+              }}
+            />
             <OpeningHoursRange
               label="Lauantai"
               resourceStates={resourceStates}
               defaultIOpen={false}
+              defaultValues={defaultWeekendValueValue}
             />
             <OpeningHoursRange
               label="Sunnuntai"
               resourceStates={resourceStates}
               defaultIOpen={false}
+              defaultValues={defaultWeekendValueValue}
             />
           </section>
           <Button>Tallenna</Button>
