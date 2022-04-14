@@ -6,6 +6,7 @@ import {
   UiDatePeriodConfig,
 } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
+import { SecondaryButton } from '../../components/button/Button';
 import './SimpleCreateOpeningHours.scss';
 
 const SwitchButton = ({
@@ -165,7 +166,7 @@ export default function CreateNewOpeningPeriodPage({
         {resource?.name?.fi}
       </h1>
       {resource && datePeriodConfig && (
-        <div>
+        <div className="opening-hours-form">
           <div className="separate-weekdays-section">
             <span className="separate-weekdays-section--label">
               Erottele arkipäivät
@@ -199,8 +200,10 @@ export default function CreateNewOpeningPeriodPage({
               defaultValues={defaultWeekendValueValue}
             />
           </section>
-          <Button>Tallenna</Button>
-          {/* <Button>Peruuta</Button> */}
+          <div className="opening-hours-form--button">
+            <Button>Tallenna</Button>
+            <SecondaryButton>Peruuta</SecondaryButton>
+          </div>
         </div>
       )}
     </div>
