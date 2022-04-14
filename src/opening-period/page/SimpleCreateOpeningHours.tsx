@@ -25,68 +25,78 @@ const SwitchButton = ({
 
 const SwitchButtons = ({
   labels,
-  initialValue,
+  value,
   onChange,
 }: {
   labels: { on: string; off: string };
-  initialValue: boolean;
+  value: boolean;
   onChange: (x: boolean) => void;
-}): JSX.Element => {
-  const [value, setValue] = useState<boolean>(initialValue);
-
-  useEffect(() => {
-    onChange(value);
-  }, [onChange, value]);
-
-  return (
-    <div className="switch-buttons">
-      <SwitchButton
-        isActive={value}
-        label={labels.on}
-        onChange={(): void => setValue(true)}
-      />
-      <span className="switch-buttons-divider">/</span>
-      <SwitchButton
-        isActive={!value}
-        label={labels.off}
-        onChange={(): void => setValue(false)}
-      />
-    </div>
-  );
-};
+}): JSX.Element => (
+  <div className="switch-buttons">
+    <SwitchButton
+      isActive={value}
+      label={labels.on}
+      onChange={(): void => onChange(true)}
+    />
+    <span className="switch-buttons-divider">/</span>
+    <SwitchButton
+      isActive={!value}
+      label={labels.off}
+      onChange={(): void => onChange(false)}
+    />
+  </div>
+);
 
 type OptionType = { value: string; label: string };
 
 const OpeningHoursRange = ({
   label,
+  defaultIOpen = true,
   resourceStates,
 }: {
   label: string;
+  defaultIOpen?: boolean;
   resourceStates: OptionType[];
-}): JSX.Element => (
-  <>
-    <div className="opening-hours-range--label">{label}</div>
-    <div className="opening-hours-range--selections">
-      <SwitchButtons
-        labels={{ on: 'Kyllä', off: 'Ei' }}
-        initialValue={false}
-        onChange={console.log}
-      />
-      <div className="opening-hours-range--time-span">
-        <TimeInput id="startDate" hoursLabel="tunnit" minutesLabel="minuutit" />
-        <div>-</div>
-        <TimeInput id="startDate" hoursLabel="tunnit" minutesLabel="minuutit" />
+}): JSX.Element => {
+  const [open, setOpen] = useState(defaultIOpen);
+
+  return (
+    <>
+      <div className="opening-hours-range--label">{label}</div>
+      <div className="opening-hours-range--selections">
+        <SwitchButtons
+          labels={{ on: 'Auki', off: 'Kiinni' }}
+          onChange={() => setOpen(!open)}
+          value={open}
+        />
+        {open && (
+          <>
+            <div className="opening-hours-range--time-span">
+              <TimeInput
+                id="startDate"
+                hoursLabel="tunnit"
+                minutesLabel="minuutit"
+              />
+              <div>-</div>
+              <TimeInput
+                id="startDate"
+                hoursLabel="tunnit"
+                minutesLabel="minuutit"
+              />
+            </div>
+            <Select<OptionType>
+              label="Tila"
+              options={resourceStates}
+              className="opening-hours-range-select"
+              placeholder="Placeholder"
+              required
+            />
+          </>
+        )}
       </div>
-      <Select<OptionType>
-        label="Tila"
-        options={resourceStates}
-        className="opening-hours-range-select"
-        placeholder="Placeholder"
-        required
-      />
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default function CreateNewOpeningPeriodPage({
   resourceId,
@@ -97,6 +107,7 @@ export default function CreateNewOpeningPeriodPage({
   const [datePeriodConfig, setDatePeriodConfig] = useState<
     UiDatePeriodConfig
   >();
+  const [separateWeekdays, setSeparateWeekdays] = useState(false);
 
   const resourceStates = datePeriodConfig
     ? datePeriodConfig.resourceState.options.map((translatedApiChoice) => ({
@@ -130,19 +141,31 @@ export default function CreateNewOpeningPeriodPage({
       </h1>
       {resource && datePeriodConfig && (
         <div>
-          <div>Erottele arkipäivät</div>
+          <div className="separate-weekdays-section">
+            <span className="separate-weekdays-section--label">
+              Erottele arkipäivät
+            </span>{' '}
+            <SwitchButtons
+              labels={{ on: 'Kyllä', off: 'Ei' }}
+              onChange={() => setSeparateWeekdays(!separateWeekdays)}
+              value={separateWeekdays}
+            />
+          </div>
           <section className="opening-hours-section">
             <OpeningHoursRange label="Ma-Pe" resourceStates={resourceStates} />
             <OpeningHoursRange
               label="Lauantai"
               resourceStates={resourceStates}
+              defaultIOpen={false}
             />
             <OpeningHoursRange
               label="Sunnuntai"
               resourceStates={resourceStates}
+              defaultIOpen={false}
             />
           </section>
           <Button>Tallenna</Button>
+          {/* <Button>Peruuta</Button> */}
         </div>
       )}
     </div>
