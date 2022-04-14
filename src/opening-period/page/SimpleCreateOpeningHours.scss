@@ -27,3 +27,28 @@
     border-bottom-color: black;
   }
 }
+
+.opening-hours-range--label {
+    display: flex;
+    font-weight: bold;
+    margin-top: 45px;
+}
+
+.opening-hours-range--time-span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.opening-hours-range--selections {
+    align-items: flex-end;
+    display: flex;
+    gap: 50px;
+}
+
+.opening-hours-section {
+    display: grid;
+    grid-gap: 50px;
+    grid-template-columns:  70px 1fr;
+    margin-bottom: 100px;
+}

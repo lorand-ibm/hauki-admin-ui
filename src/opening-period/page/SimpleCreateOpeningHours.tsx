@@ -1,8 +1,7 @@
+import { Button, Select, TimeInput } from 'hds-react';
 import React, { useEffect, useState } from 'react';
-import { Button } from 'hds-react';
 import { Resource, UiDatePeriodConfig } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
-
 import './SimpleCreateOpeningHours.scss';
 
 const SwitchButton = ({
@@ -13,7 +12,7 @@ const SwitchButton = ({
   isActive: boolean;
   label: string;
   onChange: () => void;
-}) => (
+}): JSX.Element => (
   <Button
     className={`switch-buttons-button ${
       isActive ? 'switch-buttons-button--active' : ''
@@ -32,7 +31,7 @@ const SwitchButtons = ({
   labels: { on: string; off: string };
   initialValue: boolean;
   onChange: (x: boolean) => void;
-}) => {
+}): JSX.Element => {
   const [value, setValue] = useState<boolean>(initialValue);
 
   useEffect(() => {
@@ -55,6 +54,30 @@ const SwitchButtons = ({
     </div>
   );
 };
+
+const OpeningHoursRange = ({ label }: { label: string }): JSX.Element => (
+  <>
+    <div className="opening-hours-range--label">{label}</div>
+    <div className="opening-hours-range--selections">
+      <SwitchButtons
+        labels={{ on: 'Kyllä', off: 'Ei' }}
+        initialValue={false}
+        onChange={console.log}
+      />
+      <div className="opening-hours-range--time-span">
+        <TimeInput id="startDate" hoursLabel="tunnit" minutesLabel="minuutit" />
+        <div>-</div>
+        <TimeInput id="startDate" hoursLabel="tunnit" minutesLabel="minuutit" />
+      </div>
+      <Select
+        label="Tila"
+        options={[{ label: 'Plutonium' }]}
+        placeholder="Placeholder"
+        required
+      />
+    </div>
+  </>
+);
 
 export default function CreateNewOpeningPeriodPage({
   resourceId,
@@ -89,12 +112,17 @@ export default function CreateNewOpeningPeriodPage({
       <h1 data-test="resource-info" className="resource-info-title">
         {resource?.name?.fi}
       </h1>
-      {resource && datePeriodConfig && <div />}
-      <SwitchButtons
-        labels={{ on: 'Kyllä', off: 'Ei' }}
-        initialValue={false}
-        onChange={console.log}
-      />
+      {resource && datePeriodConfig && (
+        <div>
+          <div>Erottele arkipäivät</div>
+          <section className="opening-hours-section">
+            <OpeningHoursRange label="Ma-Pe" />
+            <OpeningHoursRange label="Lauantai" />
+            <OpeningHoursRange label="Sunnuntai" />
+          </section>
+          <Button>Tallenna</Button>
+        </div>
+      )}
     </div>
   );
 }
