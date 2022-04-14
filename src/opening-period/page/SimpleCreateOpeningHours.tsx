@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Resource, UiDatePeriodConfig } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
 
+import './SimpleCreateOpeningHours.scss';
+
 export default function CreateNewOpeningPeriodPage({
   resourceId,
 }: {
