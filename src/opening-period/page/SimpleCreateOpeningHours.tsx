@@ -52,6 +52,30 @@ const SwitchButtons = ({
   </div>
 );
 
+const OpeningHoursRangeTimeSpan = ({
+  startTime,
+  endTime,
+}: {
+  startTime?: string;
+  endTime?: string;
+}) => (
+  <div className="opening-hours-range--time-span">
+    <TimeInput
+      id="startDate"
+      hoursLabel="tunnit"
+      minutesLabel="minuutit"
+      value={startTime}
+    />
+    <div>-</div>
+    <TimeInput
+      id="startDate"
+      hoursLabel="tunnit"
+      minutesLabel="minuutit"
+      value={endTime}
+    />
+  </div>
+);
+
 type OptionType = { value: string; label: string };
 
 const OpeningHoursRange = ({
@@ -70,6 +94,11 @@ const OpeningHoursRange = ({
   };
 }): JSX.Element => {
   const [open, setOpen] = useState(defaultIOpen);
+  const [state, setState] = useState(
+    defaultValues?.state
+      ? resourceStates.find(({ value }) => value === defaultValues.state)
+      : undefined
+  );
 
   return (
     <>
@@ -84,33 +113,17 @@ const OpeningHoursRange = ({
         </div>
         {open && (
           <>
-            <div className="opening-hours-range--time-span">
-              <TimeInput
-                id="startDate"
-                hoursLabel="tunnit"
-                minutesLabel="minuutit"
-                value={defaultValues?.startTime}
-              />
-              <div>-</div>
-              <TimeInput
-                id="startDate"
-                hoursLabel="tunnit"
-                minutesLabel="minuutit"
-                value={defaultValues?.endTime}
-              />
-            </div>
+            <OpeningHoursRangeTimeSpan
+              startTime={defaultValues?.startTime}
+              endTime={defaultValues?.endTime}
+            />
             <Select<OptionType>
               label="Tila"
               options={resourceStates}
               className="opening-hours-range-select"
+              onChange={setState}
               placeholder="Placeholder"
-              value={
-                defaultValues?.state
-                  ? resourceStates.find(
-                      ({ value }) => value === defaultValues.state
-                    )
-                  : undefined
-              }
+              value={state}
               required
             />
           </>
