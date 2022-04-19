@@ -181,15 +181,35 @@ export default function CreateNewOpeningPeriodPage({
             />
           </div>
           <section className="opening-hours-section">
-            <OpeningHoursRange
-              label="Ma-Pe"
-              resourceStates={resourceStates}
-              defaultValues={{
-                startTime: '09:00',
-                endTime: '20:00',
-                state: ResourceState.OPEN,
-              }}
-            />
+            {separateWeekdays &&
+              [
+                'Maanantai',
+                'Tiistai',
+                'Keskiviikko',
+                'Torstai',
+                'Perjantai',
+              ].map((day) => (
+                <OpeningHoursRange
+                  label={day}
+                  resourceStates={resourceStates}
+                  defaultValues={{
+                    startTime: '09:00',
+                    endTime: '20:00',
+                    state: ResourceState.OPEN,
+                  }}
+                />
+              ))}
+            {!separateWeekdays && (
+              <OpeningHoursRange
+                label="Ma-Pe"
+                resourceStates={resourceStates}
+                defaultValues={{
+                  startTime: '09:00',
+                  endTime: '20:00',
+                  state: ResourceState.OPEN,
+                }}
+              />
+            )}
             <OpeningHoursRange
               label="Lauantai"
               resourceStates={resourceStates}
