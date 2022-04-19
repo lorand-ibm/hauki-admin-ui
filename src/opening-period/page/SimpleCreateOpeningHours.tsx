@@ -59,7 +59,7 @@ const OpeningHoursRangeTimeSpan = ({
   startTime?: string;
   endTime?: string;
 }) => (
-  <div className="opening-hours-range--time-span">
+  <div className="opening-hours-range__time-span">
     <TimeInput
       id="startDate"
       hoursLabel="tunnit"
@@ -102,9 +102,9 @@ const OpeningHoursRange = ({
 
   return (
     <>
-      <div className="opening-hours-range--label">{label}</div>
-      <div className="opening-hours-range--selections">
-        <div className="opening-hours-ranges--switch-buttons">
+      <div className="opening-hours-range__label">{label}</div>
+      <div className="opening-hours-range__selections">
+        <div className="opening-hours-ranges__switch-buttons">
           <SwitchButtons
             labels={{ on: 'Auki', off: 'Kiinni' }}
             onChange={() => setOpen(!open)}
@@ -183,7 +183,7 @@ export default function CreateNewOpeningPeriodPage({
       {resource && datePeriodConfig && (
         <div className="opening-hours-form">
           <div className="separate-weekdays-section">
-            <span className="separate-weekdays-section--label">
+            <span className="separate-weekdays-section__label">
               Erottele arkipäivät
             </span>
 
@@ -236,7 +236,7 @@ export default function CreateNewOpeningPeriodPage({
               defaultValues={defaultWeekendValueValue}
             />
           </section>
-          <div className="opening-hours-form--button">
+          <div className="opening-hours-form__button">
             <Button>Tallenna</Button>
             <SecondaryButton>Peruuta</SecondaryButton>
           </div>

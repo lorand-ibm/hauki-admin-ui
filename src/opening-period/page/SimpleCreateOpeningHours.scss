@@ -33,19 +33,19 @@
     padding: 2rem;
 }
 
-.opening-hours-range--label {
+.opening-hours-range__label {
     display: flex;
     font-weight: bold;
     margin-top: 45px;
 }
 
-.opening-hours-range--time-span {
+.opening-hours-range__time-span {
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-.opening-hours-range--selections {
+.opening-hours-range__selections {
     align-items: flex-end;
     display: flex;
     gap: 50px;
@@ -69,15 +69,15 @@
     margin-bottom: 60px;
 }
 
-.separate-weekdays-section--label {
+.separate-weekdays-section__label {
     font-weight: bold;
 }
 
-.opening-hours-form--button {
+.opening-hours-form__button {
     display: flex;
     gap: 1rem;
 }
 
-.opening-hours-ranges--switch-buttons {
+.opening-hours-ranges__switch-buttons {
   margin-top: 30px;
 }
