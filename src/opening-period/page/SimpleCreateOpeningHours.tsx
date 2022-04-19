@@ -1,12 +1,16 @@
 import { Button, Select, TimeInput } from 'hds-react';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Resource,
   ResourceState,
   UiDatePeriodConfig,
 } from '../../common/lib/types';
 import api from '../../common/utils/api/api';
-import { SecondaryButton } from '../../components/button/Button';
+import {
+  SecondaryButton,
+  SupplementaryButton,
+} from '../../components/button/Button';
 import './SimpleCreateOpeningHours.scss';
 
 const SwitchButton = ({
@@ -53,28 +57,51 @@ const SwitchButtons = ({
 );
 
 const OpeningHoursRangeTimeSpan = ({
-  startTime,
-  endTime,
+  defaultValues,
+  resourceStates,
 }: {
-  startTime?: string;
-  endTime?: string;
-}) => (
-  <div className="opening-hours-range__time-span">
-    <TimeInput
-      id="startDate"
-      hoursLabel="tunnit"
-      minutesLabel="minuutit"
-      value={startTime}
-    />
-    <div>-</div>
-    <TimeInput
-      id="startDate"
-      hoursLabel="tunnit"
-      minutesLabel="minuutit"
-      value={endTime}
-    />
-  </div>
-);
+  defaultValues?: {
+    startTime: string;
+    endTime: string;
+    state: ResourceState;
+  };
+  resourceStates: OptionType[];
+}): JSX.Element => {
+  const [state, setState] = useState(
+    defaultValues?.state
+      ? resourceStates.find(({ value }) => value === defaultValues.state)
+      : undefined
+  );
+
+  return (
+    <div className="opening-hours-range__time-span">
+      <div className="opening-hours-range__time-span-inputs">
+        <TimeInput
+          id="startDate"
+          hoursLabel="tunnit"
+          minutesLabel="minuutit"
+          value={defaultValues?.startTime}
+        />
+        <div>-</div>
+        <TimeInput
+          id="startDate"
+          hoursLabel="tunnit"
+          minutesLabel="minuutit"
+          value={defaultValues?.endTime}
+        />
+      </div>
+      <Select<OptionType>
+        label="Tila"
+        options={resourceStates}
+        className="opening-hours-range-select"
+        onChange={setState}
+        placeholder="Placeholder"
+        value={state}
+        required
+      />
+    </div>
+  );
+};
 
 type OptionType = { value: string; label: string };
 
@@ -94,42 +121,51 @@ const OpeningHoursRange = ({
   };
 }): JSX.Element => {
   const [open, setOpen] = useState(defaultIOpen);
-  const [state, setState] = useState(
-    defaultValues?.state
-      ? resourceStates.find(({ value }) => value === defaultValues.state)
-      : undefined
-  );
+  const [exceptions, setExceptions] = useState(0);
 
   return (
-    <>
-      <div className="opening-hours-range__label">{label}</div>
-      <div className="opening-hours-range__selections">
-        <div className="opening-hours-ranges__switch-buttons">
-          <SwitchButtons
-            labels={{ on: 'Auki', off: 'Kiinni' }}
-            onChange={() => setOpen(!open)}
-            value={open}
-          />
+    <div>
+      <div className="opening-hours-range">
+        <div className="opening-hours-range__label">{label}</div>
+        <div className="opening-hours-range__selections">
+          <div className="opening-hours-ranges__switch-buttons">
+            <SwitchButtons
+              labels={{ on: 'Auki', off: 'Kiinni' }}
+              onChange={() => setOpen(!open)}
+              value={open}
+            />
+          </div>
+          {open && (
+            <div className="opening-hours-range__time-spans">
+              <div className="opening-hours__time-span-container">
+                <OpeningHoursRangeTimeSpan
+                  defaultValues={defaultValues}
+                  resourceStates={resourceStates}
+                />
+                <SupplementaryButton
+                  className="add-exception-button"
+                  onClick={() => setExceptions((i) => i + 1)}>
+                  + Lisää tarkennus
+                </SupplementaryButton>
+              </div>
+              {Array.from(Array(exceptions).keys()).map(() => (
+                <div className="exception">
+                  <OpeningHoursRangeTimeSpan
+                    defaultValues={defaultValues}
+                    resourceStates={resourceStates}
+                  />
+                  <Button
+                    variant="danger"
+                    onClick={() => setExceptions((i) => i - 1)}>
+                    Poista
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        {open && (
-          <>
-            <OpeningHoursRangeTimeSpan
-              startTime={defaultValues?.startTime}
-              endTime={defaultValues?.endTime}
-            />
-            <Select<OptionType>
-              label="Tila"
-              options={resourceStates}
-              className="opening-hours-range-select"
-              onChange={setState}
-              placeholder="Placeholder"
-              value={state}
-              required
-            />
-          </>
-        )}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -143,6 +179,9 @@ export default function CreateNewOpeningPeriodPage({
     UiDatePeriodConfig
   >();
   const [separateWeekdays, setSeparateWeekdays] = useState(false);
+  const history = useHistory();
+  const returnToResourcePage = (): void =>
+    history.push(`/resource/${resourceId}`);
 
   const defaultWeekendValueValue = {
     startTime: '09:00',
@@ -176,11 +215,14 @@ export default function CreateNewOpeningPeriodPage({
   }, [resourceId]);
 
   return (
-    <div>
-      <h1 data-test="resource-info" className="resource-info-title">
-        {resource?.name?.fi}
-      </h1>
-      {resource && datePeriodConfig && (
+    (resource && datePeriodConfig && (
+      <div>
+        <div className="opening-hours-form__title">
+          <h1 data-test="resource-info" className="resource-info-title">
+            {resource?.name?.fi}
+          </h1>
+          <span>Osoite: {resource?.address.fi}</span>
+        </div>
         <div className="opening-hours-form">
           <div className="separate-weekdays-section">
             <span className="separate-weekdays-section__label">
@@ -237,11 +279,13 @@ export default function CreateNewOpeningPeriodPage({
             />
           </section>
           <div className="opening-hours-form__button">
-            <Button>Tallenna</Button>
-            <SecondaryButton>Peruuta</SecondaryButton>
+            <Button onClick={returnToResourcePage}>Tallenna</Button>
+            <SecondaryButton onClick={returnToResourcePage}>
+              Peruuta
+            </SecondaryButton>
           </div>
         </div>
-      )}
-    </div>
+      </div>
+    )) || <h1>Ladataan...</h1>
   );
 }

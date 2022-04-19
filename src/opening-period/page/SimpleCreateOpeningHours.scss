@@ -29,33 +29,34 @@
 }
 
 .opening-hours-form {
-    background: #ffffff;;
-    padding: 2rem;
+  background: #ffffff;
+  border-bottom: 1px solid #cfcfcf;
+  padding: 2rem;
 }
 
 .opening-hours-range__label {
-    display: flex;
-    font-weight: bold;
-    margin-top: 45px;
+  display: flex;
+  font-weight: bold;
+  margin-top: 45px;
+  width: 100px;
 }
 
-.opening-hours-range__time-span {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.opening-hours-range__time-span-inputs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .opening-hours-range__selections {
-    align-items: flex-end;
-    display: flex;
-    gap: 50px;
+  display: flex;
+  gap: 50px;
 }
 
 .opening-hours-section {
-    display: grid;
-    grid-gap: 50px;
-    grid-template-columns:  70px 1fr;
-    margin-bottom: 100px;
+  display: flex;
+  gap: 50px;
+  flex-direction: column;
+  margin-bottom: 100px;
 }
 
 .opening-hours-range-select {
@@ -63,21 +64,71 @@
 }
 
 .separate-weekdays-section {
-    align-items: center;
-    gap: 50px;
-    display: flex;;
-    margin-bottom: 60px;
+  align-items: center;
+  gap: 50px;
+  display: flex;
+  margin-bottom: 60px;
 }
 
 .separate-weekdays-section__label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .opening-hours-form__button {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .opening-hours-ranges__switch-buttons {
   margin-top: 30px;
+}
+
+.opening-hours-range {
+  display: flex;
+  gap: 50px;
+}
+
+.exception-section {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.opening-hours-range__time-spans {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.opening-hours-range__time-span {
+  align-items: flex-end;
+  display: flex;
+  gap: 50px;
+}
+
+.exception {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.opening-hours__time-span-container {
+  align-items: flex-end;
+  display: flex;
+  gap: 1rem;
+}
+
+.opening-hours-form__title {
+  background: #ffffff;
+  border-bottom: 1px solid #cfcfcf;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  left: 0;
+  padding: 1rem;
+  position: sticky;
+  right: 0;
+  top: 2px;
+  z-index: 100;
 }
