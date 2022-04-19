@@ -64,15 +64,20 @@
 
 .separate-weekdays-section {
     align-items: center;
+    gap: 50px;
     display: flex;;
     margin-bottom: 60px;
 }
 
 .separate-weekdays-section--label {
-    font-weight: bold;;
+    font-weight: bold;
 }
 
 .opening-hours-form--button {
     display: flex;
     gap: 1rem;
+}
+
+.opening-hours-ranges--switch-buttons {
+  margin-top: 30px;
 }

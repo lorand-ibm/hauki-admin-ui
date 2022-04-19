@@ -75,11 +75,13 @@ const OpeningHoursRange = ({
     <>
       <div className="opening-hours-range--label">{label}</div>
       <div className="opening-hours-range--selections">
-        <SwitchButtons
-          labels={{ on: 'Auki', off: 'Kiinni' }}
-          onChange={() => setOpen(!open)}
-          value={open}
-        />
+        <div className="opening-hours-ranges--switch-buttons">
+          <SwitchButtons
+            labels={{ on: 'Auki', off: 'Kiinni' }}
+            onChange={() => setOpen(!open)}
+            value={open}
+          />
+        </div>
         {open && (
           <>
             <div className="opening-hours-range--time-span">
@@ -171,6 +173,7 @@ export default function CreateNewOpeningPeriodPage({
             <span className="separate-weekdays-section--label">
               Erottele arkipäivät
             </span>
+
             <SwitchButtons
               labels={{ on: 'Kyllä', off: 'Ei' }}
               onChange={() => setSeparateWeekdays(!separateWeekdays)}
