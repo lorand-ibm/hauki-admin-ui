@@ -30,8 +30,6 @@
 
 .opening-hours-form {
   background: #ffffff;
-  border-bottom: 1px solid #cfcfcf;
-  padding: 2rem;
 }
 
 .opening-hours-range__label {
@@ -54,9 +52,8 @@
 
 .opening-hours-section {
   display: flex;
-  gap: 50px;
   flex-direction: column;
-  margin-bottom: 100px;
+  gap: 10px;
 }
 
 .opening-hours-range-select {
@@ -65,18 +62,20 @@
 
 .separate-weekdays-section {
   align-items: center;
+  border-bottom: 1px solid #e7e7e7;
   gap: 50px;
   display: flex;
-  margin-bottom: 60px;
+  padding: 2rem 2rem;
 }
 
 .separate-weekdays-section__label {
   font-weight: bold;
 }
 
-.opening-hours-form__button {
+.opening-hours-form__buttons {
   display: flex;
   gap: 1rem;
+  padding: 3rem 2rem 2rem;
 }
 
 .opening-hours-ranges__switch-buttons {
@@ -86,6 +85,7 @@
 .opening-hours-range {
   display: flex;
   gap: 50px;
+  padding: 1rem 2rem;
 }
 
 .exception-section {
@@ -121,12 +121,12 @@
 
 .opening-hours-form__title {
   background: #ffffff;
-  border-bottom: 1px solid #cfcfcf;
+  border-bottom: 1px solid #e7e7e7;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   left: 0;
-  padding: 1rem;
+  padding: 1rem 2rem;
   position: sticky;
   right: 0;
   top: 2px;

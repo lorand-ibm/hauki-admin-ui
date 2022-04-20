@@ -278,7 +278,7 @@ export default function CreateNewOpeningPeriodPage({
               defaultValues={defaultWeekendValueValue}
             />
           </section>
-          <div className="opening-hours-form__button">
+          <div className="opening-hours-form__buttons">
             <Button onClick={returnToResourcePage}>Tallenna</Button>
             <SecondaryButton onClick={returnToResourcePage}>
               Peruuta
