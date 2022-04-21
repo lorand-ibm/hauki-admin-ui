@@ -256,3 +256,12 @@ export interface Resource {
   parents: number[];
   resource_type: ResourceType;
 }
+
+export interface OpeningPeriodFormData {
+  openingPeriodTitle: LanguageStrings;
+  openingPeriodOptionalDescription: LanguageStrings;
+  openingPeriodBeginDate: string | null;
+  openingPeriodEndDate: string | null;
+  openingPeriodResourceState: ResourceState | undefined;
+  timeSpanGroups: TimeSpanGroupFormFormat[];
+}

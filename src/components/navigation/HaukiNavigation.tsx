@@ -32,11 +32,11 @@ export default function HaukiNavigation(): JSX.Element {
       } else {
         showSignOutErrorNotification('Uloskirjautuminen hylättiin.');
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error('Sign out failed:', e.message);
+    } catch (e: any) {
+      let message = 'Unknown Error';
+      if (e instanceof Error) message = e.message;
       showSignOutErrorNotification(
-        `Uloskirjautuminen epäonnistui. Yritä myöhemmin uudestaan. Virhe: ${e}`
+        `Uloskirjautuminen epäonnistui. Yritä myöhemmin uudestaan. Virhe: ${message}`
       );
     }
   };

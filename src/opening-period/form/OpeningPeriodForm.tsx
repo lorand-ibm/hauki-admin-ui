@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  ArrayField,
+  Controller,
   FormProvider,
   useFieldArray,
   useForm,
@@ -11,6 +11,7 @@ import {
   DatePeriod,
   Language,
   LanguageStrings,
+  OpeningPeriodFormData,
   ResourceState,
   TimeSpanGroupFormFormat,
   UiDatePeriodConfig,
@@ -43,15 +44,6 @@ import TimeSpans from '../time-span/TimeSpans';
 import Rules from '../rule/Rules';
 import './OpeningPeriodForm.scss';
 import { MainContainer } from '../../components/main/Main';
-
-interface OpeningPeriodFormData {
-  openingPeriodTitle: LanguageStrings;
-  openingPeriodOptionalDescription: LanguageStrings;
-  openingPeriodBeginDate: string | null;
-  openingPeriodEndDate: string | null;
-  openingPeriodResourceState: ResourceState | undefined;
-  timeSpanGroups: TimeSpanGroupFormFormat[];
-}
 
 const defaultTimeSpanGroup: TimeSpanGroupFormFormat = {
   timeSpans: [],
@@ -159,8 +151,12 @@ export default function OpeningPeriodForm({
   const formValues: OpeningPeriodFormData = {
     openingPeriodTitle: datePeriod?.name || emptyLanguages,
     openingPeriodOptionalDescription: datePeriod?.description || emptyLanguages,
-    openingPeriodBeginDate: datePeriod?.start_date ?? null,
-    openingPeriodEndDate: datePeriod?.end_date ?? null,
+    openingPeriodBeginDate: datePeriod?.start_date
+      ? formatDate(datePeriod?.start_date)
+      : null,
+    openingPeriodEndDate: datePeriod?.end_date
+      ? formatDate(datePeriod?.end_date)
+      : null,
     openingPeriodResourceState: datePeriod?.resource_state,
     timeSpanGroups: [defaultTimeSpanGroup],
   };
@@ -173,7 +169,7 @@ export default function OpeningPeriodForm({
   const {
     register,
     handleSubmit,
-    errors,
+    formState: { errors },
     clearErrors,
     control,
     setValue,
@@ -183,7 +179,7 @@ export default function OpeningPeriodForm({
   } = formMethods;
 
   const clearResourceState = (): void => {
-    setValue(openingPeriodResourceStateKey, 'undefined');
+    setValue(openingPeriodResourceStateKey, ResourceState.UNDEFINED);
   };
 
   const resourceStateValue = watch(openingPeriodResourceStateKey);
@@ -194,7 +190,7 @@ export default function OpeningPeriodForm({
     fields: timeSpanGroupFields,
     append: appendTimeSpanGroup,
     remove: removeTimeSpanGroup,
-  } = useFieldArray<TimeSpanGroupFormFormat, 'timeSpanGroupUiId'>({
+  } = useFieldArray({
     control,
     keyName: 'timeSpanGroupUiId',
     name: timeSpanGroupFieldName,
@@ -278,46 +274,53 @@ export default function OpeningPeriodForm({
             <h3 className="opening-period-section-title">Ajanjakso</h3>
             <div className="form-control">
               <section className="opening-period-time-period">
-                <DateInput
-                  id="openingPeriodBeginDate"
+                <Controller
                   name="openingPeriodBeginDate"
-                  data-test="openingPeriodBeginDate"
-                  className="opening-period-date-picker opening-period-start-date-picker"
-                  initialMonth={new Date()}
-                  label="Alkaa"
-                  openButtonAriaLabel="Valitse alkupäivämäärä"
-                  language="fi"
-                  value={
-                    datePeriod?.start_date
-                      ? formatDate(datePeriod?.start_date)
-                      : ''
-                  }
-                  ref={register()}
-                  disableConfirmation
+                  render={({ field: { name, onBlur, onChange, value } }) => (
+                    <DateInput
+                      id="openingPeriodBeginDate"
+                      data-test="openingPeriodBeginDate"
+                      className="opening-period-date-picker opening-period-start-date-picker"
+                      initialMonth={new Date()}
+                      label="Alkaa"
+                      openButtonAriaLabel="Valitse alkupäivämäärä"
+                      language="fi"
+                      value={value}
+                      name={name}
+                      onBlur={onBlur}
+                      onChange={onChange}
+                      disableConfirmation
+                    />
+                  )}
                 />
                 <p className="dash-between-begin-and-end-date">—</p>
-                <DateInput
-                  id="openingPeriodEndDate"
+                <Controller
                   name="openingPeriodEndDate"
-                  data-test="openingPeriodEndDate"
-                  className="opening-period-date-picker"
-                  initialMonth={new Date()}
-                  label="Päättyy"
-                  openButtonAriaLabel="Valitse loppupäivämäärä"
-                  language="fi"
-                  value={
-                    datePeriod?.end_date ? formatDate(datePeriod?.end_date) : ''
-                  }
-                  invalid={!!errors.openingPeriodEndDate?.message}
-                  aria-describedby="opening-period-date-error-text"
-                  ref={register({
+                  render={({ field: { name, onBlur, onChange, value } }) => (
+                    <DateInput
+                      id="openingPeriodEndDate"
+                      data-test="openingPeriodEndDate"
+                      className="opening-period-date-picker"
+                      initialMonth={new Date()}
+                      label="Päättyy"
+                      openButtonAriaLabel="Valitse loppupäivämäärä"
+                      language="fi"
+                      value={value}
+                      invalid={!!errors.openingPeriodEndDate?.message}
+                      aria-describedby="opening-period-date-error-text"
+                      name={name}
+                      onBlur={onBlur}
+                      onChange={onChange}
+                      disableConfirmation
+                    />
+                  )}
+                  rules={{
                     validate: (value) =>
                       validateEndInputWithStartDate(
                         getValues()?.openingPeriodBeginDate,
                         value
                       ),
-                  })}
-                  disableConfirmation
+                  }}
                 />
               </section>
               {errors.openingPeriodEndDate?.type === 'validate' &&
@@ -372,59 +375,46 @@ export default function OpeningPeriodForm({
           </section>
         ) : (
           <>
-            {timeSpanGroupFields.map(
-              (
-                timeSpanGroup: Partial<
-                  ArrayField<TimeSpanGroupFormFormat, 'timeSpanGroupUiId'>
-                >,
-                index: number
-              ) => (
-                <section
-                  key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
-                  data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
-                  className="form-section time-span-group">
-                  <div className="form-actions-row">
-                    <h3 className="opening-period-section-title">
-                      Aukioloryhmä
-                    </h3>
-                    <SupplementaryButton
-                      dataTest="remove-time-span-group"
-                      onClick={(): void => {
-                        removeTimeSpanGroup(index);
-                      }}
-                      iconLeft={<IconTrash />}>
-                      Poista aukioloryhmä
-                    </SupplementaryButton>
-                  </div>
-                  <input
-                    type="hidden"
-                    name={`${timeSpanGroupFieldName}[${index}].id`}
-                    defaultValue={timeSpanGroup.id}
-                    ref={register()}
-                  />
-                  <input
-                    type="hidden"
-                    name={`${timeSpanGroupFieldName}[${index}].period`}
-                    defaultValue={timeSpanGroup.period}
-                    ref={register()}
-                  />
-                  <TimeSpans
-                    groupIndex={index}
-                    groupId={timeSpanGroup.id}
-                    namePrefix={timeSpanGroupFieldName}
-                    resourceStateConfig={resourceStateConfig}
-                    errors={errors.timeSpanGroups}
-                  />
-                  <Rules
-                    groupIndex={index}
-                    groupId={timeSpanGroup.id}
-                    namePrefix={timeSpanGroupFieldName}
-                    ruleConfig={ruleConfig}
-                    errors={errors.timeSpanGroups}
-                  />
-                </section>
-              )
-            )}
+            {timeSpanGroupFields.map((timeSpanGroup, index: number) => (
+              <section
+                key={`time-span-group-${timeSpanGroup.timeSpanGroupUiId}`}
+                data-test={`time-span-group-${timeSpanGroup.id || 'new'}`}
+                className="form-section time-span-group">
+                <div className="form-actions-row">
+                  <h3 className="opening-period-section-title">Aukioloryhmä</h3>
+                  <SupplementaryButton
+                    dataTest="remove-time-span-group"
+                    onClick={(): void => {
+                      removeTimeSpanGroup(index);
+                    }}
+                    iconLeft={<IconTrash />}>
+                    Poista aukioloryhmä
+                  </SupplementaryButton>
+                </div>
+                <input
+                  type="hidden"
+                  defaultValue={timeSpanGroup.id}
+                  {...register(`${timeSpanGroupFieldName}.${index}.id`)}
+                />
+                <input
+                  type="hidden"
+                  defaultValue={timeSpanGroup.period}
+                  {...register(`${timeSpanGroupFieldName}.${index}.period`)}
+                />
+                <TimeSpans
+                  groupIndex={index}
+                  groupId={timeSpanGroup.id}
+                  namePrefix={timeSpanGroupFieldName}
+                  resourceStateConfig={resourceStateConfig}
+                />
+                <Rules
+                  groupIndex={index}
+                  groupId={timeSpanGroup.id}
+                  namePrefix={timeSpanGroupFieldName}
+                  ruleConfig={ruleConfig}
+                />
+              </section>
+            ))}
             <div className="form-actions-row form-actions-row-condensed time-span-group-action-row">
               <SupplementaryButton
                 dataTest="add-time-span-group"

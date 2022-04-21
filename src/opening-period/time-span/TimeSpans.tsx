@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
-import {
-  ArrayField,
-  DeepMap,
-  FieldError,
-  useFieldArray,
-  useFormContext,
-} from 'react-hook-form';
+import React, { useEffect, useMemo } from 'react';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { IconClockPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
 import {
+  OpeningPeriodFormData,
   TimeSpanFormFormat,
-  TimeSpanGroupFormFormat,
   UiFieldConfig,
 } from '../../common/lib/types';
 import TimeSpan from './TimeSpan';
@@ -20,23 +14,24 @@ export default function TimeSpans({
   groupId,
   namePrefix,
   resourceStateConfig,
-  errors,
 }: {
   groupIndex: number;
   groupId?: string;
-  namePrefix: string;
+  namePrefix: 'timeSpanGroups';
   resourceStateConfig: UiFieldConfig;
-  errors:
-    | (DeepMap<TimeSpanGroupFormFormat, FieldError> | undefined)[]
-    | undefined;
 }): JSX.Element {
-  const { control } = useFormContext();
-  const initTimeSpan: Partial<TimeSpanFormFormat> = { group: groupId ?? '' };
-  const timeSpanNamePrefix = `${namePrefix}[${groupIndex}].timeSpans`;
-  const { fields, remove, append } = useFieldArray<
-    TimeSpanFormFormat,
-    'timeSpanUiId'
-  >({
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<OpeningPeriodFormData>();
+  const initTimeSpan: Partial<TimeSpanFormFormat> = useMemo(
+    () => ({
+      group: groupId ?? '',
+    }),
+    [groupId]
+  );
+  const timeSpanNamePrefix = `${namePrefix}.${groupIndex}.timeSpans` as const;
+  const { fields, remove, append } = useFieldArray({
     control,
     keyName: 'timeSpanUiId',
     name: timeSpanNamePrefix,
@@ -55,26 +50,24 @@ export default function TimeSpans({
         <ul
           className="opening-period-field-list"
           data-test={`time-span-list-${groupIndex}`}>
-          {fields.map(
-            (
-              item: Partial<ArrayField<TimeSpanFormFormat, 'timeSpanUiId'>>,
-              index: number
-            ) => (
-              <li
-                className="opening-period-field-list-item"
-                key={`time-span-item-${item.timeSpanUiId}`}>
-                <TimeSpan
-                  namePrefix={timeSpanNamePrefix}
-                  item={item}
-                  resourceStateConfig={resourceStateConfig}
-                  index={index}
-                  groupIndex={groupIndex}
-                  remove={remove}
-                  errors={errors ? errors[groupIndex]?.timeSpans : undefined}
-                />
-              </li>
-            )
-          )}
+          {fields.map((item, index: number) => (
+            <li
+              className="opening-period-field-list-item"
+              key={`time-span-item-${item.timeSpanUiId}`}>
+              <TimeSpan
+                item={item}
+                resourceStateConfig={resourceStateConfig}
+                index={index}
+                groupIndex={groupIndex}
+                remove={remove}
+                errors={
+                  errors.timeSpanGroups
+                    ? errors.timeSpanGroups[groupIndex]?.timeSpans
+                    : undefined
+                }
+              />
+            </li>
+          ))}
         </ul>
       </div>
       <div className="form-group">

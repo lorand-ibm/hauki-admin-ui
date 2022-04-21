@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { act } from 'react-dom/test-utils';
 import { fireEvent, render, RenderResult } from '@testing-library/react';
-import { ArrayField, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { datePeriod } from '../../../test/fixtures/api-date-period';
 import { TimeSpanFormFormat } from '../../common/lib/types';
 import TimeSpan from './TimeSpan';
@@ -23,9 +23,7 @@ function renderWithReactHookForm(
 describe(`<TimeSpan />`, () => {
   it('should disable time input fields if full day is checked', async () => {
     const item = (datePeriod.time_span_groups[0]
-      .time_spans[0] as unknown) as Partial<
-      ArrayField<Record<string, TimeSpanFormFormat>>
-    >;
+      .time_spans[0] as unknown) as Partial<Record<string, TimeSpanFormFormat>>;
 
     const resourceStateConfig = {
       options: [
@@ -44,7 +42,6 @@ describe(`<TimeSpan />`, () => {
 
     const { container } = renderWithReactHookForm(
       <TimeSpan
-        namePrefix="testNamePrefix"
         item={item}
         resourceStateConfig={resourceStateConfig}
         index={0}
@@ -56,7 +53,7 @@ describe(`<TimeSpan />`, () => {
 
     await act(async () => {
       const fullDayCheckbox = container.querySelector(
-        '[id="testNamePrefix[0].fullDay"]'
+        '[id="timeSpanGroups.0.timeSpans.0.fullDay"]'
       );
 
       if (!fullDayCheckbox) {

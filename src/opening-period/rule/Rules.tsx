@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  ArrayField,
-  DeepMap,
-  FieldError,
-  useFieldArray,
-  useFormContext,
-} from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { IconCalendarPlus } from 'hds-react';
 import { SecondaryButton } from '../../components/button/Button';
 import {
-  GroupRuleFormFormat,
-  TimeSpanGroupFormFormat,
+  OpeningPeriodFormData,
   UiFormRuleConfig,
 } from '../../common/lib/types';
 import Rule from './Rule';
@@ -20,22 +13,18 @@ export default function Rules({
   groupId,
   namePrefix,
   ruleConfig,
-  errors,
 }: {
   groupIndex: number;
   groupId?: string;
-  namePrefix: string;
+  namePrefix: 'timeSpanGroups';
   ruleConfig: UiFormRuleConfig;
-  errors:
-    | (DeepMap<TimeSpanGroupFormFormat, FieldError> | undefined)[]
-    | undefined;
 }): JSX.Element {
-  const { control } = useFormContext();
-  const ruleNamePrefix = `${namePrefix}[${groupIndex}].rules`;
-  const { fields, remove, append } = useFieldArray<
-    GroupRuleFormFormat,
-    'ruleUiId'
-  >({
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<OpeningPeriodFormData>();
+  const ruleNamePrefix = `${namePrefix}.${groupIndex}.rules` as const;
+  const { fields, remove, append } = useFieldArray({
     control,
     name: ruleNamePrefix,
     keyName: 'ruleUiId',
@@ -50,27 +39,26 @@ export default function Rules({
         <ul
           className="opening-period-field-list opening-period-rule-list"
           data-test="rule-list">
-          {fields.map(
-            (
-              rule: Partial<ArrayField<GroupRuleFormFormat, 'ruleUiId'>>,
-              index: number
-            ) => (
-              <li
-                className="opening-period-field-list-item opening-period-rule-list-item"
-                key={`rule-list-item-${rule.ruleUiId}`}
-                data-test={`rule-list-item-${rule.id || index}`}>
-                <Rule
-                  namePrefix={ruleNamePrefix}
-                  index={index}
-                  groupIndex={groupIndex}
-                  rule={rule}
-                  remove={remove}
-                  ruleConfig={ruleConfig}
-                  errors={errors ? errors[groupIndex]?.rules : undefined}
-                />
-              </li>
-            )
-          )}
+          {fields.map((rule, index: number) => (
+            <li
+              className="opening-period-field-list-item opening-period-rule-list-item"
+              key={`rule-list-item-${rule.ruleUiId}`}
+              data-test={`rule-list-item-${rule.id || index}`}>
+              <Rule
+                namePrefix={ruleNamePrefix}
+                index={index}
+                groupIndex={groupIndex}
+                rule={rule}
+                remove={remove}
+                ruleConfig={ruleConfig}
+                errors={
+                  errors.timeSpanGroups && errors.timeSpanGroups[groupIndex]
+                    ? errors.timeSpanGroups[groupIndex]?.rules
+                    : undefined
+                }
+              />
+            </li>
+          ))}
         </ul>
       </div>
       <div className="form-group">

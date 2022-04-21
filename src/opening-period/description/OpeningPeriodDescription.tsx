@@ -71,11 +71,10 @@ export default function OpeningPeriodDescription({
               key={`openingPeriodTitle-${languageKey}`}
               label={titleLabelTexts[languageKey]}
               type="text"
-              name={`openingPeriodTitle[${languageKey}]`}
               data-test={`opening-period-title-${languageKey}`}
               id={`openingPeriodTitle-${languageKey}`}
               aria-invalid={errors.openingPeriodTitle ? 'true' : 'false'}
-              ref={register({
+              {...register(`openingPeriodTitle[${languageKey}]`, {
                 validate: {
                   requireOne: (value: string): boolean => {
                     clearErrors('openingPeriodTitle');
@@ -115,10 +114,11 @@ export default function OpeningPeriodDescription({
               key={`opening-period-description-${languageKey}`}
               cols={90}
               label={descriptionLabelTexts[languageKey]}
-              name={`openingPeriodOptionalDescription[${languageKey}]`}
               id={`opening-period-description-${languageKey}`}
               className="opening-period-text-group-textarea"
-              ref={register({ maxLength: 255 })}
+              {...register(`openingPeriodOptionalDescription[${languageKey}]`, {
+                maxLength: 255,
+              })}
               placeholder={descriptionPlaceholderTexts[languageKey] || ''}
             />
           ))}

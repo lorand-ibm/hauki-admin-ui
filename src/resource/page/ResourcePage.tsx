@@ -222,11 +222,7 @@ export default function ResourcePage({
   }, [id]);
 
   if (isLoading) {
-    return (
-      <>
-        <h1 className="resource-info-title">Toimipisteen tietojen haku</h1>
-      </>
-    );
+    return <h1 className="resource-info-title">Toimipisteen tietojen haku</h1>;
   }
 
   if (error) {

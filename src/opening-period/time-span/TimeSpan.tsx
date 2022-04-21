@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  ArrayField,
   Controller,
   DeepMap,
   FieldError,
@@ -18,6 +17,7 @@ import {
   ResourceState,
   LanguageStrings,
   Language,
+  OpeningPeriodFormData,
 } from '../../common/lib/types';
 
 const descriptionLabelTexts: LanguageStrings = {
@@ -56,26 +56,28 @@ const validateTimeRange = (
 
 export default function TimeSpan({
   item,
-  namePrefix,
   index,
   groupIndex,
   remove,
   resourceStateConfig,
   errors,
 }: {
-  item: Partial<ArrayField<TimeSpanFormFormat, 'timeSpanUiId'>>;
-  namePrefix: string;
+  item: Partial<TimeSpanFormFormat & { timeSpanUiId: string }>;
   index: number;
   groupIndex: number;
-  remove: Function;
+  remove: (idx: number) => void;
   resourceStateConfig: UiFieldConfig;
-  errors: (DeepMap<TimeSpanFormFormat, FieldError> | undefined)[] | undefined;
+  errors:
+    | DeepMap<Partial<TimeSpanFormFormat>, FieldError | undefined>[]
+    | undefined;
 }): JSX.Element {
-  const { control, register, getValues, watch } = useFormContext();
-  const timeSpanNamePrefix = `${namePrefix}[${index}]`;
+  const { control, register, getValues, watch } = useFormContext<
+    OpeningPeriodFormData
+  >();
+  const timeSpanNamePrefix = `timeSpanGroups.${groupIndex}.timeSpans.${index}` as const;
   const { options: resourceStateOptions } = resourceStateConfig;
   const timeSpanErrors = errors && errors[index];
-  const fullDayFieldKey = `${timeSpanNamePrefix}.fullDay`;
+  const fullDayFieldKey = `${timeSpanNamePrefix}.fullDay` as const;
   const fullDay: boolean = watch(fullDayFieldKey);
 
   const getDescriptionValueByLanguage = (language: Language): string => {
@@ -91,15 +93,13 @@ export default function TimeSpan({
       className="time-span-container">
       <input
         type="hidden"
-        name={`${timeSpanNamePrefix}.id`}
         defaultValue={item.id}
-        ref={register()}
+        {...register(`${timeSpanNamePrefix}.id`)}
       />
       <input
         type="hidden"
-        name={`${timeSpanNamePrefix}.group`}
         defaultValue={item.group}
-        ref={register()}
+        {...register(`${timeSpanNamePrefix}.group`)}
       />
       <div className="time-span-first-header-row form-control">
         <Weekdays
@@ -126,14 +126,13 @@ export default function TimeSpan({
             </label>
             <TimeInput
               id={`time-span-${groupIndex}-${index}-start-time`}
-              name={`${timeSpanNamePrefix}.startTime`}
               label="Aukiolon alkukellonaika"
               hideLabel
               hoursLabel="tunnit"
               minutesLabel="minuutit"
               data-test={`time-span-start-time-${groupIndex}-${index}`}
               defaultValue={item.startTime || ''}
-              ref={register({
+              {...register(`${timeSpanNamePrefix}.startTime`, {
                 validate: {
                   timeFormat: (startTime: string): boolean | string =>
                     isEmptyTime(startTime) ||
@@ -163,7 +162,6 @@ export default function TimeSpan({
           </div>
           <TimeInput
             id={`time-span-${groupIndex}-${index}-end-time`}
-            name={`${timeSpanNamePrefix}.endTime`}
             label="Aukiolon loppukellonaika"
             hideLabel
             hoursLabel="tunnit"
@@ -171,7 +169,7 @@ export default function TimeSpan({
             className="time-span-end-time-input"
             data-test={`time-span-end-time-${groupIndex}-${index}`}
             defaultValue={item.endTime || ''}
-            ref={register({
+            {...register(`${timeSpanNamePrefix}.endTime`, {
               validate: {
                 timeFormat: (endTime: string): boolean | string =>
                   isEmptyTime(endTime) ||
@@ -197,7 +195,7 @@ export default function TimeSpan({
           />
           <div className="time-span-fullday-checkbox-container">
             <Controller
-              render={(field): JSX.Element => (
+              render={({ field }): JSX.Element => (
                 <Checkbox
                   id={fullDayFieldKey}
                   label="Koko vuorokausi"
@@ -241,9 +239,8 @@ export default function TimeSpan({
           {Object.values(Language).map((languageKey: Language) => (
             <TextInput
               key={`time-span-description-${groupIndex}-${index}-${languageKey}`}
-              ref={register()}
+              {...register(`${timeSpanNamePrefix}.description.${languageKey}`)}
               id={`time-span-description-${groupIndex}-${index}-${languageKey}`}
-              name={`${timeSpanNamePrefix}.description[${languageKey}]`}
               defaultValue={getDescriptionValueByLanguage(languageKey)}
               label={descriptionLabelTexts[languageKey]}
               placeholder={descriptionPlaceholderTexts[languageKey] || ''}

@@ -15,6 +15,10 @@ import LanguageSelect from '../../components/language-select/LanguageSelect';
 import OpeningPeriod from './opening-period/OpeningPeriod';
 import './ResourceOpeningHours.scss';
 
+const OpeningPeriodsNotFound = ({ text }: { text: string }): JSX.Element => (
+  <p className="opening-periods-not-found">{text}</p>
+);
+
 enum PeriodsListTheme {
   DEFAULT = 'DEFAULT',
   LIGHT = 'LIGHT',
@@ -111,10 +115,6 @@ const OpeningPeriodsList = ({
     </section>
   );
 };
-
-const OpeningPeriodsNotFound = ({ text }: { text: string }): JSX.Element => (
-  <p className="opening-periods-not-found">{text}</p>
-);
 
 const partitionByOverride = (datePeriods: DatePeriod[]): DatePeriod[][] =>
   datePeriods.reduce(

@@ -1,6 +1,5 @@
 import React from 'react';
 import './Weekdays.scss';
-import { ArrayField } from 'react-hook-form';
 import { TimeSpanFormFormat } from '../../common/lib/types';
 
 const DayCheckbox = ({
@@ -23,10 +22,9 @@ const DayCheckbox = ({
   return (
     <label data-test={dataTest} htmlFor={checkBoxId} className="day-label">
       <input
-        ref={register()}
+        {...register(checkBoxId)}
         defaultChecked={weekdays[dayIndex] || false}
         type="checkbox"
-        name={checkBoxId}
         id={checkBoxId}
         data-test={`${dataTest}-checkbox`}
       />
@@ -46,7 +44,7 @@ export default function Weekdays({
   index: number;
   groupIndex: number;
   register: Function;
-  item: Partial<ArrayField<TimeSpanFormFormat, 'timeSpanUiId'>>;
+  item: Partial<TimeSpanFormFormat>;
 }): JSX.Element {
   const weekdaysNamePrefix = `${namePrefix}.weekdays`;
 

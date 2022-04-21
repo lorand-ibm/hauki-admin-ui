@@ -1,12 +1,16 @@
 import React from 'react';
 import { Select } from 'hds-react';
-import { Control, Controller } from 'react-hook-form';
-import { InputOption, ResourceState } from '../../common/lib/types';
+import { Control, Controller, FieldPath } from 'react-hook-form';
+import {
+  InputOption,
+  OpeningPeriodFormData,
+  ResourceState,
+} from '../../common/lib/types';
 import './ResourceStateSelect.scss';
 
 type ResourceSelectProps = {
-  control: Control;
-  name: string;
+  control: Control<OpeningPeriodFormData, string>;
+  name: FieldPath<OpeningPeriodFormData>;
   value?: string;
   label: string;
   id: string;
@@ -27,7 +31,7 @@ export default function ResourceStateSelect({
         control={control}
         name={name}
         defaultValue={value || ResourceState.UNDEFINED}
-        render={({ onChange, value: innerValue }): JSX.Element => (
+        render={({ field: { onChange, value: innerValue } }): JSX.Element => (
           <Select
             id={id}
             onChange={(selected: InputOption): void => {

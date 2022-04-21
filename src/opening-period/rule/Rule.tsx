@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IconTrash, Select } from 'hds-react';
 import {
-  ArrayField,
   Controller,
   DeepMap,
   FieldError,
@@ -20,15 +19,6 @@ import './Rule.scss';
 type FrequencyOption = {
   label: string;
   value: Frequency;
-};
-
-type SelectControllerProps = {
-  onChange: (s: string) => void;
-  value: string;
-};
-
-type SelectControllerState = {
-  invalid: boolean;
 };
 
 const hardCodedFrequencyOptions: FrequencyOption[] = [
@@ -85,12 +75,14 @@ export default function Rule({
   errors,
 }: {
   namePrefix: string;
-  rule: Partial<ArrayField<GroupRuleFormFormat, 'ruleUiId'>>;
+  rule: Partial<GroupRuleFormFormat>;
   remove: Function;
   index: number;
   groupIndex: number;
   ruleConfig: UiFormRuleConfig;
-  errors: (DeepMap<GroupRuleFormFormat, FieldError> | undefined)[] | undefined;
+  errors:
+    | DeepMap<Partial<GroupRuleFormFormat>, FieldError | undefined>[]
+    | undefined;
 }): JSX.Element {
   const { control, register, setValue } = useFormContext();
   const ruleNamePrefix = `${namePrefix}[${index}]`;
@@ -199,8 +191,8 @@ export default function Rule({
   ]);
 
   useEffect(() => {
-    register({ name: frequencyModifierField });
-    register({ name: frequencyOrdinalField });
+    register(frequencyModifierField);
+    register(frequencyOrdinalField);
 
     // "If you choose to not use Controller and manually register fields, you will need to update the input value with setValue." - https://react-hook-form.com/api#register
     setValue(frequencyModifierField, frequencyModifier, {
@@ -225,15 +217,13 @@ export default function Rule({
       key={`rules-${index}`}>
       <input
         type="hidden"
-        name={`${ruleNamePrefix}.id`}
         defaultValue={id}
-        ref={register()}
+        {...register(`${ruleNamePrefix}.id`)}
       />
       <input
         type="hidden"
-        name={`${ruleNamePrefix}.group`}
         defaultValue={group}
-        ref={register()}
+        {...register(`${ruleNamePrefix}.group`)}
       />
       <div className="form-control-header">
         <h4 className="opening-period-section-title">Voimassaolosääntö</h4>
@@ -256,10 +246,10 @@ export default function Rule({
               message: 'Säännön aikaväli on pakollinen kenttä.',
             },
           }}
-          render={(
-            { onChange, value }: SelectControllerProps,
-            { invalid }: SelectControllerState
-          ): JSX.Element => (
+          render={({
+            field: { onChange, value },
+            fieldState: { error },
+          }): JSX.Element => (
             <Select
               id={`rule-context-${groupIndex}-${index}`}
               className="opening-group-rule-column opening-group-rule-select"
@@ -270,7 +260,7 @@ export default function Rule({
               defaultValue={contextOptions.find(
                 (option: InputOption): boolean => option.value === value
               )}
-              invalid={invalid}
+              invalid={!!error}
               label="Valitse aika"
               placeholder="Aikaväli"
             />
@@ -299,10 +289,10 @@ export default function Rule({
               message: 'Säännön yksikkö on pakollinen kenttä.',
             },
           }}
-          render={(
-            { onChange, value }: SelectControllerProps,
-            { invalid }: SelectControllerState
-          ): JSX.Element => (
+          render={({
+            field: { onChange, value },
+            fieldState: { error },
+          }): JSX.Element => (
             <Select
               id={`rule-subject-${groupIndex}-${index}`}
               className="opening-group-rule-column opening-group-rule-select"
@@ -314,7 +304,7 @@ export default function Rule({
                 setSubjectLabel(selected.label);
               }}
               options={subjectOptions}
-              invalid={invalid}
+              invalid={!!error}
               label="Valitse ajan yksikkö"
               placeholder="päivä tai aikaväli"
             />
@@ -333,10 +323,10 @@ export default function Rule({
                 message: 'Säännön alkaen on on pakollinen kenttä.',
               },
             }}
-            render={(
-              { onChange, value }: SelectControllerProps,
-              { invalid }: SelectControllerState
-            ): JSX.Element => (
+            render={({
+              field: { onChange, value },
+              fieldState: { error },
+            }): JSX.Element => (
               <Select
                 id={`rule-start-${groupIndex}-${index}`}
                 className="opening-group-rule-select"
@@ -348,7 +338,7 @@ export default function Rule({
                   onChange(selected.value)
                 }
                 options={startAtOptions}
-                invalid={invalid}
+                invalid={!!error}
                 label={
                   isStartDisabled
                     ? ''

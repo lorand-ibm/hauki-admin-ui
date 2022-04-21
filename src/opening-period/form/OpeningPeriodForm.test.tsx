@@ -113,7 +113,10 @@ const baseTestDatePeriod: DatePeriod = {
 };
 
 const submitFn = jest.fn<Promise<DatePeriod>, [DatePeriod]>(
-  (data) => new Promise<DatePeriod>((resolve) => resolve(data))
+  (data) =>
+    new Promise<DatePeriod>((resolve) => {
+      resolve(data);
+    })
 );
 
 const defaultProps: Partial<OpeningPeriodFormProps> = {
