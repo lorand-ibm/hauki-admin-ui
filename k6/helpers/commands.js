@@ -1,6 +1,6 @@
-/* eslint-disable */
 import { check, sleep } from 'k6';
 import { createOpeningHour } from './mocks.js';
+import { getRandomArbitrary } from './utils.js';
 
 const commands = (session) => {
   const viewOffice = (origId, resourceId) => {
@@ -44,7 +44,7 @@ const commands = (session) => {
       'GET resource status is status 200': (r) => r.status === 200,
     });
 
-    sleep(Math.random(10) + 20);
+    sleep(getRandomArbitrary(10, 20));
 
     const response = session.post(
       '/date_period/',
