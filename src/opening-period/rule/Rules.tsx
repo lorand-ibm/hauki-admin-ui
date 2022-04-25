@@ -19,16 +19,14 @@ export default function Rules({
   namePrefix: 'timeSpanGroups';
   ruleConfig: UiFormRuleConfig;
 }): JSX.Element {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext<OpeningPeriodFormData>();
+  const { control, formState } = useFormContext<OpeningPeriodFormData>();
   const ruleNamePrefix = `${namePrefix}.${groupIndex}.rules` as const;
   const { fields, remove, append } = useFieldArray({
     control,
     name: ruleNamePrefix,
     keyName: 'ruleUiId',
   });
+  const errors = formState.errors[namePrefix];
 
   return (
     <>
@@ -51,11 +49,7 @@ export default function Rules({
                 rule={rule}
                 remove={remove}
                 ruleConfig={ruleConfig}
-                errors={
-                  errors.timeSpanGroups && errors.timeSpanGroups[groupIndex]
-                    ? errors.timeSpanGroups[groupIndex]?.rules
-                    : undefined
-                }
+                errors={errors ? errors[groupIndex]?.rules : undefined}
               />
             </li>
           ))}

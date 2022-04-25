@@ -20,10 +20,7 @@ export default function TimeSpans({
   namePrefix: 'timeSpanGroups';
   resourceStateConfig: UiFieldConfig;
 }): JSX.Element {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext<OpeningPeriodFormData>();
+  const { control, formState } = useFormContext<OpeningPeriodFormData>();
   const initTimeSpan: Partial<TimeSpanFormFormat> = useMemo(
     () => ({
       group: groupId ?? '',
@@ -36,6 +33,7 @@ export default function TimeSpans({
     keyName: 'timeSpanUiId',
     name: timeSpanNamePrefix,
   });
+  const errors = formState.errors[namePrefix];
 
   // If new group is appended we need to trigger nested array append manually, React-hook-form useArrayFields has their own independent scope: https://github.com/react-hook-form/react-hook-form/issues/1561#issuecomment-623398286
   useEffect(() => {
@@ -60,11 +58,7 @@ export default function TimeSpans({
                 index={index}
                 groupIndex={groupIndex}
                 remove={remove}
-                errors={
-                  errors.timeSpanGroups
-                    ? errors.timeSpanGroups[groupIndex]?.timeSpans
-                    : undefined
-                }
+                errors={errors ? errors[groupIndex]?.timeSpans : undefined}
               />
             </li>
           ))}
