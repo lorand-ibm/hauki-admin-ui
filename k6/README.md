@@ -13,3 +13,9 @@ This script works as a wrapper for the k6 command and ensures that the proper au
 ```bash
     ./run.sh -v 1 -i 1 <SCRIPT>
 ```
+
+## How to run Hauki scenarios
+
+```bash
+./k6/run.sh hauki-scenarios.js
+```
